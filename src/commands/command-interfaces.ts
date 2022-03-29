@@ -1,35 +1,33 @@
-import { CommandInteraction, Interaction } from 'discord.js';
+import { CommandInteraction, Message } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-export namespace Bible {
-    interface IBookNames {
-        [key: string]: number;
-    }
+export interface IBookNames {
+    [key: string]: number;
+}
 
-    interface IBibleVerse {
-        chapter: number;
-        verse: number;
-        name: string;
-        text: string;
-    }
+export interface IBibleVerse {
+    chapter: number;
+    verse: number;
+    name: string;
+    text: string;
+}
 
-    interface IBibleChapter {
-        chapter: number;
-        name: string;
-        verses: IBibleVerse[];
-    }
+export interface IBibleChapter {
+    chapter: number;
+    name: string;
+    verses: IBibleVerse[];
+}
 
-    interface IBibleBook {
-        translation: 'Elberfelder (1871)';
-        abbreviation: 'elberfelder';
-        lang: 'de';
-        language: 'German';
-        direction: 'LTR';
-        encoding: 'UTF-8';
-        nr: number;
-        name: string;
-        chapters: IBibleChapter[];
-    }
+export interface IBibleBook {
+    translation: 'Elberfelder (1871)';
+    abbreviation: 'elberfelder';
+    lang: 'de';
+    language: 'German';
+    direction: 'LTR';
+    encoding: 'UTF-8';
+    nr: number;
+    name: string;
+    chapters: IBibleChapter[];
 }
 
 export namespace Tarot {
@@ -63,5 +61,6 @@ export namespace Catgirl {
 
 export interface ICommand {
     data: Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
-    execute: (interaction: CommandInteraction) => void;
+    executeInteraction: (interaction: CommandInteraction) => void;
+    executeMessage: (message: Message, args: string[]) => void;
 }
