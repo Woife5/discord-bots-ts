@@ -1,0 +1,25 @@
+{
+    "name": "esbuild-node",
+    "version": "2.0.0",
+    "description": "",
+    "type": "module",
+    "main": "./build/index.js",
+    "scripts": {
+        "build:angry1": "esbuild ./src/angry-bot.js --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
+        "build:angry2": "esbuild ./src/angrier-bot.js --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
+        "angry1": "npm run build:angry1 && node ./build/angry-bot.js",
+        "angry2": "npm run build:angry2 && node ./build/angrier-bot.js",
+        "build:all": "npm run build:angry1 && npm run build:angry2"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "esbuild": "^0.14.28"
+    },
+    "dependencies": {
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0",
+        "node-fetch": "^3.2.3"
+    }
+}
