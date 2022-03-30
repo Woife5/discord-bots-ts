@@ -1,4 +1,6 @@
-export const tarot: { text: string; media?: string }[] = [
+import { ITarot } from '../commands/command-interfaces';
+
+export const tarots: ITarot[] = [
     {
         text: 'Sie ist die erste Angry und Zeugin der Schöpfung. Gedenke auch der :angry1: in deinem Leben. Eine Mentorin, eine Mutter, eine höhere Macht. Lasse dich leiten, sodass auch du ein :angry1: werden kannst.',
     },

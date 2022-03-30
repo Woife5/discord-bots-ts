@@ -30,33 +30,27 @@ export interface IBibleBook {
     chapters: IBibleChapter[];
 }
 
-export namespace Tarot {
-    interface ITarot {
-        text: string;
-        media?: string;
-    }
+export interface ITarot {
+    text: string;
+    media?: string;
 }
 
-export namespace Yesno {
-    interface IYesNo {
-        answer: 'yes' | 'no' | 'maybe';
-        forced: boolean;
-        image: string;
-    }
+export interface IYesNo {
+    answer: 'yes' | 'no' | 'maybe';
+    forced: boolean;
+    image: string;
 }
 
-export namespace Catgirl {
-    interface ICatgirlImage {
-        id: string;
-        originalHash: string;
-        tags: string[];
-        nsfw: boolean;
-        createdAt: string;
-    }
+export interface ICatgirlImage {
+    id: string;
+    originalHash: string;
+    tags: string[];
+    nsfw: boolean;
+    createdAt: string;
+}
 
-    interface ICatgirlResponse {
-        images: ICatgirlImage[];
-    }
+export interface ICatgirlResponse {
+    images: ICatgirlImage[];
 }
 
 export interface ICommand {
