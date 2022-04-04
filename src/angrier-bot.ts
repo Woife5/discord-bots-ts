@@ -2,6 +2,7 @@ import { Client, Intents, Collection } from 'discord.js';
 import dotenv from 'dotenv';
 import { ICommand } from './commands/command-interfaces';
 import * as Commands from './commands/angrier';
+import { DatabaseUtils } from './helpers';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -34,6 +35,7 @@ client.on('interactionCreate', async interaction => {
 
 client.on('ready', () => {
     console.log('Bot is logged in and ready!');
+    DatabaseUtils.init();
 });
 
 client.on('messageCreate', async message => {

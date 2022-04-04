@@ -1,8 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { ICommand } from '../command-interfaces';
-
-import { version } from '../../data';
+import { prefix, version } from '../../data';
 
 function runCommand() {
     const embed = new MessageEmbed()
@@ -16,6 +15,7 @@ function runCommand() {
             'Slash Commands',
             "This bot uses Slash Commands! Just type a '/' and have a look at all the commands! 😡"
         )
+        .addField('Regular Commands', `This bot also uses regular commands with the prifix \`${prefix}\``)
         .setAuthor({
             name: 'Angry',
             iconURL: 'https://cdn.discordapp.com/attachments/314440449731592192/912125148474245221/angry.png',
