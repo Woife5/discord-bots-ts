@@ -1,7 +1,6 @@
-import { Client, Intents, Collection } from 'discord.js';
+import { Client, Intents, Collection, Message } from 'discord.js';
 import dotenv from 'dotenv';
-import { ICommand } from './commands/command-interfaces';
-import * as NewCommands from './commands/angrier';
+import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
 import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
 import { DatabaseUtils } from './helpers';
@@ -15,24 +14,22 @@ const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
 });
 
-const commands: Collection<string, ICommand> = new Collection();
+const messageCommands: Collection<string, IMessageCommand> = new Collection();
+const slashCommands: Collection<string, ISlashCommand> = new Collection();
 
-Object.entries(NewCommands).forEach(([name, command]) => {
-    commands.set(name, command);
-});
-Object.entries(AngryCommands).forEach(([name, command]) => {
-    commands.set(name, command);
+Object.values(AngryCommands).forEach(command => {
+    messageCommands.set(command.name, command.executeMessage);
 });
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
-    if (!commands.has(interaction.commandName)) {
+    if (!slashCommands.has(interaction.commandName)) {
         return console.error(`Command ${interaction.commandName} not found.`);
     }
 
     try {
-        await commands.get(interaction.commandName)!.executeInteraction(interaction);
+        await slashCommands.get(interaction.commandName)!(interaction);
     } catch (error) {
         console.error(error);
         return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -50,11 +47,11 @@ client.on('messageCreate', async message => {
         const args = message.content.slice(prefix.length).trim().split(/ +/);
         const command = args.shift()?.toLowerCase() ?? 'about';
 
-        if (commands.has(command)) {
+        if (messageCommands.has(command)) {
             try {
-                const commandRef = commands.get(command)!;
+                const commandFn = messageCommands.get(command)!;
 
-                commandRef.executeMessage(message, args);
+                commandFn(message, args);
             } catch (error) {
                 message.reply('An error occured 🥴');
             }

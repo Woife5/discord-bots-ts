@@ -1,6 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { ICommand } from '../command-interfaces';
 import { angryBirthday } from '../../data';
 import { DateUtils } from '../../helpers';
 
@@ -28,12 +27,14 @@ function getEmbed() {
     return embed;
 }
 
-export const birthday: ICommand = {
-    data: new SlashCommandBuilder().setName('about').setDescription('Get information about Angery.'),
-    async executeInteraction(interaction: CommandInteraction) {
-        interaction.reply({ embeds: [getEmbed()] });
-    },
-    async executeMessage(message: Message, args: string[]) {
-        message.reply({ embeds: [getEmbed()] });
-    },
-};
+export const name = 'birthday';
+
+export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription('Get my next birthday.');
+
+export function executeInteraction(interaction: CommandInteraction) {
+    interaction.reply({ embeds: [getEmbed()] });
+}
+
+export function executeMessage(message: Message, args: string[]) {
+    message.reply({ embeds: [getEmbed()] });
+}

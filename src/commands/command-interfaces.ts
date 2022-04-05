@@ -53,8 +53,10 @@ export interface ICatgirlResponse {
     images: ICatgirlImage[];
 }
 
-export interface ICommand {
-    data: Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
-    executeInteraction: (interaction: CommandInteraction) => void;
-    executeMessage: (message: Message, args: string[]) => void;
+export interface ISlashCommand {
+    (interaction: CommandInteraction): void | Promise<void>;
+}
+
+export interface IMessageCommand {
+    (message: Message, args: string[]): void | Promise<void>;
 }

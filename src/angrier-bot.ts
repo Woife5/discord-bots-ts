@@ -1,7 +1,7 @@
 import { Client, Intents, Collection } from 'discord.js';
 import dotenv from 'dotenv';
-import { ICommand } from './commands/command-interfaces';
 import * as Commands from './commands/angrier';
+import { ISlashCommand } from './commands/command-interfaces';
 import { DatabaseUtils } from './helpers';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -12,10 +12,10 @@ const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
 });
 
-const commands: Collection<string, ICommand> = new Collection();
+const commands: Collection<string, ISlashCommand> = new Collection();
 
-Object.entries(Commands).forEach(([name, command]) => {
-    commands.set(name, command);
+Object.values(Commands).forEach(command => {
+    commands.set(command.name, command.executeInteraction);
 });
 
 client.on('interactionCreate', async interaction => {
@@ -26,7 +26,7 @@ client.on('interactionCreate', async interaction => {
     }
 
     try {
-        await commands.get(interaction.commandName)!.executeInteraction(interaction);
+        await commands.get(interaction.commandName)!(interaction);
     } catch (error) {
         console.error(error);
         return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });

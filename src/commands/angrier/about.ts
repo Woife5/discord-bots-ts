@@ -1,6 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { ICommand } from '../command-interfaces';
 import { prefix, version } from '../../data';
 
 function runCommand() {
@@ -28,12 +27,14 @@ function runCommand() {
     return embed;
 }
 
-export const about: ICommand = {
-    data: new SlashCommandBuilder().setName('about').setDescription('Get information about Angery.'),
-    async executeInteraction(interaction: CommandInteraction) {
-        interaction.reply({ embeds: [runCommand()] });
-    },
-    async executeMessage(message: Message, args: string[]) {
-        message.reply({ embeds: [runCommand()] });
-    },
-};
+export const name = 'about';
+
+export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription('Get information about Angery.');
+
+export async function executeInteraction(interaction: CommandInteraction) {
+    interaction.reply({ embeds: [runCommand()] });
+}
+
+export async function executeMessage(message: Message, args: string[]) {
+    message.reply({ embeds: [runCommand()] });
+}

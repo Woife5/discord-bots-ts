@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { IBibleBook, IBookNames, ICommand } from '../command-interfaces';
+import { IBibleBook } from '../command-interfaces';
 import { NumberUtils } from '../../helpers';
 import fetch from 'node-fetch';
 import { bookNames } from '../../data';
@@ -96,39 +96,39 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
     return answer;
 }
 
-export const bibleverse: ICommand = {
-    data: new SlashCommandBuilder()
-        .setName('bibleverse')
-        .setDescription('Get a random bible verse. Optionally via the arguments a specific verse can be requested.')
-        .addStringOption(option =>
-            option
-                .setName('book')
-                .setDescription('The name or number of the book within the bible (1-66).')
-                .setRequired(false)
-        )
-        .addIntegerOption(option =>
-            option.setName('chapter').setDescription('The number of the chapter.').setRequired(false)
-        )
-        .addIntegerOption(option =>
-            option.setName('verse').setDescription('The number of the verse.').setRequired(false)
-        ),
-    async executeInteraction(interaction: CommandInteraction) {
-        const int_book = interaction.options.get('book')?.value as string | undefined;
-        const int_chapter = interaction.options.get('chapter')?.value as number | undefined;
-        const int_verse = interaction.options.get('verse')?.value as number | undefined;
+export const name = 'bibleverse';
 
-        interaction.reply({ embeds: [await runCommand(int_book, int_chapter, int_verse)] });
-    },
-    async executeMessage(message: Message, args: string[]) {
-        const str_book = args[0]?.toLowerCase() as string | undefined;
-        const str_chapter = args[1]?.toLowerCase() as string | undefined;
-        const str_verse = args[2]?.toLowerCase() as string | undefined;
-        let int_chapter: number | undefined;
-        let int_verse: number | undefined;
+export const slashCommandData = new SlashCommandBuilder()
+    .setName(name)
+    .setDescription('Get a random bible verse. Optionally via the arguments a specific verse can be requested.')
+    .addStringOption(option =>
+        option
+            .setName('book')
+            .setDescription('The name or number of the book within the bible (1-66).')
+            .setRequired(false)
+    )
+    .addIntegerOption(option =>
+        option.setName('chapter').setDescription('The number of the chapter.').setRequired(false)
+    )
+    .addIntegerOption(option => option.setName('verse').setDescription('The number of the verse.').setRequired(false));
 
-        if (str_chapter) int_chapter = parseInt(str_chapter);
-        if (str_verse) int_verse = parseInt(str_verse);
+export async function executeInteraction(interaction: CommandInteraction) {
+    const int_book = interaction.options.get('book')?.value as string | undefined;
+    const int_chapter = interaction.options.get('chapter')?.value as number | undefined;
+    const int_verse = interaction.options.get('verse')?.value as number | undefined;
 
-        message.reply({ embeds: [await runCommand(str_book, int_chapter, int_verse)] });
-    },
-};
+    interaction.reply({ embeds: [await runCommand(int_book, int_chapter, int_verse)] });
+}
+
+export async function executeMessage(message: Message, args: string[]) {
+    const str_book = args[0]?.toLowerCase() as string | undefined;
+    const str_chapter = args[1]?.toLowerCase() as string | undefined;
+    const str_verse = args[2]?.toLowerCase() as string | undefined;
+    let int_chapter: number | undefined;
+    let int_verse: number | undefined;
+
+    if (str_chapter) int_chapter = parseInt(str_chapter);
+    if (str_verse) int_verse = parseInt(str_verse);
+
+    message.reply({ embeds: [await runCommand(str_book, int_chapter, int_verse)] });
+}

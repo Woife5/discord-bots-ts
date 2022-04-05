@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { ICommand, IYesNo } from '../command-interfaces';
+import { IYesNo } from '../command-interfaces';
 import fetch from 'node-fetch';
 
 async function runCommand(question: string) {
@@ -20,18 +20,20 @@ async function runCommand(question: string) {
     return embed;
 }
 
-export const yesno: ICommand = {
-    data: new SlashCommandBuilder()
-        .setName('yesno')
-        .setDescription('Get a yes or no answer to a question.')
-        .addStringOption(option =>
-            option.setName('question').setDescription('Your question to the angry-oracle').setRequired(true)
-        ),
-    async executeInteraction(interaction: CommandInteraction) {
-        const question: string = (interaction.options.get('question')?.value as string) ?? '';
-        interaction.reply({ embeds: [await runCommand(question)] });
-    },
-    async executeMessage(message: Message, args: string[]) {
-        message.reply({ embeds: [await runCommand(args.join(' '))] });
-    },
-};
+export const name = 'yesno';
+
+export const slashCommandData = new SlashCommandBuilder()
+    .setName(name)
+    .setDescription('Get a yes or no answer to a question.')
+    .addStringOption(option =>
+        option.setName('question').setDescription('Your question to the angry-oracle').setRequired(true)
+    );
+
+export async function executeInteraction(interaction: CommandInteraction) {
+    const question: string = (interaction.options.get('question')?.value as string) ?? '';
+    interaction.reply({ embeds: [await runCommand(question)] });
+}
+
+export async function executeMessage(message: Message, args: string[]) {
+    message.reply({ embeds: [await runCommand(args.join(' '))] });
+}

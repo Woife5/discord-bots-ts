@@ -1,6 +1,5 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { ICommand } from '../command-interfaces';
 import { Config } from '../../helpers';
 
 async function getEmbed() {
@@ -16,12 +15,16 @@ async function getEmbed() {
     return embed;
 }
 
-export const censored: ICommand = {
-    data: new SlashCommandBuilder().setName('censored').setDescription('Find out which emojis are censored.'),
-    async executeInteraction(interaction: CommandInteraction) {
-        interaction.reply({ embeds: [await getEmbed()] });
-    },
-    async executeMessage(message: Message, args: string[]) {
-        message.reply({ embeds: [await getEmbed()] });
-    },
-};
+export const name = 'censored';
+
+export const slashCommandData = new SlashCommandBuilder()
+    .setName(name)
+    .setDescription('Find out which emojis are censored.');
+
+export async function executeInteraction(interaction: CommandInteraction) {
+    interaction.reply({ embeds: [await getEmbed()] });
+}
+
+export async function executeMessage(message: Message, args: string[]) {
+    message.reply({ embeds: [await getEmbed()] });
+}

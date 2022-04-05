@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { ICommand, ICatgirlResponse } from '../command-interfaces';
+import { ICatgirlResponse } from '../command-interfaces';
 import { NumberUtils } from '../../helpers';
 import fetch from 'node-fetch';
 
@@ -28,12 +28,14 @@ async function runCommand() {
     return embed;
 }
 
-export const catgirl: ICommand = {
-    data: new SlashCommandBuilder().setName('catgirl').setDescription('Get a random catgirl image'),
-    async executeInteraction(interaction: CommandInteraction) {
-        interaction.reply({ embeds: [await runCommand()] });
-    },
-    async executeMessage(message: Message, args: string[]) {
-        message.reply({ embeds: [await runCommand()] });
-    },
-};
+export const name = 'catgirl';
+
+export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription('Get a random catgirl image');
+
+export async function executeInteraction(interaction: CommandInteraction) {
+    interaction.reply({ embeds: [await runCommand()] });
+}
+
+export async function executeMessage(message: Message, args: string[]) {
+    message.reply({ embeds: [await runCommand()] });
+}

@@ -1,3 +1,3 @@
-export * from './birthday';
-export * from './censored';
-export * from './censorship';
+export * as Birthday from './birthday';
+export * as Censored from './censored';
+export * as Censorship from './censorship';
