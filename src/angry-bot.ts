@@ -1,10 +1,12 @@
 import { Client, Intents, Collection, Message } from 'discord.js';
 import dotenv from 'dotenv';
 import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
+import * as AngrierCommands from './commands/angrier';
 import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
 import { DatabaseUtils } from './helpers';
 import { prefix } from './data';
+import { Censorship } from './modules';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -19,6 +21,12 @@ const slashCommands: Collection<string, ISlashCommand> = new Collection();
 
 Object.values(AngryCommands).forEach(command => {
     messageCommands.set(command.name, command.executeMessage);
+    slashCommands.set(command.name, command.executeInteraction);
+});
+
+Object.values(AngrierCommands).forEach(command => {
+    messageCommands.set(command.name, command.executeMessage);
+    slashCommands.set(command.name, command.executeInteraction);
 });
 
 client.on('interactionCreate', async interaction => {
@@ -42,9 +50,11 @@ client.on('ready', () => {
 });
 
 client.on('messageCreate', async message => {
+    if (message.author.id === client.user!.id) return;
+
     // This version of the bot listens on messages for commands
     if (MessageUtils.startsWith(message, prefix)) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
+        const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
         const command = args.shift()?.toLowerCase() ?? 'about';
 
         if (messageCommands.has(command)) {
@@ -61,6 +71,8 @@ client.on('messageCreate', async message => {
         }
         return;
     }
+
+    await Censorship.censor(message);
 });
 
 client.login(process.env.DISCORD_TOKEN);

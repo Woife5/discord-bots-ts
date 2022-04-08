@@ -2,14 +2,19 @@ import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Config } from '../../helpers';
 
-async function getEmbed() {
+export async function getEmbed() {
     const config = await Config.findOne({ key: 'censored' }).exec();
 
     if (!config) {
         return new MessageEmbed().setColor('#d94d26').setTitle('No consored strings found!');
     }
 
-    const censored = '`' + config.value.join('`, `') + '`';
+    let censored = "";
+    if (config.value.length > 0) {
+        censored = '`' + config.value.join('`, `') + '`';
+    } else {
+        censored = "None";
+    }
 
     const embed = new MessageEmbed().setTitle('Censored Strings:').setDescription(censored);
     return embed;

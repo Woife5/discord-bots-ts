@@ -2,19 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Config } from '../../helpers';
 import { prefix } from '../../data';
-
-async function getEmbed() {
-    const config = await Config.findOne({ key: 'censored' }).exec();
-
-    if (!config) {
-        return new MessageEmbed().setColor('#d94d26').setTitle('No consored strings found!');
-    }
-
-    const censored = '`' + config.value.join('`, `') + '`';
-
-    const embed = new MessageEmbed().setTitle('Censored Strings:').setDescription(censored);
-    return embed;
-}
+import { getEmbed } from './censored';
 
 async function updateConfig(subcommand: 'add' | 'remove', value: string) {
     const config = await Config.findOne({ key: 'censored' }).exec();
@@ -22,10 +10,15 @@ async function updateConfig(subcommand: 'add' | 'remove', value: string) {
     if (subcommand === 'add') {
         if (!config) {
             await Config.create({ key: 'censored', value: [value] });
-        } else {
-            config.value = [...config.value, value];
-            await config.save();
+            return;
         }
+
+        if (config.value.includes(value)) {
+            return;
+        }
+
+        config.value = [...config.value, value];
+        await config.save();
     }
 
     if (subcommand === 'remove' && config) {

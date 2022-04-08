@@ -8,4 +8,8 @@ export class MessageUtils {
     static startsWith(msg: Message, value: string): boolean {
         return msg.cleanContent.toLowerCase().trim().startsWith(value.toLowerCase());
     }
+
+    static contains(msg: Message, value: string): boolean {
+        return msg.cleanContent.toLowerCase().includes(value.toLowerCase());
+    }
 }

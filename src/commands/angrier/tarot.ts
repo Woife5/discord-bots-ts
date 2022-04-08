@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { tarots, angryEmojis as angrys } from '../../data';
-import { User, DateUtils } from '../../helpers';
+import { User, DateUtils, DatabaseUtils } from '../../helpers';
 import { promisify } from 'util';
 const wait = promisify(setTimeout);
 
@@ -23,12 +23,12 @@ async function updateUserAndGetStreak(user: DiscordUser, tarot: number): Promise
     let userData = await User.findOne({ userId: user.id });
 
     if (!userData) {
-        userData = await User.create({ userId: user.id });
+        userData = await DatabaseUtils.createUser(user);
     }
 
     userData.userName = user.username;
     userData.tarot = tarot;
-    if (!userData.tarotStreak || !userData.lastTarot || DateUtils.isBeforeYesterdayMidnight(userData.lastTarot)) {
+    if (DateUtils.isBeforeYesterdayMidnight(userData.lastTarot)) {
         userData.tarotStreak = 1;
     } else {
         userData.tarotStreak = userData.tarotStreak + 1;
