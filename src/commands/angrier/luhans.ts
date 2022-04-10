@@ -2,6 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { NumberUtils } from '../../helpers';
 import { medienDispositive, geschmacksliste, funStuff, names } from '../../data';
+import { incrementStatAndUser } from '../../helpers/stat-handler';
 
 const medienKlausur = new Date('2021-07-02T11:00:00');
 
@@ -78,8 +79,10 @@ export const slashCommandData = new SlashCommandBuilder().setName(name).setDescr
 
 export function executeInteraction(interaction: CommandInteraction) {
     interaction.reply({ embeds: [runCommand()] });
+    incrementStatAndUser('mc-luhans', interaction.user);
 }
 
 export function executeMessage(message: Message, args: string[]) {
     message.channel.send({ embeds: [runCommand()] });
+    incrementStatAndUser('mc-luhans', message.author);
 }

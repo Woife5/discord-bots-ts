@@ -4,6 +4,7 @@ import { IBibleBook } from '../command-interfaces';
 import { NumberUtils } from '../../helpers';
 import fetch from 'node-fetch';
 import { bookNames } from '../../data';
+import { incrementStatAndUser } from '../../helpers/stat-handler';
 
 const bibleAPI = 'https://getbible.net/v2/elberfelder/';
 const numberOfBooks = 66;
@@ -118,6 +119,7 @@ export async function executeInteraction(interaction: CommandInteraction) {
     const int_verse = interaction.options.get('verse')?.value as number | undefined;
 
     interaction.reply({ embeds: [await runCommand(int_book, int_chapter, int_verse)] });
+    incrementStatAndUser('bibleverses-requested', interaction.user);
 }
 
 export async function executeMessage(message: Message, args: string[]) {
@@ -131,4 +133,5 @@ export async function executeMessage(message: Message, args: string[]) {
     if (str_verse) int_verse = parseInt(str_verse);
 
     message.reply({ embeds: [await runCommand(str_book, int_chapter, int_verse)] });
+    incrementStatAndUser('bibleverses-requested', message.author);
 }

@@ -3,6 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { ICatgirlResponse } from '../command-interfaces';
 import { NumberUtils } from '../../helpers';
 import fetch from 'node-fetch';
+import { incrementStatAndUser } from '../../helpers/stat-handler';
 
 const randomUrl = 'https://nekos.moe/api/v1/random/image';
 const imageUrl = 'https://nekos.moe/image/';
@@ -34,8 +35,10 @@ export const slashCommandData = new SlashCommandBuilder().setName(name).setDescr
 
 export async function executeInteraction(interaction: CommandInteraction) {
     interaction.reply({ embeds: [await runCommand()] });
+    incrementStatAndUser('catgirls-requested', interaction.user);
 }
 
 export async function executeMessage(message: Message, args: string[]) {
     message.reply({ embeds: [await runCommand()] });
+    incrementStatAndUser('catgirls-requested', message.author);
 }

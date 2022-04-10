@@ -1,6 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { IYesNo } from '../command-interfaces';
+import { incrementStatAndUser } from '../../helpers/stat-handler';
 import fetch from 'node-fetch';
 
 async function runCommand(question: string) {
@@ -32,8 +33,10 @@ export const slashCommandData = new SlashCommandBuilder()
 export async function executeInteraction(interaction: CommandInteraction) {
     const question: string = (interaction.options.get('question')?.value as string) ?? '';
     interaction.reply({ embeds: [await runCommand(question)] });
+    incrementStatAndUser('yesno-questions', interaction.user);
 }
 
 export async function executeMessage(message: Message, args: string[]) {
     message.reply({ embeds: [await runCommand(args.join(' '))] });
+    incrementStatAndUser('yesno-questions', message.author);
 }

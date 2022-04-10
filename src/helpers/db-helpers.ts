@@ -31,6 +31,9 @@ export interface User {
     lastTarot: Date;
     tarotStreak: number;
     tarotreminder: boolean;
+    stats: {
+        [key: string]: number;
+    };
 }
 
 const userSchema = new Schema<User>({
@@ -57,6 +60,10 @@ const userSchema = new Schema<User>({
     tarotreminder: {
         type: Boolean,
         default: false,
+    },
+    stats: {
+        type: Schema.Types.Mixed,
+        default: {},
     },
 });
 
@@ -85,3 +92,37 @@ const configSchema = new Schema<Config>({
 });
 
 export const Config = model<Config>('Config', configSchema);
+
+// --------------------------------------------------------
+// STATS SCHEMA
+// --------------------------------------------------------
+
+export type StatKeys =
+    | 'angry-reactions'
+    | 'tarots-read'
+    | 'total-angry-emojis-sent'
+    | 'times-censored'
+    | 'yesno-questions'
+    | 'mc-luhans'
+    | 'catgirls-requested'
+    | 'bibleverses-requested';
+
+export interface Stats {
+    key: StatKeys;
+    value: number;
+}
+
+const statsSchema = new Schema<Stats>({
+    key: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+    },
+    value: {
+        type: Number,
+        default: 0,
+    },
+});
+
+export const Stats = model<Stats>('Stats', statsSchema);

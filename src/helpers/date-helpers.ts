@@ -32,4 +32,21 @@ export class DateUtils {
 
         return Math.floor((date.getTime() - todayMidnight.getTime()) / (1000 * 60 * 60 * 24));
     }
+
+    /**
+     * @param hour The hour of the day
+     * @returns A Date representing the next time the specified hour occures
+     */
+    static getNextTime(hour: number): Date {
+        const now = new Date();
+        const next = new Date();
+
+        next.setHours(hour, 0, 0, 0);
+
+        if (next.getTime() < now.getTime()) {
+            next.setDate(next.getDate() + 1);
+        }
+
+        return next;
+    }
 }

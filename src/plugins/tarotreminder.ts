@@ -1,5 +1,6 @@
 import { Client } from 'discord.js';
-import { User } from '../helpers';
+import { User, NumberUtils } from '../helpers';
+import { tarotReminders } from '../data/tarot-reminders';
 
 export async function remind(client: Client) {
     const users = await User.find({
@@ -14,7 +15,7 @@ export async function remind(client: Client) {
     for (const user of users) {
         try {
             const member = await client.users.fetch(user.userId);
-            member.send('You have a reminder from the Tarot Bot!');
+            member.send(tarotReminders[NumberUtils.getRandomInt(0, tarotReminders.length - 1)]);
         } catch (err) {
             console.error(err);
         }

@@ -3,6 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { tarots, angryEmojis as angrys } from '../../data';
 import { User, DateUtils, DatabaseUtils } from '../../helpers';
 import { promisify } from 'util';
+import { incrementStatAndUser } from '../../helpers/stat-handler';
 const wait = promisify(setTimeout);
 
 async function isTarotAllowed(user: DiscordUser): Promise<boolean> {
@@ -81,6 +82,7 @@ export async function executeInteraction(interaction: CommandInteraction) {
     }
 
     await interaction.editReply({ embeds: [embed] });
+    incrementStatAndUser('tarots-read', interaction.user);
 }
 
 export async function executeMessage(message: Message, args: string[]) {
@@ -116,4 +118,5 @@ export async function executeMessage(message: Message, args: string[]) {
     await wait(2000);
 
     await message.reply({ embeds: [embed] });
+    incrementStatAndUser('tarots-read', message.author);
 }

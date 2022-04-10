@@ -1,12 +1,12 @@
 import { Client, Intents, Collection, Message } from 'discord.js';
 import dotenv from 'dotenv';
 import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
-import * as AngrierCommands from './commands/angrier';
+import { Bibleverse, Catgirl, Luhans, Tarot, Yesno } from './commands/angrier';
 import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
-import { DatabaseUtils } from './helpers';
+import { DatabaseUtils, DateUtils } from './helpers';
 import { prefix } from './data';
-import { Censorship } from './modules';
+import { Censorship, Tarotreminder } from './plugins';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -17,32 +17,16 @@ const client = new Client({
 });
 
 const messageCommands: Collection<string, IMessageCommand> = new Collection();
-const slashCommands: Collection<string, ISlashCommand> = new Collection();
 
 Object.values(AngryCommands).forEach(command => {
     messageCommands.set(command.name, command.executeMessage);
-    slashCommands.set(command.name, command.executeInteraction);
 });
 
-Object.values(AngrierCommands).forEach(command => {
-    messageCommands.set(command.name, command.executeMessage);
-    slashCommands.set(command.name, command.executeInteraction);
-});
-
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isCommand()) return;
-
-    if (!slashCommands.has(interaction.commandName)) {
-        return console.error(`Command ${interaction.commandName} not found.`);
-    }
-
-    try {
-        await slashCommands.get(interaction.commandName)!(interaction);
-    } catch (error) {
-        console.error(error);
-        return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-    }
-});
+messageCommands.set(Bibleverse.name, Bibleverse.executeMessage);
+messageCommands.set(Catgirl.name, Catgirl.executeMessage);
+messageCommands.set(Luhans.name, Luhans.executeMessage);
+messageCommands.set(Tarot.name, Tarot.executeMessage);
+messageCommands.set(Yesno.name, Yesno.executeMessage);
 
 client.on('ready', () => {
     console.log('Bot is logged in and ready!');
@@ -59,9 +43,7 @@ client.on('messageCreate', async message => {
 
         if (messageCommands.has(command)) {
             try {
-                const commandFn = messageCommands.get(command)!;
-
-                commandFn(message, args);
+                messageCommands.get(command)!(message, args);
             } catch (error) {
                 message.reply('An error occured 🥴');
             }
@@ -76,3 +58,13 @@ client.on('messageCreate', async message => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
+// Set Tarotreminder to run every day at 19:00
+const tarotReminder = DateUtils.getNextTime(19);
+setTimeout(() => {
+    setInterval(() => {
+        Tarotreminder.remind(client);
+    }, 24 * 60 * 60 * 1000);
+
+    Tarotreminder.remind(client);
+}, tarotReminder.getTime() - Date.now());

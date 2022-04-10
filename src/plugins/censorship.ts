@@ -1,6 +1,7 @@
 import type { Message } from 'discord.js';
 import { MessageUtils } from '../helpers';
 import { Config } from '../helpers/db-helpers';
+import { incrementStatAndUser } from '../helpers/stat-handler';
 
 export async function censor(message: Message) {
     const censored = await Config.findOne({ key: 'censored' });
@@ -40,6 +41,7 @@ export async function censor(message: Message) {
         if (message.deletable) {
             await message.channel.send(censoredContent);
             await message.delete();
+            incrementStatAndUser('times-censored', message.author);
         } else {
             console.error('Require more permissions!');
         }
