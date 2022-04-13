@@ -34,6 +34,9 @@ export interface User {
     stats: {
         [key: string]: number;
     };
+    emojis: {
+        [key: string]: number;
+    };
 }
 
 const userSchema = new Schema<User>({
@@ -62,6 +65,10 @@ const userSchema = new Schema<User>({
         default: false,
     },
     stats: {
+        type: Schema.Types.Mixed,
+        default: {},
+    },
+    emojis: {
         type: Schema.Types.Mixed,
         default: {},
     },

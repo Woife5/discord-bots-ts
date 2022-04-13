@@ -1,4 +1,4 @@
-import { Client, Intents, Collection, Message } from 'discord.js';
+import { Client, Intents, Collection, Message, Emoji } from 'discord.js';
 import dotenv from 'dotenv';
 import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
 import { Bibleverse, Catgirl, Luhans, Tarot, Yesno } from './commands/angrier';
@@ -6,7 +6,7 @@ import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
 import { DatabaseUtils, DateUtils } from './helpers';
 import { prefix } from './data';
-import { Censorship, Tarotreminder } from './plugins';
+import { Censorship, Tarotreminder, Emojicounter, Reactor } from './plugins';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -55,6 +55,8 @@ client.on('messageCreate', async message => {
     }
 
     await Censorship.censor(message);
+    await Emojicounter.count(message);
+    await Reactor.react(message);
 });
 
 client.login(process.env.DISCORD_TOKEN);
