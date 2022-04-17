@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { IYesNo } from '../command-interfaces';
-import { incrementStatAndUser } from '../../helpers/stat-handler';
+import { incrementStatAndUser } from '@helpers';
 import fetch from 'node-fetch';
 
 async function runCommand(question: string) {

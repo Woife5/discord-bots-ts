@@ -1,7 +1,5 @@
 import type { Message } from 'discord.js';
-import { MessageUtils } from '../helpers';
-import { Config } from '../helpers/db-helpers';
-import { incrementStatAndUser } from '../helpers/stat-handler';
+import { MessageUtils, Config, incrementStatAndUser } from '@helpers';
 
 export async function censor(message: Message) {
     const censored = await Config.findOne({ key: 'censored' });

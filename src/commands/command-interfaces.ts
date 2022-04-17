@@ -1,5 +1,4 @@
 import { CommandInteraction, Message } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
 
 export interface IBookNames {
     [key: string]: number;

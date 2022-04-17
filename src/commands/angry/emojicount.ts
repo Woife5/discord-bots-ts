@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { User, Stats } from '../../helpers';
+import { User, Stats } from '@helpers';
 
 async function runCommand(user?: DiscordUser) {
     let emojicount = 0;

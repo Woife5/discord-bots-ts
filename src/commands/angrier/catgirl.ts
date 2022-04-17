@@ -1,9 +1,8 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { incrementStatAndUser, NumberUtils } from '@helpers';
 import { ICatgirlResponse } from '../command-interfaces';
-import { NumberUtils } from '../../helpers';
 import fetch from 'node-fetch';
-import { incrementStatAndUser } from '../../helpers/stat-handler';
 
 const randomUrl = 'https://nekos.moe/api/v1/random/image';
 const imageUrl = 'https://nekos.moe/image/';

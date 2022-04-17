@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { User, Stats } from '../helpers';
+import { User, Stats } from '@helpers';
 
 export async function count(message: Message) {
     // Get a list of emoji IDs from the message

@@ -5,12 +5,14 @@
     "type": "module",
     "main": "./build/index.js",
     "scripts": {
-        "build:angry1": "esbuild ./src/angry-bot.js --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "build:angry2": "esbuild ./src/angrier-bot.js --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "build:dev:angry1": "esbuild ./src/angry-bot.js --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "build:dev:angry2": "esbuild ./src/angrier-bot.js --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
+        "build:angry1": "esbuild ./src/angry-bot.ts --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
+        "build:angry2": "esbuild ./src/angrier-bot.ts --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
+        "build:migration": "esbuild ./src/migrations/migration-to-db.ts --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
+        "build:dev:angry1": "esbuild ./src/angry-bot.ts --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
+        "build:dev:angry2": "esbuild ./src/angrier-bot.ts --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
         "angry1": "npm run build:dev:angry1 && node ./build/angry-bot.js",
         "angry2": "npm run build:dev:angry2 && node ./build/angrier-bot.js",
+        "migration": "npm run build:migration && node ./build/migration-to-db.js",
         "build:all": "npm run build:angry1 && npm run build:angry2"
     },
     "keywords": [],

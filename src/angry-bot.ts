@@ -4,7 +4,7 @@ import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
 import { Bibleverse, Catgirl, Luhans, Tarot, Yesno } from './commands/angrier';
 import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
-import { DatabaseUtils, DateUtils } from './helpers';
+import { init, DateUtils } from './helpers';
 import { prefix } from './data';
 import { Censorship, Tarotreminder, Emojicounter, Reactor } from './plugins';
 
@@ -30,7 +30,7 @@ messageCommands.set(Yesno.name, Yesno.executeMessage);
 
 client.on('ready', () => {
     console.log('Bot is logged in and ready!');
-    DatabaseUtils.init();
+    init();
 });
 
 client.on('messageCreate', async message => {
@@ -59,7 +59,7 @@ client.on('messageCreate', async message => {
     await Reactor.react(message);
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.ANGRY1_TOKEN);
 
 // Set Tarotreminder to run every day at 19:00
 const tarotReminder = DateUtils.getNextTime(19);

@@ -2,7 +2,7 @@ import { Client, Intents, Collection } from 'discord.js';
 import dotenv from 'dotenv';
 import * as Commands from './commands/angrier';
 import { ISlashCommand } from './commands/command-interfaces';
-import { DatabaseUtils } from './helpers';
+import { init } from '@helpers';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -35,7 +35,7 @@ client.on('interactionCreate', async interaction => {
 
 client.on('ready', () => {
     console.log('Bot is logged in and ready!');
-    DatabaseUtils.init();
+    init();
 });
 
 client.on('messageCreate', async message => {
@@ -49,4 +49,4 @@ client.on('messageCreate', async message => {
     }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.ANGRY2_TOKEN);

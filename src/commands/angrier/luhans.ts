@@ -1,8 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { NumberUtils } from '../../helpers';
-import { medienDispositive, geschmacksliste, funStuff, names } from '../../data';
-import { incrementStatAndUser } from '../../helpers/stat-handler';
+import { medienDispositive, geschmacksliste, funStuff, names } from '@data';
+import { incrementStatAndUser, NumberUtils } from '@helpers';
 
 const medienKlausur = new Date('2021-07-02T11:00:00');
 

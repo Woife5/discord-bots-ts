@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
-import { customReactions, angryEmojis, angryReactionsAmount } from '../data';
-import { User, Stats } from '../helpers';
+import { customReactions, angryEmojis, angryReactionsAmount } from '@data';
+import { User, Stats } from '@helpers';
 
 export async function react(message: Message) {
     let angrys = angryReactionsAmount;

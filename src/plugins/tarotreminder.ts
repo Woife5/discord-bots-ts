@@ -1,6 +1,6 @@
 import { Client } from 'discord.js';
-import { User, NumberUtils } from '../helpers';
-import { tarotReminders } from '../data/tarot-reminders';
+import { User, NumberUtils } from '@helpers';
+import { tarotReminders } from '@data';
 
 export async function remind(client: Client) {
     const users = await User.find({

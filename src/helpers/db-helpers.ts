@@ -2,22 +2,20 @@ import mongoose from 'mongoose';
 import { User as DiscordUser } from 'discord.js';
 const { Schema, connect, model } = mongoose;
 
-export class DatabaseUtils {
-    static init() {
-        if (!process.env.MONGO_URI) {
-            throw new Error('MONGO_URI is not defined.');
-        }
-
-        const uri = process.env.MONGO_URI;
-        connect(uri);
+export async function init() {
+    if (!process.env.MONGO_URI) {
+        throw new Error('MONGO_URI is not defined.');
     }
 
-    static createUser(user: DiscordUser) {
-        return User.create({
-            userId: user.id,
-            userName: user.username,
-        });
-    }
+    const uri = process.env.MONGO_URI;
+    await connect(uri);
+}
+
+export async function createUser(user: DiscordUser) {
+    return await User.create({
+        userId: user.id,
+        userName: user.username,
+    });
 }
 
 // --------------------------------------------------------

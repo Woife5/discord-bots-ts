@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Config } from '../../helpers';
-import { prefix } from '../../data';
+import { Config } from '@helpers';
+import { prefix } from '@data';
 import { getEmbed } from './censored';
 
 async function updateConfig(subcommand: 'add' | 'remove', value: string) {

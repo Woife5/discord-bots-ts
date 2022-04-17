@@ -1,9 +1,8 @@
 import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { tarots, angryEmojis as angrys } from '../../data';
-import { User, DateUtils, DatabaseUtils } from '../../helpers';
+import { tarots, angryEmojis as angrys } from '@data';
+import { User, DateUtils, createUser, incrementStatAndUser } from '@helpers';
 import { promisify } from 'util';
-import { incrementStatAndUser } from '../../helpers/stat-handler';
 const wait = promisify(setTimeout);
 
 async function isTarotAllowed(user: DiscordUser): Promise<boolean> {
@@ -24,7 +23,7 @@ async function updateUserAndGetStreak(user: DiscordUser, tarot: number): Promise
     let userData = await User.findOne({ userId: user.id });
 
     if (!userData) {
-        userData = await DatabaseUtils.createUser(user);
+        userData = await createUser(user);
     }
 
     userData.userName = user.username;

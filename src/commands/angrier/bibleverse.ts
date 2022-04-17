@@ -1,10 +1,9 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { IBibleBook } from '../command-interfaces';
-import { NumberUtils } from '../../helpers';
+import { incrementStatAndUser, NumberUtils } from '@helpers';
+import { bookNames } from '@data';
 import fetch from 'node-fetch';
-import { bookNames } from '../../data';
-import { incrementStatAndUser } from '../../helpers/stat-handler';
 
 const bibleAPI = 'https://getbible.net/v2/elberfelder/';
 const numberOfBooks = 66;

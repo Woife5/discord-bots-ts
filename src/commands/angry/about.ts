@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { prefix, version, angryIconCDN, repoURL } from '../../data';
+import { prefix, version, angryIconCDN, repoURL } from '@data';
 
 function runCommand() {
     const embed = new MessageEmbed()

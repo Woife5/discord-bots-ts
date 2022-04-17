@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { angryBirthday } from '../../data';
-import { DateUtils } from '../../helpers';
+import { angryBirthday } from '@data';
+import { DateUtils } from '@helpers';
 
 function getEmbed() {
     const nextBirthday = new Date(angryBirthday);

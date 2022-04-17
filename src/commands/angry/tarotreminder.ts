@@ -1,12 +1,12 @@
 import type { CommandInteraction, Message, User } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { User as DbUser, DatabaseUtils } from '../../helpers';
+import { User as DbUser, createUser } from '@helpers';
 
 async function updateReminder(user: User, subcommand: 'enable' | 'disable') {
     let dbUser = await DbUser.findOne({ userId: user.id }).exec();
 
     if (!dbUser) {
-        dbUser = await DatabaseUtils.createUser(user);
+        dbUser = await createUser(user);
     }
 
     dbUser.tarotreminder = subcommand === 'enable';
