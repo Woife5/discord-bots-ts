@@ -1,7 +1,7 @@
 {
-    "name": "esbuild-node",
+    "name": "discord-bots-ts",
     "version": "2.0.0",
-    "description": "",
+    "description": "A collection of discord bots written in TypeScript",
     "type": "module",
     "main": "./build/index.js",
     "scripts": {
@@ -15,9 +15,7 @@
         "migration": "npm run build:migration && node ./build/migration-to-db.js",
         "build:all": "npm run build:angry1 && npm run build:angry2"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": "Wolfgang Schwendtbauer",
     "devDependencies": {
         "esbuild": "^0.14.28"
     },
