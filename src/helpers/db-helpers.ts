@@ -22,7 +22,7 @@ export async function createUser(user: DiscordUser) {
 // USER SCHEMA
 // --------------------------------------------------------
 
-export interface User {
+export interface IUser {
     userId: string;
     userName: string;
     tarot: number;
@@ -30,14 +30,14 @@ export interface User {
     tarotStreak: number;
     tarotreminder: boolean;
     stats: {
-        [key: string]: number;
+        [key in StatKeys]: number;
     };
     emojis: {
-        [key: string]: number;
+        [key: number]: number;
     };
 }
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema<IUser>({
     userId: {
         type: String,
         required: true,
@@ -72,18 +72,20 @@ const userSchema = new Schema<User>({
     },
 });
 
-export const User = model<User>('User', userSchema);
+export const User = model<IUser>('User', userSchema);
 
 // --------------------------------------------------------
 // CONFIG SCHEMA
 // --------------------------------------------------------
 
-export interface Config {
-    key: string;
+type ConfigKeys = 'censored';
+
+export interface IConfig {
+    key: ConfigKeys;
     value: any;
 }
 
-const configSchema = new Schema<Config>({
+const configSchema = new Schema<IConfig>({
     key: {
         type: String,
         required: true,
@@ -96,7 +98,7 @@ const configSchema = new Schema<Config>({
     },
 });
 
-export const Config = model<Config>('Config', configSchema);
+export const Config = model<IConfig>('Config', configSchema);
 
 // --------------------------------------------------------
 // STATS SCHEMA
@@ -112,12 +114,12 @@ export type StatKeys =
     | 'catgirls-requested'
     | 'bibleverses-requested';
 
-export interface Stats {
+export interface IStats {
     key: StatKeys;
     value: number;
 }
 
-const statsSchema = new Schema<Stats>({
+const statsSchema = new Schema<IStats>({
     key: {
         type: String,
         required: true,
@@ -130,4 +132,4 @@ const statsSchema = new Schema<Stats>({
     },
 });
 
-export const Stats = model<Stats>('Stats', statsSchema);
+export const Stats = model<IStats>('Stats', statsSchema);

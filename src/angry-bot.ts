@@ -16,7 +16,7 @@ const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
 });
 
-const messageCommands: Collection<string, IMessageCommand> = new Collection();
+const messageCommands = new Collection<string, IMessageCommand>();
 
 Object.values(AngryCommands).forEach(command => {
     messageCommands.set(command.name, command.executeMessage);

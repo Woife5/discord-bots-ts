@@ -12,7 +12,7 @@ const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
 });
 
-const commands: Collection<string, ISlashCommand> = new Collection();
+const commands = new Collection<string, ISlashCommand>();
 
 Object.values(Commands).forEach(command => {
     commands.set(command.name, command.executeInteraction);
