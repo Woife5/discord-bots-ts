@@ -17,12 +17,13 @@
     },
     "author": "Wolfgang Schwendtbauer",
     "devDependencies": {
-        "esbuild": "^0.14.28"
+        "esbuild": "^0.14.41"
     },
     "dependencies": {
-        "discord.js": "^13.6.0",
-        "dotenv": "^16.0.0",
-        "mongoose": "^6.2.9",
-        "node-fetch": "^3.2.3"
+        "discord.js": "^13.7.0",
+        "dotenv": "^16.0.1",
+        "googleapis": "^100.0.0",
+        "mongoose": "^6.3.4",
+        "node-fetch": "^3.2.4"
     }
 }

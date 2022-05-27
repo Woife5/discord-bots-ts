@@ -1,5 +1,5 @@
 import { init as initDatabase, User, Stats, Config } from '@helpers';
-import dotenv from 'dotenv';
+import dotenv, { config } from 'dotenv';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -50,6 +50,7 @@ const angryStats: ILegacyStats = require('../../../angry-bot/stats-and-cache/ang
 const censoredEmoji: string[] = require('../../../angry-bot/stats-and-cache/censored-emoji.json');
 const tarotReminders: string[] = require('../../../angry-bot/stats-and-cache/tarot-reminders.json');
 const angryTarotCache: ILegacyTarotCache = require('../../../angry-bot/stats-and-cache/angry-tarot-cache.json');
+const googleCredentials = require('../../../angry-bot/config/credentials.json');
 
 Object.entries(angryStats.users).forEach(([id, user]) => {
     const reminder = tarotReminders.includes(id);
@@ -106,4 +107,9 @@ Stats.create({
 Config.create({
     key: 'censored',
     value: censoredEmoji,
+});
+
+Config.create({
+    key: 'google-sheets-credentials',
+    value: googleCredentials,
 });
