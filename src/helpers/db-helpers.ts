@@ -78,7 +78,7 @@ export const User = model<IUser>('User', userSchema);
 // CONFIG SCHEMA
 // --------------------------------------------------------
 
-type ConfigKeys = 'censored';
+type ConfigKeys = 'censored' | 'google-sheets-credentials' | 'google-sheets-tokens';
 
 export interface IConfig {
     key: ConfigKeys;
@@ -107,6 +107,7 @@ export const Config = model<IConfig>('Config', configSchema);
 export type StatKeys =
     | 'angry-reactions'
     | 'tarots-read'
+    | 'individual-tarots-read:any'
     | 'total-angry-emojis-sent'
     | 'times-censored'
     | 'yesno-questions'
@@ -117,6 +118,7 @@ export type StatKeys =
 export interface IStats {
     key: StatKeys;
     value: number;
+    anyValue?: any;
 }
 
 const statsSchema = new Schema<IStats>({
@@ -129,6 +131,10 @@ const statsSchema = new Schema<IStats>({
     value: {
         type: Number,
         default: 0,
+    },
+    anyValue: {
+        type: Schema.Types.Mixed,
+        required: false,
     },
 });
 

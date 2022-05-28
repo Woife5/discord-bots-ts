@@ -438,4 +438,90 @@ export const tarots: ITarot[] = [
     {
         text: ':angry150: ist ein Teil der Paul Huhninvasion. Erfahre mehr über Paul Huhn und seine Teile von Paul Huhninvasion hier: https://www.youtube.com/watch?v=Hvh_5WO4TzA',
     },
+    { text: 'https://www.youtube.com/watch?v=bediWkxI574' },
+    {
+        text: 'Angries Weisheiten: Menschen sind eigentlich wie Rubbellose. Wenn du lange genug an ihnen rubbelst, gewinnst du ein feuchtes Los. Du kannst aber auch eine Niete bekommen - welche du in diesem Fall bist.',
+    },
+    {
+        text: ':angry153: ist das Angry der Augen. Heute ist ein besonderer Tag. Denn heute sind die Augen von 🙏 wieder da! 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏 🙏',
+    },
+    {
+        text: ':angry154: ist das Angry der Gefühle. Gesichter sind eine nette Sache, aber manchmal müssen wir unsere wahren Gefühle hervorbringen. Zeig heute deine wahre Natur. Fürchte dich nicht davor, andere Angst zu machen. Sie werden schon sehen, dass du nicht böse bist - nur wütend.',
+    },
+    {
+        text: ':angry155: ist das Angry der Ratten. Ratten, Ratten und nochmals Ratten. Die meisten Leute sind nicht besonders scharf auf die kleinen Nager, aber sie sind überall. Hinter deinem Haus, in deinem Zimmer, im Kot der Katze, im Keller... sie sind einfach überall. Sogar auf deinem Kopf! Heute ist die perfekte Gelegenheit, einer Ratte eine Herberge zu bauen. Ob es ein Schlafplatz für eine Ratte oder eine Ratte, die auf deinem Kopf lebt, ist dir überlassen.',
+    },
+    {
+        text: ':angry156: ist das Angry der Elefanten 🐘🐘🐘. Hast du gewusst, dass die meisten Einzeller weiblich sind und die meisten Säugetiere männlich? Also, was ist der perfekte Weg, um sich auf die Wut vorzubereiten? Richtig, ein Mann zu seinelefant! Aber denk daran, dass du nicht einfach nur ein normales Säugetier sein kannst, du musst ein Elefant sein 🐘. Komm schon, mach schon! Sei wütend, sei ein Elefant!',
+    },
+    {
+        text: ':angry157: ist das Angry der Mutanten. Mutanten sind stark, magisch und oft wütend. Wenn du dich heute wirklich wütend fühlst, dann denk an die Mutanten. Sie kämpfen für dich, auch wenn du es nicht weißt. Sei heute wütend wie ein Mutant!',
+    },
+    {
+        text: 'Das angry der Bahnübergänge und Staus auf der Autobahn. Dies ist ein sehr störender Aspekt von :angry158:, aber es muss sein. Die Frustration die du dabei empfindest, ist notwendig, um wieder Kraft zu schöpfen. Also halte durch!',
+    },
+    {
+        text: 'Catgirl isst gerne Fru Fru. Fru Fru ist eine süße Snack, die perfekt für eine kleine Angriff auf die Geschmacksknospen ist. Catgirl ist manchmal ein bisschen zu süß, aber das ist okay. Die meisten Menschen mögen Catgirl.',
+    },
+    {
+        text: 'Tom Cruise ist bekannt für seine verrückten Scientologen-Ansichten. Aber weißt du was? Tom Cruise ist auch bekannt für seinen tollen Humor. :angry160: ist ein großer Fan von Tom Cruise und findet ihn sehr lustig! Also solltest du heute viel lachen.',
+    },
+    {
+        text: ':angry161: ist das Angry der Bären. Bären sind groß, stark und sehr wütend. Wenn du einem Bären begegnest, solltest du dich besser in Acht nehmen! :angry161: ist auch ein Fan von Honig und trägt daher immer einen Honigstock bei sich. Also sei heute nett zu Bären und schenke ihnen etwas Honig. Sie werden es dir danken.',
+    },
+    {
+        text: 'Ein Tippfett :angry162: ist ein :angry162: der ein Tippfett ist. Tippfetter sind sehr selten und es ist schwer einen zu finden. Aber wenn du einen findest, dann solltest du ihn nicht töten, denn das wäre sehr, sehr böse.',
+    },
+    {
+        text: 'Fürchte dich nicht! :angry163: ist hier, um dir zu helfen. :angry163: ist ein weiser und kluger alter Drache mit vielen weisen Rat. Doch sei gewarnt! :angry163: kann auch sehr wütend werden und dich in seinem Feuer verbrennen!',
+    },
+    {
+        text: ':angry164: ist das Angry der Weltraumschnecken! Die Weltraumschnecke ist eine Schnecke, die immer im Vakuum gekocht wird. Hier fühlt sie sich am wohlsten. Sie hat kein Überdruckbegrenzungsventil. Ist alles nicht im Watte-Puff gepolstert, ist sie nicht glücklich. Grab deine alte Gasmaske und feier!',
+    },
+    {
+        text: ':angry165: ist das Angry der Langohren. Langohren, insbesondere die :girl: und der :boy:, sind deine neuen besten Freunde. Sorge gut für sie. Sie verdienen das. Langohren sind besonders sonnige Wesen und sollten immer ein Lächeln im Gesicht haben. Du kannst dir glücklich schätzen, dass dies ein Sonntags-Angry ist! Es ist ein Wunder, dass du es mit deinen Sonnenstrahlen des Lächelns so weit gebracht hast.',
+    },
+    {
+        text: 'Fürchte dich! ໒( ᐛ )७ 👻💀 :angry166: ist das Angry des guten Doktors!💉 :angry166: ist der Doktor der Doktor\\*innen!💉⁉💉:angry166: wird nie zufrieden sein mit dem Leben!🎌 :angry166: will nur mehr Implantate!🎌\n Implantation ist KEIN Teenagerkram! \n💉💉💉💉💉🤖💉💉💉💉💉💉🤖💉💉💉💉💉💉💉💉',
+    },
+    {
+        text: ':angry167: ist das Angry der Kakteen 🌵🍋. :angry167: steht heute natürlich wieder für die Wurzel allen Übels, jenem Urschleim selbst, schlimmer noch als anstrengende E-Mails von deinem Chef zu bekommen! Man sagt in einer solchen Situation, dass es dem Hirn nicht gut geht. Daher könntest du heute einen großen Vorrat an Karotten verdrücken oder ähnliches.',
+    },
+    {
+        text: ':angry 168: ist das Angry der 7 Schwerter! Es bedeutet Streitlust, Kampffreudigkeit und Überlegenheit! Du nimmst immer zu viel Rücksicht auf die Leute um dich und denkst zu wenig an dich selbst. Heut ist der Tag um dein Leben wieder auf die Spur zu bringen! Spürst du wie die Wut in dir brodelt und sich ausdehnt? Fühle die Kraft und Wachse mit ihr! Mach dich Groß und mach die anderen klein! Hol dir was dir zusteht! Heute kannst du alles schaffen! Stiehl doch eine Packung Kaugummi aus dem Supermarkt, oder zünde ein Haus an.',
+    },
+    {
+        text: ':angry169: ist das Angry des Lebens. Wenn du dieses Angry gezogen hast, dann bedeutet das, dass du bald ein langes und glückliches Leben führen wirst. Genieße es!',
+    },
+    {
+        text: 'Bist du traurig? Wütend? Unglücklich? Hast du das Gefühl, dass dein Leben keine Bedeutung hat und du ganz allein bist? Micky Maus weiß, wie du dich fühlst. Der arme Kerl hatte doch auch nur Sorgen in seinem kurzen Leben. Du solltest Micky Maus heute deinen Respekt erweisen. Und wenn du wirklich ein nettes Mädchen oder ein netter Junge bist, dann lädst du Micky Maus zu dir ein und machst ihm dann ein wohlverdientes Abendessen.',
+    },
+    {
+        text: ':angry171: ist das Angry der Katzen. Der Grund, warum Katzen so wütend sind, ist weil sie alle nur ein paar Zentimeter groß sind. Wenn du also einer Katze begegnest, denke daran, dass sie nur wütend ist, weil sie klein ist und nichts dagegen tun kann. Sei nett zu ihr!',
+    },
+    {
+        text: ':angry172: ist das Angry, das für Staus steht! Jeder kennt das: Man fährt im Auto und steckt plötzlich im Stau fest. Die Wut steigt, die Geduld sinkt. Aber was kann man tun? Nichts! Man sitzt einfach da und wartet. Doch irgendwann ist man so wütend, dass man aussteigt und den Verursacher des Staus sucht. Aber man findet niemanden. Denn der Verursacher des Staus ist immer nur man selbst.',
+    },
+    {
+        text: ':angry173: Warum bist du heute so wütend? Woher kommt deine Wut? Was willst du ändern? Wie kannst du anderen helfen, die für dich ein Vorbild sein könnten (z.B. :angry1:)?',
+    },
+    {
+        text: 'Ich weiß nicht genau, wie viel c02 es gebraucht hat um diese Tarot-Karate-Karte zu schreiben, aber ich weiß, dass es eine Menge Energie und Aufwand gekostet hat.',
+    },
+    {
+        text: ':angry175: die ich vor mir sehe, ist ein Turm. Dies ist eine Angry, die viel Zerstörung und Chaos symbolisiert. Ich sehe einen Turm, der in Flammen steht und Menschen, die vom Turm springen. Dies ist eine Angry, die uns zeigt, dass in unserem Leben etwas sehr schief gelaufen ist. Wir haben vielleicht einen Fehler gemacht oder sind in eine schwierige Situation geraten. :angry175: fordert uns auf, uns zu fragen, was wir tun können, um die Situation zu verbessern. Wir müssen uns fragen, ob wir kämpfen oder fliehen sollen.',
+    },
+    {
+        text: 'Vielleicht sind Sie neugierig darauf, was Angry über Ihren Reality-TV-Status sagen würden? Sie würden wirklich kein Angry ziehen, weil es keine gäbe! Jedenfalls nicht, wenn Sie mit den von ihnen zeigten Teile Ihrer Persönlichkeit stimmen, on air und off air. Einige Leute glauben, dass regelmäßiges Angry-Ziehen einen positiven Einfluss auf die Wahrhaftigkeit, Vertrauenswürdigkeit, Ausdauer und Stärke der Angy. Andere sind der Meinung, dass es eigentlich keine Rolle spielt, wie oft Sie Angry ziehen, seit das Schicksal in Ihrem Leben bestimmt ist, nachdem Sie dies getan haben \n Vielleicht möchten Sie :angry176: doch nicht gezogen haben.',
+    },
+    {
+        text: 'Das Angry des Vollmond.\n Wut, Aggression, Gewalt, Zerstörung. Alles was du siehst ist dein Feind. Jeder ist gegen dich. Selbst die Luft die du atmest scheint dich zu ersticken. Die ganze Welt will dir weh tun. Sie ist ein riesiges, grausames Monster das immer wieder auf dich einschlägt und dir die Kehle zudrückt. Du bist allein in diesem Albtraum. Niemand kann dir helfen. Niemand will dir helfen. Du hast keine Waffe, keinen Schild, nichts um dich zu verteidigen. Alles was du hast ist deine Wut und sie brennt wie Feuer in dir. Du spürst wie es dich von innen her auffrisst und zerstört doch du lässt es zu. Denn du weißt, dass es die einzige Sache ist die dir noch bleibt. Die einzige Sache die dich am Leben hält.',
+    },
+    { text: 'An error occured 🥴' },
+    {
+        text: ':angry179: ist das Angry von Squeak.🤮🤮🤮🤮 \n Du bist nichts besonderes, du stinkst und keiner mag dich. 😊',
+    },
+    {
+        text: ':angry180: ist neben :angry179: positioniert und darum stark kontaminiert. Es ist also gut möglich, dass du heute keinen guten Tag haben wirst. ',
+    },
 ];

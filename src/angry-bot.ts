@@ -13,7 +13,13 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const client = new Client({
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+    intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        Intents.FLAGS.DIRECT_MESSAGES,
+        Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+    ],
 });
 
 const messageCommands = new Collection<string, IMessageCommand>();
@@ -67,7 +73,10 @@ client.on('messageCreate', async message => {
 
     if (message.author.id === '267281854690754561' && MessageUtils.startsWith(message, '!token')) {
         GoogleSheetsHandler.setNewToken(message.cleanContent);
+        return;
     }
+
+    // TODO check feet related message
 
     // This version of the bot listens on messages for commands
     if (MessageUtils.startsWith(message, prefix)) {
@@ -91,5 +100,7 @@ client.on('messageCreate', async message => {
     await Emojicounter.count(message);
     await Reactor.react(message);
 });
+
+// TODO add reaction handler for feet channel
 
 client.login(process.env.ANGRY1_TOKEN);

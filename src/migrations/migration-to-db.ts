@@ -51,6 +51,7 @@ const censoredEmoji: string[] = require('../../../angry-bot/stats-and-cache/cens
 const tarotReminders: string[] = require('../../../angry-bot/stats-and-cache/tarot-reminders.json');
 const angryTarotCache: ILegacyTarotCache = require('../../../angry-bot/stats-and-cache/angry-tarot-cache.json');
 const googleCredentials = require('../../../angry-bot/config/credentials.json');
+const googleTokens = require('../../../angry-bot/stats-and-cache/google-token.json');
 
 Object.entries(angryStats.users).forEach(([id, user]) => {
     const reminder = tarotReminders.includes(id);
@@ -72,6 +73,11 @@ Object.entries(angryStats.users).forEach(([id, user]) => {
         },
         emojis: user['emojis'] ?? {},
     });
+});
+
+Stats.create({
+    key: 'individual-tarots-read:any',
+    anyValue: angryStats['tarots'],
 });
 
 Stats.create({
@@ -112,4 +118,9 @@ Config.create({
 Config.create({
     key: 'google-sheets-credentials',
     value: googleCredentials,
+});
+
+Config.create({
+    key: 'google-sheets-tokens',
+    value: googleTokens,
 });

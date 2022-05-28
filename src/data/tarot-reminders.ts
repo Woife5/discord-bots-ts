@@ -9,4 +9,7 @@ export const tarotReminders = [
     'Hey there! I have a fresh Tarot for you! 🤠',
     'Psst! Hey kid, do you want some Tarot? 🚚',
     'Tarot? 🥺',
+    "Please tell me you didn't forget your Tarot again! 😒",
+    '😡',
+    'May i interest you in some fresh Tarot? 🤔',
 ];
