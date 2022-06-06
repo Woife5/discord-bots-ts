@@ -6,7 +6,7 @@ import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
 import { init, DateUtils } from './helpers';
 import { prefix } from './data';
-import { Censorship, Tarotreminder, Emojicounter, Reactor, GoogleSheetsHandler } from './plugins';
+import { Censorship, Tarotreminder, Emojicounter, Reactor, GoogleSheetsHandler, FeetHandler } from './plugins';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -76,9 +76,10 @@ client.on('messageCreate', async message => {
         return;
     }
 
-    // TODO check feet related message
+    if (await FeetHandler.handleFeetChannelMessage(message)) {
+        return;
+    }
 
-    // This version of the bot listens on messages for commands
     if (MessageUtils.startsWith(message, prefix)) {
         const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
         const command = args.shift()?.toLowerCase() ?? 'about';
@@ -101,6 +102,10 @@ client.on('messageCreate', async message => {
     await Reactor.react(message);
 });
 
-// TODO add reaction handler for feet channel
+client.on('messageReactionAdd', async (messageReaction, user) => {
+    if (user.id === client.user!.id) return;
+
+    await FeetHandler.handleReaction(messageReaction, user);
+});
 
 client.login(process.env.ANGRY1_TOKEN);

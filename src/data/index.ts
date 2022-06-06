@@ -5,3 +5,4 @@ export * from './luhans-data';
 export * from './constants';
 export * from './custom-reactions';
 export * from './tarot-reminders';
+export * from './rating-data';

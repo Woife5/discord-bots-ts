@@ -124,3 +124,8 @@ Config.create({
     key: 'google-sheets-tokens',
     value: googleTokens,
 });
+
+Config.create({
+    key: 'feet-related',
+    value: ['🦵', '🦶', '👣', '🐾', 'fuß', 'feet', 'fuss', 'foot', 'füsse', 'füße', 'leg', 'bein'],
+});

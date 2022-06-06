@@ -78,7 +78,7 @@ export const User = model<IUser>('User', userSchema);
 // CONFIG SCHEMA
 // --------------------------------------------------------
 
-type ConfigKeys = 'censored' | 'google-sheets-credentials' | 'google-sheets-tokens';
+type ConfigKeys = 'censored' | 'google-sheets-credentials' | 'google-sheets-tokens' | 'feet-related';
 
 export interface IConfig {
     key: ConfigKeys;
