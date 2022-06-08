@@ -33,7 +33,7 @@ function runCommand() {
                 .addField(
                     'McKlausur',
                     `Sei glücklich, es sind bereits ${dSinceKlausur} Tage ${hSinceKlausur} ${hourText} ${mSinceKlausur} ${minuteText} und ${sSinceKlausur} ${secondText} sind seit der Medientheorie Klausur mit ${
-                        names[NumberUtils.getRandomInt(0, names.length)]
+                        names[NumberUtils.getRandomInt(0, names.length - 1)]
                     } vergangen!\nEine rachsüchtige Erinnerung - ich hoffe, sie macht dich wütend.`
                 )
                 .setTimestamp(medienKlausur);
