@@ -1,6 +1,6 @@
-import { Client, Intents, Collection, Message, Emoji } from 'discord.js';
+import { Client, Intents, Collection } from 'discord.js';
 import dotenv from 'dotenv';
-import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
+import { IMessageCommand } from './commands/command-interfaces';
 import { Bibleverse, Catgirl, Luhans, Tarot, Yesno } from './commands/angrier';
 import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
@@ -71,8 +71,10 @@ client.on('ready', async () => {
 client.on('messageCreate', async message => {
     if (message.author.id === client.user!.id) return;
 
-    if (message.author.id === '267281854690754561' && MessageUtils.startsWith(message, '!token')) {
-        GoogleSheetsHandler.setNewToken(message.cleanContent);
+    const tokenPrefix = '!token ';
+    if (message.author.id === process.env.WOLFGANG_ID && MessageUtils.startsWith(message, tokenPrefix)) {
+        const token = message.cleanContent.substring(tokenPrefix.length);
+        GoogleSheetsHandler.setNewToken(token);
         return;
     }
 
@@ -90,7 +92,6 @@ client.on('messageCreate', async message => {
             } catch (error) {
                 message.reply('An error occured 🥴');
             }
-            return;
         } else {
             message.reply(`That is not a command i know of 🥴`);
         }

@@ -1,5 +1,5 @@
 import { init as initDatabase, User, Stats, Config } from '@helpers';
-import dotenv, { config } from 'dotenv';
+import dotenv from 'dotenv';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -62,6 +62,8 @@ Object.entries(angryStats.users).forEach(([id, user]) => {
         userName: user.name,
         tarotreminder: reminder,
         tarotStreak: streak,
+        lastTarot: new Date(angryTarotCache[id]?.timestamp ?? 0),
+        tarot: angryTarotCache[id]?.tarot ?? -1,
         stats: {
             'tarots-read': user['tarots-requested'] ?? 0,
             'total-angry-emojis-sent': user['emojis-sent'] ?? 0,
