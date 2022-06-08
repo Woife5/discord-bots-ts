@@ -6,7 +6,7 @@ import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
 import { init, DateUtils } from './helpers';
 import { prefix } from './data';
-import { Censorship, Tarotreminder, Emojicounter, Reactor, GoogleSheetsHandler, FeetHandler } from './plugins';
+import { Censorship, Tarotreminder, Emojicounter, Reactor, GoogleSheetsHandler, FeetHandler, MediaHandler } from './plugins';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -122,6 +122,7 @@ client.on('messageCreate', async message => {
 
     await Censorship.censor(message);
     await Emojicounter.count(message);
+    await MediaHandler.react(message);
     await Reactor.react(message);
 });
 
