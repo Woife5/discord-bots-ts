@@ -1,6 +1,6 @@
 import { Client, Intents, Collection } from 'discord.js';
 import dotenv from 'dotenv';
-import { IMessageCommand } from './commands/command-interfaces';
+import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
 import { Bibleverse, Catgirl, Luhans, Tarot, Yesno } from './commands/angrier';
 import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
@@ -23,6 +23,7 @@ const client = new Client({
 });
 
 const messageCommands = new Collection<string, IMessageCommand>();
+const interactionCommands = new Collection<string, ISlashCommand>();
 
 Object.values(AngryCommands).forEach(command => {
     messageCommands.set(command.name, command.executeMessage);
@@ -33,6 +34,12 @@ messageCommands.set(Catgirl.name, Catgirl.executeMessage);
 messageCommands.set(Luhans.name, Luhans.executeMessage);
 messageCommands.set(Tarot.name, Tarot.executeMessage);
 messageCommands.set(Yesno.name, Yesno.executeMessage);
+
+interactionCommands.set(Bibleverse.name, Bibleverse.executeInteraction);
+interactionCommands.set(Catgirl.name, Catgirl.executeInteraction);
+interactionCommands.set(Luhans.name, Luhans.executeInteraction);
+interactionCommands.set(Tarot.name, Tarot.executeInteraction);
+interactionCommands.set(Yesno.name, Yesno.executeInteraction);
 
 client.on('ready', async () => {
     console.log('Bot is logged in and ready!');
@@ -66,6 +73,21 @@ client.on('ready', async () => {
             await wolfgang.send(`I will soon reqire a new google token: ${await GoogleSheetsHandler.getTokenUrl()}`);
         }, 5 * 24 * 60 * 60 * 1000);
     }, googleSheetsHandlerToken.getTime() - Date.now());
+});
+
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
+
+    if (!interactionCommands.has(interaction.commandName)) {
+        return console.error(`Command ${interaction.commandName} not found.`);
+    }
+
+    try {
+        await interactionCommands.get(interaction.commandName)!(interaction);
+    } catch (error) {
+        console.error(error);
+        return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+    }
 });
 
 client.on('messageCreate', async message => {
