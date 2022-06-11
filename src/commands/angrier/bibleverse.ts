@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { IBibleBook } from '../command-interfaces';
-import { incrementStatAndUser, NumberUtils } from '@helpers';
+import { incrementStatAndUser, NumberUtils, log } from '@helpers';
 import { bookNames } from '@data';
 import fetch from 'node-fetch';
 
@@ -38,7 +38,7 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
         const response = await fetch(`${bibleAPI}${bookNumber}.json`);
         book = (await response.json()) as IBibleBook;
     } catch (error) {
-        console.error(error);
+        log.error(error, 'bibleverse');
         return new MessageEmbed().setTitle('Error while downloading the bible!');
     }
 

@@ -1,5 +1,5 @@
 import type { Message } from 'discord.js';
-import { MessageUtils, Config, incrementStatAndUser } from '@helpers';
+import { MessageUtils, Config, incrementStatAndUser, log } from '@helpers';
 
 export async function censor(message: Message) {
     const censored = await Config.findOne({ key: 'censored' });
@@ -41,9 +41,12 @@ export async function censor(message: Message) {
             await message.delete();
             incrementStatAndUser('times-censored', message.author);
         } else {
-            console.error('Require more permissions!');
+            log.error(
+                `Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`,
+                'Censorship.censor'
+            );
         }
     } catch (error) {
-        console.error(error);
+        log.error(error, 'Censorship.censor');
     }
 }

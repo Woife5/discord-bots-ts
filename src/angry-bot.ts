@@ -4,9 +4,17 @@ import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
 import { Bibleverse, Catgirl, Luhans, Tarot, Yesno } from './commands/angrier';
 import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
-import { init, DateUtils } from './helpers';
-import { prefix } from './data';
-import { Censorship, Tarotreminder, Emojicounter, Reactor, GoogleSheetsHandler, FeetHandler, MediaHandler } from './plugins';
+import { init, DateUtils, log } from './helpers';
+import { prefix, version } from './data';
+import {
+    Censorship,
+    Tarotreminder,
+    Emojicounter,
+    Reactor,
+    GoogleSheetsHandler,
+    FeetHandler,
+    MediaHandler,
+} from './plugins';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -43,7 +51,9 @@ interactionCommands.set(Yesno.name, Yesno.executeInteraction);
 
 client.on('ready', async () => {
     console.log('Bot is logged in and ready!');
-    init();
+    await init();
+
+    log.info(`Started bot version ${version}`, 'angry-bot.ts');
 
     // Set Tarotreminder to run every day at 19:00
     const tarotReminder = DateUtils.getNextTime(19);
@@ -85,7 +95,7 @@ client.on('interactionCreate', async interaction => {
     try {
         await interactionCommands.get(interaction.commandName)!(interaction);
     } catch (error) {
-        console.error(error);
+        log.error(error, 'interactionCreate');
         return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
     }
 });
@@ -96,7 +106,14 @@ client.on('messageCreate', async message => {
     const tokenPrefix = '!token ';
     if (message.author.id === process.env.WOLFGANG_ID && MessageUtils.startsWith(message, tokenPrefix)) {
         const token = message.cleanContent.substring(tokenPrefix.length);
-        GoogleSheetsHandler.setNewToken(token);
+        log.debug(`Got token request from admin: ${token}`, 'angry-bot.ts');
+
+        if (await GoogleSheetsHandler.setNewToken(token)) {
+            message.reply('Token set successfully!');
+        } else {
+            log.error('Failed to set token', 'angry-bot.ts');
+        }
+
         return;
     }
 

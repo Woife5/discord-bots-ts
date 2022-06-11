@@ -1,11 +1,11 @@
-import { Stats, User, StatKeys } from './db-helpers';
+import { Stats, User, StatKeys, log } from './db-helpers';
 import { User as DiscordUser } from 'discord.js';
 
 export async function incrementStat(key: StatKeys, amount: number = 1) {
     try {
         await Stats.findOneAndUpdate({ key }, { $inc: { value: amount } }, { upsert: true }).exec();
     } catch (err) {
-        console.error(err);
+        log.error(err, 'StatsHandler.incrementStat');
     }
 }
 
@@ -14,6 +14,6 @@ export async function incrementStatAndUser(key: StatKeys, user: DiscordUser, amo
         await Stats.findOneAndUpdate({ key }, { $inc: { value: amount } }, { upsert: true }).exec();
         await User.findOneAndUpdate({ userId: user.id }, { $inc: { ['stats.' + key]: amount } }).exec();
     } catch (err) {
-        console.error(err);
+        log.error(err, 'StatsHandler.incrementStatAndUser');
     }
 }

@@ -139,3 +139,61 @@ const statsSchema = new Schema<IStats>({
 });
 
 export const Stats = model<IStats>('Stats', statsSchema);
+
+// --------------------------------------------------------
+// LOG SCHEMA
+// --------------------------------------------------------
+
+type LogType = 'info' | 'error' | 'debug';
+
+export class log {
+    static info(message: any, component: string) {
+        this.log('info', message, component);
+    }
+
+    static debug(message: any, component: string) {
+        this.log('debug', message, component);
+    }
+
+    static error(message: any, component: string) {
+        this.log('error', message, component);
+    }
+
+    private static async log(type: LogType, message: any, component: string) {
+        await Log.create({
+            timestamp: Date.now(),
+            message: JSON.stringify(message),
+            type,
+            component,
+        });
+    }
+}
+
+export interface ILog {
+    timestamp: Date;
+    message: string;
+    component?: string;
+    type: LogType;
+}
+
+const logSchema = new Schema<ILog>({
+    timestamp: {
+        type: Date,
+        required: true,
+    },
+    message: {
+        type: String,
+        required: true,
+    },
+    component: {
+        type: String,
+        required: false,
+    },
+    type: {
+        type: String,
+        required: true,
+        enum: ['info', 'error', 'debug'],
+    },
+});
+
+export const Log = model<ILog>('Log', logSchema);

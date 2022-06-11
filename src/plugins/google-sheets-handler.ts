@@ -1,4 +1,4 @@
-import { Config, Stats } from '@helpers';
+import { Config, Stats, log, User } from '@helpers';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 
@@ -21,8 +21,8 @@ async function authorize() {
         throw new Error('No valid credentials found!');
     }
 
-    const credentials = JSON.parse(cred.value);
-    const tokens = JSON.parse(toke.value);
+    const credentials = cred.value;
+    const tokens = toke.value;
 
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
@@ -42,59 +42,73 @@ async function writeData(auth: OAuth2Client, values: (string | number)[][], rang
             requestBody: { values },
         });
 
-        console.log('Stat-backup complete, updated cells: %s', res.data.updates?.updatedRange);
+        log.info(`Stat-backup complete, updated cells: ${res.data.updates?.updatedRange}`, 'SheetsHandler.writeData');
     } catch (err) {
-        console.error(err);
+        log.error(err, 'SheetsHandler.writeData');
     }
 }
 
 export async function getTokenUrl() {
     try {
+        log.info('Getting token url', 'SheetsHandler.getTokenUrl');
         const credentials = await Config.findOne({ key: GOOGLE_CREDENTIALS_KEY }).exec();
 
         if (!credentials?.value) {
+            log.error('Could not find google credentials', 'SheetsHandler.getTokenUrl');
             return;
         }
 
-        const parsed = JSON.parse(credentials.value);
-
-        const { client_secret, client_id, redirect_uris } = parsed.installed;
+        log.info('creating Oauth2 client', 'SheetsHandler.getTokenUrl');
+        const { client_secret, client_id, redirect_uris } = credentials.value.installed;
         const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
+        log.info('generating url', 'SheetsHandler.getTokenUrl');
         return oAuth2Client.generateAuthUrl({
             access_type: 'offline',
             scope: GOOGLE_SCOPES,
         });
-    } catch {
-        console.error('something went wrong!');
+    } catch (err) {
+        log.error(err, 'SheetsHandler.getTokenUrl');
     }
 }
 
 export async function setNewToken(code: string) {
-    const credentials = await Config.findOne({ key: GOOGLE_CREDENTIALS_KEY }).exec();
+    try {
+        log.debug('Setting new token', 'SheetsHandler.setNewToken');
 
-    if (!credentials?.value) {
-        return;
+        const credentials = await Config.findOne({ key: GOOGLE_CREDENTIALS_KEY }).exec();
+
+        if (!credentials?.value) {
+            log.error('Could not find google credentials', 'SheetsHandler.setNewToken');
+            return;
+        }
+
+        const { client_secret, client_id, redirect_uris } = credentials.value.installed;
+        const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+
+        const token = await oAuth2Client.getToken(code);
+
+        log.debug('Token received', 'SheetsHandler.setNewToken');
+
+        // Store token
+        await Config.updateOne(
+            { key: GOOGLE_TOKENS_KEY },
+            { $set: { value: JSON.stringify(token) } },
+            { upsert: true }
+        ).exec();
+
+        log.debug('New Token successfully stored', 'SheetsHandler.setNewToken');
+    } catch (err) {
+        log.error(err, 'SheetsHandler.setNewToken');
     }
-
-    const parsed = JSON.parse(credentials.value);
-
-    const { client_secret, client_id, redirect_uris } = parsed.installed;
-    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
-    const token = await oAuth2Client.getToken(code);
-
-    // Store token
-    await Config.updateOne(
-        { key: GOOGLE_TOKENS_KEY },
-        { $set: { value: JSON.stringify(token) } },
-        { upsert: true }
-    ).exec();
 
     return true;
 }
 
 export async function backup() {
     try {
+        log.debug('Starting backup', 'SheetsHandler.backup');
+
         const auth = await authorize();
 
         // BACKUP global stats
@@ -119,16 +133,49 @@ export async function backup() {
 
         writeData(auth, [globalData], 'raw-data!A1');
 
+        log.debug('Backing up tarot data', 'SheetsHandler.backup');
+
         // BACKUP tarot stats
         const tarotData: (string | number)[] = [];
 
+        const individualTarots = await Stats.findOne({ key: 'individual-tarots-read:any' }).exec();
+
+        if (individualTarots?.anyValue) {
+            return; // should never happen
+        }
+
+        const tarots = individualTarots?.anyValue as { [key: string]: number };
+
+        tarotData.push(new Date().toLocaleDateString('de-AT'));
+        tarotData.push(...Object.values(tarots));
+
         writeData(auth, [tarotData], 'raw-tarot-data!A1');
 
-        // BACKUP user stats
-        const userData: (string | number)[] = [];
+        log.debug('Backing up user data', 'SheetsHandler.backup');
 
-        writeData(auth, [userData], 'raw-user-data!A1');
+        // BACKUP user stats
+        const usersData: (string | number)[][] = [];
+
+        const users = await User.find({}).exec();
+        const nowString = new Date().toLocaleDateString('de-AT');
+
+        users.forEach(user => {
+            const userData: (string | number)[] = [];
+            userData.push(nowString);
+            userData.push(user.userName);
+            userData.push(user.stats['tarots-read']);
+            userData.push(user.stats['total-angry-emojis-sent']);
+            userData.push(user.stats['times-censored']);
+            userData.push(user.stats['yesno-questions']);
+            userData.push(user.stats['mc-luhans']);
+            userData.push(user.stats['bibleverses-requested']);
+            userData.push(user.stats['catgirls-requested']);
+
+            usersData.push(userData);
+        });
+
+        writeData(auth, usersData, 'raw-user-data!A1');
     } catch (err) {
-        console.error(err);
+        log.error(err, 'SheetsHandler.backup');
     }
 }
