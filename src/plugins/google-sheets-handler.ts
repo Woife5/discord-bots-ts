@@ -22,7 +22,7 @@ async function authorize() {
     }
 
     const credentials = cred.value;
-    const tokens = toke.value;
+    const tokens = JSON.parse(toke.value);
 
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
@@ -131,7 +131,7 @@ export async function backup() {
         globalData.push(catgirls?.value ?? 0);
         globalData.push(bibleverses?.value ?? 0);
 
-        writeData(auth, [globalData], 'raw-data!A1');
+        await writeData(auth, [globalData], 'raw-data!A1');
 
         log.debug('Backing up tarot data', 'SheetsHandler.backup');
 
@@ -140,7 +140,8 @@ export async function backup() {
 
         const individualTarots = await Stats.findOne({ key: 'individual-tarots-read:any' }).exec();
 
-        if (individualTarots?.anyValue) {
+        if (!individualTarots?.anyValue) {
+            log.error("Couldn't find individual tarot stats", 'SheetsHandler.backup');
             return; // should never happen
         }
 
@@ -149,7 +150,7 @@ export async function backup() {
         tarotData.push(new Date().toLocaleDateString('de-AT'));
         tarotData.push(...Object.values(tarots));
 
-        writeData(auth, [tarotData], 'raw-tarot-data!A1');
+        await writeData(auth, [tarotData], 'raw-tarot-data!A1');
 
         log.debug('Backing up user data', 'SheetsHandler.backup');
 
@@ -160,6 +161,10 @@ export async function backup() {
         const nowString = new Date().toLocaleDateString('de-AT');
 
         users.forEach(user => {
+            if (!user.userName) {
+                return;
+            }
+
             const userData: (string | number)[] = [];
             userData.push(nowString);
             userData.push(user.userName);
@@ -174,7 +179,7 @@ export async function backup() {
             usersData.push(userData);
         });
 
-        writeData(auth, usersData, 'raw-user-data!A1');
+        await writeData(auth, usersData, 'raw-user-data!A1');
     } catch (err) {
         log.error(err, 'SheetsHandler.backup');
     }
