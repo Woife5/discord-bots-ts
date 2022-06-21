@@ -137,7 +137,10 @@ client.on('messageCreate', async message => {
         return;
     }
 
-    await Censorship.censor(message);
+    if (await Censorship.censor(message)) {
+        return;
+    }
+
     await Emojicounter.count(message);
     await MediaHandler.react(message);
     await Reactor.react(message);

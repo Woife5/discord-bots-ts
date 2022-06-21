@@ -5,11 +5,11 @@ export async function censor(message: Message) {
     const censored = await Config.findOne({ key: 'censored' });
 
     if (!censored) {
-        return;
+        return false;
     }
 
     let hasToBeCensord = false;
-    let censoredContent = message.cleanContent.replaceAll('\\', '\\ ');
+    let censoredContent = message.content.replaceAll('\\', '\\ ');
     const censoredStrings = censored.value as string[];
 
     censoredStrings.forEach(string => {
@@ -21,7 +21,7 @@ export async function censor(message: Message) {
     });
 
     if (!hasToBeCensord) {
-        return;
+        return false;
     }
 
     if (censoredContent.length >= 1940) {
@@ -45,8 +45,12 @@ export async function censor(message: Message) {
                 `Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`,
                 'Censorship.censor'
             );
+
+            return false;
         }
     } catch (error) {
         log.error(error, 'Censorship.censor');
     }
+
+    return true;
 }
