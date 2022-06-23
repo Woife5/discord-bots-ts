@@ -55,6 +55,7 @@ export const medienDispositive = [
     'Mediendispositive konstruieren eine größere Ordnung, in der mediale Kommunikation zu sehen ist, primär vom Spannungsverhältnis “Technik-Subjekt” her. Sie gehen vom Einzelnen und seiner Rezeption aus und untersuchen aus der Perspektive des Subjekts, wie macht Instanzen auf die mediale Wahrnehmung des Einzelnen einwirken. Es ist in diesem Sinne ein medienkritisches Konzept, das versucht, die unbewussten und verborgenen Mechanismen der Medienkommunikation sichtbar zu machen und damit auf inhärente Beeinflussunsstrukturen hinzuweisen.',
     'Ich bin Kinoglaz, ich schaffe einen Menschen, der vollkommener ist als Adam, ich schaffe Tausende verschiedene Menschen nach verschiedenen, vorher entworfenen Plänen und Schemata. [...] Von einem nehme ich die stärksten und geschicktesten Hände, von einem anderen die schlanksten und schnellsten Beine, von einem dritten den schönsten und ausdruckvollsten Kopf und schaffe durch die Montage einen neuen, vollkommenen Menschen.',
     '„Nicht Kinoglaz um des Kinoglas willen, sondern die Wahrheit mit den Mitteln des Kinoglaz, das ist Kinoprawda. Nicht die unverhoffte Aufnahme um der unverhofften Aufnahme willen, sondern um die Menschen zu zeigen ohne Maske, ohne Schminke, sie mit den Augen des Apparates zu packen im Moment des Nichtspielens. Ihre vom Kinoglas bloßgestellten Gedanken zu lesen.“',
+    'Einheit Kelvin (K):\n"Entspricht der Lichtemission eines auf die jeweilige Temperatur erhitzten Kohlestückes."'
 ];
 
 export const geschmacksliste = [
@@ -84,4 +85,6 @@ export const funStuff = [
     'Wut entfaltet die größte Geschmacksexplosion, wenn du sie genießt - lasse sie zu! Wut schmeckt ohne geschmeckt zu werden.',
     'Kennst du noch die roten Handschuhe? Sie sind der Inbegriff der <geschmack>. Eine schöne Kontroverse, kaufe dir doch heute die blauen Handschuhe und schenke sie <name>! Heute ist ein Tag der Sauberkeit und Hygiene.',
     'Hast du schon einmal von dem Wutzyklus gehört? Nein, forsche doch in den heiligen Schriften des <name> im Kapitel des Mediendispositivs nach neuen Erkenntnissen in der Wut.',
+    'Rache wird bekanntlich heiß serviert, aber hast du dir schon einmal Gedanken gemacht, wie WUT serviert wird? Richtig! Mit :angry34:!',
+    'Primus Maximus! Potzblitz, wo ist meine Sauce hin? Es ist so spät und ich habe noch nicht meinen Halb-Eins Moment gehabt! (Tipp: Frage doch <names> 😉.)'
 ];
