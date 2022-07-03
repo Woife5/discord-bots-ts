@@ -322,9 +322,9 @@ export const tarots: ITarot[] = [
         text: 'Liebe Studenten! Die Entwicklungen rund um den Corona-Testzwang und den Corona-Impfpass stellen eine akute Gefahr für den freien Hochschulzugang dar, der wir uns entschieden entgegenstellen. Ein medizinisches Attest oder eine Impfung dürfen keinesfalls Bedingungen sein, um studieren zu können. Auch das System der ÖH-Zwangsmitgliedschaft gehört endlich abgeschafft und durch ein Modell ersetzt, das auf dem Prinzip der Freiwilligkeit beruht. Eine starke Interessenvertretung sollte durch Leistungen überzeugen und benötigt daher keinen Zwang. Wir haben in diesem ÖH-Wahlkampf aus tiefster Überzeugung alles gegeben und brauchen jetzt deine Unterstützung! Geh bis 20. Mai an deiner Hochschule wählen und setze ein starkes Zeichen für die Freiheit!  Um wählen zu gehen, müsst ihr übrigens KEINEN Covid-Test vorzeigen! Vielen Dank für Deine Unterstützung! Matthias Kornek RFS Bundesobmann & Spitzenkandidat',
     },
     {
-        text: 'Hallo Dedektiv*innen! Ich bin es, Tom Turbo! Du must mir helfen! Leider sitze ich ziemlich in der patsche. Dr. Gruselglatz und Fritz Fantom haben mich entführt und wollen meinen Turbo Kitzeltrick stehlen um den Reichstag zu stürmen. Unglücklicherweise steckt mein Turbo Fessel-Kaputmachtrick im Zoll fest. Hast du das zeug dazu EUR 217;- an AT30 3635 4000 0006 4006 zu überweisen?',
+        text: 'Hallo Detektiv*innen! Ich bin es, Tom Turbo! Du must mir helfen! Leider sitze ich ziemlich in der Patsche. Dr. Gruselglatz und Fritz Fantom haben mich entführt und wollen meinen Turbo Kitzeltrick stehlen, um den Reichstag zu stürmen. Unglücklicherweise steckt mein Turbo Fessel-Kaputmachtrick im Zoll fest. Hast du das Zeug dazu, EUR 217;- an AT30 3635 4000 0006 4006 zu überweisen?',
     },
-    { text: 'Der Test war Positiv! Du bist nun Schwanger! Alles Gute!' },
+    { text: 'Der Test war positiv! Du bist nun schwanger! Alles Gute!' },
     {
         text: 'Why do they call :angry113: oven when you of in the cold food of out hot eat the food',
     },
@@ -420,7 +420,7 @@ export const tarots: ITarot[] = [
         text: ':angry144: ist Stubenrein. Wenn du Stubenrein bist, dann kannst du dir auch ein Teppich vorstellen.',
     },
     {
-        text: ':angry1425: ist ein Stubenrein. Ein Stubenrein ist eine Person, die ein Stubenrein ist. Also eine Person, die eine Toilette ist. Also ein Teppich.',
+        text: ':angry145: ist ein Stubenrein. Ein Stubenrein ist eine Person, die ein Stubenrein ist. Also eine Person, die eine Toilette ist. Also ein Teppich.',
     },
     {
         text: ':angry146: ist das Angry der Wissenschaftlichen. Heute ist ein guter Tag, um dich mit der Wissenschaft zu beschäftigen. Erstelle zum Beispiel eine Seite mit einem Wissenschaftsgespräch, um dich mit dem Wissenschaftler*in zu beschäftigen. Wenn du ein Wissenschaftsgespräch mit einer Wissenschaftslehrerin und -in stellst, kannst du dir die Gelegenheit geben, das Wissen zu verstehen und zu erklären.',
