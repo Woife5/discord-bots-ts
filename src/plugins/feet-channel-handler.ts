@@ -1,5 +1,5 @@
 import { ratingEmojis } from '@data';
-import { Config, NumberUtils } from '@helpers';
+import { ConfigCache, NumberUtils } from '@helpers';
 import { Message, MessageReaction, PartialMessage, PartialMessageReaction, PartialUser, User } from 'discord.js';
 
 // Function return false if the message is not in the feet channel
@@ -74,13 +74,13 @@ function isInFeetChannel(message: Message | PartialMessage) {
 async function isFeetRelated(msg: string) {
     const text = msg.toLowerCase().trim();
 
-    const config = await Config.findOne({ key: 'feet-related' }).exec();
+    const config = await ConfigCache.get('feet-related');
 
     if (!config) {
         return false;
     }
 
-    const feetRelated = config.value as string[];
+    const feetRelated = config as string[];
 
     for (const word of feetRelated) {
         if (text.includes(word)) {

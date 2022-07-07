@@ -98,7 +98,40 @@ const configSchema = new Schema<IConfig>({
     },
 });
 
-export const Config = model<IConfig>('Config', configSchema);
+const ConfigDB = model<IConfig>('Config', configSchema);
+
+type Cache = {
+    [key: string]: {
+        value: any;
+        expires: number;
+    };
+};
+
+export class ConfigCache {
+    private static _cache = {} as Cache;
+
+    static async get(key: string): Promise<any> {
+        if (!(key in this._cache) || this._cache[key].expires < Date.now()) {
+            const config = await ConfigDB.findOne({ key }).exec();
+
+            if (!config) {
+                return null;
+            }
+
+            this._cache[key] = {
+                value: config.value,
+                expires: Date.now() + 999 * 60 * 10,
+            };
+        }
+
+        return this._cache[key].value;
+    }
+
+    static async set(key: ConfigKeys, value: any) {
+        delete this._cache[key];
+        return await ConfigDB.updateOne({ key: key }, { $set: { value: value } }, { upsert: true }).exec();
+    }
+}
 
 // --------------------------------------------------------
 // STATS SCHEMA
@@ -146,21 +179,27 @@ export const Stats = model<IStats>('Stats', statsSchema);
 
 type LogType = 'info' | 'error' | 'debug';
 
-export class log {
-    static info(message: any, component: string) {
-        this.log('info', message, component);
+export class Log {
+    constructor(private component: string = 'Global') {}
+
+    info(message: any, funcName: string = '') {
+        Log.log('info', message, this.getComponentName(funcName));
     }
 
-    static debug(message: any, component: string) {
-        this.log('debug', message, component);
+    debug(message: any, funcName: string = '') {
+        Log.log('debug', message, this.getComponentName(funcName));
     }
 
-    static error(message: any, component: string) {
-        this.log('error', message, component);
+    error(message: any, funcName: string = '') {
+        Log.log('error', message, this.getComponentName(funcName));
+    }
+
+    private getComponentName(funcName: string) {
+        return `${this.component}${funcName ? '.' + funcName : ''}`;
     }
 
     private static async log(type: LogType, message: any, component: string) {
-        await Log.create({
+        await LogDB.create({
             timestamp: Date.now(),
             message: JSON.stringify(message),
             type,
@@ -196,4 +235,4 @@ const logSchema = new Schema<ILog>({
     },
 });
 
-export const Log = model<ILog>('Log', logSchema);
+export const LogDB = model<ILog>('Log', logSchema);

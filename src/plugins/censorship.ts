@@ -1,8 +1,10 @@
 import type { Message } from 'discord.js';
-import { MessageUtils, Config, incrementStatAndUser, log } from '@helpers';
+import { MessageUtils, incrementStatAndUser, Log, ConfigCache } from '@helpers';
+
+const log = new Log('Censorship');
 
 export async function censor(message: Message) {
-    const censored = await Config.findOne({ key: 'censored' });
+    const censored = await ConfigCache.get('censored');
 
     if (!censored) {
         return false;
@@ -10,7 +12,7 @@ export async function censor(message: Message) {
 
     let hasToBeCensord = false;
     let censoredContent = message.content.replaceAll('\\', '\\ ');
-    const censoredStrings = censored.value as string[];
+    const censoredStrings = censored as string[];
 
     censoredStrings.forEach(string => {
         if (MessageUtils.contains(message, string)) {
@@ -41,15 +43,12 @@ export async function censor(message: Message) {
             await message.delete();
             incrementStatAndUser('times-censored', message.author);
         } else {
-            log.error(
-                `Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`,
-                'Censorship.censor'
-            );
+            log.error(`Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`);
 
             return false;
         }
     } catch (error) {
-        log.error(error, 'Censorship.censor');
+        log.error(error);
     }
 
     return true;

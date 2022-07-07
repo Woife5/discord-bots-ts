@@ -4,7 +4,7 @@ import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
 import { Bibleverse, Catgirl, Luhans, Tarot, Yesno } from './commands/angrier';
 import * as AngryCommands from './commands/angry';
 import { MessageUtils } from './helpers';
-import { init, DateUtils, log } from './helpers';
+import { init, DateUtils, Log } from './helpers';
 import { prefix, version } from './data';
 import {
     Censorship,
@@ -19,6 +19,8 @@ import {
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
 }
+
+let log: Log | undefined;
 
 const client = new Client({
     intents: [
@@ -52,6 +54,7 @@ interactionCommands.set(Yesno.name, Yesno.executeInteraction);
 client.on('ready', async () => {
     console.log('Bot is logged in and ready!');
     await init();
+    log = new Log('AngryBot');
 
     log.info(`Started bot version ${version}`, 'angry-bot.ts');
 
@@ -95,7 +98,7 @@ client.on('interactionCreate', async interaction => {
     try {
         await interactionCommands.get(interaction.commandName)!(interaction);
     } catch (error) {
-        log.error(error, 'interactionCreate');
+        log!.error(error, 'interactionCreate');
         return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
     }
 });
@@ -106,12 +109,12 @@ client.on('messageCreate', async message => {
     const tokenPrefix = '!token ';
     if (message.author.id === process.env.WOLFGANG_ID && MessageUtils.startsWith(message, tokenPrefix)) {
         const token = message.cleanContent.substring(tokenPrefix.length);
-        log.debug(`Got token request from admin: ${token}`, 'angry-bot.ts');
+        log!.debug(`Got token request from admin: ${token}`, 'angry-bot.ts');
 
         if (await GoogleSheetsHandler.setNewToken(token)) {
             message.reply('Token set successfully!');
         } else {
-            log.error('Failed to set token', 'angry-bot.ts');
+            log!.error('Failed to set token', 'angry-bot.ts');
         }
 
         return;
