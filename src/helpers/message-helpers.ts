@@ -10,6 +10,10 @@ export class MessageUtils {
     }
 
     static contains(msg: Message, value: string): boolean {
+        return msg.content.toLowerCase().includes(value.toLowerCase());
+    }
+
+    static cleanContains(msg: Message, value: string): boolean {
         return msg.cleanContent.toLowerCase().includes(value.toLowerCase());
     }
 }

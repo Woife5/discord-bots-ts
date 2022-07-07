@@ -1,4 +1,4 @@
-import { init as initDatabase, User, Stats, Config } from '@helpers';
+import { init as initDatabase, User, Stats, ConfigCache } from '@helpers';
 import dotenv from 'dotenv';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -112,22 +112,23 @@ Stats.create({
     value: angryStats['neekos-requested'],
 });
 
-Config.create({
-    key: 'censored',
-    value: censoredEmoji,
-});
+ConfigCache.set('censored', censoredEmoji);
 
-Config.create({
-    key: 'google-sheets-credentials',
-    value: googleCredentials,
-});
+ConfigCache.set('google-sheets-credentials', googleCredentials);
 
-Config.create({
-    key: 'google-sheets-tokens',
-    value: googleTokens,
-});
+ConfigCache.set('google-sheets-tokens', googleTokens);
 
-Config.create({
-    key: 'feet-related',
-    value: ['🦵', '🦶', '👣', '🐾', 'fuß', 'feet', 'fuss', 'foot', 'füsse', 'füße', 'leg', 'bein'],
-});
+ConfigCache.set('feet-related', [
+    '🦵',
+    '🦶',
+    '👣',
+    '🐾',
+    'fuß',
+    'feet',
+    'fuss',
+    'foot',
+    'füsse',
+    'füße',
+    'leg',
+    'bein',
+]);
