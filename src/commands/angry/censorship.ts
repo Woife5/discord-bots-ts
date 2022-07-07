@@ -1,30 +1,31 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Config } from '@helpers';
+import { ConfigCache } from '@helpers';
 import { prefix } from '@data';
 import { getEmbed } from './censored';
 
 async function updateConfig(subcommand: 'add' | 'remove', value: string) {
-    const config = await Config.findOne({ key: 'censored' }).exec();
+    const config = await ConfigCache.get('censored');
 
+    let newConfig = [];
     if (subcommand === 'add') {
         if (!config) {
-            await Config.create({ key: 'censored', value: [value] });
+            await ConfigCache.set('censored', { value: [value] });
             return;
         }
 
-        if (config.value.includes(value)) {
+        if (config.includes(value)) {
             return;
         }
 
-        config.value = [...config.value, value];
-        await config.save();
+        newConfig = [...config, value];
     }
 
     if (subcommand === 'remove' && config) {
-        config.value = config.value.filter((v: string) => v !== value);
-        await config.save();
+        newConfig = config.filter((v: string) => v !== value);
     }
+
+    await ConfigCache.set('censored', newConfig);
 }
 
 export const name = 'censorship';

@@ -1,17 +1,17 @@
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Config } from '@helpers';
+import { ConfigCache } from '@helpers';
 
 export async function getEmbed() {
-    const config = await Config.findOne({ key: 'censored' }).exec();
+    const config = await ConfigCache.get('censored');
 
     if (!config) {
         return new MessageEmbed().setColor('#d94d26').setTitle('No consored strings found!');
     }
 
     let censored = '';
-    if (config.value.length > 0) {
-        censored = '`' + config.value.join('`, `') + '`';
+    if (config.length > 0) {
+        censored = '`' + config.join('`, `') + '`';
     } else {
         censored = 'None';
     }

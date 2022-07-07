@@ -1,6 +1,8 @@
-import { Config, Stats, log, User } from '@helpers';
+import { ConfigCache, Stats, Log, User } from '@helpers';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
+
+const log = new Log('SheetsHandler');
 
 const { GOOGLE_SHEET_ID } = process.env;
 
@@ -14,15 +16,12 @@ const GOOGLE_SCOPES = [
 ];
 
 async function authorize() {
-    const cred = await Config.findOne({ key: GOOGLE_CREDENTIALS_KEY }).exec();
-    const toke = await Config.findOne({ key: GOOGLE_TOKENS_KEY }).exec();
+    const credentials = await ConfigCache.get(GOOGLE_CREDENTIALS_KEY);
+    const tokens = await ConfigCache.get(GOOGLE_TOKENS_KEY);
 
-    if (!cred?.value || !toke?.value) {
+    if (!credentials || !tokens) {
         throw new Error('No valid credentials found!');
     }
-
-    const credentials = cred.value;
-    const tokens = JSON.parse(toke.value);
 
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
@@ -42,64 +41,60 @@ async function writeData(auth: OAuth2Client, values: (string | number)[][], rang
             requestBody: { values },
         });
 
-        log.info(`Stat-backup complete, updated cells: ${res.data.updates?.updatedRange}`, 'SheetsHandler.writeData');
+        log.info(`Stat-backup complete, updated cells: ${res.data.updates?.updatedRange}`, 'writeData');
     } catch (err) {
-        log.error(err, 'SheetsHandler.writeData');
+        log.error(err, 'writeData');
     }
 }
 
 export async function getTokenUrl() {
     try {
-        log.info('Getting token url', 'SheetsHandler.getTokenUrl');
-        const credentials = await Config.findOne({ key: GOOGLE_CREDENTIALS_KEY }).exec();
+        log.info('Getting token url', 'getTokenUrl');
+        const credentials = await ConfigCache.get(GOOGLE_CREDENTIALS_KEY);
 
-        if (!credentials?.value) {
-            log.error('Could not find google credentials', 'SheetsHandler.getTokenUrl');
+        if (!credentials) {
+            log.error('Could not find google credentials', 'getTokenUrl');
             return;
         }
 
-        log.info('creating Oauth2 client', 'SheetsHandler.getTokenUrl');
-        const { client_secret, client_id, redirect_uris } = credentials.value.installed;
+        log.info('creating Oauth2 client', 'getTokenUrl');
+        const { client_secret, client_id, redirect_uris } = credentials.installed;
         const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
-        log.info('generating url', 'SheetsHandler.getTokenUrl');
+        log.info('generating url', 'getTokenUrl');
         return oAuth2Client.generateAuthUrl({
             access_type: 'offline',
             scope: GOOGLE_SCOPES,
         });
     } catch (err) {
-        log.error(err, 'SheetsHandler.getTokenUrl');
+        log.error(err, 'getTokenUrl');
     }
 }
 
 export async function setNewToken(code: string) {
     try {
-        log.debug('Setting new token', 'SheetsHandler.setNewToken');
+        log.debug('Setting new token', 'setNewToken');
 
-        const credentials = await Config.findOne({ key: GOOGLE_CREDENTIALS_KEY }).exec();
+        const credentials = await ConfigCache.get(GOOGLE_CREDENTIALS_KEY);
 
-        if (!credentials?.value) {
-            log.error('Could not find google credentials', 'SheetsHandler.setNewToken');
+        if (!credentials) {
+            log.error('Could not find google credentials', 'setNewToken');
             return;
         }
 
-        const { client_secret, client_id, redirect_uris } = credentials.value.installed;
+        const { client_secret, client_id, redirect_uris } = credentials.installed;
         const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
         const token = await oAuth2Client.getToken(code);
 
-        log.debug('Token received', 'SheetsHandler.setNewToken');
+        log.debug('Token received', 'setNewToken');
 
         // Store token
-        await Config.updateOne(
-            { key: GOOGLE_TOKENS_KEY },
-            { $set: { value: JSON.stringify(token) } },
-            { upsert: true }
-        ).exec();
+        await ConfigCache.set(GOOGLE_TOKENS_KEY, token);
 
-        log.debug('New Token successfully stored', 'SheetsHandler.setNewToken');
+        log.debug('New Token successfully stored', 'setNewToken');
     } catch (err) {
-        log.error(err, 'SheetsHandler.setNewToken');
+        log.error(err, 'setNewToken');
     }
 
     return true;
@@ -107,7 +102,7 @@ export async function setNewToken(code: string) {
 
 export async function backup() {
     try {
-        log.debug('Starting backup', 'SheetsHandler.backup');
+        log.debug('Starting backup', 'backup');
 
         const auth = await authorize();
 
@@ -133,7 +128,7 @@ export async function backup() {
 
         await writeData(auth, [globalData], 'raw-data!A1');
 
-        log.debug('Backing up tarot data', 'SheetsHandler.backup');
+        log.debug('Backing up tarot data', 'backup');
 
         // BACKUP tarot stats
         const tarotData: (string | number)[] = [];
@@ -141,7 +136,7 @@ export async function backup() {
         const individualTarots = await Stats.findOne({ key: 'individual-tarots-read:any' }).exec();
 
         if (!individualTarots?.anyValue) {
-            log.error("Couldn't find individual tarot stats", 'SheetsHandler.backup');
+            log.error("Couldn't find individual tarot stats", 'backup');
             return; // should never happen
         }
 
@@ -152,7 +147,7 @@ export async function backup() {
 
         await writeData(auth, [tarotData], 'raw-tarot-data!A1');
 
-        log.debug('Backing up user data', 'SheetsHandler.backup');
+        log.debug('Backing up user data', 'backup');
 
         // BACKUP user stats
         const usersData: (string | number)[][] = [];
@@ -181,6 +176,6 @@ export async function backup() {
 
         await writeData(auth, usersData, 'raw-user-data!A1');
     } catch (err) {
-        log.error(err, 'SheetsHandler.backup');
+        log.error(err, 'backup');
     }
 }

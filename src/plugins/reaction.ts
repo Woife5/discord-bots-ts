@@ -1,6 +1,8 @@
 import { Message } from 'discord.js';
 import { customReactions, angryEmojis, angryReactionsAmount } from '@data';
-import { Stats, log } from '@helpers';
+import { Stats, Log } from '@helpers';
+
+const log = new Log('Reaction');
 
 export async function react(message: Message) {
     let angrys = angryReactionsAmount;
@@ -12,7 +14,7 @@ export async function react(message: Message) {
             try {
                 await message.react(reactions[i]);
             } catch (e) {
-                log.error(e, 'Reaction.react');
+                log.error(e);
             }
         }
     } else {
@@ -20,7 +22,7 @@ export async function react(message: Message) {
             try {
                 await message.react(angryEmojis[i]);
             } catch (e) {
-                log.error(e, 'Reaction.react');
+                log.error(e);
             }
         }
     }
