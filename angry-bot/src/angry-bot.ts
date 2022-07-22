@@ -1,7 +1,8 @@
 import { Client, Intents, Collection } from 'discord.js';
 import dotenv from 'dotenv';
-import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
 import {
+    IMessageCommand,
+    ISlashCommand,
     Bibleverse,
     Catgirl,
     Luhans,
@@ -13,9 +14,8 @@ import {
     Censorship as CensorshipCommand,
     Emojicount,
 } from './commands';
-import { MessageUtils } from './helpers';
-import { init, DateUtils, Log } from './helpers';
-import { prefix, version } from './data';
+import { MessageUtils, init, DateUtils, Log } from '@helpers';
+import { prefix, version } from '@data';
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from './plugins';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -83,15 +83,15 @@ client.on('interactionCreate', async interaction => {
     }
 
     try {
-        await interactionCommands.get(interaction.commandName)!(interaction);
+        await interactionCommands.get(interaction.commandName)?.(interaction);
     } catch (error) {
-        log!.error(error, 'interactionCreate');
+        log?.error(error, 'interactionCreate');
         return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
     }
 });
 
 client.on('messageCreate', async message => {
-    if (message.author.id === client.user!.id) return;
+    if (message.author.id === client.user?.id) return;
 
     if (await FeetHandler.handleFeetChannelMessage(message)) {
         return;
@@ -103,12 +103,12 @@ client.on('messageCreate', async message => {
 
         if (messageCommands.has(command)) {
             try {
-                messageCommands.get(command)!(message, args);
+                messageCommands.get(command)?.(message, args);
             } catch (error) {
-                message.reply('An error occured 🥴');
+                await message.reply('An error occured 🥴');
             }
         } else {
-            message.reply(`That is not a command i know of 🥴`);
+            await message.reply(`That is not a command i know of 🥴`);
         }
         return;
     }
@@ -123,9 +123,9 @@ client.on('messageCreate', async message => {
 });
 
 client.on('messageReactionAdd', async (messageReaction, user) => {
-    if (user.id === client.user!.id) return;
+    if (user.id === client.user?.id) return;
 
     await FeetHandler.handleReaction(messageReaction, user);
 });
 
-client.login(process.env.ANGRY1_TOKEN);
+client.login(process.env.ANGRY1_TOKEN).catch(e => console.error(e));

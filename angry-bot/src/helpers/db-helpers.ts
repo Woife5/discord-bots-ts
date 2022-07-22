@@ -182,15 +182,15 @@ type LogType = 'info' | 'error' | 'debug';
 export class Log {
     constructor(private component: string = 'Global') {}
 
-    info(message: any, funcName: string = '') {
+    info(message: any, funcName = '') {
         Log.log('info', message, this.getComponentName(funcName));
     }
 
-    debug(message: any, funcName: string = '') {
+    debug(message: any, funcName = '') {
         Log.log('debug', message, this.getComponentName(funcName));
     }
 
-    error(message: any, funcName: string = '') {
+    error(message: any, funcName = '') {
         Log.log('error', message, this.getComponentName(funcName));
     }
 

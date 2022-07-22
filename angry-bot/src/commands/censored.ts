@@ -16,8 +16,7 @@ export async function getEmbed() {
         censored = 'None';
     }
 
-    const embed = new MessageEmbed().setTitle('Censored Strings:').setDescription(censored);
-    return embed;
+    return new MessageEmbed().setTitle('Censored Strings:').setDescription(censored);
 }
 
 export const name = 'censored';
@@ -27,9 +26,9 @@ export const slashCommandData = new SlashCommandBuilder()
     .setDescription('Find out which emojis are censored.');
 
 export async function executeInteraction(interaction: CommandInteraction) {
-    interaction.reply({ embeds: [await getEmbed()] });
+    await interaction.reply({ embeds: [await getEmbed()] });
 }
 
-export async function executeMessage(message: Message, args: string[]) {
-    message.reply({ embeds: [await getEmbed()] });
+export async function executeMessage(message: Message) {
+    await message.reply({ embeds: [await getEmbed()] });
 }

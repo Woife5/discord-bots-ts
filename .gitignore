@@ -5,3 +5,7 @@ docker-compose.yml
 
 build
 node_modules
+
+# IDE files
+.vscode
+.idea

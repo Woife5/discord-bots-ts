@@ -81,7 +81,7 @@ export function executeInteraction(interaction: CommandInteraction) {
     incrementStatAndUser('mc-luhans', interaction.user);
 }
 
-export function executeMessage(message: Message, args: string[]) {
+export function executeMessage(message: Message) {
     message.channel.send({ embeds: [runCommand()] });
     incrementStatAndUser('mc-luhans', message.author);
 }

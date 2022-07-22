@@ -77,14 +77,14 @@ export async function executeInteraction(interaction: CommandInteraction) {
     embed.setFooter({ text: `🔥 ${streak}` });
 
     if (tarots[result].media) {
-        embed.setImage(tarots[result].media!);
+        embed.setImage(String(tarots[result].media));
     }
 
     await interaction.editReply({ embeds: [embed] });
     incrementStatAndUser('tarots-read', interaction.user);
 }
 
-export async function executeMessage(message: Message, args: string[]) {
+export async function executeMessage(message: Message) {
     if (!(await isTarotAllowed(message.author))) {
         const midnight = new Date();
         midnight.setHours(24, 0, 0, 0);
@@ -111,7 +111,7 @@ export async function executeMessage(message: Message, args: string[]) {
     embed.setFooter({ text: `🔥 ${streak}` });
 
     if (tarots[result].media) {
-        embed.setImage(tarots[result].media!);
+        embed.setImage(String(tarots[result].media));
     }
 
     await wait(2000);

@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
+import { CommandInteraction, Message } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { ConfigCache } from '@helpers';
 import { prefix } from '@data';
@@ -35,21 +35,25 @@ export const slashCommandData = new SlashCommandBuilder()
     .setDescription('Add or remove a censored string.');
 
 export async function executeInteraction(interaction: CommandInteraction) {
-    interaction.reply({ embeds: [await getEmbed()] });
+    await interaction.reply({ embeds: [await getEmbed()] });
 }
 
 export async function executeMessage(message: Message, args: string[]) {
     if (args.length < 2) {
-        message.reply('Please provide two arguments! `add` or `remove` and the string to add or remove.');
+        await message.reply('Please provide two arguments! `add` or `remove` and the string to add or remove.');
         return;
     }
-    const subcommand = args.shift()!.toLowerCase().trim();
-    const censoredString = args.shift()!.toLowerCase().trim();
+    const subcommand = args.shift()?.toLowerCase().trim();
+    const censoredString = args.shift()?.toLowerCase().trim();
+
+    if (!censoredString) {
+        return;
+    }
 
     if (subcommand === 'add' || subcommand === 'remove') {
         await updateConfig(subcommand, censoredString);
-        message.reply({ embeds: [await getEmbed()] });
+        await message.reply({ embeds: [await getEmbed()] });
     } else {
-        message.reply(`Not a valid command. Proper usage would be:\n\`${prefix} censorship <add/remove> string\``);
+        await message.reply(`Not a valid command. Proper usage would be:\n\`${prefix} censorship <add/remove> string\``);
     }
 }
