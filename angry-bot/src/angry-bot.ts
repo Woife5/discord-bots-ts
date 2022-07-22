@@ -1,20 +1,22 @@
 import { Client, Intents, Collection } from 'discord.js';
 import dotenv from 'dotenv';
 import { IMessageCommand, ISlashCommand } from './commands/command-interfaces';
-import { Bibleverse, Catgirl, Luhans, Tarot, Yesno } from './commands/angrier';
-import * as AngryCommands from './commands/angry';
+import {
+    Bibleverse,
+    Catgirl,
+    Luhans,
+    Tarot,
+    Yesno,
+    About,
+    Birthday,
+    Censored,
+    Censorship as CensorshipCommand,
+    Emojicount,
+} from './commands';
 import { MessageUtils } from './helpers';
 import { init, DateUtils, Log } from './helpers';
 import { prefix, version } from './data';
-import {
-    Censorship,
-    Tarotreminder,
-    Emojicounter,
-    Reactor,
-    GoogleSheetsHandler,
-    FeetHandler,
-    MediaHandler,
-} from './plugins';
+import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from './plugins';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -35,9 +37,12 @@ const client = new Client({
 const messageCommands = new Collection<string, IMessageCommand>();
 const interactionCommands = new Collection<string, ISlashCommand>();
 
-Object.values(AngryCommands).forEach(command => {
-    messageCommands.set(command.name, command.executeMessage);
-});
+// Set message commands
+messageCommands.set(About.name, About.executeMessage);
+messageCommands.set(Birthday.name, Birthday.executeMessage);
+messageCommands.set(Censored.name, Censored.executeMessage);
+messageCommands.set(CensorshipCommand.name, CensorshipCommand.executeMessage);
+messageCommands.set(Emojicount.name, Emojicount.executeMessage);
 
 messageCommands.set(Bibleverse.name, Bibleverse.executeMessage);
 messageCommands.set(Catgirl.name, Catgirl.executeMessage);
@@ -45,6 +50,7 @@ messageCommands.set(Luhans.name, Luhans.executeMessage);
 messageCommands.set(Tarot.name, Tarot.executeMessage);
 messageCommands.set(Yesno.name, Yesno.executeMessage);
 
+// Set interaction commands
 interactionCommands.set(Bibleverse.name, Bibleverse.executeInteraction);
 interactionCommands.set(Catgirl.name, Catgirl.executeInteraction);
 interactionCommands.set(Luhans.name, Luhans.executeInteraction);
@@ -67,25 +73,6 @@ client.on('ready', async () => {
 
         Tarotreminder.remind(client);
     }, tarotReminder.getTime() - Date.now());
-
-    // Setup google sheets handler to backup every day at midnight
-    const googleSheetsHandler = DateUtils.getNextTime(0);
-    setTimeout(() => {
-        setInterval(() => {
-            GoogleSheetsHandler.backup();
-        }, 24 * 60 * 60 * 1000);
-
-        GoogleSheetsHandler.backup();
-    }, googleSheetsHandler.getTime() - Date.now());
-
-    // Setup google sheets handler to send token reminders every 5th day at 19:00
-    const wolfgang = await client.users.fetch(process.env.WOLFGANG_ID!);
-    const googleSheetsHandlerToken = DateUtils.getNextTime(19);
-    setTimeout(() => {
-        setInterval(async () => {
-            await wolfgang.send(`I will soon reqire a new google token: ${await GoogleSheetsHandler.getTokenUrl()}`);
-        }, 5 * 24 * 60 * 60 * 1000);
-    }, googleSheetsHandlerToken.getTime() - Date.now());
 });
 
 client.on('interactionCreate', async interaction => {
@@ -105,20 +92,6 @@ client.on('interactionCreate', async interaction => {
 
 client.on('messageCreate', async message => {
     if (message.author.id === client.user!.id) return;
-
-    const tokenPrefix = '!token ';
-    if (message.author.id === process.env.WOLFGANG_ID && MessageUtils.startsWith(message, tokenPrefix)) {
-        const token = message.cleanContent.substring(tokenPrefix.length);
-        log!.debug(`Got token request from admin: ${token}`, 'angry-bot.ts');
-
-        if (await GoogleSheetsHandler.setNewToken(token)) {
-            message.reply('Token set successfully!');
-        } else {
-            log!.error('Failed to set token', 'angry-bot.ts');
-        }
-
-        return;
-    }
 
     if (await FeetHandler.handleFeetChannelMessage(message)) {
         return;
