@@ -1,4 +1,4 @@
-name: Lint Angry Bot
+name: Angry Bot
 
 on:
     pull_request:
@@ -17,7 +17,7 @@ defaults:
         working-directory: angry-bot
 
 jobs:
-    Tests:
+    Lint:
         runs-on: ubuntu-latest
 
         steps:
