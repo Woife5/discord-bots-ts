@@ -1,5 +1,5 @@
-import { Client, Intents, Collection } from 'discord.js';
-import dotenv from 'dotenv';
+import { Client, Intents, Collection } from "discord.js";
+import dotenv from "dotenv";
 import {
     IMessageCommand,
     ISlashCommand,
@@ -13,12 +13,12 @@ import {
     Censored,
     Censorship as CensorshipCommand,
     Emojicount,
-} from './commands';
-import { MessageUtils, init, DateUtils, Log } from '@helpers';
-import { prefix, version } from '@data';
-import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from './plugins';
+} from "./commands";
+import { MessageUtils, init, DateUtils, Log } from "@helpers";
+import { prefix, version } from "@data";
+import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
 
@@ -57,12 +57,12 @@ interactionCommands.set(Luhans.name, Luhans.executeInteraction);
 interactionCommands.set(Tarot.name, Tarot.executeInteraction);
 interactionCommands.set(Yesno.name, Yesno.executeInteraction);
 
-client.on('ready', async () => {
-    console.log('Bot is logged in and ready!');
+client.on("ready", async () => {
+    console.log("Bot is logged in and ready!");
     await init();
-    log = new Log('AngryBot');
+    log = new Log("AngryBot");
 
-    log.info(`Started bot version ${version}`, 'angry-bot.ts');
+    log.info(`Started bot version ${version}`, "angry-bot.ts");
 
     // Set Tarotreminder to run every day at 19:00
     const tarotReminder = DateUtils.getNextTime(19);
@@ -75,7 +75,7 @@ client.on('ready', async () => {
     }, tarotReminder.getTime() - Date.now());
 });
 
-client.on('interactionCreate', async interaction => {
+client.on("interactionCreate", async interaction => {
     if (!interaction.isCommand()) return;
 
     if (!interactionCommands.has(interaction.commandName)) {
@@ -85,12 +85,12 @@ client.on('interactionCreate', async interaction => {
     try {
         await interactionCommands.get(interaction.commandName)?.(interaction);
     } catch (error) {
-        log?.error(error, 'interactionCreate');
-        return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+        log?.error(error, "interactionCreate");
+        return interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
     }
 });
 
-client.on('messageCreate', async message => {
+client.on("messageCreate", async message => {
     if (message.author.id === client.user?.id) return;
 
     if (await FeetHandler.handleFeetChannelMessage(message)) {
@@ -99,16 +99,16 @@ client.on('messageCreate', async message => {
 
     if (MessageUtils.startsWith(message, prefix)) {
         const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
-        const command = args.shift()?.toLowerCase() ?? 'about';
+        const command = args.shift()?.toLowerCase() ?? "about";
 
         if (messageCommands.has(command)) {
             try {
                 messageCommands.get(command)?.(message, args);
             } catch (error) {
-                await message.reply('An error occured 🥴');
+                await message.reply("An error occured 🥴");
             }
         } else {
-            await message.reply(`That is not a command i know of 🥴`);
+            await message.reply("That is not a command i know of 🥴");
         }
         return;
     }
@@ -122,7 +122,7 @@ client.on('messageCreate', async message => {
     await Reactor.react(message);
 });
 
-client.on('messageReactionAdd', async (messageReaction, user) => {
+client.on("messageReactionAdd", async (messageReaction, user) => {
     if (user.id === client.user?.id) return;
 
     await FeetHandler.handleReaction(messageReaction, user);

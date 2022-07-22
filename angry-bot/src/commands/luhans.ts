@@ -1,12 +1,12 @@
-import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { medienDispositive, geschmacksliste, funStuff, names } from '@data';
-import { incrementStatAndUser, NumberUtils } from '@helpers';
+import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { medienDispositive, geschmacksliste, funStuff, names } from "@data";
+import { incrementStatAndUser, NumberUtils } from "@helpers";
 
-const medienKlausur = new Date('2021-07-02T11:00:00');
+const medienKlausur = new Date("2021-07-02T11:00:00");
 
 function runCommand() {
-    const embed = new MessageEmbed().setColor('DARK_VIVID_PINK');
+    const embed = new MessageEmbed().setColor("DARK_VIVID_PINK");
 
     switch (NumberUtils.getRandomInt(0, 2)) {
         // Case to get fun stuff
@@ -25,13 +25,13 @@ function runCommand() {
             const sSinceKlausur = Math.floor(msSinceKlausur / 1000);
 
             // No need to calculate dayText since it has been days when this code was created!
-            const secondText = sSinceKlausur > 1 ? 'Sekunden' : 'Sekunde';
-            const minuteText = mSinceKlausur > 1 ? 'Minuten' : 'Minute';
-            const hourText = hSinceKlausur > 1 ? 'Stunden' : 'Stunde';
+            const secondText = sSinceKlausur > 1 ? "Sekunden" : "Sekunde";
+            const minuteText = mSinceKlausur > 1 ? "Minuten" : "Minute";
+            const hourText = hSinceKlausur > 1 ? "Stunden" : "Stunde";
 
             embed
                 .addField(
-                    'McKlausur',
+                    "McKlausur",
                     `Sei glücklich, es sind bereits ${dSinceKlausur} Tage ${hSinceKlausur} ${hourText} ${mSinceKlausur} ${minuteText} und ${sSinceKlausur} ${secondText} sind seit der Medientheorie Klausur mit ${
                         names[NumberUtils.getRandomInt(0, names.length - 1)]
                     } vergangen!\nEine rachsüchtige Erinnerung - ich hoffe, sie macht dich wütend.`
@@ -55,13 +55,13 @@ function runCommand() {
         // Good to know when this exam ended
         case 2: {
             let text = funStuff[NumberUtils.getRandomInt(0, funStuff.length - 1)];
-            text = text.replaceAll('<name>', names[NumberUtils.getRandomInt(0, names.length - 1)]);
+            text = text.replaceAll("<name>", names[NumberUtils.getRandomInt(0, names.length - 1)]);
             text = text.replaceAll(
-                '<geschmack>',
+                "<geschmack>",
                 geschmacksliste[NumberUtils.getRandomInt(0, geschmacksliste.length - 1)]
             );
             text = text.replaceAll(
-                '<dispositiv>',
+                "<dispositiv>",
                 medienDispositive[NumberUtils.getRandomInt(0, medienDispositive.length - 1)]
             );
             embed.setDescription(text);
@@ -72,16 +72,16 @@ function runCommand() {
     return embed;
 }
 
-export const name = 'luhans';
+export const name = "luhans";
 
-export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription('Get McLuhans current wisdom.');
+export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription("Get McLuhans current wisdom.");
 
 export function executeInteraction(interaction: CommandInteraction) {
     interaction.reply({ embeds: [runCommand()] });
-    incrementStatAndUser('mc-luhans', interaction.user);
+    incrementStatAndUser("mc-luhans", interaction.user);
 }
 
 export function executeMessage(message: Message) {
     message.channel.send({ embeds: [runCommand()] });
-    incrementStatAndUser('mc-luhans', message.author);
+    incrementStatAndUser("mc-luhans", message.author);
 }

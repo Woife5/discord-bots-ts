@@ -1,24 +1,24 @@
-import type { Message } from 'discord.js';
-import { MessageUtils, incrementStatAndUser, Log, ConfigCache } from '@helpers';
+import type { Message } from "discord.js";
+import { MessageUtils, incrementStatAndUser, Log, ConfigCache } from "@helpers";
 
-const log = new Log('Censorship');
+const log = new Log("Censorship");
 
 export async function censor(message: Message) {
-    const censored = await ConfigCache.get('censored');
+    const censored = await ConfigCache.get("censored");
 
     if (!censored) {
         return false;
     }
 
     let hasToBeCensord = false;
-    let censoredContent = message.content.replaceAll('\\', '\\ ');
+    let censoredContent = message.content.replaceAll("\\", "\\ ");
     const censoredStrings = censored as string[];
 
     censoredStrings.forEach(string => {
         if (MessageUtils.contains(message, string)) {
             hasToBeCensord = true;
-            const regex = new RegExp(string, 'ig');
-            censoredContent = censoredContent.replace(regex, '`CENSORED` ');
+            const regex = new RegExp(string, "ig");
+            censoredContent = censoredContent.replace(regex, "`CENSORED` ");
         }
     });
 
@@ -27,7 +27,7 @@ export async function censor(message: Message) {
     }
 
     if (censoredContent.length >= 1940) {
-        const cutAt = censoredContent.indexOf(' ', 1850);
+        const cutAt = censoredContent.indexOf(" ", 1850);
         if (cutAt < 0 || cutAt > 1950) {
             censoredContent = censoredContent.substring(0, 1950);
         } else {
@@ -41,7 +41,7 @@ export async function censor(message: Message) {
         if (message.deletable) {
             await message.channel.send(censoredContent);
             await message.delete();
-            incrementStatAndUser('times-censored', message.author);
+            await incrementStatAndUser("times-censored", message.author);
         } else {
             log.error(`Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`);
 

@@ -1,8 +1,8 @@
-import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { tarots, angryEmojis as angrys } from '@data';
-import { User, DateUtils, createUser, incrementStatAndUser } from '@helpers';
-import { promisify } from 'util';
+import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { tarots, angryEmojis as angrys } from "@data";
+import { User, DateUtils, createUser, incrementStatAndUser } from "@helpers";
+import { promisify } from "util";
 const wait = promisify(setTimeout);
 
 async function isTarotAllowed(user: DiscordUser): Promise<boolean> {
@@ -12,11 +12,7 @@ async function isTarotAllowed(user: DiscordUser): Promise<boolean> {
         return true;
     }
 
-    if (DateUtils.isToday(userData.lastTarot)) {
-        return false;
-    }
-
-    return true;
+    return !DateUtils.isToday(userData.lastTarot);
 }
 
 async function updateUserAndGetStreak(user: DiscordUser, tarot: number): Promise<number> {
@@ -39,9 +35,9 @@ async function updateUserAndGetStreak(user: DiscordUser, tarot: number): Promise
     return userData.tarotStreak;
 }
 
-export const name = 'tarot';
+export const name = "tarot";
 
-export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription('Get your daily tarot card');
+export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription("Get your daily tarot card");
 
 export async function executeInteraction(interaction: CommandInteraction) {
     if (!(await isTarotAllowed(interaction.user))) {
@@ -49,16 +45,16 @@ export async function executeInteraction(interaction: CommandInteraction) {
         midnight.setHours(24, 0, 0, 0);
         const timeLeft = midnight.getTime() - Date.now();
 
-        interaction.reply({
+        await interaction.reply({
             content: `You can't use this command for another ${timeLeft / (1000 * 60)} minutes!`,
             ephemeral: true,
         });
         return;
     }
 
-    const embed = new MessageEmbed().setColor('DARK_RED').setFields({
-        name: 'Angry Tarot',
-        value: 'Let me sense your angry',
+    const embed = new MessageEmbed().setColor("DARK_RED").setFields({
+        name: "Angry Tarot",
+        value: "Let me sense your angry",
         inline: false,
     });
 
@@ -67,13 +63,13 @@ export async function executeInteraction(interaction: CommandInteraction) {
 
     await interaction.reply({ embeds: [embed] });
     for (let i = 0; i < 6; i++) {
-        embed.fields[0].value += '.';
+        embed.fields[0].value += ".";
         await interaction.editReply({ embeds: [embed] });
         await wait(500);
     }
 
     embed.fields[0].value = `Your angry today is :angry${result + 1}: ${angrys[result]}`;
-    embed.addField('Die Weißheit des angrys besagt:', tarots[result].text);
+    embed.addField("Die Weißheit des angrys besagt:", tarots[result].text);
     embed.setFooter({ text: `🔥 ${streak}` });
 
     if (tarots[result].media) {
@@ -81,7 +77,7 @@ export async function executeInteraction(interaction: CommandInteraction) {
     }
 
     await interaction.editReply({ embeds: [embed] });
-    incrementStatAndUser('tarots-read', interaction.user);
+    incrementStatAndUser("tarots-read", interaction.user);
 }
 
 export async function executeMessage(message: Message) {
@@ -96,10 +92,10 @@ export async function executeMessage(message: Message) {
         return;
     }
 
-    message.reply('Let me sense your angry...');
-    const embed = new MessageEmbed().setColor('DARK_RED').setFields({
-        name: 'Angry Tarot',
-        value: 'Let me sense your angry',
+    message.reply("Let me sense your angry...");
+    const embed = new MessageEmbed().setColor("DARK_RED").setFields({
+        name: "Angry Tarot",
+        value: "Let me sense your angry",
         inline: false,
     });
 
@@ -107,7 +103,7 @@ export async function executeMessage(message: Message) {
     const streak = await updateUserAndGetStreak(message.author, result);
 
     embed.fields[0].value = `Your angry today is :angry${result + 1}: ${angrys[result]}`;
-    embed.addField('Die Weißheit des angrys besagt:', tarots[result].text);
+    embed.addField("Die Weißheit des angrys besagt:", tarots[result].text);
     embed.setFooter({ text: `🔥 ${streak}` });
 
     if (tarots[result].media) {
@@ -117,5 +113,5 @@ export async function executeMessage(message: Message) {
     await wait(2000);
 
     await message.reply({ embeds: [embed] });
-    incrementStatAndUser('tarots-read', message.author);
+    incrementStatAndUser("tarots-read", message.author);
 }

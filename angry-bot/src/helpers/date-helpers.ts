@@ -1,6 +1,6 @@
 export class DateUtils {
     static isBeforeYesterdayMidnight(date: Date | string): boolean {
-        if (typeof date === 'string') {
+        if (typeof date === "string") {
             date = new Date(date);
         }
 
@@ -12,7 +12,7 @@ export class DateUtils {
     }
 
     static isToday(date: Date | string): boolean {
-        if (typeof date === 'string') {
+        if (typeof date === "string") {
             date = new Date(date);
         }
 
@@ -23,7 +23,7 @@ export class DateUtils {
     }
 
     static daysUntil(date: Date | string): number {
-        if (typeof date === 'string') {
+        if (typeof date === "string") {
             date = new Date(date);
         }
 

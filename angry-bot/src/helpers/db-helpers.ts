@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import { User as DiscordUser } from 'discord.js';
+import mongoose from "mongoose";
+import { User as DiscordUser } from "discord.js";
 const { Schema, connect, model } = mongoose;
 
 export async function init() {
     if (!process.env.MONGO_URI) {
-        throw new Error('MONGO_URI is not defined.');
+        throw new Error("MONGO_URI is not defined.");
     }
 
     const uri = process.env.MONGO_URI;
@@ -72,13 +72,13 @@ const userSchema = new Schema<IUser>({
     },
 });
 
-export const User = model<IUser>('User', userSchema);
+export const User = model<IUser>("User", userSchema);
 
 // --------------------------------------------------------
 // CONFIG SCHEMA
 // --------------------------------------------------------
 
-type ConfigKeys = 'censored' | 'google-sheets-credentials' | 'google-sheets-tokens' | 'feet-related';
+type ConfigKeys = "censored" | "google-sheets-credentials" | "google-sheets-tokens" | "feet-related";
 
 export interface IConfig {
     key: ConfigKeys;
@@ -98,7 +98,7 @@ const configSchema = new Schema<IConfig>({
     },
 });
 
-const ConfigDB = model<IConfig>('Config', configSchema);
+const ConfigDB = model<IConfig>("Config", configSchema);
 
 type Cache = {
     [key: string]: {
@@ -138,15 +138,15 @@ export class ConfigCache {
 // --------------------------------------------------------
 
 export type StatKeys =
-    | 'angry-reactions'
-    | 'tarots-read'
-    | 'individual-tarots-read:any'
-    | 'total-angry-emojis-sent'
-    | 'times-censored'
-    | 'yesno-questions'
-    | 'mc-luhans'
-    | 'catgirls-requested'
-    | 'bibleverses-requested';
+    | "angry-reactions"
+    | "tarots-read"
+    | "individual-tarots-read:any"
+    | "total-angry-emojis-sent"
+    | "times-censored"
+    | "yesno-questions"
+    | "mc-luhans"
+    | "catgirls-requested"
+    | "bibleverses-requested";
 
 export interface IStats {
     key: StatKeys;
@@ -171,31 +171,31 @@ const statsSchema = new Schema<IStats>({
     },
 });
 
-export const Stats = model<IStats>('Stats', statsSchema);
+export const Stats = model<IStats>("Stats", statsSchema);
 
 // --------------------------------------------------------
 // LOG SCHEMA
 // --------------------------------------------------------
 
-type LogType = 'info' | 'error' | 'debug';
+type LogType = "info" | "error" | "debug";
 
 export class Log {
-    constructor(private component: string = 'Global') {}
+    constructor(private component: string = "Global") {}
 
-    info(message: any, funcName = '') {
-        Log.log('info', message, this.getComponentName(funcName));
+    info(message: any, funcName = "") {
+        Log.log("info", message, this.getComponentName(funcName));
     }
 
-    debug(message: any, funcName = '') {
-        Log.log('debug', message, this.getComponentName(funcName));
+    debug(message: any, funcName = "") {
+        Log.log("debug", message, this.getComponentName(funcName));
     }
 
-    error(message: any, funcName = '') {
-        Log.log('error', message, this.getComponentName(funcName));
+    error(message: any, funcName = "") {
+        Log.log("error", message, this.getComponentName(funcName));
     }
 
     private getComponentName(funcName: string) {
-        return `${this.component}${funcName ? '.' + funcName : ''}`;
+        return `${this.component}${funcName ? "." + funcName : ""}`;
     }
 
     private static async log(type: LogType, message: any, component: string) {
@@ -231,8 +231,8 @@ const logSchema = new Schema<ILog>({
     type: {
         type: String,
         required: true,
-        enum: ['info', 'error', 'debug'],
+        enum: ["info", "error", "debug"],
     },
 });
 
-export const LogDB = model<ILog>('Log', logSchema);
+export const LogDB = model<ILog>("Log", logSchema);

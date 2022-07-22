@@ -1,8 +1,8 @@
-import { Client } from 'discord.js';
-import { User, NumberUtils, Log } from '@helpers';
-import { tarotReminders } from '@data';
+import { Client } from "discord.js";
+import { User, NumberUtils, Log } from "@helpers";
+import { tarotReminders } from "@data";
 
-const log = new Log('TarotReminder');
+const log = new Log("TarotReminder");
 
 export async function remind(client: Client) {
     const users = await User.find({
@@ -17,7 +17,7 @@ export async function remind(client: Client) {
     for (const user of users) {
         try {
             const member = await client.users.fetch(user.userId);
-            member.send(tarotReminders[NumberUtils.getRandomInt(0, tarotReminders.length - 1)]);
+            await member.send(tarotReminders[NumberUtils.getRandomInt(0, tarotReminders.length - 1)]);
         } catch (err) {
             log.error(err);
         }

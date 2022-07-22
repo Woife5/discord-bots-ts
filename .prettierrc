@@ -4,7 +4,7 @@
     "tabWidth": 4,
     "useTabs": false,
     "semi": true,
-    "singleQuote": true,
+    "singleQuote": false,
     "quoteProps": "as-needed",
     "bracketSpacing": true,
     "arrowParens": "avoid"

@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message } from "discord.js";
 
 export class MessageUtils {
     static compareTo(msg: Message, value: string): boolean {

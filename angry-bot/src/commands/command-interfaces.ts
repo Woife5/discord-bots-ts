@@ -1,4 +1,4 @@
-import { CommandInteraction, Message } from 'discord.js';
+import { CommandInteraction, Message } from "discord.js";
 
 export interface IBookNames {
     [key: string]: number;
@@ -18,12 +18,12 @@ export interface IBibleChapter {
 }
 
 export interface IBibleBook {
-    translation: 'Elberfelder (1871)';
-    abbreviation: 'elberfelder';
-    lang: 'de';
-    language: 'German';
-    direction: 'LTR';
-    encoding: 'UTF-8';
+    translation: "Elberfelder (1871)";
+    abbreviation: "elberfelder";
+    lang: "de";
+    language: "German";
+    direction: "LTR";
+    encoding: "UTF-8";
     nr: number;
     name: string;
     chapters: IBibleChapter[];
@@ -35,7 +35,7 @@ export interface ITarot {
 }
 
 export interface IYesNo {
-    answer: 'yes' | 'no' | 'maybe';
+    answer: "yes" | "no" | "maybe";
     forced: boolean;
     image: string;
 }
