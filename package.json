@@ -1,32 +1,8 @@
 {
-    "name": "discord-bots-ts",
-    "version": "2.0.0",
-    "description": "A collection of discord bots written in TypeScript",
     "type": "module",
-    "main": "./build/index.js",
-    "scripts": {
-        "build:angry1": "esbuild ./src/angry-bot.ts --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "build:angry2": "esbuild ./src/angrier-bot.ts --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "build:migration": "esbuild ./src/migrations/migration-to-db.ts --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "build:commands": "esbuild ./src/migrations/register-commands.ts --minify --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "build:dev:angry1": "esbuild ./src/angry-bot.ts --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "build:dev:angry2": "esbuild ./src/angrier-bot.ts --bundle --outdir=./build --platform=node --target=node16 --format=esm --external:./node_modules/*",
-        "angry1": "npm run build:dev:angry1 && node ./build/angry-bot.js",
-        "angry2": "npm run build:dev:angry2 && node ./build/angrier-bot.js",
-        "migration": "npm run build:migration && node ./build/migration-to-db.js",
-        "build:all": "npm run build:angry1 && npm run build:angry2"
-    },
-    "author": "Wolfgang Schwendtbauer",
-    "devDependencies": {
-        "esbuild": "^0.14.41"
-    },
-    "dependencies": {
-        "@discordjs/rest": "^0.5.0",
-        "discord-api-types": "^0.33.5",
-        "discord.js": "^13.7.0",
-        "dotenv": "^16.0.1",
-        "googleapis": "^100.0.0",
-        "mongoose": "^6.3.4",
-        "node-fetch": "^3.2.4"
-    }
+    "private": true,
+    "workspaces": [
+        "angry-bot",
+        "angrier-bot"
+    ]
 }

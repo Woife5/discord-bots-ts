@@ -1,0 +1,28 @@
+name: Angry Bot
+
+on:
+    pull_request:
+        branches:
+            - master
+        paths:
+            - "angry-bot/**"
+    push:
+        branches:
+            - master
+        paths:
+            - "angry-bot/**"
+
+defaults:
+    run:
+        working-directory: angry-bot
+
+jobs:
+    Lint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install dependencies
+              run: yarn
+            - name: Run linting
+              run: yarn lint
