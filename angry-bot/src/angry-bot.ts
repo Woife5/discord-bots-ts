@@ -24,6 +24,19 @@ if (process.env.NODE_ENV !== "production") {
 
 let log: Log | undefined;
 
+// Handle all uncaught exceptions
+process.on("uncaughtException", err => {
+    log?.error(err, "uncaughtException");
+    console.error(err);
+    process.exit(1);
+});
+
+process.on("unhandledRejection", err => {
+    log?.error(err, "unhandledRejection");
+    console.error(err);
+    process.exit(1);
+});
+
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
