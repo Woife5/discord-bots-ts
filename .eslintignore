@@ -1,0 +1,8 @@
+# Generated files
+build
+node_modules
+yarn.lock
+package.json
+
+# Ignore all JavaScript files
+*.js

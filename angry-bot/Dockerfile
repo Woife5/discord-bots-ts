@@ -2,10 +2,11 @@ FROM node:16-alpine
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
+COPY yarn.lock ./
 
-RUN npm ci --only=production
+RUN yarn install --production=true --frozen-lockfile
 
 COPY . .
 
-CMD [ "node", "./angry-bot" ]
+CMD [ "node", "./build/angry-bot" ]
