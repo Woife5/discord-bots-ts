@@ -1,8 +1,11 @@
-.env
 docker-compose.yml
 
+# Hidden files
 .DS_Store
+Thumbs.db
+.env
 
+# Compiled files
 build
 node_modules
 
