@@ -1,44 +1,44 @@
 import { ratingEmojis } from "@data";
-import { ConfigCache, NumberUtils } from "@helpers";
+import { ConfigCache, NumberUtils, PluginReturnCode } from "@helpers";
 import { Message, MessageReaction, PartialMessage, PartialMessageReaction, PartialUser, User } from "discord.js";
 
-// Function return false if the message is not in the feet channel
-// and therefore not applicable to this handler.
-
-export async function handleFeetChannelMessage(message: Message) {
+export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
     if (!isInFeetChannel(message)) {
-        return false;
+        return "CONTINUE";
     }
 
     if (message.attachments.size > 0) {
         await message.react("✅");
         await message.react("❎");
-        return true;
+        return "ABORT";
     }
 
     if (!(await isFeetRelated(message.cleanContent))) {
         await message.delete();
     }
 
-    return true;
+    return "DELETED";
 }
 
-export async function handleReaction(reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) {
+export async function handleReaction(
+    reaction: MessageReaction | PartialMessageReaction,
+    user: User | PartialUser
+): Promise<PluginReturnCode> {
     if (!isInFeetChannel(reaction.message)) {
-        return false;
+        return "CONTINUE";
     }
 
     const guild = reaction.message.guild;
 
     if (!guild) {
-        return false;
+        return "CONTINUE";
     }
 
     const member = await guild.members.fetch(user.id);
 
     const adminId = "824234599936557097";
     if (!member.roles.cache.has(adminId)) {
-        return false;
+        return "CONTINUE";
     }
 
     if (reaction.emoji.name === "✅") {
@@ -53,14 +53,14 @@ export async function handleReaction(reaction: MessageReaction | PartialMessageR
         await reaction.message.react("🦶");
         await reaction.message.react(ratingEmoji);
 
-        return true;
+        return "ABORT";
     }
 
     if (reaction.emoji.name === "❎") {
         await reaction.message.delete();
     }
 
-    return true;
+    return "DELETED";
 }
 
 function isInFeetChannel(message: Message | PartialMessage) {

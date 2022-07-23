@@ -1,29 +1,29 @@
 import type { Message } from "discord.js";
-import { MessageUtils, incrementStatAndUser, Log, ConfigCache } from "@helpers";
+import { MessageUtils, incrementStatAndUser, Log, ConfigCache, PluginReturnCode } from "@helpers";
 
 const log = new Log("Censorship");
 
-export async function censor(message: Message) {
+export async function censor(message: Message): Promise<PluginReturnCode> {
     const censored = await ConfigCache.get("censored");
 
     if (!censored) {
-        return false;
+        return "CONTINUE";
     }
 
-    let hasToBeCensord = false;
+    let hasToBeCensored = false;
     let censoredContent = message.content.replaceAll("\\", "\\ ");
     const censoredStrings = censored as string[];
 
     censoredStrings.forEach(string => {
         if (MessageUtils.contains(message, string)) {
-            hasToBeCensord = true;
+            hasToBeCensored = true;
             const regex = new RegExp(string, "ig");
             censoredContent = censoredContent.replace(regex, "`CENSORED` ");
         }
     });
 
-    if (!hasToBeCensord) {
-        return false;
+    if (!hasToBeCensored) {
+        return "CONTINUE";
     }
 
     if (censoredContent.length >= 1940) {
@@ -45,11 +45,11 @@ export async function censor(message: Message) {
         } else {
             log.error(`Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`);
 
-            return false;
+            return "CONTINUE";
         }
     } catch (error) {
         log.error(error);
     }
 
-    return true;
+    return "DELETED";
 }

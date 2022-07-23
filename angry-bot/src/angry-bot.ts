@@ -1,4 +1,4 @@
-import { Client, Intents, Collection } from "discord.js";
+import { Client, Intents, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
 import {
     IMessageCommand,
@@ -14,7 +14,7 @@ import {
     Censorship as CensorshipCommand,
     Emojicount,
 } from "./commands";
-import { MessageUtils, init, DateUtils, Log } from "@helpers";
+import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode } from "@helpers";
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
 
@@ -103,13 +103,7 @@ client.on("interactionCreate", async interaction => {
     }
 });
 
-client.on("messageCreate", async message => {
-    if (message.author.id === client.user?.id) return;
-
-    if (await FeetHandler.handleFeetChannelMessage(message)) {
-        return;
-    }
-
+const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
     if (MessageUtils.startsWith(message, prefix)) {
         const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
         const command = args.shift()?.toLowerCase() ?? "about";
@@ -123,16 +117,29 @@ client.on("messageCreate", async message => {
         } else {
             await message.reply("That is not a command i know of 🥴");
         }
-        return;
+        return "ABORT";
     }
 
-    if (await Censorship.censor(message)) {
-        return;
-    }
+    return "CONTINUE";
+};
 
-    await Emojicounter.count(message);
-    await MediaHandler.react(message);
-    await Reactor.react(message);
+const isApplicable = async (message: Message): Promise<PluginReturnCode> => {
+    if (message.author.id === client.user?.id || message.author.bot) {
+        return "ABORT";
+    }
+    return "CONTINUE";
+};
+
+client.on("messageCreate", async message => {
+    const msg = new MessageWrapper(message);
+    await msg.applyPlugin(isApplicable);
+
+    await msg.applyPlugin(FeetHandler.handleFeetChannelMessage);
+    await msg.applyPlugin(handleCommands);
+    await msg.applyPlugin(Censorship.censor);
+    await msg.applyPlugin(Emojicounter.count);
+    await msg.applyPlugin(MediaHandler.react);
+    await msg.applyPlugin(Reactor.react);
 });
 
 client.on("messageReactionAdd", async (messageReaction, user) => {

@@ -1,10 +1,10 @@
 import { Message } from "discord.js";
 import { customReactions, angryEmojis, angryReactionsAmount } from "@data";
-import { Stats, Log } from "@helpers";
+import { Stats, Log, PluginReturnCode } from "@helpers";
 
 const log = new Log("Reaction");
 
-export async function react(message: Message) {
+export async function react(message: Message): Promise<PluginReturnCode> {
     let angrys = angryReactionsAmount;
     if (message.author.id in customReactions) {
         const reactions = customReactions[message.author.id].reactions;
@@ -32,4 +32,6 @@ export async function react(message: Message) {
         { $inc: { value: angrys } },
         { upsert: true, new: true }
     ).exec();
+
+    return "CONTINUE";
 }

@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
-import { User, Stats } from "@helpers";
+import { User, Stats, PluginReturnCode } from "@helpers";
 
-export async function count(message: Message) {
+export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
     const regex = new RegExp("<:angry([0-9]{1,3}):[0-9]+>", "g");
     const matches = Array.from(message.cleanContent.matchAll(regex), m => m[1]);
@@ -26,4 +26,6 @@ export async function count(message: Message) {
             { upsert: true, new: true }
         ).exec();
     }
+
+    return "CONTINUE";
 }
