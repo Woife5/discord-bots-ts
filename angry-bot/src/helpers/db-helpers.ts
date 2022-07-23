@@ -151,7 +151,7 @@ export type StatKeys =
 export interface IStats {
     key: StatKeys;
     value: number;
-    anyValue?: any;
+    anyValue?: unknown;
 }
 
 const statsSchema = new Schema<IStats>({
@@ -182,15 +182,15 @@ type LogType = "info" | "error" | "debug";
 export class Log {
     constructor(private component: string = "Global") {}
 
-    info(message: any, funcName = "") {
+    info(message: unknown, funcName = "") {
         Log.log("info", message, this.getComponentName(funcName));
     }
 
-    debug(message: any, funcName = "") {
+    debug(message: unknown, funcName = "") {
         Log.log("debug", message, this.getComponentName(funcName));
     }
 
-    error(message: any, funcName = "") {
+    error(message: unknown, funcName = "") {
         Log.log("error", message, this.getComponentName(funcName));
     }
 
@@ -198,7 +198,7 @@ export class Log {
         return `${this.component}${funcName ? "." + funcName : ""}`;
     }
 
-    private static async log(type: LogType, message: any, component: string) {
+    private static async log(type: LogType, message: unknown, component: string) {
         await LogDB.create({
             timestamp: Date.now(),
             message: JSON.stringify(message),
