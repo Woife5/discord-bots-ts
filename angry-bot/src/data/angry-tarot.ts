@@ -113,10 +113,10 @@ export const tarots: ITarot[] = [
         text: ":angry38: ist das Angry der Kulinarik. Sterneköche aller Welt vertrauen auf die Energie dieses Emotes. Heute ist ein guter Tag für dich, um Fertig-Ramen mit Banane zu probieren.",
     },
     {
-        text: "\"Steuerhinterziehung ist KEIN Kavaliersdelikt, Steuerhinterziehung ist Betrug an der Allgemeinheit und an jedem\\*r Steuerehrlichen\"\n- :angry39:\nHeute ist Zeit, um sich über Steuerhinterziehung zu ärgern!",
+        text: '"Steuerhinterziehung ist KEIN Kavaliersdelikt, Steuerhinterziehung ist Betrug an der Allgemeinheit und an jedem\\*r Steuerehrlichen"\n- :angry39:\nHeute ist Zeit, um sich über Steuerhinterziehung zu ärgern!',
     },
     {
-        text: "\":angry40: ist mein Lieblingsangry. Deshalb ist es auch dein Lieblingsangry!\" - Adam Sandler",
+        text: '":angry40: ist mein Lieblingsangry. Deshalb ist es auch dein Lieblingsangry!" - Adam Sandler',
     },
     {
         text: "Die Angry der Selbstständigkeit. Verlass dich heute nicht auf die Arbeit anderer. Manchmal ist es nötig rein aus der eigenen Wut zu handeln, auch wenn dir andere einreden wollen, dass du den falschen Weg einschlägst.",
@@ -254,7 +254,7 @@ export const tarots: ITarot[] = [
         text: "Oh uwu have :angwy84: (\\* ^ ω ^) yuwu will have a howwibwe day ＼(٥⁀▽⁀ )／kawaiiiiii! thiws iws going tuwu be so amazing! (´｡• ᵕ •｡`) ♡ cant waiwt :3",
     },
     {
-        text: ":angry88: ist das Angry der Schnecken 🐌. Heute bist auch du eine Schnegge! 🐌❤️ Hast du gewusst, dass wie Vögel 🐦🐤  legen die Eier 🥚🐣🍳?? Nur nicht so weit oben. 🌳 🤣🤣🤣 In der westlichen Welt gilt \"Du Snegge\" 🐌 als Beleidigung wegen ihrer Langsamigkeit 🐢, aber die schnellste Schnecke der Welt ist, die ist schon krass. 😳 😳 😳",
+        text: ':angry88: ist das Angry der Schnecken 🐌. Heute bist auch du eine Schnegge! 🐌❤️ Hast du gewusst, dass wie Vögel 🐦🐤  legen die Eier 🥚🐣🍳?? Nur nicht so weit oben. 🌳 🤣🤣🤣 In der westlichen Welt gilt "Du Snegge" 🐌 als Beleidigung wegen ihrer Langsamigkeit 🐢, aber die schnellste Schnecke der Welt ist, die ist schon krass. 😳 😳 😳',
     },
     {
         text: ":angry89: ist das Angry welches von Beffica immer verwendet wird. Die Chancen stehen gut, dass du heute Beffica Winklesnoot triffst und sie besser kennenlernst. Was ein Glück!",
@@ -281,7 +281,7 @@ export const tarots: ITarot[] = [
         text: ":angry96: ist die Angry der Gelbbauchunke und wacht über alle Gelbbauchunken. Heute wacht :angry96: auch über dich! Leider ist :angry96: nicht sehr gut, weil die Gelbbauchunke auf der roten Liste Österreichs ist. Das entspricht *stark gefährdet* Kat. A.3 😿",
     },
     {
-        text: "Die Mensch brauchen nicht Brot, sie brauchen :angry:.\n- Fjodor Michailowitsch Dostojewski\n\n\"Wenn sie kein Bot haben sollen sie doch :angry83: essen.\"\n-Marie Antoinette, zirka 1397",
+        text: 'Die Mensch brauchen nicht Brot, sie brauchen :angry:.\n- Fjodor Michailowitsch Dostojewski\n\n"Wenn sie kein Bot haben sollen sie doch :angry83: essen."\n-Marie Antoinette, zirka 1397',
     },
     {
         text: ":angry98: ist das Angry der Schwarzfahrer\\*innen. Leider ist das kein gutes Angry weil Schwarzfahrer\\*innen keine guten Menschen sind. Tatsächlich sind Schwarzfahrer\\*innen der tiefste Abschaum unserer Gesellschaft. Hast du gewusst, dass Schwarzfahrer\\*innen Julius Caesar ermordet haben? Traurig, aber wahr. Dass du heute :angry98: gezogen hast ist kein gutes Zeichen. Das bedeutet, dass du oder eine nahe Person in deinem Leben eine Begegnung mit einem\\*einer Schwarzfahrer\\*innen gehabt hat. Sei auf der Hut und vertraue niemandem!",
@@ -370,16 +370,16 @@ export const tarots: ITarot[] = [
         text: "Gedenke deiner selbst, öffne dich und stelle dich deinen Sorgen. Heute ist ein Tag der Weisheit - die Kraft des :angry127: wacht über dich.",
     },
     {
-        text: "\"Wut ist wichtiger als Wissen, denn Wissen ist begrenzt\" \n - Albert Einstein, 1929",
+        text: '"Wut ist wichtiger als Wissen, denn Wissen ist begrenzt" \n - Albert Einstein, 1929',
     },
     {
         text: "3 mal 3 macht 6, widiwi, und drei macht :angry129:, sie macht sich die Welt, widiwi sie ihr gefällt! \n - Pippi Langstrumpf, gerade von der Wut gepackt",
     },
     {
-        text: ":angry130: ist das Kraftwerk der Zelle - sei auch du wie :angry130: und sei heute produktiv! \n \"Jede-e Zelle-e meines Körpers ist wü-ütend; jede Zelle-e an jeder Stelle-e\" (singend)",
+        text: ':angry130: ist das Kraftwerk der Zelle - sei auch du wie :angry130: und sei heute produktiv! \n "Jede-e Zelle-e meines Körpers ist wü-ütend; jede Zelle-e an jeder Stelle-e" (singend)',
     },
     {
-        text: "\":angry131: ist der Ausgang des Menschen aus seiner*ihrer selbstverschuldeten Unmündigkeit\"\n - Immanuel Kant, hat die tiefe Bedeutung der Wut erkannt. Widme auch du dich heute der Wut in dir und trinke ein Glas Tomatensaft. (Anmk. Das ist keine kalte Tomatensuppe!)",
+        text: '":angry131: ist der Ausgang des Menschen aus seiner*ihrer selbstverschuldeten Unmündigkeit"\n - Immanuel Kant, hat die tiefe Bedeutung der Wut erkannt. Widme auch du dich heute der Wut in dir und trinke ein Glas Tomatensaft. (Anmk. Das ist keine kalte Tomatensuppe!)',
     },
     {
         text: "Nach McLUHANS ist :angry132: ein Mediendispositiv, das sieht, ohne gesehen zu werden, genauso wie du fühlst, ohne gefühlt zu werden. Gedenke dem Hagler und seinen Leserunden und versetze dich in diese wundervolle Lernzeit zurück, indem du eine Flasche Rum ext.",
@@ -433,7 +433,7 @@ export const tarots: ITarot[] = [
         text: ":angry148: ist ein Gefängnis. Heute ist ein guter Tag, K-Pop zu hören.",
     },
     {
-        text: " ",
+        text: "",
         media: "https://cdn.discordapp.com/attachments/837083403026563082/862808739757162496/wooden-duck-76478.jpg",
     },
     {
