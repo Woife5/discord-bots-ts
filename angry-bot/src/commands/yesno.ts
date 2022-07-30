@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { IYesNo } from "./command-interfaces";
+import { ICommand, IYesNo } from "./command-interfaces";
 import { incrementStatAndUser } from "@helpers";
 import fetch from "node-fetch";
 
@@ -19,22 +19,20 @@ async function runCommand(question: string) {
         .setImage(result.image);
 }
 
-export const name = "yesno";
-
-export const slashCommandData = new SlashCommandBuilder()
-    .setName(name)
-    .setDescription("Get a yes or no answer to a question.")
-    .addStringOption(option =>
-        option.setName("question").setDescription("Your question to the angry-oracle").setRequired(true)
-    );
-
-export async function executeInteraction(interaction: CommandInteraction) {
-    const question: string = (interaction.options.get("question")?.value as string) ?? "";
-    interaction.reply({ embeds: [await runCommand(question)] });
-    incrementStatAndUser("yesno-questions", interaction.user);
-}
-
-export async function executeMessage(message: Message, args: string[]) {
-    message.reply({ embeds: [await runCommand(args.join(" "))] });
-    incrementStatAndUser("yesno-questions", message.author);
-}
+export const yesno: ICommand = {
+    data: new SlashCommandBuilder()
+        .setName("yesno")
+        .setDescription("Get a yes or no answer to a question.")
+        .addStringOption(option =>
+            option.setName("question").setDescription("Your question to the angry-oracle").setRequired(true)
+        ),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        const question: string = (interaction.options.get("question")?.value as string) ?? "";
+        interaction.reply({ embeds: [await runCommand(question)] });
+        incrementStatAndUser("yesno-questions", interaction.user);
+    },
+    executeMessage: async (message: Message, args: string[]): Promise<void> => {
+        message.reply({ embeds: [await runCommand(args.join(" "))] });
+        incrementStatAndUser("yesno-questions", message.author);
+    },
+};

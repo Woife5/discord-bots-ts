@@ -10,6 +10,7 @@ module.exports = {
         quotes: ["error", "double", { avoidEscape: true }],
         "max-len": ["error", { code: 120, ignoreStrings: true, ignoreTemplateLiterals: true }],
         "comma-dangle": ["error", "always-multiline"],
+        "object-curly-spacing": ["error", "always"],
     },
     root: true,
 };

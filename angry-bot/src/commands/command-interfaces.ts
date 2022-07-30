@@ -1,4 +1,5 @@
 import { CommandInteraction, Message } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 export interface IBookNames {
     [key: string]: number;
@@ -58,4 +59,11 @@ export interface ISlashCommand {
 
 export interface IMessageCommand {
     (message: Message, args: string[]): void | Promise<void>;
+}
+
+// TODO add admin-only flag to commands
+export interface ICommand {
+    data: SlashCommandBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
+    executeInteraction: ISlashCommand;
+    executeMessage: IMessageCommand;
 }

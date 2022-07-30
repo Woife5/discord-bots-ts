@@ -1,6 +1,7 @@
 import type { CommandInteraction, Message, User } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { User as DbUser, createUser } from "@helpers";
+import { ICommand } from "./command-interfaces";
 
 async function updateReminder(user: User, subcommand: "enable" | "disable") {
     let dbUser = await DbUser.findOne({ userId: user.id }).exec();
@@ -13,25 +14,34 @@ async function updateReminder(user: User, subcommand: "enable" | "disable") {
     await dbUser.save();
 }
 
-export const name = "tarotreminder";
+export const tarotreminder: ICommand = {
+    data: new SlashCommandBuilder().setName("tarotreminder").setDescription("Enable/disable the tarot reminder."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        // TODO: Implement subcommand for interactions
+        const subcommand = "enable";
 
-export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription("Get my next birthday.");
+        if (subcommand === "enable") {
+            await updateReminder(interaction.user, "enable");
+            interaction.reply("Tarot reminder enabled!");
+        } else if (subcommand === "disable") {
+            await updateReminder(interaction.user, "disable");
+            interaction.reply("Tarot reminder disabled!");
+        } else {
+            interaction.reply("Invalid subcommand!");
+        }
+    },
+    executeMessage: async (message: Message, args: string[]): Promise<void> => {
+        if (args.length === 0) {
+            message.reply("No arguments provided!");
+            return;
+        }
 
-export function executeInteraction(interaction: CommandInteraction) {
-    interaction.reply("Not implemented yet");
-}
+        if (args[0] === "enable" || args[0] === "disable") {
+            await updateReminder(message.author, args[0]);
+            message.reply(`Tarot reminder ${args[0]}d`);
+            return;
+        }
 
-export async function executeMessage(message: Message, args: string[]) {
-    if (args.length === 0) {
-        message.reply("No arguments provided!");
-        return;
-    }
-
-    if (args[0] === "enable" || args[0] === "disable") {
-        await updateReminder(message.author, args[0]);
-        message.reply(`Tarot reminder ${args[0]}d`);
-        return;
-    }
-
-    message.reply("Invalid argument!");
-}
+        message.reply("Invalid argument!");
+    },
+};

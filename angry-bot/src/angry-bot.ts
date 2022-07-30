@@ -1,22 +1,10 @@
 import { Client, Intents, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
-import {
-    IMessageCommand,
-    ISlashCommand,
-    Bibleverse,
-    Catgirl,
-    Luhans,
-    Tarot,
-    Yesno,
-    About,
-    Birthday,
-    Censored,
-    Censorship as CensorshipCommand,
-    Emojicount,
-} from "./commands";
 import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode } from "@helpers";
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
+import * as Commands from "./commands";
+import { IMessageCommand, ISlashCommand } from "commands/command-interfaces";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -51,24 +39,16 @@ const messageCommands = new Collection<string, IMessageCommand>();
 const interactionCommands = new Collection<string, ISlashCommand>();
 
 // Set message commands
-messageCommands.set(About.name, About.executeMessage);
-messageCommands.set(Birthday.name, Birthday.executeMessage);
-messageCommands.set(Censored.name, Censored.executeMessage);
-messageCommands.set(CensorshipCommand.name, CensorshipCommand.executeMessage);
-messageCommands.set(Emojicount.name, Emojicount.executeMessage);
-
-messageCommands.set(Bibleverse.name, Bibleverse.executeMessage);
-messageCommands.set(Catgirl.name, Catgirl.executeMessage);
-messageCommands.set(Luhans.name, Luhans.executeMessage);
-messageCommands.set(Tarot.name, Tarot.executeMessage);
-messageCommands.set(Yesno.name, Yesno.executeMessage);
+Object.values(Commands).forEach(command => {
+    messageCommands.set(command.data.name, command.executeMessage);
+});
 
 // Set interaction commands
-interactionCommands.set(Bibleverse.name, Bibleverse.executeInteraction);
-interactionCommands.set(Catgirl.name, Catgirl.executeInteraction);
-interactionCommands.set(Luhans.name, Luhans.executeInteraction);
-interactionCommands.set(Tarot.name, Tarot.executeInteraction);
-interactionCommands.set(Yesno.name, Yesno.executeInteraction);
+interactionCommands.set(Commands.bibleverse.data.name, Commands.bibleverse.executeInteraction);
+interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl.executeInteraction);
+interactionCommands.set(Commands.luhans.data.name, Commands.luhans.executeInteraction);
+interactionCommands.set(Commands.tarot.data.name, Commands.tarot.executeInteraction);
+interactionCommands.set(Commands.yesno.data.name, Commands.yesno.executeInteraction);
 
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
@@ -106,7 +86,7 @@ client.on("interactionCreate", async interaction => {
 const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
     if (MessageUtils.startsWith(message, prefix)) {
         const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
-        const command = args.shift()?.toLowerCase() ?? "about";
+        const command = args.shift()?.toLowerCase() ?? "help";
 
         if (messageCommands.has(command)) {
             try {

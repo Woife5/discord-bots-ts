@@ -1,14 +1,12 @@
-export * as About from "./about";
-export * as Birthday from "./birthday";
-export * as Censored from "./censored";
-export * as Censorship from "./censorship";
-export * as Emojicount from "./emojicount";
-export * as Tarotreminder from "./tarotreminder";
-
-export * as Yesno from "./yesno";
-export * as Bibleverse from "./bibleverse";
-export * as Catgirl from "./catgirl";
-export * as Luhans from "./luhans";
-export * as Tarot from "./tarot";
-
-export * from "./command-interfaces";
+export { about } from "./about";
+export { birthday } from "./birthday";
+export { censored } from "./censored";
+export { censorship } from "./censorship";
+export { emojicount } from "./emojicount";
+export { tarotreminder } from "./tarotreminder";
+export { help } from "./help";
+export { yesno } from "./yesno";
+export { bibleverse } from "./bibleverse";
+export { catgirl } from "./catgirl";
+export { luhans } from "./luhans";
+export { tarot } from "./tarot";

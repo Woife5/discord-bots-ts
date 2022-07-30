@@ -1,6 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ConfigCache } from "@helpers";
+import { ICommand } from "./command-interfaces";
 
 export async function getEmbed() {
     const config = await ConfigCache.get("censored");
@@ -19,16 +20,12 @@ export async function getEmbed() {
     return new MessageEmbed().setTitle("Censored Strings:").setDescription(censored);
 }
 
-export const name = "censored";
-
-export const slashCommandData = new SlashCommandBuilder()
-    .setName(name)
-    .setDescription("Find out which emojis are censored.");
-
-export async function executeInteraction(interaction: CommandInteraction) {
-    await interaction.reply({ embeds: [await getEmbed()] });
-}
-
-export async function executeMessage(message: Message) {
-    await message.reply({ embeds: [await getEmbed()] });
-}
+export const censored: ICommand = {
+    data: new SlashCommandBuilder().setName("censored").setDescription("Get a list of censored strings."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        interaction.reply({ embeds: [await getEmbed()] });
+    },
+    executeMessage: async (message: Message): Promise<void> => {
+        message.reply({ embeds: [await getEmbed()] });
+    },
+};
