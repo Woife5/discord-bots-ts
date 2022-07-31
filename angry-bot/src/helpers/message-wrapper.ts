@@ -1,3 +1,4 @@
+import { Role } from "commands/command-interfaces";
 import { Message } from "discord.js";
 
 export type PluginReturnCode = "CONTINUE" | "DELETED" | "ABORT";
@@ -6,7 +7,11 @@ export class MessageWrapper {
     isDeleted = false;
     isAborted = false;
 
-    constructor(private message: Message) {}
+    role: Role;
+
+    constructor(private message: Message) {
+        this.role = Role.OWNER;
+    }
 
     async applyPlugin(plugin: (message: Message) => Promise<PluginReturnCode>) {
         if (this.isDeleted || this.isAborted) {

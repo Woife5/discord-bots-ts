@@ -4,7 +4,8 @@ import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode } 
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
 import * as Commands from "./commands";
-import { IMessageCommand, ISlashCommand } from "commands/command-interfaces";
+import { ICommand, IMessageCommand, ISlashCommand } from "commands/command-interfaces";
+import { getUserRole } from "helpers/user.util";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -35,20 +36,20 @@ const client = new Client({
     ],
 });
 
-const messageCommands = new Collection<string, IMessageCommand>();
-const interactionCommands = new Collection<string, ISlashCommand>();
+const messageCommands = new Collection<string, ICommand>();
+const interactionCommands = new Collection<string, ICommand>();
 
 // Set message commands
 Object.values(Commands).forEach(command => {
-    messageCommands.set(command.data.name, command.executeMessage);
+    messageCommands.set(command.data.name, command);
 });
 
 // Set interaction commands
-interactionCommands.set(Commands.bibleverse.data.name, Commands.bibleverse.executeInteraction);
-interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl.executeInteraction);
-interactionCommands.set(Commands.luhans.data.name, Commands.luhans.executeInteraction);
-interactionCommands.set(Commands.tarot.data.name, Commands.tarot.executeInteraction);
-interactionCommands.set(Commands.yesno.data.name, Commands.yesno.executeInteraction);
+interactionCommands.set(Commands.bibleverse.data.name, Commands.bibleverse);
+interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl);
+interactionCommands.set(Commands.luhans.data.name, Commands.luhans);
+interactionCommands.set(Commands.tarot.data.name, Commands.tarot);
+interactionCommands.set(Commands.yesno.data.name, Commands.yesno);
 
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
@@ -76,7 +77,7 @@ client.on("interactionCreate", async interaction => {
     }
 
     try {
-        await interactionCommands.get(interaction.commandName)?.(interaction);
+        await interactionCommands.get(interaction.commandName)?.executeInteraction(interaction);
     } catch (error) {
         log?.error(error, "interactionCreate");
         return interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
@@ -90,7 +91,18 @@ const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
 
         if (messageCommands.has(command)) {
             try {
-                messageCommands.get(command)?.(message, args);
+                const commandRef = messageCommands.get(command);
+                if (!commandRef || !message.guild) {
+                    throw new Error();
+                }
+
+                const userRole = await getUserRole(message.author, message.guild);
+                if (commandRef.role && userRole <= commandRef.role) {
+                    await message.reply("You don't have the required role to use this command! 🥴");
+                    return "ABORT";
+                }
+
+                await commandRef.executeMessage(message, args);
             } catch (error) {
                 await message.reply("An error occured 🥴");
             }

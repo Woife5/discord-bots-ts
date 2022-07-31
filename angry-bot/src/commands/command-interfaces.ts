@@ -61,9 +61,15 @@ export interface IMessageCommand {
     (message: Message, args: string[]): void | Promise<void>;
 }
 
-// TODO add admin-only flag to commands
 export interface ICommand {
     data: SlashCommandBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
+    role?: Role;
     executeInteraction: ISlashCommand;
     executeMessage: IMessageCommand;
+}
+
+export enum Role {
+    USER,
+    ADMIN,
+    OWNER,
 }

@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { ConfigCache } from "@helpers";
 import { prefix } from "@data";
 import { getEmbed } from "./censored";
-import { ICommand } from "./command-interfaces";
+import { ICommand, Role } from "./command-interfaces";
 
 async function updateConfig(subcommand: "add" | "remove", value: string) {
     const config = await ConfigCache.get("censored");
@@ -33,6 +33,7 @@ export const censorship: ICommand = {
     data: new SlashCommandBuilder()
         .setName("censorship")
         .setDescription("Add or remove a string from the censorship list."),
+    role: Role.ADMIN,
     executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
         interaction.reply({ embeds: [await getEmbed()] });
     },

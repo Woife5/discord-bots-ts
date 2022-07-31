@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ConfigCache } from "@helpers";
-import { ICommand } from "./command-interfaces";
+import { ICommand, Role } from "./command-interfaces";
 
 export async function getEmbed() {
     const config = await ConfigCache.get("censored");
@@ -22,6 +22,7 @@ export async function getEmbed() {
 
 export const censored: ICommand = {
     data: new SlashCommandBuilder().setName("censored").setDescription("Get a list of censored strings."),
+    role: Role.ADMIN,
     executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
         interaction.reply({ embeds: [await getEmbed()] });
     },
