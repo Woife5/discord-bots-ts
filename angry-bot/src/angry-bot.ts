@@ -86,7 +86,7 @@ client.on("interactionCreate", async interaction => {
 const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
     if (MessageUtils.startsWith(message, prefix)) {
         const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
-        const command = args.shift()?.toLowerCase() ?? "help";
+        const command = args.shift()?.toLowerCase() || "help";
 
         if (messageCommands.has(command)) {
             try {
