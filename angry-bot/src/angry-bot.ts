@@ -1,11 +1,10 @@
 import { Client, Intents, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
-import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode } from "@helpers";
+import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, getUserRole } from "@helpers";
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
 import * as Commands from "./commands";
-import { ICommand, IMessageCommand, ISlashCommand } from "commands/command-interfaces";
-import { getUserRole } from "helpers/user.util";
+import { ICommand } from "commands/command-interfaces";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();

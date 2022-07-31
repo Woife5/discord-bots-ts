@@ -1,7 +1,7 @@
 import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, Guild, Message, MessageEmbed, User } from "discord.js";
-import { getUserRole } from "helpers/user.util";
+import { getUserRole } from "@helpers";
 import * as Commands from "./";
 import { ICommand, Role } from "./command-interfaces";
 
