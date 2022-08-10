@@ -9,7 +9,7 @@ export async function getUserRole(user: User, guild: Guild): Promise<Role> {
 
     const member = await guild.members.fetch(user.id);
 
-    if (member.roles.cache.has(adminRoleId)) {
+    if (member.permissions.has("ADMINISTRATOR") || member.roles.cache.has(adminRoleId)) {
         return Role.ADMIN;
     }
 

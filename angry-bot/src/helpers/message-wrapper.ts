@@ -1,4 +1,3 @@
-import { Role } from "commands/command-interfaces";
 import { Message } from "discord.js";
 
 export type PluginReturnCode = "CONTINUE" | "DELETED" | "ABORT";
