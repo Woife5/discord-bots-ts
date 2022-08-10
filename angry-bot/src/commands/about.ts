@@ -8,6 +8,10 @@ function runCommand() {
         .setColor("#d94d26")
         .setTitle("About")
         .addField("Regular Commands", `This bot uses regular commands with the prifix \`${prefix}\``)
+        .addField(
+            "Slash Command",
+            "Some commands are also available as slash commands. Just browse them by typing a `/`."
+        )
         .setAuthor({
             name: "Angry",
             iconURL: angryIconCDN,

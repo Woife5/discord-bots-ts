@@ -3,6 +3,10 @@ import { MessageUtils, incrementStatAndUser, Log, ConfigCache, PluginReturnCode 
 
 const log = new Log("Censorship");
 
+function escapeRegExp(string: string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export async function censor(message: Message): Promise<PluginReturnCode> {
     const censored = await ConfigCache.get("censored");
 
@@ -17,7 +21,7 @@ export async function censor(message: Message): Promise<PluginReturnCode> {
     censoredStrings.forEach(string => {
         if (MessageUtils.contains(message, string)) {
             hasToBeCensored = true;
-            const regex = new RegExp(string, "ig");
+            const regex = new RegExp(escapeRegExp(string), "i");
             censoredContent = censoredContent.replace(regex, "`CENSORED` ");
         }
     });
