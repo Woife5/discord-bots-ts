@@ -1,22 +1,10 @@
 import { Client, Intents, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
-import {
-    IMessageCommand,
-    ISlashCommand,
-    Bibleverse,
-    Catgirl,
-    Luhans,
-    Tarot,
-    Yesno,
-    About,
-    Birthday,
-    Censored,
-    Censorship as CensorshipCommand,
-    Emojicount,
-} from "./commands";
-import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode } from "@helpers";
+import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, getUserRole } from "@helpers";
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
+import * as Commands from "./commands";
+import { ICommand } from "commands/command-interfaces";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -47,28 +35,20 @@ const client = new Client({
     ],
 });
 
-const messageCommands = new Collection<string, IMessageCommand>();
-const interactionCommands = new Collection<string, ISlashCommand>();
+const messageCommands = new Collection<string, ICommand>();
+const interactionCommands = new Collection<string, ICommand>();
 
 // Set message commands
-messageCommands.set(About.name, About.executeMessage);
-messageCommands.set(Birthday.name, Birthday.executeMessage);
-messageCommands.set(Censored.name, Censored.executeMessage);
-messageCommands.set(CensorshipCommand.name, CensorshipCommand.executeMessage);
-messageCommands.set(Emojicount.name, Emojicount.executeMessage);
-
-messageCommands.set(Bibleverse.name, Bibleverse.executeMessage);
-messageCommands.set(Catgirl.name, Catgirl.executeMessage);
-messageCommands.set(Luhans.name, Luhans.executeMessage);
-messageCommands.set(Tarot.name, Tarot.executeMessage);
-messageCommands.set(Yesno.name, Yesno.executeMessage);
+Object.values(Commands).forEach(command => {
+    messageCommands.set(command.data.name, command);
+});
 
 // Set interaction commands
-interactionCommands.set(Bibleverse.name, Bibleverse.executeInteraction);
-interactionCommands.set(Catgirl.name, Catgirl.executeInteraction);
-interactionCommands.set(Luhans.name, Luhans.executeInteraction);
-interactionCommands.set(Tarot.name, Tarot.executeInteraction);
-interactionCommands.set(Yesno.name, Yesno.executeInteraction);
+interactionCommands.set(Commands.bibleverse.data.name, Commands.bibleverse);
+interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl);
+interactionCommands.set(Commands.luhans.data.name, Commands.luhans);
+interactionCommands.set(Commands.tarot.data.name, Commands.tarot);
+interactionCommands.set(Commands.yesno.data.name, Commands.yesno);
 
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
@@ -96,7 +76,7 @@ client.on("interactionCreate", async interaction => {
     }
 
     try {
-        await interactionCommands.get(interaction.commandName)?.(interaction);
+        await interactionCommands.get(interaction.commandName)?.executeInteraction(interaction);
     } catch (error) {
         log?.error(error, "interactionCreate");
         return interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
@@ -106,11 +86,22 @@ client.on("interactionCreate", async interaction => {
 const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
     if (MessageUtils.startsWith(message, prefix)) {
         const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
-        const command = args.shift()?.toLowerCase() ?? "about";
+        const command = args.shift()?.toLowerCase() || "help";
 
         if (messageCommands.has(command)) {
             try {
-                messageCommands.get(command)?.(message, args);
+                const commandRef = messageCommands.get(command);
+                if (!commandRef || !message.guild) {
+                    throw new Error();
+                }
+
+                const userRole = await getUserRole(message.author, message.guild);
+                if (commandRef.role && userRole <= commandRef.role) {
+                    await message.reply("You don't have the required role to use this command! 🥴");
+                    return "ABORT";
+                }
+
+                await commandRef.executeMessage(message, args);
             } catch (error) {
                 await message.reply("An error occured 🥴");
             }

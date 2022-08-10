@@ -3,6 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { tarots, angryEmojis as angrys } from "@data";
 import { User, DateUtils, createUser, incrementStatAndUser } from "@helpers";
 import { promisify } from "util";
+import { ICommand } from "./command-interfaces";
 const wait = promisify(setTimeout);
 
 async function isTarotAllowed(user: DiscordUser): Promise<string | null> {
@@ -67,54 +68,52 @@ async function setFields(embed: MessageEmbed, tarot: number, user: DiscordUser) 
     embed.setFooter({ text: `🔥 ${streak}` });
 }
 
-export const name = "tarot";
+export const tarot: ICommand = {
+    data: new SlashCommandBuilder().setName("tarot").setDescription("Get your daily angry tarot reading."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        const notAllowed = await isTarotAllowed(interaction.user);
+        if (notAllowed) {
+            await interaction.reply({
+                content: notAllowed,
+                ephemeral: true,
+            });
+            return;
+        }
 
-export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription("Get your daily tarot card");
+        const embed = createEmbed();
 
-export async function executeInteraction(interaction: CommandInteraction) {
-    const notAllowed = await isTarotAllowed(interaction.user);
-    if (notAllowed) {
-        await interaction.reply({
-            content: notAllowed,
-            ephemeral: true,
-        });
-        return;
-    }
+        const result = Math.floor(Math.random() * tarots.length);
 
-    const embed = createEmbed();
+        await interaction.reply({ embeds: [embed] });
+        for (let i = 0; i < 6; i++) {
+            embed.fields[0].value += ".";
+            await interaction.editReply({ embeds: [embed] });
+            await wait(500);
+        }
 
-    const result = Math.floor(Math.random() * tarots.length);
+        await setFields(embed, result, interaction.user);
 
-    await interaction.reply({ embeds: [embed] });
-    for (let i = 0; i < 6; i++) {
-        embed.fields[0].value += ".";
         await interaction.editReply({ embeds: [embed] });
-        await wait(500);
-    }
+        await incrementStatAndUser("tarots-read", interaction.user);
+    },
+    executeMessage: async (message: Message): Promise<void> => {
+        const notAllowed = await isTarotAllowed(message.author);
+        if (notAllowed) {
+            message.reply({
+                content: notAllowed,
+            });
+            return;
+        }
 
-    await setFields(embed, result, interaction.user);
+        message.reply("Let me sense your angry...");
+        const embed = createEmbed();
 
-    await interaction.editReply({ embeds: [embed] });
-    await incrementStatAndUser("tarots-read", interaction.user);
-}
+        const result = Math.floor(Math.random() * tarots.length);
+        await setFields(embed, result, message.author);
 
-export async function executeMessage(message: Message) {
-    const notAllowed = await isTarotAllowed(message.author);
-    if (notAllowed) {
-        message.reply({
-            content: notAllowed,
-        });
-        return;
-    }
+        await wait(2000);
 
-    message.reply("Let me sense your angry...");
-    const embed = createEmbed();
-
-    const result = Math.floor(Math.random() * tarots.length);
-    await setFields(embed, result, message.author);
-
-    await wait(2000);
-
-    await message.reply({ embeds: [embed] });
-    await incrementStatAndUser("tarots-read", message.author);
-}
+        await message.reply({ embeds: [embed] });
+        await incrementStatAndUser("tarots-read", message.author);
+    },
+};

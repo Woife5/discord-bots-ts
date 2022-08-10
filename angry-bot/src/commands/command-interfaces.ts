@@ -1,4 +1,5 @@
 import { CommandInteraction, Message } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 export interface IBookNames {
     [key: string]: number;
@@ -58,4 +59,17 @@ export interface ISlashCommand {
 
 export interface IMessageCommand {
     (message: Message, args: string[]): void | Promise<void>;
+}
+
+export interface ICommand {
+    data: SlashCommandBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
+    role?: Role;
+    executeInteraction: ISlashCommand;
+    executeMessage: IMessageCommand;
+}
+
+export enum Role {
+    USER,
+    ADMIN,
+    OWNER,
 }

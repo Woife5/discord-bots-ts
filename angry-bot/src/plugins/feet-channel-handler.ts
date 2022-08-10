@@ -1,4 +1,4 @@
-import { ratingEmojis } from "@data";
+import { adminRoleId, ratingEmojis } from "@data";
 import { ConfigCache, NumberUtils, PluginReturnCode } from "@helpers";
 import { Message, MessageReaction, PartialMessage, PartialMessageReaction, PartialUser, User } from "discord.js";
 
@@ -36,8 +36,7 @@ export async function handleReaction(
 
     const member = await guild.members.fetch(user.id);
 
-    const adminId = "824234599936557097";
-    if (!member.roles.cache.has(adminId)) {
+    if (!member.roles.cache.has(adminRoleId)) {
         return "CONTINUE";
     }
 

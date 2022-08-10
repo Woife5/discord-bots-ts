@@ -2,6 +2,7 @@ import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { medienDispositive, geschmacksliste, funStuff, names } from "@data";
 import { incrementStatAndUser, NumberUtils } from "@helpers";
+import { ICommand } from "./command-interfaces";
 
 const medienKlausur = new Date("2021-07-02T11:00:00");
 
@@ -72,16 +73,14 @@ function runCommand() {
     return embed;
 }
 
-export const name = "luhans";
-
-export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription("Get McLuhans current wisdom.");
-
-export function executeInteraction(interaction: CommandInteraction) {
-    interaction.reply({ embeds: [runCommand()] });
-    incrementStatAndUser("mc-luhans", interaction.user);
-}
-
-export function executeMessage(message: Message) {
-    message.channel.send({ embeds: [runCommand()] });
-    incrementStatAndUser("mc-luhans", message.author);
-}
+export const luhans: ICommand = {
+    data: new SlashCommandBuilder().setName("luhans").setDescription("Get a part of McLuhans wisdom."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        interaction.reply({ embeds: [runCommand()] });
+        incrementStatAndUser("mc-luhans", interaction.user);
+    },
+    executeMessage: async (message: Message): Promise<void> => {
+        message.reply({ embeds: [runCommand()] });
+        incrementStatAndUser("mc-luhans", message.author);
+    },
+};

@@ -1,6 +1,7 @@
 import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, prefix, repoURL, version } from "@data";
+import { ICommand } from "./command-interfaces";
 
 function runCommand() {
     return new MessageEmbed()
@@ -17,14 +18,12 @@ function runCommand() {
         });
 }
 
-export const name = "about";
-
-export const slashCommandData = new SlashCommandBuilder().setName(name).setDescription("Get information about Angry.");
-
-export async function executeInteraction(interaction: CommandInteraction) {
-    interaction.reply({ embeds: [runCommand()] });
-}
-
-export async function executeMessage(message: Message, args: string[]) {
-    message.reply({ embeds: [runCommand()] });
-}
+export const about: ICommand = {
+    data: new SlashCommandBuilder().setName("about").setDescription("Get a list of commands and a short explanation."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        interaction.reply({ embeds: [runCommand()] });
+    },
+    executeMessage: async (message: Message): Promise<void> => {
+        message.reply({ embeds: [runCommand()] });
+    },
+};
