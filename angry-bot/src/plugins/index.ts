@@ -4,3 +4,5 @@ export * as Emojicounter from "./emoji-counter";
 export * as Reactor from "./reaction";
 export * as FeetHandler from "./feet-channel-handler";
 export * as MediaHandler from "./media-reaction";
+export * as Spam from "./spam";
+

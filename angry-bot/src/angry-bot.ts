@@ -2,7 +2,7 @@ import { Client, Intents, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
 import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, getUserRole } from "@helpers";
 import { prefix, version } from "@data";
-import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
+import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler, Spam } from "./plugins";
 import * as Commands from "./commands";
 import { ICommand } from "commands/command-interfaces";
 
@@ -49,6 +49,9 @@ interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl);
 interactionCommands.set(Commands.luhans.data.name, Commands.luhans);
 interactionCommands.set(Commands.tarot.data.name, Commands.tarot);
 interactionCommands.set(Commands.yesno.data.name, Commands.yesno);
+interactionCommands.set(Commands.spaminterval.data.name, Commands.spaminterval);
+//interactionCommands.set(Commands.spamdate.data.name, Commands.spamdate);
+
 
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
@@ -56,6 +59,9 @@ client.on("ready", async () => {
     log = new Log("AngryBot");
 
     log.info(`Started bot version ${version}`, "angry-bot.ts");
+
+    //TODO replace with spam -> access spam function here which initialises all the spams stored currently in the database
+    //Spam.init();
 
     // Set Tarotreminder to run every day at 19:00
     const tarotReminder = DateUtils.getNextTime(19);
