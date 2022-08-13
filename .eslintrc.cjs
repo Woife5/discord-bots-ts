@@ -11,6 +11,7 @@ module.exports = {
         "max-len": ["error", { code: 120, ignoreStrings: true, ignoreTemplateLiterals: true }],
         "comma-dangle": ["error", "always-multiline"],
         "object-curly-spacing": ["error", "always"],
+        "eol-last": ["error", "always"],
     },
     root: true,
 };

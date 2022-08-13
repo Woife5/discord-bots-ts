@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { User as DiscordUser } from "discord.js";
 const { Schema, connect, model } = mongoose;
 
-export async function init() {
+export async function initDatabase() {
     if (!process.env.MONGO_URI) {
         throw new Error("MONGO_URI is not defined.");
     }
@@ -82,7 +82,7 @@ type ConfigKeys = "censored" | "google-sheets-credentials" | "google-sheets-toke
 
 export interface IConfig {
     key: ConfigKeys;
-    value: any;
+    value: unknown;
 }
 
 const configSchema = new Schema<IConfig>({
@@ -101,8 +101,8 @@ const configSchema = new Schema<IConfig>({
 const ConfigDB = model<IConfig>("Config", configSchema);
 
 type Cache = {
-    [key: string]: {
-        value: any;
+    [key in ConfigKeys]: {
+        value: unknown;
         expires: number;
     };
 };
@@ -110,7 +110,7 @@ type Cache = {
 export class ConfigCache {
     private static _cache = {} as Cache;
 
-    static async get(key: string): Promise<any> {
+    static async get(key: ConfigKeys): Promise<unknown> {
         if (!(key in this._cache) || this._cache[key].expires < Date.now()) {
             const config = await ConfigDB.findOne({ key }).exec();
 
@@ -127,7 +127,7 @@ export class ConfigCache {
         return this._cache[key].value;
     }
 
-    static async set(key: ConfigKeys, value: any) {
+    static async set(key: ConfigKeys, value: unknown) {
         delete this._cache[key];
         return await ConfigDB.updateOne({ key: key }, { $set: { value: value } }, { upsert: true }).exec();
     }

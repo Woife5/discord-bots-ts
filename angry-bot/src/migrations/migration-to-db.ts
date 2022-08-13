@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { init as initDatabase, User, Stats, ConfigCache } from "@helpers";
+import { initDatabase, User, Stats, ConfigCache } from "@helpers";
 import dotenv from "dotenv";
 
 if (process.env.NODE_ENV !== "production") {
