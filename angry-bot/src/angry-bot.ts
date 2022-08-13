@@ -53,7 +53,9 @@ interactionCommands.set(Commands.spaminterval.data.name, Commands.spaminterval);
 //interactionCommands.set(Commands.spamdate.data.name, Commands.spamdate);
 
 client.on("ready", async () => {
+    // eslint-disable-next-line no-console
     console.log("Bot is logged in and ready!");
+
     await initDatabase();
     log = new Log("AngryBot");
 
@@ -74,7 +76,9 @@ client.on("ready", async () => {
 });
 
 client.on("interactionCreate", async interaction => {
-    if (!interaction.isCommand()) return;
+    if (!interaction.isCommand()) {
+        return;
+    }
 
     if (!interactionCommands.has(interaction.commandName)) {
         return console.error(`Command ${interaction.commandName} not found.`);
@@ -139,7 +143,9 @@ client.on("messageCreate", async message => {
 });
 
 client.on("messageReactionAdd", async (messageReaction, user) => {
-    if (user.id === client.user?.id) return;
+    if (user.id === client.user?.id) {
+        return;
+    }
 
     await FeetHandler.handleReaction(messageReaction, user);
 });

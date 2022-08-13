@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { ANGRY1_TOKEN, CLIENT_ID } = process.env;
 
 if (!ANGRY1_TOKEN || !CLIENT_ID) {

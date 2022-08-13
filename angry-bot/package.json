@@ -11,7 +11,7 @@
         "build:commands": "esbuild ./src/migrations/register-commands.ts --minify --bundle --outdir=../build --platform=node --target=node16 --format=esm --external:../node_modules/*",
         "build:dev": "esbuild ./src/angry-bot.ts --bundle --outdir=../build --platform=node --target=node16 --format=esm --external:../node_modules/*",
         "migrate": "yarn build:migration && node ../build/migration-to-db.js",
-        "lint": "eslint ./src/**/*.ts"
+        "lint": "eslint ./src/*.ts ./src/**/*.ts"
     },
     "author": "Wolfgang Schwendtbauer",
     "devDependencies": {
