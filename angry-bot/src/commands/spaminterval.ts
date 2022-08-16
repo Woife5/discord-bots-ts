@@ -7,10 +7,18 @@ async function runCommand(string_message: string, int_interval: number, int_hour
     let spamResult = "Done.";
     
     if (!string_channel) {
-        //Todo channel in which the user typed this command
-
         //if channel not found -> spamResult = "Channel not found. Abort."
+        //replace with current channel id.
     }
+
+    //Todo channel in which the user typed this command
+    //const channel = guild.channel.find(c => c.name === string_channel)
+    //const channel_id = channel ? channel.id : null;
+
+    if (!channel_id) {
+        //replace with current channel
+    }
+
 
     //wenn keine Stunde Begin -> now
     if (!int_hourBegin || int_hourBegin > 24 || int_hourBegin < 0) {
@@ -84,9 +92,9 @@ export const spaminterval: ICommand = {
         const string_message = interaction.options.get("message")?.value as string;
         const int_interval = interaction.options.get("interval")?.value as number;
         const int_hourBegin = interaction.options.get("hour")?.value as number | undefined;
-        const int_channel = interaction.options.get("channel")?.value as string | undefined;
+        const string_channel = interaction.options.get("channel")?.value as string | undefined;
 
-        await interaction.reply({ embeds: [await runCommand(string_message, int_interval, int_hourBegin, int_channel)] });
+        await interaction.reply({ embeds: [await runCommand(string_message, int_interval, int_hourBegin, string_channel)] });
     },
     executeMessage: async (message: Message, args: string[]) => {
         const str_message = args[0]?.toLowerCase() as string;
