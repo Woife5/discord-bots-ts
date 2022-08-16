@@ -18,7 +18,9 @@
         "camelcase": ["warn", { "properties": "never" }],
         "no-console": ["warn", { "allow": ["warn", "error"] }],
         "curly": ["error", "all"],
-        "handle-callback-err": ["error", "^(err|error)$"]
+        "handle-callback-err": ["error", "^(err|error)$"],
+        "no-shadow": ["error", { "allow": ["err", "error"] }],
+        "no-undef-init": ["error"]
     },
     "root": true
 }
