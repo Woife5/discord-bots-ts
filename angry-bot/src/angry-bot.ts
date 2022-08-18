@@ -96,7 +96,7 @@ const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
                 }
 
                 const userRole = await getUserRole(message.author, message.guild);
-                if (commandRef.role && userRole <= commandRef.role) {
+                if (commandRef.role && userRole < commandRef.role) {
                     await message.reply("You don't have the required role to use this command! 🥴");
                     return "ABORT";
                 }
