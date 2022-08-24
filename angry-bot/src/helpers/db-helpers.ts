@@ -146,6 +146,7 @@ export type StatKeys =
     | "yesno-questions"
     | "mc-luhans"
     | "catgirls-requested"
+    | "catboys-requested"
     | "bibleverses-requested";
 
 export interface IStats {

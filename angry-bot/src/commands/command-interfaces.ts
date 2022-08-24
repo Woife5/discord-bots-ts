@@ -53,6 +53,19 @@ export interface ICatgirlResponse {
     images: ICatgirlImage[];
 }
 
+export interface ICatboyPhraseResponse {
+    response: string;
+    error: string;
+}
+
+export interface ICatboyResponse {
+    url: string;
+    artist: string;
+    artist_url: string;
+    source_url: string;
+    error: string;
+}
+
 export interface ISlashCommand {
     (interaction: CommandInteraction): void | Promise<void>;
 }

@@ -8,5 +8,6 @@ export { help } from "./help";
 export { yesno } from "./yesno";
 export { bibleverse } from "./bibleverse";
 export { catgirl } from "./catgirl";
+export { catboy } from "./catboy";
 export { luhans } from "./luhans";
 export { tarot } from "./tarot";
