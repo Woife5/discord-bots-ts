@@ -5,12 +5,21 @@ import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
 import * as Commands from "./commands";
 import { ICommand } from "commands/command-interfaces";
+import { registerApplicationCommands } from "plugins/register-commands";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
 
 let log: Log | undefined;
+
+const clientId = process.env.CLIENT_ID;
+const token = process.env.ANGRY1_TOKEN;
+
+if (!token || !clientId) {
+    console.error("No token or client id provided!");
+    process.exit(1);
+}
 
 // Handle all uncaught exceptions
 process.on("uncaughtException", err => {
@@ -44,8 +53,10 @@ Object.values(Commands).forEach(command => {
 });
 
 // Set interaction commands
+interactionCommands.set(Commands.about.data.name, Commands.about);
 interactionCommands.set(Commands.bibleverse.data.name, Commands.bibleverse);
 interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl);
+interactionCommands.set(Commands.catboy.data.name, Commands.catboy);
 interactionCommands.set(Commands.luhans.data.name, Commands.luhans);
 interactionCommands.set(Commands.tarot.data.name, Commands.tarot);
 interactionCommands.set(Commands.yesno.data.name, Commands.yesno);
@@ -66,6 +77,9 @@ client.on("ready", async () => {
 
         Tarotreminder.remind(client);
     }, tarotReminder.getTime() - Date.now());
+
+    // Re-register all slash commands when the bot starts
+    registerApplicationCommands(token, clientId, interactionCommands);
 });
 
 client.on("interactionCreate", async interaction => {
@@ -139,4 +153,4 @@ client.on("messageReactionAdd", async (messageReaction, user) => {
     await FeetHandler.handleReaction(messageReaction, user);
 });
 
-client.login(process.env.ANGRY1_TOKEN).catch(e => console.error(e));
+client.login(token).catch(e => console.error(e));
