@@ -127,8 +127,12 @@ export const bibleverse: ICommand = {
         let int_chapter: number | undefined;
         let int_verse: number | undefined;
 
-        if (str_chapter) int_chapter = parseInt(str_chapter);
-        if (str_verse) int_verse = parseInt(str_verse);
+        if (str_chapter) {
+            int_chapter = parseInt(str_chapter);
+        }
+        if (str_verse) {
+            int_verse = parseInt(str_verse);
+        }
 
         await message.reply({ embeds: [await runCommand(str_book, int_chapter, int_verse)] });
         await incrementStatAndUser("bibleverses-requested", message.author);

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Client, Intents, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
 import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, getUserRole } from "@helpers";
@@ -54,6 +55,7 @@ Object.values(Commands).forEach(command => {
 
 // Set interaction commands
 interactionCommands.set(Commands.about.data.name, Commands.about);
+interactionCommands.set(Commands.help.data.name, Commands.help);
 interactionCommands.set(Commands.bibleverse.data.name, Commands.bibleverse);
 interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl);
 interactionCommands.set(Commands.catboy.data.name, Commands.catboy);
@@ -83,7 +85,9 @@ client.on("ready", async () => {
 });
 
 client.on("interactionCreate", async interaction => {
-    if (!interaction.isCommand()) return;
+    if (!interaction.isCommand()) {
+        return;
+    }
 
     if (!interactionCommands.has(interaction.commandName)) {
         return console.error(`Command ${interaction.commandName} not found.`);
@@ -148,7 +152,9 @@ client.on("messageCreate", async message => {
 });
 
 client.on("messageReactionAdd", async (messageReaction, user) => {
-    if (user.id === client.user?.id) return;
+    if (user.id === client.user?.id) {
+        return;
+    }
 
     await FeetHandler.handleReaction(messageReaction, user);
 });
