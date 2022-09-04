@@ -21,7 +21,7 @@ export async function censor(message: Message): Promise<PluginReturnCode> {
     censoredStrings.forEach(string => {
         if (MessageUtils.contains(message, string)) {
             hasToBeCensored = true;
-            const regex = new RegExp(escapeRegExp(string), "i");
+            const regex = new RegExp(escapeRegExp(string), "ig");
             censoredContent = censoredContent.replace(regex, "`CENSORED` ");
         }
     });
