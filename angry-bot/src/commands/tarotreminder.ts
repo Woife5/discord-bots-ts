@@ -15,19 +15,24 @@ async function updateReminder(user: User, subcommand: "enable" | "disable") {
 }
 
 export const tarotreminder: ICommand = {
-    data: new SlashCommandBuilder().setName("tarotreminder").setDescription("Enable/disable the tarot reminder."),
+    data: new SlashCommandBuilder()
+        .setName("tarotreminder")
+        .setDescription("Enable/disable the tarot reminder.")
+        .addStringOption(option =>
+            option
+                .setName("action")
+                .setDescription("Enable or disable the reminder.")
+                .setRequired(true)
+                .addChoices({ name: "Enable", value: "enable" }, { name: "Disable", value: "disable" })
+        ),
     executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        // TODO: Implement subcommand for interactions
-        const subcommand = "enable";
+        const subcommand = (interaction.options.get("action")?.value as "enable" | "disable") ?? "enable";
 
+        await updateReminder(interaction.user, subcommand);
         if (subcommand === "enable") {
-            await updateReminder(interaction.user, "enable");
             interaction.reply("Tarot reminder enabled!");
-        } else if (subcommand === "disable") {
-            await updateReminder(interaction.user, "disable");
-            interaction.reply("Tarot reminder disabled!");
         } else {
-            interaction.reply("Invalid subcommand!");
+            interaction.reply("Tarot reminder disabled!");
         }
     },
     executeMessage: async (message: Message, args: string[]): Promise<void> => {

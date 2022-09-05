@@ -57,10 +57,12 @@ Object.values(Commands).forEach(command => {
 interactionCommands.set(Commands.about.data.name, Commands.about);
 interactionCommands.set(Commands.help.data.name, Commands.help);
 interactionCommands.set(Commands.bibleverse.data.name, Commands.bibleverse);
+interactionCommands.set(Commands.birthday.data.name, Commands.birthday);
 interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl);
 interactionCommands.set(Commands.catboy.data.name, Commands.catboy);
 interactionCommands.set(Commands.luhans.data.name, Commands.luhans);
 interactionCommands.set(Commands.tarot.data.name, Commands.tarot);
+interactionCommands.set(Commands.tarotreminder.data.name, Commands.tarotreminder);
 interactionCommands.set(Commands.yesno.data.name, Commands.yesno);
 
 client.on("ready", async () => {

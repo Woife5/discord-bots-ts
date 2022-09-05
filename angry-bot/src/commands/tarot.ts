@@ -65,7 +65,12 @@ async function setFields(embed: MessageEmbed, tarot: number, user: DiscordUser) 
         embed.setImage(String(tarots[tarot].media));
     }
 
-    embed.setFooter({ text: `🔥 ${streak}` });
+    if (streak % 100 === 0) {
+        const numberOfEmojis = streak / 100;
+        embed.setFooter({ text: `🔥 ${"💯".repeat(numberOfEmojis)}` });
+    } else {
+        embed.setFooter({ text: `🔥 ${streak}` });
+    }
 }
 
 export const tarot: ICommand = {
