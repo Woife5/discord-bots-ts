@@ -9,10 +9,10 @@ import { PermissionFlagsBits } from "discord-api-types/v9";
 async function updateConfig(subcommand: "add" | "remove", value: string) {
     const config = await ConfigCache.get("censored");
 
-    let newConfig = [];
+    let newConfig: string[] = [];
     if (subcommand === "add") {
         if (!config) {
-            await ConfigCache.set("censored", [value]);
+            await ConfigCache.set({ key: "censored", value: [value] });
             return;
         }
 
@@ -27,7 +27,7 @@ async function updateConfig(subcommand: "add" | "remove", value: string) {
         newConfig = config.filter((v: string) => v !== value);
     }
 
-    await ConfigCache.set("censored", newConfig);
+    await ConfigCache.set({ key: "censored", value: newConfig });
 }
 
 export const censorship: ICommand = {

@@ -19,7 +19,7 @@ async function runCommand(user?: DiscordUser) {
     } else {
         const val = await Stats.findOne({ key: "total-angry-emojis-sent" }).exec();
 
-        if (!val) {
+        if (!val || val.key !== "total-angry-emojis-sent") {
             return new MessageEmbed().setColor(embedColor).setTitle("Error 🤒");
         }
 

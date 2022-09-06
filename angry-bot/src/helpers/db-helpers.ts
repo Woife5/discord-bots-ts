@@ -78,14 +78,14 @@ export const User = model<IUser>("User", userSchema);
 // CONFIG SCHEMA
 // --------------------------------------------------------
 
-type ConfigKeys = "censored" | "google-sheets-credentials" | "google-sheets-tokens" | "feet-related";
+type ConfigType = {
+    key: "censored" | "feet-related";
+    value: string[];
+};
 
-export interface IConfig {
-    key: ConfigKeys;
-    value: any;
-}
+type ConfigKeys = ConfigType["key"];
 
-const configSchema = new Schema<IConfig>({
+const configSchema = new Schema<ConfigType>({
     key: {
         type: String,
         required: true,
@@ -98,38 +98,47 @@ const configSchema = new Schema<IConfig>({
     },
 });
 
-const ConfigDB = model<IConfig>("Config", configSchema);
+const ConfigDB = model<ConfigType>("Config", configSchema);
 
-type Cache = {
-    [key: string]: {
-        value: any;
-        expires: number;
-    };
+type ConfigCacheEntry = {
+    config: ConfigType;
+    expires: number;
 };
 
 export class ConfigCache {
-    private static _cache = {} as Cache;
+    private static _cache = new Map<ConfigKeys, ConfigCacheEntry>();
 
-    static async get(key: string): Promise<any> {
-        if (!(key in this._cache) || this._cache[key].expires < Date.now()) {
+    static async get(key: ConfigKeys) {
+        const entry = this._cache.get(key);
+        if (!entry || entry.expires < Date.now()) {
             const config = await ConfigDB.findOne({ key }).exec();
 
             if (!config) {
                 return null;
             }
 
-            this._cache[key] = {
-                value: config.value,
+            this._cache.set(key, {
+                config: config,
                 expires: Date.now() + 999 * 60 * 10,
-            };
+            });
+
+            return config.value;
         }
 
-        return this._cache[key].value;
+        return entry.config.value;
     }
 
-    static async set(key: ConfigKeys, value: any) {
-        delete this._cache[key];
-        return await ConfigDB.updateOne({ key: key }, { $set: { value: value } }, { upsert: true }).exec();
+    static async set(config: ConfigType) {
+        this._cache.set(config.key, {
+            config: config,
+            expires: Date.now() + 999 * 60 * 10,
+        });
+
+        return await ConfigDB.updateOne(
+            { key: config.key },
+            { $set: { value: config.value } },
+            { upsert: true }
+        ).exec();
     }
 }
 
@@ -137,25 +146,30 @@ export class ConfigCache {
 // STATS SCHEMA
 // --------------------------------------------------------
 
-export type StatKeys =
-    | "angry-reactions"
-    | "tarots-read"
-    | "individual-tarots-read:any"
-    | "total-angry-emojis-sent"
-    | "times-censored"
-    | "yesno-questions"
-    | "mc-luhans"
-    | "catgirls-requested"
-    | "catboys-requested"
-    | "bibleverses-requested";
+export type StatsType =
+    | {
+          key:
+              | "angry-reactions"
+              | "tarots-read"
+              | "times-censored"
+              | "yesno-questions"
+              | "mc-luhans"
+              | "catgirls-requested"
+              | "catboys-requested"
+              | "bibleverses-requested"
+              | "total-angry-emojis-sent";
+          value: number;
+      }
+    | {
+          key: "individual-tarots-read:any";
+          anyValue: {
+              [key: string]: number;
+          };
+      };
 
-export interface IStats {
-    key: StatKeys;
-    value: number;
-    anyValue?: unknown;
-}
+export type StatKeys = StatsType["key"];
 
-const statsSchema = new Schema<IStats>({
+const statsSchema = new Schema<StatsType>({
     key: {
         type: String,
         required: true,
@@ -172,7 +186,7 @@ const statsSchema = new Schema<IStats>({
     },
 });
 
-export const Stats = model<IStats>("Stats", statsSchema);
+export const Stats = model<StatsType>("Stats", statsSchema);
 
 // --------------------------------------------------------
 // LOG SCHEMA
