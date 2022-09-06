@@ -21,8 +21,8 @@ Required Secrets:
 -   CLIENT_ID
 -   ANGRY_REACTIONS
 -   MONGO_URI
--   GOOGLE_SHEET_ID
 -   WOLFGANG_ID
+-   _DEPRECATED_ GOOGLE_SHEET_ID
 
 1. Copy `package.json` and `yarn.lock` to a new directory, also copy the `build` folder there.
 2. Copy the `Dockerfile` from `angry-bot` to the new directory.

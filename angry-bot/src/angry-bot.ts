@@ -45,25 +45,12 @@ const client = new Client({
     ],
 });
 
-const messageCommands = new Collection<string, ICommand>();
-const interactionCommands = new Collection<string, ICommand>();
+const commands = new Collection<string, ICommand>();
 
 // Set message commands
 Object.values(Commands).forEach(command => {
-    messageCommands.set(command.data.name, command);
+    commands.set(command.data.name, command);
 });
-
-// Set interaction commands
-interactionCommands.set(Commands.about.data.name, Commands.about);
-interactionCommands.set(Commands.help.data.name, Commands.help);
-interactionCommands.set(Commands.bibleverse.data.name, Commands.bibleverse);
-interactionCommands.set(Commands.birthday.data.name, Commands.birthday);
-interactionCommands.set(Commands.catgirl.data.name, Commands.catgirl);
-interactionCommands.set(Commands.catboy.data.name, Commands.catboy);
-interactionCommands.set(Commands.luhans.data.name, Commands.luhans);
-interactionCommands.set(Commands.tarot.data.name, Commands.tarot);
-interactionCommands.set(Commands.tarotreminder.data.name, Commands.tarotreminder);
-interactionCommands.set(Commands.yesno.data.name, Commands.yesno);
 
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
@@ -83,7 +70,7 @@ client.on("ready", async () => {
     }, tarotReminder.getTime() - Date.now());
 
     // Re-register all slash commands when the bot starts
-    registerApplicationCommands(token, clientId, interactionCommands);
+    registerApplicationCommands(token, clientId, commands);
 });
 
 client.on("interactionCreate", async interaction => {
@@ -91,12 +78,12 @@ client.on("interactionCreate", async interaction => {
         return;
     }
 
-    if (!interactionCommands.has(interaction.commandName)) {
+    if (!commands.has(interaction.commandName)) {
         return console.error(`Command ${interaction.commandName} not found.`);
     }
 
     try {
-        await interactionCommands.get(interaction.commandName)?.executeInteraction(interaction);
+        await commands.get(interaction.commandName)?.executeInteraction(interaction);
     } catch (error) {
         log?.error(error, "interactionCreate");
         return interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
@@ -108,9 +95,9 @@ const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
         const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
         const command = args.shift()?.toLowerCase() || "help";
 
-        if (messageCommands.has(command)) {
+        if (commands.has(command)) {
             try {
-                const commandRef = messageCommands.get(command);
+                const commandRef = commands.get(command);
                 if (!commandRef || !message.guild) {
                     throw new Error();
                 }

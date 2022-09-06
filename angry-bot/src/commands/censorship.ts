@@ -4,6 +4,7 @@ import { ConfigCache } from "@helpers";
 import { prefix } from "@data";
 import { getEmbed } from "./censored";
 import { ICommand, Role } from "./command-interfaces";
+import { PermissionFlagsBits } from "discord-api-types/v9";
 
 async function updateConfig(subcommand: "add" | "remove", value: string) {
     const config = await ConfigCache.get("censored");
@@ -11,7 +12,7 @@ async function updateConfig(subcommand: "add" | "remove", value: string) {
     let newConfig = [];
     if (subcommand === "add") {
         if (!config) {
-            await ConfigCache.set("censored", { value: [value] });
+            await ConfigCache.set("censored", [value]);
             return;
         }
 
@@ -32,10 +33,26 @@ async function updateConfig(subcommand: "add" | "remove", value: string) {
 export const censorship: ICommand = {
     data: new SlashCommandBuilder()
         .setName("censorship")
-        .setDescription("Add or remove a string from the censorship list."),
+        .setDescription("Add or remove a string from the censorship list.")
+        .addStringOption(option =>
+            option
+                .setName("action")
+                .setDescription("The action to perform (add/remove)")
+                .setRequired(true)
+                .addChoices({ name: "Add", value: "add" }, { name: "Remove", value: "remove" })
+        )
+        .addStringOption(option =>
+            option.setName("value").setDescription("The value to add or remove.").setRequired(true)
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     role: Role.ADMIN,
     executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        interaction.reply({ embeds: [await getEmbed()] });
+        const subcommand = (interaction.options.get("action")?.value as "add" | "remove") ?? "add";
+        const value = (interaction.options.get("value")?.value as string) ?? "";
+
+        await updateConfig(subcommand, value.toLowerCase().trim());
+
+        await interaction.reply({ embeds: [await getEmbed()] });
     },
     executeMessage: async (message: Message, args: string[]): Promise<void> => {
         if (args.length < 2) {
