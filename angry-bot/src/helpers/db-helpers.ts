@@ -15,6 +15,8 @@ export async function createUser(user: DiscordUser) {
     return await User.create({
         userId: user.id,
         userName: user.username,
+        emojis: {},
+        stats: {},
     });
 }
 
@@ -33,7 +35,7 @@ export interface IUser {
         [key in StatKeys]: number;
     };
     emojis: {
-        [key: number]: number;
+        [key: string]: number;
     };
 }
 
