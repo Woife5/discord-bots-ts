@@ -140,6 +140,14 @@ client.on("messageCreate", async message => {
     await msg.applyPlugin(Reactor.react);
 });
 
+client.on("messageUpdate", async (oldMsg, newMsg) => {
+    if (oldMsg.content === newMsg.content) {
+        return;
+    }
+
+    await Censorship.censor(newMsg);
+});
+
 client.on("messageReactionAdd", async (messageReaction, user) => {
     if (user.id === client.user?.id) {
         return;

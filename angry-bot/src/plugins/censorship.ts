@@ -1,5 +1,5 @@
-import type { Message } from "discord.js";
-import { MessageUtils, incrementStatAndUser, Log, ConfigCache, PluginReturnCode } from "@helpers";
+import type { Message, PartialMessage } from "discord.js";
+import { incrementStatAndUser, Log, ConfigCache, PluginReturnCode } from "@helpers";
 
 const log = new Log("Censorship");
 
@@ -7,10 +7,10 @@ function escapeRegExp(string: string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-export async function censor(message: Message): Promise<PluginReturnCode> {
+export async function censor(message: Message | PartialMessage): Promise<PluginReturnCode> {
     const censored = await ConfigCache.get("censored");
 
-    if (!censored) {
+    if (!censored || !message.content) {
         return "CONTINUE";
     }
 
@@ -19,7 +19,7 @@ export async function censor(message: Message): Promise<PluginReturnCode> {
     const censoredStrings = censored as string[];
 
     censoredStrings.forEach(string => {
-        if (MessageUtils.contains(message, string)) {
+        if (message.content?.toLowerCase().includes(string)) {
             hasToBeCensored = true;
             const regex = new RegExp(escapeRegExp(string), "ig");
             censoredContent = censoredContent.replace(regex, "`CENSORED` ");
@@ -45,7 +45,9 @@ export async function censor(message: Message): Promise<PluginReturnCode> {
         if (message.deletable) {
             await message.channel.send(censoredContent);
             await message.delete();
-            await incrementStatAndUser("times-censored", message.author);
+            if (message.author) {
+                await incrementStatAndUser("times-censored", message.author);
+            }
         } else {
             log.error(`Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`);
 
