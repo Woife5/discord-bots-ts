@@ -10,4 +10,5 @@ export { bibleverse } from "./bibleverse";
 export { catgirl } from "./catgirl";
 export { catboy } from "./catboy";
 export { luhans } from "./luhans";
+export { stats } from "./stats";
 export { tarot } from "./tarot";

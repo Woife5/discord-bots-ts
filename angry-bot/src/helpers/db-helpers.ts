@@ -190,6 +190,15 @@ const statsSchema = new Schema<StatsType>({
 
 export const Stats = model<StatsType>("Stats", statsSchema);
 
+export async function getStat(key: StatKeys) {
+    const stat = await Stats.findOne({ key }).exec();
+    if (!stat || stat.key === "individual-tarots-read:any") {
+        return 0;
+    }
+
+    return stat.value;
+}
+
 // --------------------------------------------------------
 // LOG SCHEMA
 // --------------------------------------------------------
