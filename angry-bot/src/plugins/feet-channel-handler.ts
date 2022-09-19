@@ -1,5 +1,6 @@
-import { adminRoleId, ratingEmojis } from "@data";
-import { ConfigCache, NumberUtils, PluginReturnCode } from "@helpers";
+import { ratingEmojis } from "@data";
+import { ConfigCache, getMemberRole, NumberUtils, PluginReturnCode } from "@helpers";
+import { Role } from "commands/command-interfaces";
 import { Message, MessageReaction, PartialMessage, PartialMessageReaction, PartialUser, User } from "discord.js";
 
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
@@ -36,12 +37,13 @@ export async function handleReaction(
 
     const member = await guild.members.fetch(user.id);
 
-    if (!member.roles.cache.has(adminRoleId)) {
+    const role = await getMemberRole(member);
+    if (role < Role.ADMIN) {
         return "CONTINUE";
     }
 
     if (reaction.emoji.name === "✅") {
-        const rating = NumberUtils.getRandomInt(0, 10);
+        const rating = NumberUtils.getRandomInt(0, 9);
         const emojiId = NumberUtils.getRandomInt(0, ratingEmojis[rating].length - 1);
 
         const ratingEmoji = ratingEmojis[rating][emojiId];
