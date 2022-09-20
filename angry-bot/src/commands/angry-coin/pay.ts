@@ -17,7 +17,7 @@ export const pay: ICommand = {
         const to = interaction.options.getUser("user");
         const amount = interaction.options.getInteger("amount");
 
-        if (!to || !amount) {
+        if (!to || amount == undefined) {
             return;
         }
 
@@ -28,7 +28,7 @@ export const pay: ICommand = {
         const to = message.mentions.users.first();
         const amount = parseInt(args[1]);
 
-        if (!to || !amount) {
+        if (!to || amount == undefined) {
             await message.reply("Invalid arguments.");
             return;
         }
@@ -38,9 +38,10 @@ export const pay: ICommand = {
 };
 
 async function runCommand(from: DiscordUser, to: DiscordUser, amount: number) {
-    if (from.id === to.id) {
+    if (from.id === to.id || amount < 0) {
         return new MessageEmbed().setColor("#ff4dde").setTitle("Haha, no.");
     }
+
     const fromUser = await User.findOne({ userId: from.id });
     let toUser = await User.findOne({ userId: to.id });
 
