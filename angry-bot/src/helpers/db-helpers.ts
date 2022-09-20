@@ -164,7 +164,9 @@ export type StatsType =
               | "catgirls-requested"
               | "catboys-requested"
               | "bibleverses-requested"
-              | "total-angry-emojis-sent";
+              | "total-angry-emojis-sent"
+              | "money-lost-in-gambling"
+              | "money-won-in-gambling";
           value: number;
       }
     | {

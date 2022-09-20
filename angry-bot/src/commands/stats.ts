@@ -80,6 +80,10 @@ async function generateUserStatEmbed(user: DiscordUser) {
             name: "Bibleverses read",
             value: getStatFromUser("bibleverses-requested"),
         },
+        {
+            name: "Money 'invested' in gambling",
+            value: getStatFromUser("money-lost-in-gambling"),
+        },
     ]);
 
     return embed;
@@ -120,6 +124,10 @@ async function generateStatEmbed() {
         {
             name: "Total bibleverses read",
             value: (await getStat("bibleverses-requested")).toString(),
+        },
+        {
+            name: "Total money lost in gambling",
+            value: (await getStat("money-lost-in-gambling")).toString(),
         },
     ]);
 
