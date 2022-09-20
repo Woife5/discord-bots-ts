@@ -37,6 +37,7 @@ export interface IUser {
     emojis: {
         [key: string]: number;
     };
+    angryCoins: number;
 }
 
 const userSchema = new Schema<IUser>({
@@ -71,6 +72,10 @@ const userSchema = new Schema<IUser>({
     emojis: {
         type: Schema.Types.Mixed,
         default: {},
+    },
+    angryCoins: {
+        type: Number,
+        default: 0,
     },
 });
 

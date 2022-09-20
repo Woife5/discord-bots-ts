@@ -33,6 +33,7 @@ async function updateUserAndGetStreak(user: DiscordUser, tarot: number): Promise
 
     userData.userName = user.username;
     userData.tarot = tarot;
+    userData.angryCoins = userData.angryCoins + Math.ceil(tarot / 2);
     if (DateUtils.isBeforeYesterdayMidnight(userData.lastTarot)) {
         userData.tarotStreak = 1;
     } else {
@@ -64,6 +65,8 @@ async function setFields(embed: MessageEmbed, tarot: number, user: DiscordUser) 
     if (tarots[tarot].media) {
         embed.setImage(String(tarots[tarot].media));
     }
+
+    embed.addField("Angry Coins", `You earned ${Math.ceil(tarot / 2)} angry coins for this tarot!`);
 
     if (streak % 100 === 0) {
         const numberOfEmojis = streak / 100;

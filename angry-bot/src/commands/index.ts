@@ -12,3 +12,7 @@ export { catboy } from "./catboy";
 export { luhans } from "./luhans";
 export { stats } from "./stats";
 export { tarot } from "./tarot";
+
+export { balance } from "./angry-coin/balance";
+export { gamble } from "./angry-coin/gamble";
+export { pay } from "./angry-coin/pay";
