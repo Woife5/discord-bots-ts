@@ -17,12 +17,15 @@ export async function createUser(user: DiscordUser) {
         userName: user.username,
         emojis: {},
         stats: {},
+        powers: {},
     });
 }
 
 // --------------------------------------------------------
 // USER SCHEMA
 // --------------------------------------------------------
+
+export type Powers = "censorship-immunity";
 
 export interface IUser {
     userId: string;
@@ -38,6 +41,9 @@ export interface IUser {
         [key: string]: number;
     };
     angryCoins: number;
+    powers: {
+        [key in Powers]: number;
+    };
 }
 
 const userSchema = new Schema<IUser>({
@@ -76,6 +82,10 @@ const userSchema = new Schema<IUser>({
     angryCoins: {
         type: Number,
         default: 0,
+    },
+    powers: {
+        type: Schema.Types.Mixed,
+        default: {},
     },
 });
 

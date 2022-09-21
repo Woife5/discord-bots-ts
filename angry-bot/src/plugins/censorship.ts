@@ -1,5 +1,5 @@
 import type { Message, PartialMessage } from "discord.js";
-import { incrementStatAndUser, Log, ConfigCache, PluginReturnCode } from "@helpers";
+import { incrementStatAndUser, Log, ConfigCache, PluginReturnCode, usePower } from "@helpers";
 
 const log = new Log("Censorship");
 
@@ -10,7 +10,11 @@ function escapeRegExp(string: string) {
 export async function censor(message: Message | PartialMessage): Promise<PluginReturnCode> {
     const censored = await ConfigCache.get("censored");
 
-    if (!censored || !message.content) {
+    if (!censored || !message.content || !message.author) {
+        return "CONTINUE";
+    }
+
+    if (await usePower(message.author.id, "censorship-immunity")) {
         return "CONTINUE";
     }
 
