@@ -6,6 +6,10 @@ import { IUser, Powers, User } from "./db-helpers";
 
 const userCache = new Map<string, HydratedDocument<IUser> | null>();
 
+export function invalidateUserCache(userId: string) {
+    userCache.delete(userId);
+}
+
 export async function getUserRole(user: DiscordUser, guild: Guild): Promise<Role> {
     if (user.id === process.env.WOLFGANG_ID) {
         return Role.OWNER;

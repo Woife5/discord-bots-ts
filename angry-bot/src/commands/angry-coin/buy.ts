@@ -2,7 +2,7 @@ import { Message, EmbedBuilder, User as DiscordUser, ChatInputCommandInteraction
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN } from "@data";
 import { ICommand } from "../command-interfaces";
-import { Powers, User } from "@helpers";
+import { invalidateUserCache, Powers, User } from "@helpers";
 
 type ShopItem = {
     name: string;
@@ -78,6 +78,7 @@ async function runCommand(discordUser: DiscordUser, item: string | null, amount:
     user.powers[shopItem.value] += amount;
     user.markModified("powers");
     await user.save();
+    invalidateUserCache(user.userId);
 
     return defaultEmbed().setTitle("Purchase successful").setDescription(`You bought ${amount} ${shopItem.name}.`);
 }
