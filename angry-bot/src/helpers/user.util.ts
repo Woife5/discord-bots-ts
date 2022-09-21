@@ -10,9 +10,13 @@ export function invalidateUserCache(userId: string) {
     userCache.delete(userId);
 }
 
-export async function getUserRole(user: DiscordUser, guild: Guild): Promise<Role> {
+export async function getUserRole(user: DiscordUser, guild: Guild | null): Promise<Role> {
     if (user.id === process.env.WOLFGANG_ID) {
         return Role.OWNER;
+    }
+
+    if (!guild) {
+        return Role.USER;
     }
 
     const member = await guild.members.fetch(user.id);

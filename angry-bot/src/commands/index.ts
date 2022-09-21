@@ -17,3 +17,4 @@ export { balance } from "./angry-coin/balance";
 export { gamble } from "./angry-coin/gamble";
 export { pay } from "./angry-coin/pay";
 export { buy } from "./angry-coin/buy";
+export { payout } from "./angry-coin/payout";

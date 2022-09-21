@@ -23,7 +23,7 @@ export const gamble: ICommand = {
         interaction.reply({ embeds: [await runCommand(interaction.user, amount, all)] });
     },
     executeMessage: async (message: Message, args: string[]): Promise<void> => {
-        const amount = parseInt(args[0]) || -1;
+        const amount = parseInt(args[0] ?? "", 10);
         const all = args[0] === "all";
 
         message.reply({ embeds: [await runCommand(message.author, amount, all)] });
