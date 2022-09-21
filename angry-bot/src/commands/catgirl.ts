@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser, NumberUtils } from "@helpers";
 import { ICatgirlResponse, ICommand } from "./command-interfaces";
@@ -16,10 +16,10 @@ async function runCommand() {
     const image = imageUrl + result.images[0].id;
 
     // send answer
-    return new MessageEmbed()
+    return new EmbedBuilder()
         .setTitle("Catgirl")
         .setDescription(`Look at this ${randomWord} catgirl i found uwu`)
-        .setColor("DARK_GOLD")
+        .setColor("DarkGold")
         .setAuthor({
             name: "Angry Bot",
             iconURL: "https://cdn.discordapp.com/attachments/314440449731592192/912125148474245221/angry.png",

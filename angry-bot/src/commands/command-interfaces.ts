@@ -1,4 +1,4 @@
-import { CommandInteraction, Message } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 export interface IBookNames {
@@ -67,7 +67,7 @@ export interface ICatboyResponse {
 }
 
 export interface ISlashCommand {
-    (interaction: CommandInteraction): void | Promise<void>;
+    (interaction: ChatInputCommandInteraction): void | Promise<void>;
 }
 
 export interface IMessageCommand {

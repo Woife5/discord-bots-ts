@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { tarots, angryEmojis as angrys } from "@data";
 import { User, DateUtils, createUser, incrementStatAndUser } from "@helpers";
@@ -45,28 +45,31 @@ async function updateUserAndGetStreak(user: DiscordUser, tarot: number): Promise
     return userData.tarotStreak;
 }
 
-function createEmbed(): MessageEmbed {
-    return new MessageEmbed().setColor("DARK_RED").setFields({
+function createEmbed(): EmbedBuilder {
+    return new EmbedBuilder().setColor("DarkRed").setFields({
         name: "Angry Tarot",
         value: "Let me sense your angry",
         inline: false,
     });
 }
 
-async function setFields(embed: MessageEmbed, tarot: number, user: DiscordUser) {
+async function setFields(embed: EmbedBuilder, tarot: number, user: DiscordUser) {
     const streak = await updateUserAndGetStreak(user, tarot);
 
-    embed.fields[0].value = `Your angry today is :angry${tarot + 1}: ${angrys[tarot]}`;
+    embed.spliceFields(0, 1, {
+        name: "Angry Tarot",
+        value: `Your angry today is :angry${tarot + 1}: ${angrys[tarot]}`,
+    });
 
     if (tarots[tarot].text) {
-        embed.addField("Die Weißheit des angrys besagt:", tarots[tarot].text);
+        embed.addFields({ name: "Die Weißheit des angrys besagt:", value: tarots[tarot].text });
     }
 
     if (tarots[tarot].media) {
         embed.setImage(String(tarots[tarot].media));
     }
 
-    embed.addField("Angry Coins", `You earned ${Math.ceil(tarot / 2)} angry coins for this tarot!`);
+    embed.addFields({ name: "Angry Coins", value: `You earned ${Math.ceil(tarot / 2)} angry coins for this tarot!` });
 
     if (streak % 100 === 0) {
         const numberOfEmojis = streak / 100;
@@ -94,7 +97,10 @@ export const tarot: ICommand = {
 
         await interaction.reply({ embeds: [embed] });
         for (let i = 0; i < 6; i++) {
-            embed.fields[0].value += ".";
+            embed.spliceFields(0, 1, {
+                name: "Angry Tarot",
+                value: `Let me sense your angry${".".repeat(i + 1)}`,
+            });
             await interaction.editReply({ embeds: [embed] });
             await wait(500);
         }

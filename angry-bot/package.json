@@ -6,11 +6,8 @@
     "main": "./build/index.js",
     "scripts": {
         "start": "yarn build:dev && node ../build/angry-bot.js",
-        "build": "esbuild ./src/angry-bot.ts --minify --bundle --outdir=../build --platform=node --target=node16 --format=esm --external:../node_modules/*",
-        "build:migration": "esbuild ./src/migrations/migration-to-db.ts --minify --bundle --outdir=../build --platform=node --target=node16 --format=esm --external:../node_modules/*",
-        "build:commands": "esbuild ./src/migrations/register-commands.ts --minify --bundle --outdir=../build --platform=node --target=node16 --format=esm --external:../node_modules/*",
-        "build:dev": "esbuild ./src/angry-bot.ts --bundle --outdir=../build --platform=node --target=node16 --format=esm --external:../node_modules/*",
-        "migrate": "yarn build:migration && node ../build/migration-to-db.js",
+        "build": "esbuild ./src/angry-bot.ts --minify --bundle --outdir=../build --platform=node --target=node18 --format=esm --external:../node_modules/*",
+        "build:dev": "esbuild ./src/angry-bot.ts --bundle --outdir=../build --platform=node --target=node18 --format=esm --external:../node_modules/*",
         "lint": "eslint ./src/**/*.ts"
     },
     "author": "Wolfgang Schwendtbauer",
@@ -22,10 +19,10 @@
         "typescript": "^4.8.3"
     },
     "dependencies": {
-        "@discordjs/rest": "^0.5.0",
-        "discord-api-types": "^0.33.5",
-        "discord.js": "^13.7.0",
-        "dotenv": "^16.0.1",
+        "@discordjs/rest": "^1.1.0",
+        "discord-api-types": "^0.37.10",
+        "discord.js": "^14.3.0",
+        "dotenv": "^16.0.2",
         "mongoose": "^6.3.4",
         "node-fetch": "^3.2.4"
     }

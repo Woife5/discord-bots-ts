@@ -1,7 +1,7 @@
 import { REST } from "@discordjs/rest";
 import { Log } from "@helpers";
 import { ICommand } from "commands/command-interfaces";
-import { Routes } from "discord-api-types/v9";
+import { Routes } from "discord-api-types/v10";
 import { Collection } from "discord.js";
 
 const log = new Log("RegisterCommands");
@@ -11,7 +11,7 @@ export async function registerApplicationCommands(
     clientId: string,
     commands: Collection<string, ICommand>
 ) {
-    const rest = new REST({ version: "9" }).setToken(token);
+    const rest = new REST({ version: "10" }).setToken(token);
 
     // Will crash the bot if it fails
     await rest.put(Routes.applicationCommands(clientId), {

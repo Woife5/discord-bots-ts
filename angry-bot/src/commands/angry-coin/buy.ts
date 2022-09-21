@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from "discord.js";
+import { Message, EmbedBuilder, User as DiscordUser, ChatInputCommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN } from "@data";
 import { ICommand } from "../command-interfaces";
@@ -39,7 +39,7 @@ export const buy: ICommand = {
                 .setDescription("How many times do you want to purchase this item?")
                 .setRequired(false)
         ),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.user;
         const item = interaction.options.getString("item");
         const amount = interaction.options.getInteger("amount") ?? 1;
@@ -83,7 +83,7 @@ async function runCommand(discordUser: DiscordUser, item: string | null, amount:
 }
 
 function defaultEmbed() {
-    return new MessageEmbed().setColor("AQUA").setAuthor({ name: "Angry", iconURL: angryIconCDN });
+    return new EmbedBuilder().setColor("Aqua").setAuthor({ name: "Angry", iconURL: angryIconCDN });
 }
 
 function shopEmbed() {

@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryBirthday } from "@data";
 import { DateUtils } from "@helpers";
@@ -11,7 +11,7 @@ function getEmbed() {
         nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
     }
 
-    return new MessageEmbed()
+    return new EmbedBuilder()
         .setColor("#d94d26")
         .setTitle("MY BIRTHDAY")
         .setDescription(

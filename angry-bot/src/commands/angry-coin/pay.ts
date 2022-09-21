@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from "discord.js";
+import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand } from "../command-interfaces";
@@ -12,7 +12,7 @@ export const pay: ICommand = {
         .addIntegerOption(option =>
             option.setName("amount").setDescription("The amount of angry coins to pay.").setRequired(true)
         ),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const from = interaction.user;
         const to = interaction.options.getUser("user");
         const amount = interaction.options.getInteger("amount");
@@ -39,20 +39,20 @@ export const pay: ICommand = {
 
 async function runCommand(from: DiscordUser, to: DiscordUser, amount: number) {
     if (from.id === to.id || amount < 0) {
-        return new MessageEmbed().setColor("#ff4dde").setTitle("Haha, no.");
+        return new EmbedBuilder().setColor("#ff4dde").setTitle("Haha, no.");
     }
 
     const fromUser = await User.findOne({ userId: from.id });
     let toUser = await User.findOne({ userId: to.id });
 
-    const embed = new MessageEmbed().setTitle("Pay").setColor("YELLOW").setAuthor({
+    const embed = new EmbedBuilder().setTitle("Pay").setColor("Yellow").setAuthor({
         name: "Angry",
         iconURL: angryIconCDN,
         url: repoURL,
     });
 
     if (!fromUser || fromUser.angryCoins < amount) {
-        return embed.setColor("RED").setDescription("You don't have enough angry coins to pay that amount.");
+        return embed.setColor("Red").setDescription("You don't have enough angry coins to pay that amount.");
     }
 
     if (!toUser) {

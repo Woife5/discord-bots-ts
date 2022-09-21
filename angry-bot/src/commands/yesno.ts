@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ICommand, IYesNo } from "./command-interfaces";
 import { incrementStatAndUser } from "@helpers";
@@ -12,8 +12,8 @@ async function runCommand(question: string) {
         question = "Ehm how?";
     }
 
-    return new MessageEmbed()
-        .setColor("BLUE")
+    return new EmbedBuilder()
+        .setColor("Blue")
         .setTitle(question)
         .setDescription(`The answer is ${result.answer}. I have spoken.`)
         .setImage(result.image);

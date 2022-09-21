@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from "discord.js";
+import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand } from "../command-interfaces";
@@ -11,7 +11,7 @@ export const gamble: ICommand = {
         .addIntegerOption(option =>
             option.setName("amount").setDescription("The amount of angry coins to gamble.").setRequired(true)
         ),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const amount = interaction.options.getInteger("amount") ?? -1;
         interaction.reply({ embeds: [await runCommand(interaction.user, amount)] });
     },
@@ -25,8 +25,8 @@ async function runCommand(user: DiscordUser, amount: number) {
     const userBalance = await getUserCurrency(user.id);
 
     if (amount <= 0 || amount > userBalance) {
-        return new MessageEmbed()
-            .setColor("RED")
+        return new EmbedBuilder()
+            .setColor("Red")
             .setTitle("Gamble")
             .setDescription(
                 "Invalid amount! You have to gamble a positive amount of coins that you own (debt maybe coming soon)."
@@ -38,9 +38,9 @@ async function runCommand(user: DiscordUser, amount: number) {
             });
     }
 
-    const embed = new MessageEmbed()
-        .setColor("YELLOW")
-        .addField("Gambling", `You gambled ${amount} angry coins`)
+    const embed = new EmbedBuilder()
+        .setColor("Yellow")
+        .addFields({ name: "Gambling", value: `You gambled ${amount} angry coins` })
         .setAuthor({
             name: "Angry",
             iconURL: angryIconCDN,
@@ -51,16 +51,16 @@ async function runCommand(user: DiscordUser, amount: number) {
     await updateBalance(user, loose ? -amount : amount);
 
     if (loose) {
-        embed.setColor("RED");
-        embed.addField("Outcome", "You lost all your coins :( Better luck next time!");
+        embed.setColor("Red");
+        embed.addFields({ name: "Outcome", value: "You lost all your coins :( Better luck next time!" });
         return embed;
     }
 
-    embed.setColor("GREEN");
-    embed.addField(
-        "Outcome",
-        `You won ${amount * 2} angry coins! Good job! :money_mouth: :moneybag::moneybag::moneybag:`
-    );
+    embed.setColor("Green");
+    embed.addFields({
+        name: "Outcome",
+        value: `You won ${amount * 2} angry coins! Good job! :money_mouth: :moneybag::moneybag::moneybag:`,
+    });
     return embed;
 }
 

@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { IBibleBook, ICommand } from "./command-interfaces";
 import { incrementStatAndUser, Log, NumberUtils } from "@helpers";
@@ -10,7 +10,7 @@ const log = new Log("Bibleverse");
 const bibleAPI = "https://getbible.net/v2/elberfelder/";
 const numberOfBooks = 66;
 
-async function runCommand(int_book?: string, int_chapter?: number, int_verse?: number): Promise<MessageEmbed> {
+async function runCommand(int_book?: string, int_chapter?: number, int_verse?: number): Promise<EmbedBuilder> {
     // Check provided book
     let bookNumber: number;
     if (int_book) {
@@ -18,12 +18,12 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
             // Check if int_book is a valid book name
             bookNumber = bookNames[int_book.toLowerCase()];
             if (!bookNumber) {
-                return new MessageEmbed().setTitle("Invalid book name!");
+                return new EmbedBuilder().setTitle("Invalid book name!");
             }
         } else {
             // Check if the provided book number is valid
             if (Number(int_book) < 1 || Number(int_book) > numberOfBooks) {
-                return new MessageEmbed().setTitle("Invalid book number!");
+                return new EmbedBuilder().setTitle("Invalid book number!");
             } else {
                 bookNumber = Number(int_book);
             }
@@ -41,7 +41,7 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
         book = (await response.json()) as IBibleBook;
     } catch (error) {
         log.error(error);
-        return new MessageEmbed().setTitle("Error while downloading the bible!");
+        return new EmbedBuilder().setTitle("Error while downloading the bible!");
     }
 
     // Check provided chapter
@@ -50,7 +50,7 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
         if (book.chapters.length >= int_chapter && int_chapter > 0) {
             chapterNumber = Number(int_chapter);
         } else {
-            return new MessageEmbed().setTitle("Invalid chapter number!");
+            return new EmbedBuilder().setTitle("Invalid chapter number!");
         }
     } else {
         // No chapter defined, get a random chapter number
@@ -64,7 +64,7 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
         if (book.chapters[chapterNumber - 1].verses.length >= int_verse && int_verse > 0) {
             verseNumber = int_verse;
         } else {
-            return new MessageEmbed().setTitle("Invalid verse number!");
+            return new EmbedBuilder().setTitle("Invalid verse number!");
         }
     } else {
         // No verse defined, get a random verse number
@@ -87,8 +87,8 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
     verseText = verseText.replaceAll("Sünder", "Thomas");
     verseText = verseText.replaceAll("Gottseligkeit", "Angrylosigkeit (a.k.a. Freude)");
 
-    return new MessageEmbed()
-        .setColor("YELLOW")
+    return new EmbedBuilder()
+        .setColor("Yellow")
         .setTitle("Bible Verse")
         .setDescription(verseText)
         .setFooter({

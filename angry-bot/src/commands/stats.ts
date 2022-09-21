@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ICommand } from "./command-interfaces";
 import { angryIconCDN } from "@data";
@@ -12,7 +12,7 @@ export const stats: ICommand = {
     executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
         const user = interaction.options.getUser("user");
 
-        let result: MessageEmbed;
+        let result: EmbedBuilder;
 
         if (user) {
             result = await generateUserStatEmbed(user);
@@ -25,7 +25,7 @@ export const stats: ICommand = {
     executeMessage: async (message: Message): Promise<void> => {
         const user = message.mentions.users.first();
 
-        let result: MessageEmbed;
+        let result: EmbedBuilder;
 
         if (user) {
             result = await generateUserStatEmbed(user);
@@ -135,7 +135,7 @@ async function generateStatEmbed() {
 }
 
 function getStatEmbed() {
-    return new MessageEmbed().setTitle("Server stats").setColor("GOLD").setAuthor({
+    return new EmbedBuilder().setTitle("Server stats").setColor("Gold").setAuthor({
         name: "Angry Bot",
         iconURL: angryIconCDN,
     });

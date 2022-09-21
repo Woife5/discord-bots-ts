@@ -1,17 +1,19 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, prefix, repoURL, version } from "@data";
 import { ICommand } from "./command-interfaces";
 
 function runCommand() {
-    return new MessageEmbed()
+    return new EmbedBuilder()
         .setColor("#d94d26")
         .setTitle("About")
-        .addField("Regular Commands", `This bot uses regular commands with the prifix \`${prefix}\``)
-        .addField(
-            "Slash Command",
-            "Some commands are also available as slash commands. Just browse them by typing a `/`."
-        )
+        .addFields([
+            { name: "Regular Commands", value: `This bot uses regular commands with the prifix \`${prefix}\`` },
+            {
+                name: "Slash Command",
+                value: "Some commands are also available as slash commands. Just browse them by typing a `/`.",
+            },
+        ])
         .setAuthor({
             name: "Angry",
             iconURL: angryIconCDN,

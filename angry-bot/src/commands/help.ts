@@ -1,6 +1,6 @@
 import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, Guild, Message, MessageEmbed, User } from "discord.js";
+import { CommandInteraction, Guild, Message, EmbedBuilder, User } from "discord.js";
 import { getUserRole } from "@helpers";
 import * as Commands from "./";
 import { ICommand, Role } from "./command-interfaces";
@@ -28,7 +28,7 @@ async function runCommand(user: User, guild: Guild | null) {
         });
     }
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setColor("#d94d26")
         .setTitle("Available Commands")
         .setFooter({
@@ -44,7 +44,7 @@ async function runCommand(user: User, guild: Guild | null) {
     cache
         .filter(c => showCommand(c, role))
         .forEach(command => {
-            embed.addField(command.name, command.description);
+            embed.addFields({ name: command.name, value: command.description });
         });
 
     return embed;

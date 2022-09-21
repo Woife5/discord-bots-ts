@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Client, Intents, Collection, Message } from "discord.js";
+import { Client, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
 import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, getUserRole } from "@helpers";
 import { prefix, version } from "@data";
@@ -7,6 +7,7 @@ import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHan
 import * as Commands from "./commands";
 import { ICommand } from "commands/command-interfaces";
 import { registerApplicationCommands } from "plugins/register-commands";
+import { GatewayIntentBits } from "discord-api-types/v10";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -37,11 +38,11 @@ process.on("unhandledRejection", err => {
 
 const client = new Client({
     intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-        Intents.FLAGS.DIRECT_MESSAGES,
-        Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.DirectMessageReactions,
     ],
 });
 
@@ -79,14 +80,16 @@ client.on("interactionCreate", async interaction => {
     }
 
     if (!commands.has(interaction.commandName)) {
-        return console.error(`Command ${interaction.commandName} not found.`);
+        console.error(`Command ${interaction.commandName} not found.`);
+        return;
     }
 
     try {
         await commands.get(interaction.commandName)?.executeInteraction(interaction);
     } catch (error) {
         log?.error(error, "interactionCreate");
-        return interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+        interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+        return;
     }
 });
 

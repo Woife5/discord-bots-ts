@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { medienDispositive, geschmacksliste, funStuff, names } from "@data";
 import { incrementStatAndUser, NumberUtils } from "@helpers";
@@ -7,7 +7,7 @@ import { ICommand } from "./command-interfaces";
 const medienKlausur = new Date("2021-07-02T11:00:00");
 
 function runCommand() {
-    const embed = new MessageEmbed().setColor("DARK_VIVID_PINK");
+    const embed = new EmbedBuilder().setColor("DarkVividPink");
 
     switch (NumberUtils.getRandomInt(0, 2)) {
         // Case to get fun stuff
@@ -31,12 +31,12 @@ function runCommand() {
             const hourText = hSinceKlausur > 1 ? "Stunden" : "Stunde";
 
             embed
-                .addField(
-                    "McKlausur",
-                    `Sei glücklich, es sind bereits ${dSinceKlausur} Tage ${hSinceKlausur} ${hourText} ${mSinceKlausur} ${minuteText} und ${sSinceKlausur} ${secondText} sind seit der Medientheorie Klausur mit ${
+                .addFields({
+                    name: "McKlausur",
+                    value: `Sei glücklich, es sind bereits ${dSinceKlausur} Tage ${hSinceKlausur} ${hourText} ${mSinceKlausur} ${minuteText} und ${sSinceKlausur} ${secondText} sind seit der Medientheorie Klausur mit ${
                         names[NumberUtils.getRandomInt(0, names.length - 1)]
-                    } vergangen!\nEine rachsüchtige Erinnerung - ich hoffe, sie macht dich wütend.`
-                )
+                    } vergangen!\nEine rachsüchtige Erinnerung - ich hoffe, sie macht dich wütend.`,
+                })
                 .setTimestamp(medienKlausur);
 
             break;
@@ -45,10 +45,10 @@ function runCommand() {
         // Case to get some proper medienDispositive!
         case 1: {
             const name = names[NumberUtils.getRandomInt(0, names.length - 1)];
-            embed.addField(
-                `Hallo, ich bin ${name} und das ist meine momentane, unverständliche Weisheit:`,
-                medienDispositive[NumberUtils.getRandomInt(0, medienDispositive.length - 1)]
-            );
+            embed.addFields({
+                name: `Hallo, ich bin ${name} und das ist meine momentane, unverständliche Weisheit:`,
+                value: medienDispositive[NumberUtils.getRandomInt(0, medienDispositive.length - 1)],
+            });
             embed.setAuthor({ name: name });
             break;
         }

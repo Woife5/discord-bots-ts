@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ConfigCache } from "@helpers";
 import { ICommand, Role } from "./command-interfaces";
@@ -8,7 +8,7 @@ export async function getEmbed() {
     const config = await ConfigCache.get("censored");
 
     if (!config) {
-        return new MessageEmbed().setColor("#d94d26").setTitle("No consored strings found!");
+        return new EmbedBuilder().setColor("#d94d26").setTitle("No consored strings found!");
     }
 
     let censored = "";
@@ -18,7 +18,7 @@ export async function getEmbed() {
         censored = "None";
     }
 
-    return new MessageEmbed().setTitle("Censored Strings:").setDescription(censored);
+    return new EmbedBuilder().setTitle("Censored Strings:").setDescription(censored);
 }
 
 export const censored: ICommand = {

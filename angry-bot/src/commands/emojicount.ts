@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed, User as DiscordUser } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { Stats, User } from "@helpers";
 import { ICommand } from "./command-interfaces";
@@ -9,13 +9,13 @@ const embedColor = "#d94d26";
 async function runCommand(user: DiscordUser | null | undefined) {
     let emojicount = 0;
 
-    const embed = new MessageEmbed().setColor(embedColor).setTitle("Emoji Count");
+    const embed = new EmbedBuilder().setColor(embedColor).setTitle("Emoji Count");
 
     if (user) {
         const userResult = await User.findOne({ userId: user.id }).exec();
 
         if (!userResult) {
-            return new MessageEmbed().setColor(embedColor).setTitle("User not found!");
+            return new EmbedBuilder().setColor(embedColor).setTitle("User not found!");
         }
 
         emojicount = Object.values(userResult.emojis).reduce((acc, val) => acc + val, 0);
@@ -33,12 +33,12 @@ async function runCommand(user: DiscordUser | null | undefined) {
         const val = await Stats.findOne({ key: "total-angry-emojis-sent" }).exec();
 
         if (!val || val.key !== "total-angry-emojis-sent") {
-            return new MessageEmbed().setColor(embedColor).setTitle("Error 🤒");
+            return new EmbedBuilder().setColor(embedColor).setTitle("Error 🤒");
         }
 
         emojicount = val.value;
 
-        embed.addField("Total angry emojis sent", emojicount.toString());
+        embed.addFields({ name: "Total angry emojis sent", value: emojicount.toString() });
     }
 
     return embed;

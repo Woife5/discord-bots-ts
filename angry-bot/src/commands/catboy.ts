@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
 import { ICatboyPhraseResponse, ICatboyResponse, ICommand } from "./command-interfaces";
@@ -16,10 +16,10 @@ async function runCommand() {
     const catboyPhrase = (await phrase.json()) as ICatboyPhraseResponse;
 
     // send answer
-    return new MessageEmbed()
+    return new EmbedBuilder()
         .setTitle("Catboy")
         .setDescription(`Look at this catboy i found! ${catboyPhrase.response}`)
-        .setColor("DARK_GOLD")
+        .setColor("DarkGold")
         .setAuthor({
             name: "Angry Bot",
             iconURL: "https://cdn.discordapp.com/attachments/314440449731592192/912125148474245221/angry.png",
