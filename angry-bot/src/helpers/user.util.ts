@@ -21,7 +21,7 @@ export async function getMemberRole(member: GuildMember): Promise<Role> {
         return Role.OWNER;
     }
 
-    if (member.permissions.has("ADMINISTRATOR") || member.roles.cache.has(adminRoleId)) {
+    if (member.permissions.has("Administrator") || member.roles.cache.has(adminRoleId)) {
         return Role.ADMIN;
     }
 

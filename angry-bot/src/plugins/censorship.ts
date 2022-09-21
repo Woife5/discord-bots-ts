@@ -14,10 +14,6 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
         return "CONTINUE";
     }
 
-    if (await usePower(message.author.id, "censorship-immunity")) {
-        return "CONTINUE";
-    }
-
     let hasToBeCensored = false;
     let censoredContent = message.content.replaceAll("\\", "\\ ");
     const censoredStrings = censored as string[];
@@ -31,6 +27,10 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
     });
 
     if (!hasToBeCensored) {
+        return "CONTINUE";
+    }
+
+    if (await usePower(message.author.id, "censorship-immunity")) {
         return "CONTINUE";
     }
 

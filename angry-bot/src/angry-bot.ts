@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Client, Collection, Message } from "discord.js";
+import { ChatInputCommandInteraction, Client, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
 import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, getUserRole } from "@helpers";
 import { prefix, version } from "@data";
@@ -40,6 +40,7 @@ const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMessageReactions,
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.DirectMessageReactions,
@@ -85,7 +86,7 @@ client.on("interactionCreate", async interaction => {
     }
 
     try {
-        await commands.get(interaction.commandName)?.executeInteraction(interaction);
+        await commands.get(interaction.commandName)?.executeInteraction(interaction as ChatInputCommandInteraction);
     } catch (error) {
         log?.error(error, "interactionCreate");
         interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
