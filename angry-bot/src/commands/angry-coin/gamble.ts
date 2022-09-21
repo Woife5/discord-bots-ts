@@ -8,23 +8,36 @@ export const gamble: ICommand = {
     data: new SlashCommandBuilder()
         .setName("gamble")
         .setDescription("Gamble away a portion of your angry coins.")
-        .addIntegerOption(option =>
-            option.setName("amount").setDescription("The amount of angry coins to gamble.").setRequired(true)
+        .addStringOption(option =>
+            option
+                .setName("amount")
+                .setDescription("The amount of coins you want to gamble or `all`, if you are feeling very lucky ;)")
+                .setRequired(true)
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
-        const amount = interaction.options.getInteger("amount") ?? -1;
-        interaction.reply({ embeds: [await runCommand(interaction.user, amount)] });
+        const amountStr = interaction.options.getString("amount") ?? "";
+        const amount = parseInt(amountStr, 10);
+
+        const all = amountStr === "all";
+
+        interaction.reply({ embeds: [await runCommand(interaction.user, amount, all)] });
     },
     executeMessage: async (message: Message, args: string[]): Promise<void> => {
         const amount = parseInt(args[0]) || -1;
-        message.reply({ embeds: [await runCommand(message.author, amount)] });
+        const all = args[0] === "all";
+
+        message.reply({ embeds: [await runCommand(message.author, amount, all)] });
     },
 };
 
-async function runCommand(user: DiscordUser, amount: number) {
+async function runCommand(user: DiscordUser, amount: number, all: boolean) {
     const userBalance = await getUserCurrency(user.id);
 
-    if (amount <= 0 || amount > userBalance) {
+    if (all) {
+        amount = userBalance;
+    }
+
+    if (isNaN(amount) || amount <= 0 || amount > userBalance) {
         return new EmbedBuilder()
             .setColor("Red")
             .setTitle("Gamble")
