@@ -95,34 +95,34 @@ client.on("interactionCreate", async interaction => {
 });
 
 const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
-    if (MessageUtils.startsWith(message, prefix)) {
-        const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
-        const command = args.shift()?.toLowerCase() || "help";
+    if (!MessageUtils.startsWith(message, prefix)) {
+        return "CONTINUE";
+    }
 
-        if (commands.has(command)) {
-            try {
-                const commandRef = commands.get(command);
-                if (!commandRef || !message.guild) {
-                    throw new Error();
-                }
+    const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
+    const command = args.shift()?.toLowerCase() || "help";
 
-                const userRole = await getUserRole(message.author, message.guild);
-                if (commandRef.role && userRole < commandRef.role) {
-                    await message.reply("You don't have the required role to use this command! 🥴");
-                    return "ABORT";
-                }
-
-                await commandRef.executeMessage(message, args);
-            } catch (error) {
-                await message.reply("An error occured 🥴");
-            }
-        } else {
-            await message.reply("That is not a command i know of 🥴");
-        }
+    if (!commands.has(command)) {
+        await message.reply("That is not a command i know of 🥴");
         return "ABORT";
     }
 
-    return "CONTINUE";
+    try {
+        const commandRef = commands.get(command);
+        if (!commandRef || !message.guild) {
+            throw new Error();
+        }
+        const userRole = await getUserRole(message.author, message.guild);
+        if (commandRef.role && userRole < commandRef.role) {
+            await message.reply("You don't have the required role to use this command! 🥴");
+        } else {
+            await commandRef.executeMessage(message, args);
+        }
+    } catch (error) {
+        await message.reply("An error occured 🥴");
+    }
+
+    return "ABORT";
 };
 
 const isApplicable = async (message: Message): Promise<PluginReturnCode> => {

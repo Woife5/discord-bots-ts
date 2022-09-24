@@ -1,7 +1,7 @@
 import { ratingEmojis } from "@data";
 import { ConfigCache, getMemberRole, NumberUtils, PluginReturnCode } from "@helpers";
 import { Role } from "commands/command-interfaces";
-import { Message, MessageReaction, PartialMessage, PartialMessageReaction, PartialUser, User } from "discord.js";
+import { ChannelType, Message, MessageReaction, PartialMessage, PartialMessageReaction, PartialUser, User } from "discord.js";
 
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
     if (!isInFeetChannel(message)) {
@@ -65,7 +65,7 @@ export async function handleReaction(
 }
 
 function isInFeetChannel(message: Message | PartialMessage) {
-    return !(message.channel.type !== "GUILD_TEXT" || message.channel.name !== "angry-feet");
+    return !(message.channel.type !== ChannelType.GuildText || message.channel.name !== "angry-feet");
 }
 
 async function isFeetRelated(msg: string) {

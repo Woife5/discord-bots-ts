@@ -1,4 +1,4 @@
-export const version = "2.8.4";
+export const version = "2.8.5";
 export const prefix = "?angry";
 export const angryBirthday = new Date("2021-03-24T00:00:00.000Z");
 export const repoURL = "https://github.com/Woife5/discord-bots-ts";
