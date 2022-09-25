@@ -1,7 +1,17 @@
 import { ratingEmojis } from "@data";
-import { ConfigCache, getMemberRole, NumberUtils, PluginReturnCode } from "@helpers";
+import { ConfigCache, DateUtils, getMemberRole, NumberUtils, PluginReturnCode, updateUserCurrency } from "@helpers";
 import { Role } from "commands/command-interfaces";
-import { ChannelType, Message, MessageReaction, PartialMessage, PartialMessageReaction, PartialUser, User } from "discord.js";
+import {
+    ChannelType,
+    Message,
+    MessageReaction,
+    PartialMessage,
+    PartialMessageReaction,
+    PartialUser,
+    User,
+} from "discord.js";
+
+const payouts = new Map<string, Date>();
 
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
     if (!isInFeetChannel(message)) {
@@ -53,6 +63,20 @@ export async function handleReaction(
         await reaction.message.reply(`${rating + 1}/10 🦶 ${ratingEmoji}`);
         await reaction.message.react("🦶");
         await reaction.message.react(ratingEmoji);
+
+        const userId = reaction.message.author?.id;
+        if (userId) {
+            const payoutDate = payouts.get(userId);
+            if (payoutDate && DateUtils.isToday(payoutDate)) {
+                return "ABORT";
+            }
+
+            payouts.set(userId, new Date());
+            const moneyWon = (rating + 1) * 10;
+
+            await updateUserCurrency(userId, moneyWon);
+            await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
+        }
 
         return "ABORT";
     }

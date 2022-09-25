@@ -36,6 +36,19 @@ export async function getMemberRole(member: GuildMember): Promise<Role> {
     return Role.USER;
 }
 
+export async function updateUserCurrency(userId: string, amount: number): Promise<boolean> {
+    const user = await User.findOne({ userId });
+
+    if (!user || user.angryCoins + amount < 0) {
+        return false;
+    }
+
+    user.angryCoins += amount;
+    await user.save();
+
+    return true;
+}
+
 export async function getUserCurrency(userId: string): Promise<number> {
     const user = await User.findOne({ userId });
 

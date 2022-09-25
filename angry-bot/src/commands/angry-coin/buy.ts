@@ -16,7 +16,7 @@ const shopItems: ShopItem[] = [
         name: "Censorship immunity",
         value: "censorship-immunity",
         description: "Be immune to censorship for 10 usages.",
-        price: 1,
+        price: 10,
     },
 ];
 

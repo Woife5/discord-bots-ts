@@ -1,5 +1,7 @@
 import { Message } from "discord.js";
-import { User, Stats, PluginReturnCode, createUser } from "@helpers";
+import { User, Stats, PluginReturnCode, createUser, DateUtils, updateUserCurrency } from "@helpers";
+
+const moneySpamCounter = new Map<string, { date: Date; count: number }>();
 
 export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
@@ -7,6 +9,24 @@ export async function count(message: Message): Promise<PluginReturnCode> {
     const matches = Array.from(message.cleanContent.matchAll(regex), m => m[1]);
 
     const userId = message.author.id;
+
+    // Give the user a max of 100 coins per day for every emoji sent
+    const userSpamToday = moneySpamCounter.get(userId);
+    if (userSpamToday) {
+        if (DateUtils.isToday(userSpamToday.date) && userSpamToday.count < 100) {
+            let emojiCount = matches.length;
+            const total = userSpamToday.count + matches.length;
+            if (total > 100) {
+                emojiCount = 100 - userSpamToday.count;
+            }
+            await updateUserCurrency(userId, emojiCount);
+            moneySpamCounter.set(userId, { date: new Date(), count: total });
+        }
+    } else {
+        const emojiCount = matches.length > 100 ? 100 : matches.length;
+        await updateUserCurrency(userId, emojiCount);
+        moneySpamCounter.set(userId, { date: new Date(), count: emojiCount });
+    }
 
     await Stats.findOneAndUpdate(
         { key: "total-angry-emojis-sent" },
