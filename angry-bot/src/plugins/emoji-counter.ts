@@ -13,7 +13,10 @@ export async function count(message: Message): Promise<PluginReturnCode> {
     // Give the user a max of 100 coins per day for every emoji sent
     const userSpamToday = moneySpamCounter.get(userId);
     if (userSpamToday) {
-        if (DateUtils.isToday(userSpamToday.date) && userSpamToday.count < 100) {
+        if (
+            (DateUtils.isToday(userSpamToday.date) && userSpamToday.count < 100) ||
+            !DateUtils.isToday(userSpamToday.date)
+        ) {
             let emojiCount = matches.length;
             const total = userSpamToday.count + matches.length;
             if (total > 100) {
