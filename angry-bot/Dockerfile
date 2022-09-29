@@ -1,12 +1,12 @@
-FROM node:18-alpine
+FROM --platform=arm64 node:18-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 
-COPY package.json ./
-COPY yarn.lock ./
+COPY ./angry-bot/package.json ./
+COPY ./yarn.lock ./
 
 RUN yarn install --production=true --frozen-lockfile
 
-COPY . .
+COPY ./angry-bot/index.js ./angry-bot/index.js
 
-CMD [ "node", "./build/angry-bot" ]
+CMD [ "node", "./angry-bot/index.js" ]

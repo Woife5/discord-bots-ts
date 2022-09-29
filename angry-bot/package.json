@@ -1,14 +1,15 @@
 {
     "name": "angry-bot",
-    "version": "2.2.0",
+    "version": "2.8.8",
     "description": "Angry Bot.",
     "type": "module",
-    "main": "./build/index.js",
+    "main": "./index.js",
     "scripts": {
-        "start": "yarn build:dev && node ../build/angry-bot.js",
-        "build": "esbuild ./src/angry-bot.ts --minify --bundle --outdir=../build --platform=node --target=node18 --format=esm --external:../node_modules/*",
-        "build:dev": "esbuild ./src/angry-bot.ts --bundle --outdir=../build --platform=node --target=node18 --format=esm --external:../node_modules/*",
-        "lint": "eslint ./src/**/*.ts"
+        "start": "yarn build:dev && node ./index-dev.js",
+        "build": "esbuild ./src/angry-bot.ts --minify --bundle --outfile=./index.js --platform=node --target=node18 --format=esm --external:../node_modules/*",
+        "build:dev": "esbuild ./src/angry-bot.ts --bundle --outfile=./index-dev.js --platform=node --target=node18 --format=esm --external:../node_modules/*",
+        "lint": "eslint ./src/**/*.ts",
+        "dockerize": "yarn build && cd .. && docker buildx build -t woife5/angry-bot:latest -f ./angry-bot/Dockerfile --platform=linux/arm64,linux/amd64,linux/arm/v7,linux/arm/v6 -o type=registry . "
     },
     "author": "Wolfgang Schwendtbauer",
     "devDependencies": {
