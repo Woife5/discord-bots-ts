@@ -14,7 +14,7 @@ The scripts to build an run the bot can be found in `angry-bot/package.json`. Ru
 
 ### Run the bot
 
-Make sure MongoDB is running and the secrets are set correctly
+Make sure MongoDB is running and the secrets are set up correctly
 Required Secrets:
 
 -   ANGRY1_TOKEN
@@ -22,12 +22,3 @@ Required Secrets:
 -   ANGRY_REACTIONS
 -   MONGO_URI
 -   WOLFGANG_ID
-
-1. Copy `package.json` and `yarn.lock` to a new directory, also copy the `build` folder there.
-2. Copy the `Dockerfile` from `angry-bot` to the new directory.
-3. Optionally create your own `docker-compose.yml` file with your setup and secrets.
-4. Run the container
-
-## Angrier Bot
-
-TBD

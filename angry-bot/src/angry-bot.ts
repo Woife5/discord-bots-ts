@@ -3,7 +3,7 @@ import { ChatInputCommandInteraction, Client, Collection, Message } from "discor
 import dotenv from "dotenv";
 import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, getUserRole } from "@helpers";
 import { prefix, version } from "@data";
-import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler } from "./plugins";
+import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler, Taxation } from "./plugins";
 import * as Commands from "./commands";
 import { ICommand } from "commands/command-interfaces";
 import { registerApplicationCommands } from "plugins/register-commands";
@@ -70,6 +70,15 @@ client.on("ready", async () => {
 
         Tarotreminder.remind(client);
     }, tarotReminder.getTime() - Date.now());
+
+    // Check every day at some time if a given user has spent some coins today, otherwise tax them
+    setTimeout(() => {
+        setInterval(() => {
+            Taxation.tax(client);
+        }, 24 * 60 * 60 * 1000);
+
+        Taxation.tax(client);
+    }, DateUtils.getNextTime(19).getTime() - Date.now());
 
     // Re-register all slash commands when the bot starts
     registerApplicationCommands(token, clientId, commands);

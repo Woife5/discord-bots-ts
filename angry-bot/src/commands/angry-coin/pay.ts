@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand } from "../command-interfaces";
-import { createUser, User } from "@helpers";
+import { getUserCurrency, updateUserCurrency } from "@helpers";
 
 export const pay: ICommand = {
     data: new SlashCommandBuilder()
@@ -42,28 +42,18 @@ async function runCommand(from: DiscordUser, to: DiscordUser, amount: number) {
         return new EmbedBuilder().setColor("#ff4dde").setTitle("Haha, no.");
     }
 
-    const fromUser = await User.findOne({ userId: from.id });
-    let toUser = await User.findOne({ userId: to.id });
-
     const embed = new EmbedBuilder().setTitle("Pay").setColor("Yellow").setAuthor({
         name: "Angry",
         iconURL: angryIconCDN,
         url: repoURL,
     });
 
-    if (!fromUser || fromUser.angryCoins < amount) {
+    if ((await getUserCurrency(from.id)) < amount) {
         return embed.setColor("Red").setDescription("You don't have enough angry coins to pay that amount.");
     }
 
-    if (!toUser) {
-        toUser = await createUser(to);
-    }
-
-    fromUser.angryCoins -= amount;
-    toUser.angryCoins += amount;
-
-    await fromUser.save();
-    await toUser.save();
+    await updateUserCurrency(from.id, -amount, from.username);
+    await updateUserCurrency(to.id, amount, to.username);
 
     return embed.setDescription(`You paid **${amount}** angry coins to ${to.username}.`);
 }

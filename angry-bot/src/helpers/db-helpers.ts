@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { HydratedDocument } from "mongoose";
 import { User as DiscordUser } from "discord.js";
 const { Schema, connect, model } = mongoose;
 
@@ -11,10 +11,14 @@ export async function init() {
     await connect(uri);
 }
 
-export async function createUser(user: DiscordUser) {
+export async function createUser(user: DiscordUser): Promise<HydratedDocument<IUser>> {
+    return await createUserSimple(user.id, user.username);
+}
+
+export async function createUserSimple(id: string, name: string): Promise<HydratedDocument<IUser>> {
     return await User.create({
-        userId: user.id,
-        userName: user.username,
+        userId: id,
+        userName: name,
         emojis: {},
         stats: {},
         powers: {},
@@ -41,6 +45,7 @@ export interface IUser {
         [key: string]: number;
     };
     angryCoins: number;
+    lastTransaction: Date;
     powers: {
         [key in Powers]: number;
     };
@@ -82,6 +87,10 @@ const userSchema = new Schema<IUser>({
     angryCoins: {
         type: Number,
         default: 0,
+    },
+    lastTransaction: {
+        type: Date,
+        default: new Date(0),
     },
     powers: {
         type: Schema.Types.Mixed,

@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand } from "../command-interfaces";
-import { getUserCurrency, incrementStatAndUser, NumberUtils, User } from "@helpers";
+import { getUserCurrency, incrementStatAndUser, NumberUtils, updateUserCurrency } from "@helpers";
 
 export const gamble: ICommand = {
     data: new SlashCommandBuilder()
@@ -78,8 +78,8 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 }
 
 async function updateBalance(discordUser: DiscordUser, amount: number) {
-    await User.updateOne({ userId: process.env.CLIENT_ID }, { $inc: { angryCoins: -amount } }, { upsert: true }).exec();
-    await User.updateOne({ userId: discordUser.id }, { $inc: { angryCoins: amount } }).exec();
+    await updateUserCurrency(discordUser.id, amount, discordUser.username);
+    await updateUserCurrency(process.env.CLIENT_ID ?? "", -amount, "Angry");
     if (amount < 0) {
         await incrementStatAndUser("money-lost-in-gambling", discordUser, -amount);
     } else {

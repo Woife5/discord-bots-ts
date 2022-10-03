@@ -2,7 +2,7 @@ import { adminRoleId } from "@data";
 import { Role } from "commands/command-interfaces";
 import { Guild, GuildMember, User as DiscordUser } from "discord.js";
 import { HydratedDocument } from "mongoose";
-import { IUser, Powers, User } from "./db-helpers";
+import { createUserSimple, IUser, Powers, User } from "./db-helpers";
 
 const userCache = new Map<string, HydratedDocument<IUser> | null>();
 
@@ -36,14 +36,19 @@ export async function getMemberRole(member: GuildMember): Promise<Role> {
     return Role.USER;
 }
 
-export async function updateUserCurrency(userId: string, amount: number): Promise<boolean> {
-    const user = await User.findOne({ userId });
+/**
+ * This function will not check if the user's balance will be below 0 after or before the action.
+ */
+export async function updateUserCurrency(userId: string, amount: number, username = "unknown"): Promise<boolean> {
+    let user = await User.findOne({ userId: userId });
 
-    if (!user || user.angryCoins + amount < 0) {
-        return false;
+    if (!user) {
+        user = await createUserSimple(userId, username);
     }
 
+    username !== "unknown" && (user.userName = username);
     user.angryCoins += amount;
+    user.lastTransaction = new Date();
     await user.save();
 
     return true;
