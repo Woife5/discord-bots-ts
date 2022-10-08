@@ -19,6 +19,5 @@ Required Secrets:
 
 -   ANGRY1_TOKEN
 -   CLIENT_ID
--   ANGRY_REACTIONS
 -   MONGO_URI
 -   WOLFGANG_ID

@@ -79,7 +79,8 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 
 async function updateBalance(discordUser: DiscordUser, amount: number) {
     await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username, taxPayed: amount < 10 });
-    await updateUserBalance({ userId: process.env.CLIENT_ID ?? "", amount: -amount, username: "Angry" });
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    await updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
     if (amount < 0) {
         await incrementStatAndUser("money-lost-in-gambling", discordUser, -amount);
     } else {

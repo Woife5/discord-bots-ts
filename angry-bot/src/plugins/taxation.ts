@@ -29,14 +29,13 @@ export async function tax(client: Client) {
         }
     }
 
-    const angryId = process.env.CLIENT_ID;
-
-    if (taxMoney <= 0 || !angryId) {
+    if (taxMoney <= 0) {
         return;
     }
 
     await updateUserBalance({
-        userId: angryId,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        userId: process.env.CLIENT_ID!,
         amount: taxMoney,
         username: "Angry",
     });

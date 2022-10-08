@@ -40,11 +40,8 @@ export const payout: ICommand = {
 };
 
 async function runCommand(user: DiscordUser, amount: number, all: boolean) {
-    if (!process.env.CLIENT_ID) {
-        return new EmbedBuilder().setColor("Red").setTitle("Payout").setDescription("Bot account not found!");
-    }
-
-    const botBalance = await getUserCurrency(process.env.CLIENT_ID);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const botBalance = await getUserCurrency(process.env.CLIENT_ID!);
 
     if (all) {
         amount = botBalance;
@@ -77,6 +74,7 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 }
 
 async function updateBalance(discordUser: DiscordUser, amount: number) {
-    await updateUserBalance({ userId: process.env.CLIENT_ID ?? "", amount: -amount, username: "Angry" });
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    await updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
     await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username });
 }

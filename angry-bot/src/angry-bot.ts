@@ -17,8 +17,9 @@ let log: Log | undefined;
 
 const clientId = process.env.CLIENT_ID;
 const token = process.env.ANGRY1_TOKEN;
+const adminId = process.env.WOLFGANG_ID;
 
-if (!token || !clientId) {
+if (!token || !clientId || !adminId) {
     console.error("No token or client id provided!");
     process.exit(1);
 }
