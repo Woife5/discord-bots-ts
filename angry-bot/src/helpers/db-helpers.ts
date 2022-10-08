@@ -288,3 +288,77 @@ const logSchema = new Schema<ILog>({
 });
 
 export const LogDB = model<ILog>("Log", logSchema);
+
+// --------------------------------------------------------
+// GUILDSETTINGS SCHEMA
+// --------------------------------------------------------
+
+export interface IGuildSettings {
+    guildId: string;
+    broadcastChannelId: string;
+}
+
+const guildSettingsSchema = new Schema<IGuildSettings>({
+    guildId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    broadcastChannelId: {
+        type: String,
+        required: false,
+    },
+});
+
+const GuildSettingsDB = model<IGuildSettings>("GuildSettings", guildSettingsSchema);
+
+type GuildSettingsCacheEntry = {
+    config: IGuildSettings;
+    expires: number;
+};
+
+export class GuildSettingsCache {
+    private static _cache = new Map<string, GuildSettingsCacheEntry>();
+
+    static async get(key: string): Promise<IGuildSettings | null> {
+        const entry = this._cache.get(key);
+        if (!entry || entry.expires < Date.now()) {
+            const config = await GuildSettingsDB.findOne({ guildId: key }).exec();
+
+            if (!config) {
+                return null;
+            }
+
+            this._cache.set(key, {
+                config: config,
+                expires: Date.now() + 999 * 60 * 10,
+            });
+
+            return config;
+        }
+
+        return entry.config;
+    }
+
+    static async set(guildId: string, config: Partial<IGuildSettings>) {
+        const entry = await GuildSettingsDB.findOne({ guildId: guildId }).exec();
+
+        if (!entry) {
+            return await GuildSettingsDB.create({
+                guildId: guildId,
+                ...config,
+            });
+        }
+
+        if (config.broadcastChannelId) {
+            entry.broadcastChannelId = config.broadcastChannelId;
+        }
+
+        this._cache.set(guildId, {
+            config: entry,
+            expires: Date.now() + 999 * 60 * 10,
+        });
+
+        return await entry.save();
+    }
+}
