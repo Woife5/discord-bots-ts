@@ -1,4 +1,4 @@
-import { User, Log, updateUserCurrency } from "@helpers";
+import { User, Log, updateUserBalance, DateUtils } from "@helpers";
 import { ChannelType, Client } from "discord.js";
 
 const TAXATION_RATE = 0.1;
@@ -6,10 +6,7 @@ const broadcastChannelId = "824231030494986262";
 const log = new Log("Taxation");
 
 export async function tax(client: Client) {
-    const users = await User.find({
-        lastTransaction: { $lt: new Date().setHours(0, 0, 0, 0) },
-        angryCoins: { $gt: 0 },
-    }).exec();
+    const users = await User.find({ angryCoins: { $gt: 0 } }).exec();
 
     if (!users) {
         return;
@@ -18,8 +15,12 @@ export async function tax(client: Client) {
     let taxMoney = 0;
 
     for (const user of users) {
+        if (user.userId === process.env.CLIENT_ID || !user.lastTransaction || DateUtils.isToday(user.lastTransaction)) {
+            continue;
+        }
+
         try {
-            const taxationMoney = Math.floor(user.angryCoins * TAXATION_RATE);
+            const taxationMoney = Math.ceil(user.angryCoins * TAXATION_RATE);
             user.angryCoins -= taxationMoney;
             taxMoney += taxationMoney;
             user.lastTransaction = new Date();
@@ -46,5 +47,9 @@ export async function tax(client: Client) {
         log.error("Could not find broadcast channel");
     }
 
-    await updateUserCurrency(angryId, taxMoney, "Angry");
+    await updateUserBalance({
+        userId: angryId,
+        amount: taxMoney,
+        username: "Angry",
+    });
 }

@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { User, Stats, PluginReturnCode, createUser, DateUtils, updateUserCurrency } from "@helpers";
+import { User, Stats, PluginReturnCode, createUser, DateUtils, updateUserBalance } from "@helpers";
 
 const moneySpamCounter = new Map<string, { date: Date; count: number }>();
 
@@ -22,12 +22,12 @@ export async function count(message: Message): Promise<PluginReturnCode> {
             if (total > 100) {
                 emojiCount = 100 - userSpamToday.count;
             }
-            await updateUserCurrency(userId, emojiCount);
+            await updateUserBalance({ userId, amount: emojiCount });
             moneySpamCounter.set(userId, { date: new Date(), count: total });
         }
     } else {
         const emojiCount = matches.length > 100 ? 100 : matches.length;
-        await updateUserCurrency(userId, emojiCount);
+        await updateUserBalance({ userId, amount: emojiCount });
         moneySpamCounter.set(userId, { date: new Date(), count: emojiCount });
     }
 

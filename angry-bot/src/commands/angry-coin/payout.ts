@@ -8,7 +8,7 @@ import {
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand, Role } from "../command-interfaces";
-import { getUserCurrency, getUserRole, updateUserCurrency } from "@helpers";
+import { getUserCurrency, getUserRole, updateUserBalance } from "@helpers";
 
 export const payout: ICommand = {
     data: new SlashCommandBuilder()
@@ -77,6 +77,6 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 }
 
 async function updateBalance(discordUser: DiscordUser, amount: number) {
-    await updateUserCurrency(process.env.CLIENT_ID ?? "", -amount, "Angry");
-    await updateUserCurrency(discordUser.id, amount, discordUser.username);
+    await updateUserBalance({ userId: process.env.CLIENT_ID ?? "", amount: -amount, username: "Angry" });
+    await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username });
 }

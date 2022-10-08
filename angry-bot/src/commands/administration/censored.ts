@@ -1,8 +1,7 @@
-import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
+import { CommandInteraction, Message, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ConfigCache } from "@helpers";
-import { ICommand, Role } from "./command-interfaces";
-import { PermissionFlagsBits } from "discord-api-types/v9";
+import { ICommand, Role } from "../command-interfaces";
 
 export async function getEmbed() {
     const config = await ConfigCache.get("censored");

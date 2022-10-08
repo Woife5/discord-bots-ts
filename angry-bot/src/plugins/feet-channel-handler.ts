@@ -1,5 +1,5 @@
 import { ratingEmojis } from "@data";
-import { ConfigCache, DateUtils, getMemberRole, NumberUtils, PluginReturnCode, updateUserCurrency } from "@helpers";
+import { ConfigCache, DateUtils, getMemberRole, NumberUtils, PluginReturnCode, updateUserBalance } from "@helpers";
 import { Role } from "commands/command-interfaces";
 import {
     ChannelType,
@@ -74,7 +74,7 @@ export async function handleReaction(
             payouts.set(userId, new Date());
             const moneyWon = (rating + 1) * 10;
 
-            await updateUserCurrency(userId, moneyWon);
+            await updateUserBalance({ userId, amount: moneyWon });
             await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
         }
 

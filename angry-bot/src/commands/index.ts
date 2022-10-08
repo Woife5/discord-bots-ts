@@ -1,7 +1,7 @@
 export { about } from "./about";
 export { birthday } from "./birthday";
-export { censored } from "./censored";
-export { censorship } from "./censorship";
+export { censored } from "./administration/censored";
+export { censorship } from "./administration/censorship";
 export { emojicount } from "./emojicount";
 export { tarotreminder } from "./tarotreminder";
 export { help } from "./help";

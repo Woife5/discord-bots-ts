@@ -6,6 +6,13 @@ import { createUserSimple, IUser, Powers, User } from "./db-helpers";
 
 const userCache = new Map<string, HydratedDocument<IUser> | null>();
 
+export type UserBalanceUpdateArgs = {
+    userId: string;
+    username?: string;
+    amount: number;
+    taxPayed?: boolean;
+};
+
 export function invalidateUserCache(userId: string) {
     userCache.delete(userId);
 }
@@ -39,16 +46,18 @@ export async function getMemberRole(member: GuildMember): Promise<Role> {
 /**
  * This function will not check if the user's balance will be below 0 after or before the action.
  */
-export async function updateUserCurrency(userId: string, amount: number, username = "unknown"): Promise<boolean> {
+export async function updateUserBalance(args: UserBalanceUpdateArgs): Promise<boolean> {
+    const { userId, username = "unknown", amount, taxPayed } = args;
+
     let user = await User.findOne({ userId: userId });
 
     if (!user) {
         user = await createUserSimple(userId, username);
     }
 
-    username !== "unknown" && (user.userName = username);
     user.angryCoins += amount;
-    user.lastTransaction = new Date();
+    username !== "unknown" && (user.userName = username);
+    taxPayed && (user.lastTransaction = new Date());
     await user.save();
 
     return true;

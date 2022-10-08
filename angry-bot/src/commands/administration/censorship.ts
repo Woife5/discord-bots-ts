@@ -1,10 +1,9 @@
-import { CommandInteraction, Message } from "discord.js";
+import { CommandInteraction, Message, PermissionFlagsBits } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ConfigCache } from "@helpers";
 import { prefix } from "@data";
 import { getEmbed } from "./censored";
-import { ICommand, Role } from "./command-interfaces";
-import { PermissionFlagsBits } from "discord-api-types/v9";
+import { ICommand, Role } from "../command-interfaces";
 
 async function updateConfig(subcommand: "add" | "remove", value: string) {
     const config = await ConfigCache.get("censored");
