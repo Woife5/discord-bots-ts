@@ -1,4 +1,4 @@
-import { User, Log, updateUserBalance, DateUtils, GuildSettingsCache, IUser } from "@helpers";
+import { User, Log, updateUserBalance, DateUtils, GuildSettingsCache } from "@helpers";
 import { ChannelType, Client } from "discord.js";
 
 const TAXATION_RATE = 0.1;
@@ -13,6 +13,7 @@ export async function tax(client: Client) {
 
     let taxMoney = 0;
 
+    const taxedUsers: string[] = [];
     for (const user of users) {
         if (user.userId === process.env.CLIENT_ID || DateUtils.isToday(user.lastTransaction)) {
             continue;
@@ -23,6 +24,7 @@ export async function tax(client: Client) {
             user.angryCoins -= taxationMoney;
             taxMoney += taxationMoney;
             user.lastTransaction = new Date();
+            taxedUsers.push(user.userName);
             await user.save();
         } catch (err) {
             log.error(err);
@@ -40,10 +42,10 @@ export async function tax(client: Client) {
         username: "Angry",
     });
 
-    await broadcast(client, taxMoney, users);
+    await broadcast(client, taxMoney, taxedUsers);
 }
 
-async function broadcast(client: Client, taxMoney: number, users: IUser[]) {
+async function broadcast(client: Client, taxMoney: number, users: string[]) {
     for (const [, guild] of client.guilds.cache) {
         const guildSettings = await GuildSettingsCache.get(guild.id);
         if (!guildSettings) {
@@ -53,9 +55,9 @@ async function broadcast(client: Client, taxMoney: number, users: IUser[]) {
         const channel = await client.channels.fetch(guildSettings.broadcastChannelId);
         if (channel?.type === ChannelType.GuildText) {
             channel.send(
-                `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users
-                    .map(u => u.userName)
-                    .join(", ")}\n\nThank you for your cooperation.`
+                `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users.join(
+                    ", "
+                )}\n\nThank you for your cooperation.`
             );
         } else {
             log.error(`Could not find broadcast channel for guild ${guild.id}`);
