@@ -61,7 +61,8 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
         });
 
     const loose = NumberUtils.getRandomInt(0, 1) !== 0;
-    await updateBalance(user, loose ? -amount : amount);
+    const taxPayed = loose && amount >= userBalance / 10;
+    await updateBalance(user, loose ? -amount : amount, taxPayed);
 
     if (loose) {
         embed.setColor("Red");
@@ -77,8 +78,8 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
     return embed;
 }
 
-async function updateBalance(discordUser: DiscordUser, amount: number) {
-    await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username, taxPayed: amount < 10 });
+async function updateBalance(discordUser: DiscordUser, amount: number, taxPayed: boolean) {
+    await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username, taxPayed });
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
     if (amount < 0) {
