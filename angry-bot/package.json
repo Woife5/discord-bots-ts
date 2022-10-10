@@ -4,6 +4,7 @@
     "description": "Angry Bot.",
     "type": "module",
     "main": "./index.js",
+    "license": "GPL-3.0",
     "scripts": {
         "start": "yarn build:dev && node ./index-dev.js",
         "build": "esbuild ./src/angry-bot.ts --minify --bundle --outfile=./index.js --platform=node --target=node18 --format=esm --external:../node_modules/*",
