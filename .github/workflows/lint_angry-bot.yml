@@ -5,12 +5,12 @@ on:
         branches:
             - master
         paths:
-            - "angry-bot/**"
+            - "angry-bot/src/**"
     push:
         branches:
             - master
         paths:
-            - "angry-bot/**"
+            - "angry-bot/src/**"
 
 defaults:
     run:
