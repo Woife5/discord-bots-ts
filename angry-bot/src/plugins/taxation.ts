@@ -13,7 +13,7 @@ export async function tax(client: Client) {
 
     let taxMoney = 0;
 
-    const taxedUsers: string[] = [];
+    const taxedUsers: [string, number][] = [];
     for (const user of users) {
         if (user.userId === process.env.CLIENT_ID || DateUtils.isToday(user.lastTransaction)) {
             continue;
@@ -24,7 +24,7 @@ export async function tax(client: Client) {
             user.angryCoins -= taxationMoney;
             taxMoney += taxationMoney;
             user.lastTransaction = new Date();
-            taxedUsers.push(user.userName);
+            taxedUsers.push([user.userName, taxationMoney]);
             await user.save();
         } catch (err) {
             log.error(err);
@@ -45,7 +45,7 @@ export async function tax(client: Client) {
     await broadcast(client, taxMoney, taxedUsers);
 }
 
-async function broadcast(client: Client, taxMoney: number, users: string[]) {
+async function broadcast(client: Client, taxMoney: number, users: [string, number][]) {
     for (const [, guild] of client.guilds.cache) {
         const guildSettings = await GuildSettingsCache.get(guild.id);
         if (!guildSettings) {
@@ -55,9 +55,9 @@ async function broadcast(client: Client, taxMoney: number, users: string[]) {
         const channel = await client.channels.fetch(guildSettings.broadcastChannelId);
         if (channel?.type === ChannelType.GuildText) {
             channel.send(
-                `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users.join(
-                    ", "
-                )}\n\nThank you for your cooperation.`
+                `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users
+                    .map(u => `${u[0]}(**${u[1]}$**)`)
+                    .join(", ")}\n\nThank you for your cooperation.`
             );
         } else {
             log.error(`Could not find broadcast channel for guild ${guild.id}`);
