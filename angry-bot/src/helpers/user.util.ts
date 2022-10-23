@@ -2,9 +2,15 @@ import { adminRoleId } from "@data";
 import { Role } from "commands/command-interfaces";
 import { Guild, GuildMember, User as DiscordUser } from "discord.js";
 import { HydratedDocument } from "mongoose";
+import { DateUtils } from "./date.util";
 import { createUserSimple, IUser, Powers, User } from "./db-helpers";
 
-const userCache = new Map<string, HydratedDocument<IUser> | null>();
+type UserActionCacheItem = {
+    date: Date;
+    emojiCash: number;
+    feetCash: boolean;
+    gambles: number;
+};
 
 export type UserBalanceUpdateArgs = {
     userId: string;
@@ -12,6 +18,9 @@ export type UserBalanceUpdateArgs = {
     amount: number;
     taxPayed?: boolean;
 };
+
+const userCache = new Map<string, HydratedDocument<IUser> | null>();
+const userActionsCache = new Map<string, UserActionCacheItem>();
 
 export function invalidateUserCache(userId: string) {
     userCache.delete(userId);
@@ -102,4 +111,32 @@ export async function usePower(userId: string, power: Powers): Promise<boolean> 
     await user.save();
     userCache.set(userId, user);
     return true;
+}
+
+export function updateUserActionCache(userId: string, update: Partial<UserActionCacheItem>) {
+    const item = userActionsCache.get(userId);
+
+    if (!item || !DateUtils.isToday(item.date)) {
+        const newItem: UserActionCacheItem = {
+            date: update.date ?? new Date(),
+            emojiCash: update.emojiCash ?? 0,
+            feetCash: update.feetCash ?? false,
+            gambles: update.gambles ?? 0,
+        };
+        userActionsCache.set(userId, newItem);
+        return;
+    }
+
+    item.emojiCash += update.emojiCash ?? 0;
+    item.feetCash = update.feetCash ?? item.feetCash;
+    item.gambles += update.gambles ?? 0;
+}
+
+export function getUserActionCache(userId: string): UserActionCacheItem | undefined {
+    const user = userActionsCache.get(userId);
+    if (!user || !DateUtils.isToday(user.date)) {
+        return undefined;
+    }
+
+    return user;
 }

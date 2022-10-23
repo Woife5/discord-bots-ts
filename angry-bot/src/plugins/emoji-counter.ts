@@ -1,7 +1,13 @@
 import { Message } from "discord.js";
-import { User, Stats, PluginReturnCode, createUser, DateUtils, updateUserBalance } from "@helpers";
-
-const moneySpamCounter = new Map<string, { date: Date; count: number }>();
+import {
+    User,
+    Stats,
+    PluginReturnCode,
+    createUser,
+    updateUserBalance,
+    getUserActionCache,
+    updateUserActionCache,
+} from "@helpers";
 
 export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
@@ -11,25 +17,21 @@ export async function count(message: Message): Promise<PluginReturnCode> {
     const userId = message.author.id;
 
     // Give the user a max of 100 coins per day for every emoji sent
-    const userSpamToday = moneySpamCounter.get(userId);
-    if (userSpamToday) {
-        if (
-            (DateUtils.isToday(userSpamToday.date) && userSpamToday.count < 100) ||
-            !DateUtils.isToday(userSpamToday.date)
-        ) {
-            let emojiCount = matches.length;
-            const total = userSpamToday.count + matches.length;
-            if (total > 100) {
-                emojiCount = 100 - userSpamToday.count;
-            }
-            await updateUserBalance({ userId, amount: emojiCount });
-            moneySpamCounter.set(userId, { date: new Date(), count: total });
+    const userCache = getUserActionCache(userId);
+    if (userCache) {
+        let cashEarned = matches.length;
+        const total = userCache.emojiCash + matches.length;
+        if (total > 100) {
+            cashEarned = 100 - userCache.emojiCash;
+        }
+        if (cashEarned > 0) {
+            await updateUserBalance({ userId, amount: cashEarned });
         }
     } else {
         const emojiCount = matches.length > 100 ? 100 : matches.length;
         await updateUserBalance({ userId, amount: emojiCount });
-        moneySpamCounter.set(userId, { date: new Date(), count: emojiCount });
     }
+    updateUserActionCache(userId, { emojiCash: matches.length });
 
     await Stats.findOneAndUpdate(
         { key: "total-angry-emojis-sent" },

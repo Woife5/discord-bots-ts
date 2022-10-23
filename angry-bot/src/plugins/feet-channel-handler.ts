@@ -1,5 +1,13 @@
 import { ratingEmojis } from "@data";
-import { ConfigCache, DateUtils, getMemberRole, NumberUtils, PluginReturnCode, updateUserBalance } from "@helpers";
+import {
+    ConfigCache,
+    getMemberRole,
+    getUserActionCache,
+    NumberUtils,
+    PluginReturnCode,
+    updateUserActionCache,
+    updateUserBalance,
+} from "@helpers";
 import { Role } from "commands/command-interfaces";
 import {
     ChannelType,
@@ -10,8 +18,6 @@ import {
     PartialUser,
     User,
 } from "discord.js";
-
-const payouts = new Map<string, Date>();
 
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
     if (!isInFeetChannel(message)) {
@@ -66,12 +72,12 @@ export async function handleReaction(
 
         const userId = reaction.message.author?.id;
         if (userId) {
-            const payoutDate = payouts.get(userId);
-            if (payoutDate && DateUtils.isToday(payoutDate)) {
+            const userCache = getUserActionCache(userId);
+            if (userCache && userCache.feetCash) {
                 return "ABORT";
             }
 
-            payouts.set(userId, new Date());
+            updateUserActionCache(userId, { feetCash: true });
             const moneyWon = (rating + 1) * 10;
 
             await updateUserBalance({ userId, amount: moneyWon });

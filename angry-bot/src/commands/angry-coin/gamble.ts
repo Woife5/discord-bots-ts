@@ -2,7 +2,14 @@ import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand } from "../command-interfaces";
-import { getUserCurrency, incrementStatAndUser, NumberUtils, updateUserBalance } from "@helpers";
+import {
+    getUserActionCache,
+    getUserCurrency,
+    incrementStatAndUser,
+    NumberUtils,
+    updateUserActionCache,
+    updateUserBalance,
+} from "@helpers";
 
 export const gamble: ICommand = {
     data: new SlashCommandBuilder()
@@ -60,21 +67,29 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
             url: repoURL,
         });
 
-    const loose = NumberUtils.getRandomInt(0, 1) !== 0;
-    const taxPayed = loose && amount >= userBalance / 10;
-    await updateBalance(user, loose ? -amount : amount, taxPayed);
+    let upperLimit = 1;
 
-    if (loose) {
-        embed.setColor("Red");
-        embed.addFields({ name: "Outcome", value: "You lost all your coins :( Better luck next time!" });
+    const userCache = getUserActionCache(user.id);
+    if (userCache && userCache.gambles > 4) {
+        upperLimit = 7;
+    }
+    updateUserActionCache(user.id, { gambles: 1 });
+
+    const win = NumberUtils.getRandomInt(0, upperLimit) === 0;
+    const taxPayed = !win && amount >= userBalance / 10;
+    await updateBalance(user, win ? amount : -amount, taxPayed);
+
+    if (win) {
+        embed.setColor("Green");
+        embed.addFields({
+            name: "Outcome",
+            value: `You won ${amount * 2} angry coins! Good job! :money_mouth: :moneybag::moneybag::moneybag:`,
+        });
         return embed;
     }
 
-    embed.setColor("Green");
-    embed.addFields({
-        name: "Outcome",
-        value: `You won ${amount * 2} angry coins! Good job! :money_mouth: :moneybag::moneybag::moneybag:`,
-    });
+    embed.setColor("Red");
+    embed.addFields({ name: "Outcome", value: "You lost all your coins :( Better luck next time!" });
     return embed;
 }
 

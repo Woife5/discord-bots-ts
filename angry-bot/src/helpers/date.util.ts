@@ -19,7 +19,10 @@ export class DateUtils {
         const todayMidnight = new Date();
         todayMidnight.setHours(0, 0, 0, 0);
 
-        return date.getTime() > todayMidnight.getTime();
+        const tomorrowMidnight = new Date();
+        tomorrowMidnight.setHours(23, 59, 59, 999);
+
+        return date.getTime() > todayMidnight.getTime() && date.getTime() < tomorrowMidnight.getTime();
     }
 
     static daysUntil(date: Date | string): number {

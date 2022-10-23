@@ -1,6 +1,6 @@
 export * from "./message-helpers";
 export * from "./db-helpers";
-export * from "./date-helpers";
+export * from "./date.util";
 export * from "./stat-handler";
 export * from "./message-wrapper";
 
