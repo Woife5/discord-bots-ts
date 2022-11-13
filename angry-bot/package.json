@@ -7,12 +7,12 @@
     "license": "GPL-3.0",
     "scripts": {
         "start": "yarn build:dev && node ./index-dev.js",
-        "build": "esbuild ./src/angry-bot.ts --minify --bundle --outfile=./index.js --platform=node --target=node18 --format=esm --external:../node_modules/*",
-        "build:dev": "esbuild ./src/angry-bot.ts --bundle --outfile=./index-dev.js --platform=node --target=node18 --format=esm --external:../node_modules/*",
+        "build": "node build.js --prod",
+        "build:dev": "node build.js --dev",
         "lint": "eslint ./src/**/*.ts",
         "typecheck": "tsc --noEmit",
         "predockerize": "yarn lint && yarn typecheck && yarn build",
-        "dockerize": "cd .. && docker buildx build -t woife5/angry-bot:latest -f ./angry-bot/Dockerfile --platform=linux/arm64,linux/amd64,linux/arm/v7,linux/arm/v6 -o type=registry ."
+        "dockerize": "docker buildx build -t woife5/angry-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64,linux/arm/v7,linux/arm/v6 -o type=registry ."
     },
     "author": "Wolfgang Schwendtbauer",
     "devDependencies": {
