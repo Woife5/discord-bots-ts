@@ -294,8 +294,7 @@ export const tarots: ITarot[] = [
         media: "https://cdn.discordapp.com/attachments/837083403026563082/841329234395791411/billkaulitz.png",
     },
     {
-        text: ":angry101: hat eine Videobotschaft für dich hinterlassen.",
-        media: "https://cdn.discordapp.com/attachments/842709567959072771/843113533554425876/angry111.mp4",
+        text: "https://cdn.discordapp.com/attachments/842709567959072771/843113533554425876/angry111.mp4",
     },
     { text: ":angry102: besteht aus Parmesan. Du weißt was du tun musst!" },
     {
