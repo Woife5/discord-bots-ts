@@ -63,14 +63,13 @@ client.on("ready", async () => {
     log.info(`Started bot version ${version}`, "angry-bot.ts");
 
     // Set Tarotreminder to run every day at 19:00
-    const tarotReminder = DateUtils.getNextTime(19);
     setTimeout(() => {
         setInterval(() => {
             Tarotreminder.remind(client);
         }, 24 * 60 * 60 * 1000);
 
         Tarotreminder.remind(client);
-    }, tarotReminder.getTime() - Date.now());
+    }, DateUtils.getNextTime(19).getTime() - Date.now());
 
     // Check every day at some time if a given user has spent some coins today, otherwise tax them
     setTimeout(() => {
