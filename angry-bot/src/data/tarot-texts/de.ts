@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { ITarot } from "../commands/command-interfaces";
+import { ITarot } from "../../commands/command-interfaces";
 
 export const tarots: ITarot[] = [
     {
