@@ -14,18 +14,18 @@ export const tarots: ITarot[] = [
     {
         text: "The Angry of love and belligerence. Face your fears and show how much you are worth!",
     },
-    { text: "Oh dear. You're going to die today, unfortunately. Eternal pity :(" },
+    { text: "Oh dear. You're going to die today, unfortunately. What a pity : (" },
     {
         text: "The Angry of the Earth. Feel the ground beneath you and sense the deep, rumbling anger that unites us all. You feel how small your own anger seems in the cosmic anger. It makes you angry.",
     },
     {
-        text: "The Angry of Water. Old and powerful. Sit back today and let yourself drift. Any effort to change your fate will only exhaust you today. Take a day to build up your anger.",
+        text: "The Angry of Water. Old and powerful. Sit back and let yourself drift. Any effort to change your fate will only exhaust you today. Take a day to build up your anger.",
     },
     {
-        text: ":angry8: represents happiness and success. Anger is a powerful tool against empathy. Use your anger to put yourself above others and profit! This is the only way you will be happy!",
+        text: ":angry8: represents happiness and success. Anger is a powerful tool against empathy. Use your anger to put yourself above others and profit! This is the only way you will be angry!",
     },
     {
-        text: ":angry9: is Erich Bauer's favorite Angry. Let your hair grow today! If you really want, today you have the opportunity to become him.",
+        text: ":angry9: is Erich Bauer's favorite Angry. Let your hair grow today! Today you have the once in a lifetime opportunity to become him.",
     },
     {
         text: ":angry10: was already used by Goethe 👊💯📖 in his first works. It stands for hot catgirls and frozen canned beer. So take good care of yourself! Be prepared to have a visitor today! Little hint: He will be angry, and has his fist 2 ready for you!",
@@ -55,7 +55,7 @@ export const tarots: ITarot[] = [
         text: "The Angry of hope. Even though your anger hasn't helped you much lately, don't give up. The day when you will need your collected anger will come soon!",
     },
     {
-        text: "The Angry of Dogs. Yes dogs have anger too! Take some time out of your day and talk to your doggies about the pros and cons of Angry! :angry19: is also the Angry of furries.",
+        text: "The Angry of Dogs. Yes dogs have anger too! Take some time out of your day and talk to your pets about the pros and cons of Angry! FUNFACT! :angry19: is also the Angry of furries.",
     },
     {
         text: ":angry20: is the Angry of the 3 signs. The first sign represents warmth. The second shield means security and the third shield is the shield of the soul. :angry20: will protect you in all your deeds today and dispose of your safety.",
@@ -76,7 +76,7 @@ export const tarots: ITarot[] = [
         text: "The Angry of Fire. You are angry! Use the heat of your anger to ignite the rage in those closest to you as well! Often this is demanding work, but today :angry25: stands by your side to guarantee that every spark catches fire too!",
     },
     {
-        text: ":angry26: is the Angry des\\* of the Tyrann\\*in. It means power and ruin. :angry26: will haunt you today and your desire for power will be rewarded with ruin and hatred. Today you should use your power to ward off the influence of :angry26:.",
+        text: ":angry26: is the Angry of the Tyranns. It means power and ruin. :angry26: will haunt you today and your desire for power will be rewarded with ruin and hatred. Today you should use your power to ward off the influence of :angry26:.",
     },
     {
         text: "The :angry27: is the Angry of the four staffs. So if you want to save money shopping online, use the free browser addon HONEY! Honey is completely free, and has over 100,000 positive reviews. With this browser addon you can save a lot of money: it always finds the best coupons from a database of over 100,000 online stores. So if you like money, check out our link! www.joinhoney.com/angry Join Honey!",
@@ -88,7 +88,7 @@ export const tarots: ITarot[] = [
         text: "It has been :angry29: who introduced the first traditional Feetpic Friday in 1926. You should really think about actively celebrating this one in your circles too. Convince your friends and acquaintances to live this one out. It will be good for you.",
     },
     {
-        text: ":angry30: is an educated Angry! Use today to soak up a whole lot of knowledge, and to send your professors an Angry.",
+        text: ":angry30: is an educated Angry! Use today to soak up a whole lot of knowledge, and to send all of your professors an Angry.",
     },
     {
         text: "The Angry of Grief. Many of us carry a heavy burden that drags us down and humbles us. :angry31: will help you turn your grief into anger.",
@@ -104,19 +104,19 @@ export const tarots: ITarot[] = [
         text: ":angry35: is the nationalangry of Hungary. So now is the perfect time to apply for citizenship there.",
     },
     {
-        text: "The Angry of Garfield. Today you can consider yourself lucky! Is today Monday? Then your anger will be doubled! The Angry of the Garfield is also the Angry of the feet!",
+        text: "The Angry of Garfield. Today you can consider yourself lucky! Is today Monday? Then your anger will be doubled! The Angry of Garfield is also considered as the unofficial Angry of the feet among hardcore trainspotters!",
     },
     {
         text: "The Angry of mercy. Have consideration for those who are not as Angry as you. Don't let them down, your thoughtfulness will surely be rewarded.",
     },
     {
-        text: ":angry38: is the Angry of culinary arts. Star chefs all over the world rely on the energy of this emote. Today is a good day for you to try ready-made ramen with banana.",
+        text: ":angry38: is the Angry of culinary arts. Star chefs all over the world rely on the energy of this emote. Today is a good day for you to try ramen with banana.",
     },
     {
         text: '"Tax evasion is NOT a trivial offense, tax evasion is cheating the public and everyones tax honest"\n- :angry39:\nToday is time to get angry about tax evasion!',
     },
     {
-        text: '":angry40: is my favorite angry. Therefore, it iss your favorite angry too!" - Adam Sandler',
+        text: '":angry40: is my favorite angry. Therefore, it is your favorite angry too!" - Adam Sandler',
     },
     {
         text: '"The Angry of Self-Reliance. Do not rely on the work of others today. Sometimes it is necessary to act purely out of your own anger, even if others try to convince you that you are going down the wrong path."',
@@ -125,26 +125,26 @@ export const tarots: ITarot[] = [
         text: "The Angwy of Catgirls ~ uwu. Consider yourself lucky. :angry42: is one of the best angwies! Donate to catgirls in need today!",
     },
     {
-        text: ":angry43: is a good Angry. It is the Angry that stands for Felix. Why don't you transfer him some money as a small thank you!",
+        text: ":angry43: is a good Angry. It is the Angry that stands for Felix. Why don't you transfer him some money as a small thank you gift?",
     },
     {
         text: ":angry44: is the Angry of Obama. Use this time to send your friends and non-friends pictures of Peter Griffin (Family Guy).",
     },
-    { text: "Hurah! Today is your birthday! Happy Birthday!" },
+    { text: "Hurah! Today is your birthday! Happy Birthday and Alles Gute!" },
     {
         text: "アニメの怒り。 今日、あなたはたくさんの怒りを抱くでしょう！ 怒りの少ない人生を心配しないでください ! (⁄˘⁄ ⁄ ω⁄ ⁄ ˘⁄)♡",
     },
     {
-        text: "The Angry of Beans. Beans are rich in vitamins, minerals and proteins. But did you know that beans are the angriest fruit? Today is bean day!",
+        text: "The Angry of Beans. Beans are rich in vitamins, minerals and proteins. But did you know that beans are the angriest fruit? Today is bean day! Carpe diem! Watch some funny videos of Mr Bean Junior.",
     },
     {
         text: "The Angry of Toddlers. Many people lose their intimate connection with anger as they grow up. Go deep inside yourself and try to renew your linkage with this powerful elemental force.",
     },
     {
-        text: ":angry49: is the Angry of gaming. So use the day only for gaming. And be angry. Very angry. If you are not angry today, it will have a bad effect on your health and may lead to coughing up dice.",
+        text: ":angry49: is the Angry of gaming. So use the day ONLY for gaming. And be angry. Very angry. If you are not angry today, it will have a bad effect on your health and may lead to coughing up dice.",
     },
     {
-        text: ":angry50: It's another one of those days. Somebody's angryed one of your comments. It really makes you angry. Best you send that person 50 Angry on Whatsapp/Discord to make them angry too. Let him*her feel your anger. And become one with the universe again.",
+        text: ":angry50: It's another one of those days. Somebod angryed one of your messages. It really makes you angry. Best you send that person 50 Angry on Whatsapp/Discord to make them angry too. Let him*her feel your anger. And become one with the universe again.",
     },
     {
         text: ":angry51: In case you're waiting for a sign. This is NOT it! Sorry bro, but better leave it whatever you wanted to do or not do.",
@@ -156,7 +156,7 @@ export const tarots: ITarot[] = [
         text: ":angry53: This is the Angry of cuddliness. Let's give you a big hug! :hugging: You obviously need this badly to be angry. ",
     },
     {
-        text: ":angry54: Today is a good day for stealing! Why don't you steal Paul's backpack today to celebrate? That would upset both you and Paul!",
+        text: ":angry54: Today is a good day for stealing! Why don't you steal Paul's backpack today to celebrate? That would upset both you and Paul: So it's a win-win situation and everybody can be angry!",
     },
     {
         text: "Today is a good day because today is your wedding day! You are getting married today :angry55:! We at the Angry Team wish you two lovebirds an angry day! All the best and an angry honeymoon!",
@@ -165,7 +165,7 @@ export const tarots: ITarot[] = [
         text: ":angry56: is an Angry activist against food waste. Today it will do you good to consume moldy food.",
     },
     {
-        text: ":angry57: is for stinky. Today you won't have a good day because you too are now just like :angry57: : You stink ... and you're angry. All day long.",
+        text: ":angry57: is very stinky. Today you won't have a good day because you too are now just like :angry57: : You stink ... and you're angry. All day long.",
     },
     {
         text: ":angry58: is a funny Angry. I like your focus on :angry58:, but here you will have to define specific use cases, because otherwise you can make up specific cases that would be easier or harder either way. But anyway, the focus on :angry58: is great!",
@@ -174,12 +174,12 @@ export const tarots: ITarot[] = [
         text: ":angry59: seeks certainty. You have thoughts, hunches and visions. Everything is real and unreal at the same time: but of one thing you are certain: you are angry.",
     },
     {
-        text: ":angry60: is the Angry of mushrooms. It has deep ties to nature that you feel under your feet when you take a furious walk outside. Today you will get athlete's foot! All the best! ",
+        text: ":angry60: is the Angry of mushrooms. It has deep ties to nature that you feel under your feet when you take a furious walk outside. Today you will get athlete's foot! All the best! 🦶🦶",
     },
     {
         text: ":angry61: is a pendulum between good and evil. It shows inner insecurities. So pay close attention today so you can keep the pendulum on the angry side.",
     },
-    { text: ":angry62: is an angry of loneliness. What a shame." },
+    { text: ":angry62: is an angry of loneliness. What a pity." },
     {
         text: "If :angry63: were a car, it would be a Reliant Robin. Simply a marvel of design. Nothing is angrier than you. Nothing can stop you and nothing can turn your day upside down. You are just the perfect Angry today. Anybody would love to be you.",
     },
@@ -209,7 +209,7 @@ export const tarots: ITarot[] = [
         text: ":angry71: is the Angry of parking violators and road ragers. Today is not a good day for you to drive. Instead, get angry with other drivers and ignite your inner rage.",
     },
     {
-        text: ":angry72: is the Angry of hermit crabs. Hermit crabs embody friendship, contemplation, refuge, and nightmares. Hermit crabs are your friends! Did you know that there are both right-handed and left-handed hermit crabs? You should be nice to hermit crabs today :) After all, you could pet them, find them a new snail shell, or feed them your blood!",
+        text: ":angry72: is the Angry of hermit crabs. Hermit crabs embody friendship, contemplation, refuge, and nightmares. Hermit crabs are also your friends! Did you know that there are both right-handed and left-handed hermit crabs? You should be nice to hermit crabs today :) After all, you could pet them, find them a new snail shell, or feed them your blood!",
     },
     {
         text: ":angry73: is the Angry of Darkman. Darkman is a very angry man. But he is also very hot and misunderstood. He is very talented and passionate. Because Sunborn destroyed the stones, Darkman is very angry. Darkman is very sad and angry and hot. But maybe not all is lost. Maybe you can help Darkman by sending him Feet Pics! This will make Darkman less sad!",
@@ -218,7 +218,7 @@ export const tarots: ITarot[] = [
         text: ":angry74: is the Angry of Edinburgh Castle! Let's go to Edinburgh Castle! Today is the perfect day to collect some #FORZATHON points and enjoy the view of Edinburgh Castle. Don't forget to rent a Reliant Robin! Why not send Felix, Valentin or Paul a 🚙! Brum Brum!",
     },
     {
-        text: ":angry75: is the Angry of the Riesen\\*innen. The giant felix represent superhuman greatness. Today is the perfect day to play basketball and extract the energy of :angry75: from it. You may have noticed it before, but a basketball bears an amazing resemblance to the likeness of :angry75:.",
+        text: ":angry75: is the Angry of the Giants. The giant felix represent superhuman greatness. Today is the perfect day to play basketball and extract the energy of :angry75: from it. You may have noticed it before, but a basketball bears an amazing resemblance to the likeness of :angry75:.",
     },
     { text: "WAUWAUWAUWAUWAUWAUWAU" },
     {
@@ -243,7 +243,7 @@ export const tarots: ITarot[] = [
         text: ":angry83: is an Angry which is edible. There is a piece of :angry83: in every spam. So it won't hurt you if you order and taste Spam today to absorb the Angry into your body.",
     },
     {
-        text: ":angry84: is the Angry of angry poets. Why not write a poem/haiku to express your feelings of anger! ",
+        text: ":angry84: is the Angry of angry poets. Why not write a poem/haiku to express your feelings of anger! This will make you angry and you will be able to absorb the Angry into your body.",
     },
     {
         text: ":angry85: is the Angry of lobsters. Not only are you exceptionally cool, but you are also very elegant! You have your President Paul Hummer to thank for all of this! Dedicate your day today to honor Paul Hummer. It will do you good.",
@@ -259,22 +259,22 @@ export const tarots: ITarot[] = [
     },
 
     {
-        text: ":angry89: is the Angry which is always used by Beffica. Chances are you'll meet Beffica Winklesnoot today and get to know her better. What luck!",
+        text: ":angry89: is the Angry which is always used by Beffica. Chances are you'll meet Beffica Winklesnoot today and get to know her better. You are so lucky!",
     },
     {
         text: ":angry90: is the national angry of koalas. Did you know that koalas have only been angry since January 8, 1968 after a spring incident? When you leave the house today, remember that today you are a koala. With all its wonderful qualities. ʕ -ᴥ-ʔ",
     },
     {
-        text: ":angry91: will ruin your day. Because of him, you will have a smile on your face and feel feelings of joy all day long. Nothing can make you angry today. ",
+        text: ":angry91: will ruin your day. Because of him, you will have a smile on your face and feel feelings of joy all day long. Nothing can make you angry today. Pathetic",
     },
     {
         text: "What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in guerilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat...",
     },
     {
-        text: ":angry93: represents the moment when you wet your pants back in elementary school.",
+        text: ":angry93: represents the moment when you peed your pants back in elementary school.",
     },
     {
-        text: "Don't click away! I have a great business idea for you! Due to a fortuitous coincidence, I happen to be in possession of 35,000 :angry:! I need your help to distribute these :angry: to people in need. I'm asking you because I know I can trust you! You don't even have to hand out the :angry: yourself, just sell it to people who will hand it out for you! It's practically FREE money! Why I don't just sell the :angry: directly? There are just too many :angry:! That's why I give you this unique chance, because I can trust you! But I understand if you are skeptical. That's why I suggest we start by me selling you 100 :angry: for a great price as a test and you will see how easily the money flies to you! Once you pass the test, you can resell as many :angry: as you feel confident with! You are your own boss!",
+        text: "Don't click away! I have a great business idea for you! Due to a fortuitous coincidence, I happen to be in possession of 35000 :angry:! I need your help to distribute these :angry: to people in need. I'm asking you because I know I can trust you! You don't even have to hand out the :angry: yourself, just sell it to people who will hand it out for you! It's practically FREE money! Why I don't just sell the :angry: directly? There are just too many :angry:! That's why I give you this unique chance, because I can trust you! But I understand if you are skeptical. That's why I suggest we start by me selling you 100 :angry: for a great price as a test and you will see how easily the money flies to you! Once you pass the test, you can resell as many :angry: as you feel confident with! You are your own boss!",
     },
     {
         text: ":angry95: is the Angry that stands for garlic! Remember to eat more garlic. Garlic is an excellent source of allicin and selenium. Garlic has anti-carcinogenic, anti-hypertensive, anti-inflammatory and appetite stimulating effects. In fact, you should just eat more garlic. Plus, you shouldn't just have real garlic, you should have virtual garlic! Invest in Garlicoin today! Because this is the most delicious cryptocurrency! 🧄",
@@ -296,8 +296,7 @@ export const tarots: ITarot[] = [
         media: "https://cdn.discordapp.com/attachments/837083403026563082/841329234395791411/billkaulitz.png",
     },
     {
-        text: ":angry101: left a video message for you.",
-        media: "https://cdn.discordapp.com/attachments/842709567959072771/843113533554425876/angry111.mp4",
+        text: "https://cdn.discordapp.com/attachments/842709567959072771/843113533554425876/angry111.mp4",
     },
     { text: ":angry102: is made of parmesan. You know what to do!" },
     {
@@ -310,7 +309,7 @@ export const tarots: ITarot[] = [
         text: ":angry105: tells you that today is Paul's birthday! Write him 3 times today *Happy Birthday*! But with at least 2 hours between each message!",
     },
     {
-        text: "Your shoelaces are untied. HAHA PRANK! By falling in, you are now angry.",
+        text: "Your shoelaces are untied. HAHA JUST A PRANK BRO! By falling for it, you are now angry. Congratulations!",
     },
     {
         text: "Your advertisement could be here!\nDid you know that our users read *Angry Tarot* voluntarily? Incredible, but true! Take advantage of this unique opportunity to rent a completely new way of advertising! Price on request: Angry.Advertisement@gmail.com",
@@ -319,7 +318,7 @@ export const tarots: ITarot[] = [
         text: "Who rides so late through the night and wind? It's :angry108: with his child; He must have you in his arms, he grasps you securely, he holds him furiously. What are you hiding your face so anxiously? - Don't you see, :angry108:, the blood pressure? The blood pressure with diastolic 190? - My child, it is RAGE. -",
     },
     {
-        text: "Anger is like an onion. It has different layers. :angry109: is a sharp layer. It is full of anger.",
+        text: "Anger is like an onion. It has many layers. One of those layers is :angry109: . It is a spicey layer. It is full of anger.",
     },
     {
         text: "Dear Students. The developments surrounding the Corona test compulsion and the Corona vaccination passport pose an acute threat to free university access, which we strongly oppose. A medical certificate or a vaccination must under no circumstances be conditions for being able to study. The system of compulsory ÖH membership should finally be abolished and replaced by a model based on the principle of voluntary membership. A strong representation of interests should convince through performance and therefore does not need coercion. We have given everything in this ÖH election campaign out of deepest conviction and now need your support! Go vote at your university by May 20 and send a strong signal for freedom!  By the way, you do NOT have to show a Covid test to vote! Thank you for your support! Matthias Kornek RFS Federal Chairman & Top Candidate.",
@@ -335,10 +334,10 @@ export const tarots: ITarot[] = [
         text: ":angry114: is the Angry of the Furbys. You must now adopt it and make it get angry. This is the only way to keep the cycle of life going.",
     },
     {
-        text: ":angry115: loves letters and postcards. That's why you need to send an angry postcard to any person. Use the Austrian Post postcard app for this https://www.post.at/p/c/postkartenapp .",
+        text: ":angry115: loves letters and postcards. That's why you need to send an angry postcard to any person. Use the Austrian Post's postcard app for this https://www.post.at/p/c/postkartenapp .",
     },
     {
-        text: ":angry116: wants to prove the existence of a square triangle. Because :angry116: is not very intelligent. That's why :angry116: has to help now. All the best!",
+        text: ":angry116: wants to prove the existence of a square triangle. Because :angry116: is not very intelligent. That's why :angry116: needs your help now. All the best!",
     },
     {
         text: "Penguins are not birds. Because they are not angry. They are unfortunately stupid reptiles. :angry117: is angry. So :angry117: is a bird: just like you. And that's good.",
@@ -359,16 +358,16 @@ export const tarots: ITarot[] = [
         text: ":angry122: is a communist. Today is a good day to ask Alex to tell you something anti-capitalist and for him to tell you about the pure benefits of communism.",
     },
     {
-        text: ":angry123: stands for public transportation. Buy a train ticket to Lower Austria today to visit the wonderful place of Gaming (Lower Austria). This is the only way you can be angry.",
+        text: ":angry123: stands for public transportation. Buy a train ticket to Lower Austria today to visit the wonderful place of Gaming (Lower Austria). This is the only way you can be angry today. Use your trip to take lots of pictures of nearby trains!",
     },
     {
         text: ':angry124: has not been much of a mobile gamer, but, forget everything you think you know about mobile games because Raid Shadow Legends is one of the most ambitious RPG projects of 2021 has just been released and will change everything. Just look at the level of detail of these characters! If you use the code "angry" at the link in the description you can start with 50,000 silver and join the Special Launch Tournament, and you better hurry because it is getting big fast! You can play for totally free with the link below on your smartphone.',
     },
     {
-        text: ":angry125: is a professor. That's why you have to write a seminar paper in form of an analysis about the change of anger in the last 30 years. At least 20 pages. Use the LaTex template: https://github.com/Digital-Media/HagenbergThesis for this.",
+        text: ":angry125: is a professor. That's why you have to write a research paper  about the change of anger in the last 30 years. At least 20 pages. Use the LaTex template: https://github.com/Digital-Media/HagenbergThesis for this.",
     },
     {
-        text: ":angry126: is the Angry of the Matzis. Be a Matzi today by telling Matzi that you are a Matzi. It's high time!",
+        text: ":angry126: is the Angry of the Matzis. Be a Matzi today by telling Matzi that you are a Matzi. It's Matzin time!",
     },
     {
         text: "Remember yourself, open up and face your worries. Today is a day of wisdom - the power of :angry127: is watching over you.",
@@ -527,6 +526,69 @@ export const tarots: ITarot[] = [
         text: ":angry179: is the Angry from Squeak.🤮🤮🤮🤮 \n You're nothing special, you stink and nobody likes you. 😊",
     },
     {
-        text: ":angry180: is positioned next to :angry179: and therefore heavily contaminated. So there's a good chance you won't have a good day today. ",
+        text: ":angry180: is positioned next to :angry179: and therefore heavily contaminated. So there's a good chance you won't have a good day today.",
+    },
+    {
+        text: "angry 181: is hot. It's hotness makes people puke. Just like you. Because you are hot. Hot and angry.",
+    },
+    {
+        text: ":angry182: is the angry of the screwdrivers. It tells you that you should be careful with your screwdrivers. They are very dangerous and can hurt you. So play with them.",
+    },
+    {
+        text: ":angry183: is ugly. But that is not the point. The point is that you are ugly.",
+    },
+    {
+        text: "The power of :angry184: is mysterious. Some people think that it smells like a wet dog. Others think it smells like a wet cat. But no one knows for sure.",
+    },
+    {
+        text: "A :angry185: is a very dangerous thing. It can cause a lot of damage. So don't touch it: But you should eat it. It will help you be miserable. And miserable people are better at being angry than happy people.",
+    },
+    {
+        text: ":angry186: can be very similar to mold. Today your foot fungus will start to show some moldy spots. And that is a good thing. Because it means that your foot fungus is getting better.",
+    },
+    {
+        text: ":angry187: consists out of 3 parts. The first part is the angry. The second part is the angry. And the third part is the angry.",
+    },
+    {
+        text: ":angry188: is made of 97% water. And the other 3% is made of angry. But the 97% water is not the water you drink. It is the water that is in your body. And that water is very important. Because it is the water that makes you angry.",
+    },
+    {
+        text: ":angry189: is just like you. A big disappointment.",
+    },
+    {
+        text: "Forklift operators are fans of :angry190:. They are very strong and can lift heavy things. But they are also very angry. And that is why they are cool.",
+    },
+    {
+        text: "Up until the 19th century, people used to be :angry all the time. But then they discovered that being angry all the time is good for your health. So they stopped being angry. And that is why not everybody is angry today. Pathetic.",
+    },
+    {
+        text: ":angry191: belongs to GenZ. Thea are the angry of the future. They are angry because they are young and they don't know what they want. But they will get angry when they grow up. And that is why they are the angry of the future.",
+    },
+    {
+        text: "According to ancient Chinese medicine, :angry192: is the angry of the heart. It is the angry that makes you feel like you are going to die. And that is why it is the angry of the heart.",
+    },
+    {
+        text: "Apple invented :angry193: in 2001. But the world was not ready for it. So they had to wait until 2019 to release it. And that is why it was called the angry of the future internally.",
+    },
+    {
+        text: ":angry194: thinks that you are a loser. And that is why it is angry.",
+    },
+    {
+        text: "Sometimes at night you can hear :angry195: screaming. It is the angry of the night. And it is angry because it is the angry of the night.",
+    },
+    {
+        text: ":angry196: leaves a lot to be desired. It costs a lot of money and it doesn't work very well. But it is still better than :angry197:.",
+    },
+    {
+        text: ":angry197: can hear you. It knows what you are thinking. And that is the reaseon why it is angry.",
+    },
+    {
+        text: "1967 was the year of :angry198:. It was the first year that humankind was able to put angry on the moon. Even today it is considered to be the most important event in human history.",
+    },
+    {
+        text: ":angry199: loves canibalism. It once tried to eat :angry5:. Just like you, it may not be the most popular thing in the world. But it is still a thing.",
+    },
+    {
+        text: "Once upon a time in the early 1300s a vulcano errupted. Thousands of tons of angry were released into the air. Scientists believe that the reason for the erruption was :angry200: and its anger. Use it's anger to your advantage.",
     },
 ];
