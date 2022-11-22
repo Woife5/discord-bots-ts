@@ -526,69 +526,69 @@ export const tarots: ITarot[] = [
         text: ":angry179: is the Angry from Squeak.🤮🤮🤮🤮 \n You're nothing special, you stink and nobody likes you. 😊",
     },
     {
-        text: ":angry180: is positioned next to :angry179: and therefore heavily contaminated. So there's a good chance you won't have a good day today. ",
+        text: ":angry180: is positioned next to :angry179: and therefore heavily contaminated. So there's a good chance you won't have a good day today.",
     },
     {
         text: "angry 181: is hot. It's hotness makes people puke. Just like you. Because you are hot. Hot and angry.",
     },
     {
-        text: ":angry182: is the angry of the screwdrivers. It tells you that you should be careful with your screwdrivers. They are very dangerous and can hurt you. So play with them. ",
+        text: ":angry182: is the angry of the screwdrivers. It tells you that you should be careful with your screwdrivers. They are very dangerous and can hurt you. So play with them.",
     },
     {
         text: ":angry183: is ugly. But that is not the point. The point is that you are ugly.",
     },
     {
-        text: "The power of :angry184: is mysterious. Some people think that it smells like a wet dog. Others think it smells like a wet cat. But no one knows for sure. ",
+        text: "The power of :angry184: is mysterious. Some people think that it smells like a wet dog. Others think it smells like a wet cat. But no one knows for sure.",
     },
     {
-        text: "A :angry185: is a very dangerous thing. It can cause a lot of damage. So don't touch it: But you should eat it. It will help you be miserable. And miserable people are better at being angry than happy people. ",
+        text: "A :angry185: is a very dangerous thing. It can cause a lot of damage. So don't touch it: But you should eat it. It will help you be miserable. And miserable people are better at being angry than happy people.",
     },
     {
-        text: ":angry186: can be very similar to mold. Today your foot fungus will start to show some moldy spots. And that is a good thing. Because it means that your foot fungus is getting better. ",
+        text: ":angry186: can be very similar to mold. Today your foot fungus will start to show some moldy spots. And that is a good thing. Because it means that your foot fungus is getting better.",
     },
     {
-        text: ":angry187: consists out of 3 parts. The first part is the angry. The second part is the angry. And the third part is the angry. ",
+        text: ":angry187: consists out of 3 parts. The first part is the angry. The second part is the angry. And the third part is the angry.",
     },
     {
-        text: ":angry188: is made of 97% water. And the other 3% is made of angry. But the 97% water is not the water you drink. It is the water that is in your body. And that water is very important. Because it is the water that makes you angry. ",
+        text: ":angry188: is made of 97% water. And the other 3% is made of angry. But the 97% water is not the water you drink. It is the water that is in your body. And that water is very important. Because it is the water that makes you angry.",
     },
     {
-        text: ":angry189: is just like you. A big disappointment. ",
+        text: ":angry189: is just like you. A big disappointment.",
     },
     {
-        text: "Forklift operators are fans of :angry190:. They are very strong and can lift heavy things. But they are also very angry. And that is why they are cool. ",
+        text: "Forklift operators are fans of :angry190:. They are very strong and can lift heavy things. But they are also very angry. And that is why they are cool.",
     },
     {
         text: "Up until the 19th century, people used to be :angry all the time. But then they discovered that being angry all the time is good for your health. So they stopped being angry. And that is why not everybody is angry today. Pathetic.",
     },
     {
-        text: ":angry191: belongs to GenZ. Thea are the angry of the future. They are angry because they are young and they don't know what they want. But they will get angry when they grow up. And that is why they are the angry of the future. ",
+        text: ":angry191: belongs to GenZ. Thea are the angry of the future. They are angry because they are young and they don't know what they want. But they will get angry when they grow up. And that is why they are the angry of the future.",
     },
     {
-        text: "According to ancient Chinese medicine, :angry192: is the angry of the heart. It is the angry that makes you feel like you are going to die. And that is why it is the angry of the heart. ",
+        text: "According to ancient Chinese medicine, :angry192: is the angry of the heart. It is the angry that makes you feel like you are going to die. And that is why it is the angry of the heart.",
     },
     {
-        text: "Apple invented :angry193: in 2001. But the world was not ready for it. So they had to wait until 2019 to release it. And that is why it was called the angry of the future internally. ",
+        text: "Apple invented :angry193: in 2001. But the world was not ready for it. So they had to wait until 2019 to release it. And that is why it was called the angry of the future internally.",
     },
     {
-        text: ":angry194: thinks that you are a loser. And that is why it is angry. ",
+        text: ":angry194: thinks that you are a loser. And that is why it is angry.",
     },
     {
-        text: "Sometimes at night you can hear :angry195: screaming. It is the angry of the night. And it is angry because it is the angry of the night. ",
+        text: "Sometimes at night you can hear :angry195: screaming. It is the angry of the night. And it is angry because it is the angry of the night.",
     },
     {
-        text: ":angry196: leaves a lot to be desired. It costs a lot of money and it doesn't work very well. But it is still better than :angry197:. ",
+        text: ":angry196: leaves a lot to be desired. It costs a lot of money and it doesn't work very well. But it is still better than :angry197:.",
     },
     {
-        text: ":angry197: can hear you. It knows what you are thinking. And that is the reaseon why it is angry. ",
+        text: ":angry197: can hear you. It knows what you are thinking. And that is the reaseon why it is angry.",
     },
     {
-        text: "1967 was the year of :angry198:. It was the first year that humankind was able to put angry on the moon. Even today it is considered to be the most important event in human history. ",
+        text: "1967 was the year of :angry198:. It was the first year that humankind was able to put angry on the moon. Even today it is considered to be the most important event in human history.",
     },
     {
         text: ":angry199: loves canibalism. It once tried to eat :angry5:. Just like you, it may not be the most popular thing in the world. But it is still a thing.",
     },
     {
-        text: "Once upon a time in the early 1300s a vulcano errupted. Thousands of tons of angry were released into the air. Scientists believe that the reason for the erruption was :angry200: and its anger. Use it's anger to your advantage. ",
+        text: "Once upon a time in the early 1300s a vulcano errupted. Thousands of tons of angry were released into the air. Scientists believe that the reason for the erruption was :angry200: and its anger. Use it's anger to your advantage.",
     },
 ];

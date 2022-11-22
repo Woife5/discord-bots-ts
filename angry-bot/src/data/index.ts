@@ -6,4 +6,4 @@ export * from "./custom-reactions";
 export * from "./tarot-reminders";
 export * from "./rating-data";
 
-export * from "./tarot-texts/de";
+export * from "./tarot-texts/en";
