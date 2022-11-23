@@ -72,6 +72,10 @@ export const geschmacksliste = [
     "Wut des hAgUsT",
     "Wut des Spechts",
     "Wut der Füße",
+    "Wut des Schneiders",
+    "Wut der Lüge",
+    "Wut der Frischhaltefolie",
+    "Wut der Wut",
 ];
 
 export const funStuff = [
