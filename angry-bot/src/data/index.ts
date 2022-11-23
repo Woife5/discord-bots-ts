@@ -5,5 +5,4 @@ export * from "./constants";
 export * from "./custom-reactions";
 export * from "./tarot-reminders";
 export * from "./rating-data";
-
-export * from "./tarot-texts/en";
+export * from "./tarot-texts";
