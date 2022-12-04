@@ -12,7 +12,7 @@ on:
             - ci-docker-image
         paths:
             - "angry-bot/src/**"
-            - "*"
+            - ".github/workflows/**"
 
 defaults:
     run:
