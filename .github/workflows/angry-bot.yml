@@ -1,0 +1,92 @@
+name: Angry Bot
+
+on:
+    pull_request:
+        branches:
+            - master
+        paths:
+            - "angry-bot/src/**"
+    push:
+        branches:
+            - master
+        paths:
+            - "angry-bot/src/**"
+
+defaults:
+    run:
+        working-directory: angry-bot
+
+jobs:
+    Lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+                  cache: "yarn"
+                  cache-dependency-path: "yarn.lock"
+            - run: yarn install --frozen-lockfile
+            - name: Run linting
+              run: yarn lint
+    Typecheck:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+                  cache: "yarn"
+                  cache-dependency-path: "yarn.lock"
+            - run: yarn install --frozen-lockfile
+            - name: Run typechecking
+              run: yarn typecheck
+    Build:
+        runs-on: ubuntu-latest
+        needs: [Lint, Typecheck]
+        if: github.ref == 'refs/heads/master'
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+                  cache: "yarn"
+                  cache-dependency-path: "yarn.lock"
+            - run: yarn install --frozen-lockfile
+            - name: Build
+              run: yarn build
+            - name: Upload build
+              uses: actions/upload-artifact@v2
+              with:
+                  name: angry-bot
+                  path: angry-bot/index.js
+                  retention-days: 1
+
+    Dockerize:
+        runs-on: ubuntu-latest
+        needs: [Build]
+        if: github.ref == 'refs/heads/master'
+        steps:
+            - uses: actions/checkout@v2
+            - name: get-npm-version
+              id: package-version
+              uses: martinbeentjes/npm-get-version-action@main
+              with: 
+                  path: angry-bot
+            - name: Download build
+              uses: actions/download-artifact@v2
+              with:
+                  name: angry-bot
+                  path: angry-bot
+            - name: Login to Docker Hub
+              uses: docker/login-action@v1
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_TOKEN }}
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+            - name: Build and upload Docker image
+              run: docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/angry-bot:${{ steps.package-version.outputs.current-version }} -t ${{ secrets.DOCKER_USERNAME }}/angry-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64,linux/arm/v7,linux/arm/v6 -o type=registry .
