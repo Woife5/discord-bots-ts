@@ -64,7 +64,7 @@ jobs:
               uses: actions/upload-artifact@v2
               with:
                   name: angry-bot
-                  path: index.js
+                  path: angry-bot/index.js
                   retention-days: 1
 
     Dockerize:
