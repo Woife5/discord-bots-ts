@@ -30,6 +30,7 @@ export async function createUserSimple(id: string, name: string): Promise<Hydrat
 // --------------------------------------------------------
 
 export type Powers = "censorship-immunity";
+export type Service = "censorship-item" | "un-censorship-item";
 
 export interface IUser {
     userId: string;
@@ -106,7 +107,7 @@ export const User = model<IUser>("User", userSchema);
 
 type ConfigType = {
     key: "censored" | "feet-related";
-    value: string[];
+    value: Map<string, string>;
 };
 
 type ConfigKeys = ConfigType["key"];
@@ -119,7 +120,7 @@ const configSchema = new Schema<ConfigType>({
         lowercase: true,
     },
     value: {
-        type: Schema.Types.Mixed,
+        type: Schema.Types.Map,
         required: true,
     },
 });

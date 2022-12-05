@@ -2,11 +2,13 @@ import { Message, EmbedBuilder, User as DiscordUser, ChatInputCommandInteraction
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN } from "@data";
 import { ICommand } from "../command-interfaces";
-import { invalidateUserCache, isUserPower, Powers, User } from "@helpers";
+import { invalidateUserCache, isUserPower, Powers, Service, User, ConfigCache } from "@helpers";
+import { config } from "dotenv";
 
 type ShopItem = {
     name: string;
-    value: Powers;
+    value: Powers | Service;
+    isOwnable: Boolean;
     description: string;
     price: number;
 };
@@ -15,9 +17,24 @@ const shopItems: ShopItem[] = [
     {
         name: "Censorship immunity",
         value: "censorship-immunity",
+        isOwnable: true,
         description: "Be immune to censorship for 10 usages.",
         price: 10,
     },
+    {
+        name: "Censorship item",
+        value: "censorship-item",
+        isOwnable: true,
+        description: "Censor something you dont like!",
+        price: 500,
+    },
+    {
+        name: "Un-censorship item",
+        value: "un-censorship-item",
+        isOwnable: false,
+        description: "Un-censor something you like again!",
+        price: 1000,
+    }
 ];
 
 export const buy: ICommand = {
@@ -38,24 +55,31 @@ export const buy: ICommand = {
                 .setName("amount")
                 .setDescription("How many times do you want to purchase this item?")
                 .setRequired(false)
+        )
+        .addStringOption(option =>
+            option
+                .setName("value")
+                .setDescription("Wat?")
+                .setRequired(false)
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.user;
         const item = interaction.options.getString("item");
         const amount = interaction.options.getInteger("amount") ?? 1;
+        const value = interaction.options.getString("value");
 
-        interaction.reply({ embeds: [await runCommand(user, item, amount)] });
+        interaction.reply({ embeds: [await runCommand(user, item, amount, value)] });
     },
     executeMessage: async (message: Message, args: string[]): Promise<void> => {
         const user = message.author;
         const item = args[0];
         const amount = parseInt(args[1]) ?? 1;
 
-        message.reply({ embeds: [await runCommand(user, item, amount)] });
+        message.reply({ embeds: [await runCommand(user, item, amount, null)] });
     },
 };
 
-async function runCommand(discordUser: DiscordUser, item: string | null, amount: number) {
+async function runCommand(discordUser: DiscordUser, item: string | null, amount: number, value: string | null) {
     const user = await User.findOne({ userId: discordUser.id });
 
     const shopItemIndex = shopItems.findIndex(i => i.value === item);
@@ -65,22 +89,65 @@ async function runCommand(discordUser: DiscordUser, item: string | null, amount:
 
     const shopItem = shopItems[shopItemIndex];
 
+    if (shopItem.value == "censorship-item" || shopItem.value == "un-censorship-item")
+        amount = 1;
+
     if (!user || user.angryCoins < shopItem.price * amount) {
         return defaultEmbed().setDescription("You don't have enough angry coins to buy that item.");
     }
 
-    user.angryCoins -= shopItem.price * amount;
 
     if (isUserPower(shopItem.value)) {
+        user.angryCoins -= shopItem.price * amount;
         if (!user.powers[shopItem.value]) {
             user.powers[shopItem.value] = 0;
         }
 
         user.powers[shopItem.value] += amount;
         user.markModified("powers");
-        await user.save();
-        invalidateUserCache(user.userId);
     }
+
+    if (shopItem.value == "censorship-item") {
+        if (!value)
+            return defaultEmbed().setDescription("I need a string to censor, buddy");
+
+        const config = await ConfigCache.get("censored");
+
+        if (config && config.has(value))
+            return defaultEmbed().setDescription("This string is already censored!");
+
+        user.angryCoins -= shopItem.price;
+
+        let newConfig: Map<string, string>;
+        if (!config)
+            newConfig = new Map<string, string>();
+        else
+            newConfig = new Map(config);
+        newConfig.set(value, discordUser.id)
+        await ConfigCache.set({ key: "censored", value: newConfig });
+    }
+
+    if (shopItem.value == "un-censorship-item") {
+        if (!value)
+            return defaultEmbed().setDescription("I need a string to un-censor, buddy");
+
+        const config = await ConfigCache.get("censored");
+
+        if (!config || !config.has(value))
+            return defaultEmbed().setDescription("This string is not censored.");
+
+        if (config && config.get(value) != discordUser.id)
+            return defaultEmbed().setDescription("<@" + config.get(value) + "> owns this censorship!");
+
+        user.angryCoins -= shopItem.price;
+
+        let newConfig = new Map(config);
+        newConfig.delete(value);
+        await ConfigCache.set({ key: "censored", value: newConfig });
+    }
+
+    await user.save();
+    invalidateUserCache(user.userId);
 
     // handle non-power item purchases here
     // i think it should be possible to ask the user for another input

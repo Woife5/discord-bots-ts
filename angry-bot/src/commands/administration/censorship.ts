@@ -1,32 +1,37 @@
-import { CommandInteraction, Message, PermissionFlagsBits } from "discord.js";
+import { CommandInteraction, Message, User as DiscordUser, PermissionFlagsBits } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ConfigCache } from "@helpers";
 import { prefix } from "@data";
 import { getEmbed } from "./censored";
 import { ICommand, Role } from "../command-interfaces";
 
-async function updateConfig(subcommand: "add" | "remove", value: string) {
+async function updateConfig(subcommand: "add" | "remove", discordUser :DiscordUser, value: string) {
     const config = await ConfigCache.get("censored");
 
-    let newConfig: string[] = [];
     if (subcommand === "add") {
         if (!config) {
-            await ConfigCache.set({ key: "censored", value: [value] });
+            let newConfig = new Map<string,string>();
+            newConfig.set(value, discordUser.id);
+            await ConfigCache.set({ key: "censored", value: newConfig });
             return;
         }
 
-        if (config.includes(value)) {
+        if (config.has(value)) {
             return;
         }
 
-        newConfig = [...config, value];
+        let newConfig = new Map(config);
+        //newConfig = new Map<string,string>();
+        newConfig.set(value, discordUser.id);
+        await ConfigCache.set({ key: "censored", value: newConfig });
+        return;
     }
 
     if (subcommand === "remove" && config) {
-        newConfig = config.filter((v: string) => v !== value);
-    }
-
-    await ConfigCache.set({ key: "censored", value: newConfig });
+        let newConfig = new Map(config);
+        newConfig.delete(value);
+        await ConfigCache.set({ key: "censored", value: newConfig });
+    }    
 }
 
 export const censorship: ICommand = {
@@ -49,7 +54,7 @@ export const censorship: ICommand = {
         const subcommand = (interaction.options.get("action")?.value as "add" | "remove") ?? "add";
         const value = (interaction.options.get("value")?.value as string) ?? "";
 
-        await updateConfig(subcommand, value.toLowerCase().trim());
+        await updateConfig(subcommand, interaction.user,value.toLowerCase().trim());
 
         await interaction.reply({ embeds: [await getEmbed()] });
     },
@@ -66,7 +71,7 @@ export const censorship: ICommand = {
         }
 
         if (subcommand === "add" || subcommand === "remove") {
-            await updateConfig(subcommand, censoredString);
+            await updateConfig(subcommand, message.author, censoredString);
             await message.reply({ embeds: [await getEmbed()] });
         } else {
             await message.reply(

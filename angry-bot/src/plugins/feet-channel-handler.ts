@@ -107,8 +107,8 @@ async function isFeetRelated(msg: string) {
         return false;
     }
 
-    const feetRelated = config as string[];
-
+    const feetRelated = Array.from(config.keys())
+    
     for (const word of feetRelated) {
         if (text.includes(word)) {
             return true;

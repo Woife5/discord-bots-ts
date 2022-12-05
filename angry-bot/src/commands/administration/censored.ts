@@ -10,13 +10,16 @@ export async function getEmbed() {
         return new EmbedBuilder().setColor("#d94d26").setTitle("No consored strings found!");
     }
 
+    let censoredStrings = Array.from(config.keys());
+    let censoredStrings2 = Array.from(config.entries());
     let censored = "";
-    if (config.length > 0) {
-        censored = "`" + config.join("`, `") + "`";
+    if (censoredStrings.length > 0) {
+        censored = "`" + censoredStrings2.join("`, `") + "`";
     } else {
         censored = "None";
     }
 
+    //return new EmbedBuilder().setTitle("Censored Strings:").setDescription(JSON.stringify(Object.fromEntries(config)));
     return new EmbedBuilder().setTitle("Censored Strings:").setDescription(censored);
 }
 

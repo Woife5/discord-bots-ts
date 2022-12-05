@@ -16,7 +16,7 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
 
     let hasToBeCensored = false;
     let censoredContent = message.content.replaceAll("\\", "\\ ");
-    const censoredStrings = censored as string[];
+    const censoredStrings = Array.from(censored.keys());
 
     censoredStrings.forEach(string => {
         if (message.content?.toLowerCase().includes(string)) {
