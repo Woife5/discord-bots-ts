@@ -2,7 +2,7 @@ import { Message, EmbedBuilder, User as DiscordUser, ChatInputCommandInteraction
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN } from "@data";
 import { ICommand } from "../command-interfaces";
-import { invalidateUserCache, Powers, User } from "@helpers";
+import { invalidateUserCache, isUserPower, Powers, User } from "@helpers";
 
 type ShopItem = {
     name: string;
@@ -71,14 +71,21 @@ async function runCommand(discordUser: DiscordUser, item: string | null, amount:
 
     user.angryCoins -= shopItem.price * amount;
 
-    if (!user.powers[shopItem.value]) {
-        user.powers[shopItem.value] = 0;
+    if (isUserPower(shopItem.value)) {
+        if (!user.powers[shopItem.value]) {
+            user.powers[shopItem.value] = 0;
+        }
+
+        user.powers[shopItem.value] += amount;
+        user.markModified("powers");
+        await user.save();
+        invalidateUserCache(user.userId);
     }
 
-    user.powers[shopItem.value] += amount;
-    user.markModified("powers");
-    await user.save();
-    invalidateUserCache(user.userId);
+    // handle non-power item purchases here
+    // i think it should be possible to ask the user for another input
+    // otherwise we could just add "arguments" or something to the options
+    // where we can pass in any other data that is needed for the purchase (e.g. what to censor)
 
     return defaultEmbed().setTitle("Purchase successful").setDescription(`You bought ${amount} ${shopItem.name}.`);
 }

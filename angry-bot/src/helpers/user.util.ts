@@ -140,3 +140,7 @@ export function getUserActionCache(userId: string): UserActionCacheItem | undefi
 
     return user;
 }
+
+export function isUserPower(power: string): power is Powers {
+    return power === "censorship-immunity";
+}
