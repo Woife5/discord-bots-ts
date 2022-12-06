@@ -111,9 +111,11 @@ async function runCommand(discordUser: DiscordUser, item: string | null, amount:
         if (!value)
             return defaultEmbed().setDescription("I need a string to censor, buddy");
 
+        const censoredString = value.toLowerCase().trim();
+
         const config = await ConfigCache.get("censored");
 
-        if (config && config.has(value))
+        if (config && config.has(censoredString))
             return defaultEmbed().setDescription("This string is already censored!");
 
         user.angryCoins -= shopItem.price;
@@ -123,7 +125,7 @@ async function runCommand(discordUser: DiscordUser, item: string | null, amount:
             newConfig = new Map<string, string>();
         else
             newConfig = new Map(config);
-        newConfig.set(value, discordUser.id)
+        newConfig.set(censoredString, discordUser.id)
         await ConfigCache.set({ key: "censored", value: newConfig });
     }
 
@@ -131,18 +133,20 @@ async function runCommand(discordUser: DiscordUser, item: string | null, amount:
         if (!value)
             return defaultEmbed().setDescription("I need a string to un-censor, buddy");
 
+        const censoredString = value.toLowerCase().trim();
+
         const config = await ConfigCache.get("censored");
 
-        if (!config || !config.has(value))
+        if (!config || !config.has(censoredString))
             return defaultEmbed().setDescription("This string is not censored.");
 
-        if (config && config.get(value) != discordUser.id)
-            return defaultEmbed().setDescription("<@" + config.get(value) + "> owns this censorship!");
+        if (config && config.get(censoredString) != discordUser.id)
+            return defaultEmbed().setDescription("<@" + config.get(censoredString) + "> owns this censorship!");
 
         user.angryCoins -= shopItem.price;
 
         let newConfig = new Map(config);
-        newConfig.delete(value);
+        newConfig.delete(censoredString);
         await ConfigCache.set({ key: "censored", value: newConfig });
     }
 
