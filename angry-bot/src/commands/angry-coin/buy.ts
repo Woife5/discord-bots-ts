@@ -59,7 +59,7 @@ export const buy: ICommand = {
         .addStringOption(option =>
             option
                 .setName("value")
-                .setDescription("Wat?")
+                .setDescription("For personalized purchaces 🥰")
                 .setRequired(false)
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {

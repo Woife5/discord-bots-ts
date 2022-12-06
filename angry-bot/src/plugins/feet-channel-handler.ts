@@ -1,4 +1,4 @@
-import { ratingEmojis } from "@data";
+import { ratingEmojis, feetRelated} from "@data";
 import {
     ConfigCache,
     getMemberRole,
@@ -100,14 +100,6 @@ function isInFeetChannel(message: Message | PartialMessage) {
 
 async function isFeetRelated(msg: string) {
     const text = msg.toLowerCase().trim();
-
-    const config = await ConfigCache.get("feet-related");
-
-    if (!config) {
-        return false;
-    }
-
-    const feetRelated = Array.from(config.keys())
     
     for (const word of feetRelated) {
         if (text.includes(word)) {
