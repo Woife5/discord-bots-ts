@@ -1,9 +1,8 @@
-import { Message, EmbedBuilder, User as DiscordUser, ChatInputCommandInteraction } from "discord.js";
+import { Message, EmbedBuilder, User as DiscordUser, ChatInputCommandInteraction, ButtonInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN } from "@data";
 import { ICommand } from "../command-interfaces";
 import { invalidateUserCache, isUserPower, Powers, Service, User, ConfigCache } from "@helpers";
-import { config } from "dotenv";
 
 type ShopItem = {
     name: string;
@@ -68,18 +67,39 @@ export const buy: ICommand = {
         const amount = interaction.options.getInteger("amount") ?? 1;
         const value = interaction.options.getString("value");
 
-        interaction.reply({ embeds: [await runCommand(user, item, amount, value)] });
+        let components : any = []; //i hate this
+        let reactionHandler = [async (interaction : ChatInputCommandInteraction) => {}];
+        const embed = await runCommand(user, item, amount, value, components, reactionHandler);
+        interaction.reply({embeds: [embed], components : components});
+
+        /*
+        if (interaction.channel) {
+            const filter = (i : any) => true;
+            const collector = interaction.channel.createMessageComponentCollector({ filter, max: 1, time: 15 * 1000 });
+            collector.on('collect', async (i : ButtonInteraction) => {
+                if (i.customId === "confirm_purchase")
+                    await i.reply({ content: 'Purchase confirmed!', components: [] });
+                else
+                    await i.reply({ content: 'Purchase canceled!', components: [] });
+            });
+            collector.on('end', () => {interaction.editReply({components: [] })});
+
+        }
+        */
+        reactionHandler[0](interaction);
     },
     executeMessage: async (message: Message, args: string[]): Promise<void> => {
         const user = message.author;
         const item = args[0];
         const amount = parseInt(args[1]) ?? 1;
-
-        message.reply({ embeds: [await runCommand(user, item, amount, null)] });
+        let components : any = []; //i hate this
+        let reactionHandler = [async (interaction : ChatInputCommandInteraction) => {}];
+        message.reply({ embeds: [await runCommand(user, item, amount, null, components, reactionHandler)] });
     },
 };
 
-async function runCommand(discordUser: DiscordUser, item: string | null, amount: number, value: string | null) {
+async function runCommand(discordUser: DiscordUser, item: string | null, amount: number, value: string | null, components: any, reactionHandler : Function[]) {
+
     const user = await User.findOne({ userId: discordUser.id });
 
     const shopItemIndex = shopItems.findIndex(i => i.value === item);
@@ -141,10 +161,45 @@ async function runCommand(discordUser: DiscordUser, item: string | null, amount:
             return defaultEmbed().setDescription("This string is not censored.");
 
         if (config && config.get(censoredString) != discordUser.id)
-            return defaultEmbed().setDescription("<@" + config.get(censoredString) + "> owns this censorship!");
+        {
 
+            components[0] = {
+                "type": 1,
+                "components": [
+                    { "style": 3, "custom_id": `confirm_purchase`, "disabled": false, "emoji": { "id": null, "name": `😍` }, "type": 2 },
+                    { "style": 4, "custom_id": `cancel_purchase`, "disabled":  false, "emoji": { "id": null, "name": `🤮` }, "type": 2 }
+                ]
+            };
+
+            reactionHandler[0] = async (interaction: ChatInputCommandInteraction) => {
+                if (interaction.channel) {
+                    const filter = (i: any) => true;
+                    const collector = interaction.channel.createMessageComponentCollector({ filter, max: 1, time: 15 * 1000 });
+                    collector.on('collect', async (i: ButtonInteraction) => {
+                        if (i.customId === "confirm_purchase")
+                        {
+                            if (user.angryCoins < shopItem.price + 500)
+                                await i.reply({ content: 'You dont have enough coins!', components: [] });
+                            else
+                            {
+                                user.angryCoins -= shopItem.price + 500;
+                                let newConfig = new Map(config);
+                                newConfig.delete(censoredString);
+                                await ConfigCache.set({ key: "censored", value: newConfig });
+                                await i.reply({ content: 'Purchase confirmed!', components: [] });
+                            }
+                        }
+                        else
+                            await i.reply({ content: 'Purchase canceled!', components: [] });
+                    });
+                    collector.on('end', () => { interaction.editReply({ components: [] }) });
+
+                }
+            }
+
+            return defaultEmbed().setDescription("<@" + config.get(censoredString) + "> owns `" + censoredString + "`! \n Remove for an additional 500 Angry Coins?")
+        }
         user.angryCoins -= shopItem.price;
-
         let newConfig = new Map(config);
         newConfig.delete(censoredString);
         await ConfigCache.set({ key: "censored", value: newConfig });
