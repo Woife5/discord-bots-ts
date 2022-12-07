@@ -30,13 +30,13 @@ async function runCommand(user: DiscordUser | null | undefined) {
         embed.setDescription(topEmojis);
         embed.setTitle(`Top 5 emojis sent for ${user.username}`);
     } else {
-        const val = await Stats.findOne({ key: "total-angry-emojis-sent" }).exec();
+        const val = await Stats.findOne({ key: "individual-tarots-read:any" }).exec();
 
-        if (!val || val.key !== "total-angry-emojis-sent") {
+        if (!val || val.key !== "individual-tarots-read:any") {
             return new EmbedBuilder().setColor(embedColor).setTitle("Error 🤒");
         }
 
-        emojicount = val.value;
+        emojicount = Object.values(val.anyValue).reduce((acc, v) => acc + v, 0);
 
         embed.addFields({ name: "Total angry emojis sent", value: emojicount.toString() });
     }
