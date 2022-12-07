@@ -218,8 +218,12 @@ export const Stats = model<StatsType>("Stats", statsSchema);
 
 export async function getStat(key: StatKeys) {
     const stat = await Stats.findOne({ key }).exec();
-    if (!stat || stat.key === "individual-tarots-read:any") {
+    if (!stat) {
         return 0;
+    }
+
+    if (stat.key === "individual-tarots-read:any") {
+        return Object.values(stat.anyValue).reduce((a, b) => a + b, 0);
     }
 
     return stat.value;

@@ -58,7 +58,9 @@ async function generateUserStatEmbed(user: DiscordUser) {
         },
         {
             name: "Total Angry emojis sent",
-            value: getStatFromUser("total-angry-emojis-sent"),
+            value: Object.values(userObj.emojis)
+                .reduce((a, b) => a + b, 0)
+                .toString(),
         },
         {
             name: "Questions asked",
@@ -96,6 +98,10 @@ async function generateStatEmbed() {
         {
             name: "Total angry reactions",
             value: (await getStat("angry-reactions")).toString(),
+        },
+        {
+            name: "Total angry emojis sent",
+            value: (await getStat("total-angry-emojis-sent")).toString(),
         },
         {
             name: "Total tarots read",
