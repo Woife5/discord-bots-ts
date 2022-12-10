@@ -11,10 +11,9 @@ export async function getEmbed() {
     }
 
     let censoredStrings = Array.from(config.keys());
-    let censoredStrings2 = Array.from(config.entries());
     let censored = "";
     if (censoredStrings.length > 0) {
-        censored = "`" + censoredStrings2.join("`, `") + "`";
+        censored = "`" + censoredStrings.join("`, `") + "`";
     } else {
         censored = "None";
     }
