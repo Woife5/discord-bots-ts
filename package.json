@@ -4,5 +4,8 @@
     "license": "GPL-3.0",
     "workspaces": [
         "angry-bot"
-    ]
+    ],
+    "dependencies": {
+        "docker-compose": "^0.23.17"
+    }
 }

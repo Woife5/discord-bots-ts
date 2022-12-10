@@ -36,7 +36,7 @@ const shopItems: ShopItem[] = [
         description: "Un-censor something you like again! 🥰",
         amount: false,
         message: true,
-        price: 1000,
+        price: 300,
     }
 ];
 
@@ -134,12 +134,6 @@ async function buyCensorship(interaction : ChatInputCommandInteraction, user : D
     if (censoredString.length < 4 && !hasEmoji(censoredString)){
         return interaction.reply({ embeds: [embed.setDescription("This string is too short for censorship! 😟 \n Enter at least 4 charcters or an emoji.")], ephemeral:true});
     }
-    if (censoredString.match(/\./)){
-        return interaction.reply({ embeds: [embed.setDescription("Sorry your censorship cant contain   '.'   :(  we're working on it")], ephemeral:true });
-    }
-    if (censoredString.match(/\$/)){
-        return interaction.reply({ embeds: [embed.setDescription("Sorry your censorship cant contain   '$'   :(  we're working on it")], ephemeral:true });
-    }
     if (!isCensorable(censoredString)){
         return interaction.reply({ embeds: [embed.setDescription("Sorry this string is forbidden from censoring 😨")], ephemeral:true });
     }
@@ -193,7 +187,7 @@ async function buyRemoveCensorship(interaction : ChatInputCommandInteraction, us
             user.angryCoins -= price + noOwnershipSurcharge;
             await user.save();
             invalidateUserCache(user.userId);
-            await buttonInteraction.reply({ content: 'Purchase confirmed!', components: [] });
+            await buttonInteraction.reply({ content: `Purchase confirmed! \n You liberated \`${censoredString}\`!`, components: [] });
         }
         if (buttonInteraction.customId === "cancel_uncensorship_purchase"){
             await buttonInteraction.reply({ content: 'Purchase canceled!', components: [] });
