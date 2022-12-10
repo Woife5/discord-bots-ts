@@ -2,7 +2,7 @@ import { Message, EmbedBuilder, User as DiscordUser, ChatInputCommandInteraction
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, uncensorable } from "@data";
 import { ICommand } from "../command-interfaces";
-import { invalidateUserCache, isUserPower, Powers, ShopItems as ShopItemNames, User, ConfigCache, IUser } from "@helpers";
+import { invalidateUserCache, isUserPower, Powers, ShopItems as ShopItemNames, User, IUser, CensorshipUtil } from "@helpers";
 import { Document } from "mongoose";
 
 type ShopItem = {
@@ -143,13 +143,13 @@ async function buyCensorship(interaction : ChatInputCommandInteraction, user : D
     if (!isCensorable(censoredString)){
         return interaction.reply({ embeds: [embed.setDescription("Sorry this string is forbidden from censoring 😨")], ephemeral:true });
     }
-    const allCensorships = await ConfigCache.get("censored");
-    if (allCensorships && allCensorships.has(censoredString)){
+
+    if (await CensorshipUtil.isCensored(censoredString)) {
         return interaction.reply({ embeds: [embed.setDescription("This string is already censored!")], ephemeral:true});
     }
-    let newConfig = allCensorships?  new Map(allCensorships) : new Map<string, string>();
-    newConfig.set(censoredString, user.id)
-    await ConfigCache.set({ key: "censored", value: newConfig });
+    
+    CensorshipUtil.add({ owner: user.userId, value: censoredString });
+
     user.angryCoins -= price;
     await user.save();
     invalidateUserCache(user.userId);
@@ -158,17 +158,15 @@ async function buyCensorship(interaction : ChatInputCommandInteraction, user : D
 
 async function buyRemoveCensorship(interaction : ChatInputCommandInteraction, user : Document & IUser, price : number, censoredString : string, noOwnershipSurcharge: number) : Promise<InteractionResponse<boolean>>
 {
-    const allCensorships = await ConfigCache.get("censored");
     const embed = defaultEmbed();
-    if (!allCensorships || !allCensorships.has(censoredString)){
+    const owner = await CensorshipUtil.findOwner(censoredString);
+    if (owner == null) {
         return interaction.reply({ embeds: [embed.setDescription("This string is not censored.")], ephemeral:true});
     }
-    if(allCensorships.get(censoredString) == user.id)
-    {
+
+    if(owner === user.userId) {
         user.angryCoins -= price;
-        let newConfig = new Map(allCensorships);
-        newConfig.delete(censoredString);
-        await ConfigCache.set({ key: "censored", value: newConfig });
+        await CensorshipUtil.remove(censoredString);
         await user.save();
         invalidateUserCache(user.userId);
         return interaction.reply({ embeds: [embed.setTitle("Purchase successful").setDescription(`You liberated \`${censoredString}\`!`)] });
@@ -183,7 +181,7 @@ async function buyRemoveCensorship(interaction : ChatInputCommandInteraction, us
     if (!interaction.channel){ //idk i made this to get rid of the ugly red squiggly lines
         return interaction.reply({ embeds: [embed.setDescription("What uwu why does this interaction have no channel? >.< sowwy dont know what to do")], ephemeral: true });
     }
-    const filter = (buttonInteraction: any) => interaction.user.id === buttonInteraction.user.id;
+    const filter = (buttonInteraction: any) => interaction.user.id === buttonInteraction?.user?.id;
     const collector = interaction.channel.createMessageComponentCollector({ filter, max: 1, time: 15 * 1000 });
     collector.on('collect', async (buttonInteraction: ButtonInteraction) => {
         if (buttonInteraction.customId === "confirm_uncensorship_purchase") {
@@ -191,9 +189,7 @@ async function buyRemoveCensorship(interaction : ChatInputCommandInteraction, us
                 buttonInteraction.reply({ content: 'You dont have enough coins!', components: [] });
                 return;
             }
-            let newConfig = new Map(allCensorships);
-            newConfig.delete(censoredString);
-            await ConfigCache.set({ key: "censored", value: newConfig });
+            await CensorshipUtil.remove(censoredString);
             user.angryCoins -= price + noOwnershipSurcharge;
             await user.save();
             invalidateUserCache(user.userId);
@@ -204,7 +200,7 @@ async function buyRemoveCensorship(interaction : ChatInputCommandInteraction, us
         }
     });
     collector.on('end', () => { interaction.editReply({ components: [] }) });
-    return interaction.reply({ embeds: [embed.setDescription(`<@${allCensorships.get(censoredString)}> owns \`${censoredString}\`! \n Remove for an additional ${noOwnershipSurcharge} Angry Coins?`)], components: [buttonRow] ,  ephemeral:true});
+    return interaction.reply({ embeds: [embed.setDescription(`<@${owner}> owns \`${censoredString}\`! \n Remove for an additional ${noOwnershipSurcharge} Angry Coins?`)], components: [buttonRow] ,  ephemeral:true});
 }
 
 function filterCensorMessage(message : string) :string

@@ -1,37 +1,16 @@
 import { CommandInteraction, Message, User as DiscordUser, PermissionFlagsBits } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ConfigCache } from "@helpers";
+import { CensorshipUtil } from "@helpers";
 import { prefix } from "@data";
 import { getEmbed } from "./censored";
 import { ICommand, Role } from "../command-interfaces";
 
 async function updateConfig(subcommand: "add" | "remove", discordUser :DiscordUser, value: string) {
-    const config = await ConfigCache.get("censored");
-
     if (subcommand === "add") {
-        if (!config) {
-            let newConfig = new Map<string,string>();
-            newConfig.set(value, discordUser.id);
-            await ConfigCache.set({ key: "censored", value: newConfig });
-            return;
-        }
-
-        if (config.has(value)) {
-            return;
-        }
-
-        let newConfig = new Map(config);
-        //newConfig = new Map<string,string>();
-        newConfig.set(value, discordUser.id);
-        await ConfigCache.set({ key: "censored", value: newConfig });
-        return;
+        await CensorshipUtil.add({ value, owner: discordUser.id });
+    } else {
+        await CensorshipUtil.remove(value);
     }
-
-    if (subcommand === "remove" && config) {
-        let newConfig = new Map(config);
-        newConfig.delete(value);
-        await ConfigCache.set({ key: "censored", value: newConfig });
-    }    
 }
 
 export const censorship: ICommand = {

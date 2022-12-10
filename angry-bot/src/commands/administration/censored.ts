@@ -1,25 +1,17 @@
 import { CommandInteraction, Message, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ConfigCache } from "@helpers";
+import { CensorshipUtil } from "@helpers";
 import { ICommand, Role } from "../command-interfaces";
 
 export async function getEmbed() {
-    const config = await ConfigCache.get("censored");
+    const censored = await CensorshipUtil.getAll();
 
-    if (!config) {
+    if (censored.size <= 0) {
         return new EmbedBuilder().setColor("#d94d26").setTitle("No consored strings found!");
     }
 
-    let censoredStrings = Array.from(config.keys());
-    let censored = "";
-    if (censoredStrings.length > 0) {
-        censored = "`" + censoredStrings.join("`, `") + "`";
-    } else {
-        censored = "None";
-    }
-
-    //return new EmbedBuilder().setTitle("Censored Strings:").setDescription(JSON.stringify(Object.fromEntries(config)));
-    return new EmbedBuilder().setTitle("Censored Strings:").setDescription(censored);
+    const allCensored = [...censored];
+    return new EmbedBuilder().setTitle("Censored Strings:").setDescription("`" + allCensored.join("`, `") + "`");
 }
 
 export const censored: ICommand = {

@@ -75,7 +75,7 @@ export interface IMessageCommand {
 }
 
 export interface ICommand {
-    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;// Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
+    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
     role?: Role;
     executeInteraction: ISlashCommand;
     executeMessage: IMessageCommand;
