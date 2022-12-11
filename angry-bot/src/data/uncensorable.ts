@@ -12,5 +12,11 @@ export const uncensorable = [
     /^🤮$/,
     /^(.{0,2}\.)?png$/,
     /^attachments$/, //idk what this does, was in the list
-    /^((.{0,3}<)?@)?[0-9]{0,18}>?$/ //discord ids or partial discord ids, also any number with less than 19 characters
+    /^((.{0,3}<)?@)?[0-9]{0,18}>?$/, //discord ids or partial discord ids, also any number with less than 19 characters
+    /^google$/,
+    /^images$/,
+    /^feet$/,
+    /^🦶$/,
+    /^Windows User Group$/,
+    /^fhWUG$/,
 ];
