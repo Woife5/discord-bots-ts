@@ -1,12 +1,5 @@
 import { ratingEmojis, feetRelated } from "@data";
-import {
-    getMemberRole,
-    getUserActionCache,
-    NumberUtils,
-    PluginReturnCode,
-    updateUserActionCache,
-    updateUserBalance,
-} from "@helpers";
+import { UserUtils, NumberUtils, PluginReturnCode } from "@helpers";
 import { Role } from "commands/command-interfaces";
 import {
     ChannelType,
@@ -52,7 +45,7 @@ export async function handleReaction(
 
     const member = await guild.members.fetch(user.id);
 
-    const role = await getMemberRole(member);
+    const role = await UserUtils.getMemberRole(member);
     if (role < Role.ADMIN) {
         return "CONTINUE";
     }
@@ -71,15 +64,15 @@ export async function handleReaction(
 
         const userId = reaction.message.author?.id;
         if (userId) {
-            const userCache = getUserActionCache(userId);
+            const userCache = UserUtils.getUserActionCache(userId);
             if (userCache && userCache.feetCash) {
                 return "ABORT";
             }
 
-            updateUserActionCache(userId, { feetCash: true });
+            UserUtils.updateUserActionCache(userId, { feetCash: true });
             const moneyWon = (rating + 1) * 10;
 
-            await updateUserBalance({ userId, amount: moneyWon });
+            await UserUtils.updateUserBalance({ userId, amount: moneyWon });
             await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
         }
 

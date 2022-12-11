@@ -30,7 +30,6 @@ export async function createUserSimple(id: string, name: string): Promise<Hydrat
 // --------------------------------------------------------
 
 export type Powers = "censorship-immunity";
-export type ShopItems = "censorship" | "un-censorship";
 
 export interface IUser {
     userId: string;

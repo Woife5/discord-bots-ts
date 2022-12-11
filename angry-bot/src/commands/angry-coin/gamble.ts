@@ -2,14 +2,7 @@ import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand } from "../command-interfaces";
-import {
-    getUserActionCache,
-    getUserCurrency,
-    incrementStatAndUser,
-    NumberUtils,
-    updateUserActionCache,
-    updateUserBalance,
-} from "@helpers";
+import { UserUtils, incrementStatAndUser, NumberUtils } from "@helpers";
 
 export const gamble: ICommand = {
     data: new SlashCommandBuilder()
@@ -38,7 +31,7 @@ export const gamble: ICommand = {
 };
 
 async function runCommand(user: DiscordUser, amount: number, all: boolean) {
-    const userBalance = await getUserCurrency(user.id);
+    const userBalance = await UserUtils.getUserBalance(user.id);
 
     if (all) {
         amount = userBalance;
@@ -69,11 +62,11 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 
     let upperLimit = 1;
 
-    const userCache = getUserActionCache(user.id);
+    const userCache = UserUtils.getUserActionCache(user.id);
     if (userCache && userCache.gambles > 4) {
         upperLimit = 7;
     }
-    updateUserActionCache(user.id, { gambles: 1 });
+    UserUtils.updateUserActionCache(user.id, { gambles: 1 });
 
     const win = NumberUtils.getRandomInt(0, upperLimit) === 0;
     const taxPayed = !win && amount >= userBalance / 10;
@@ -94,9 +87,9 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 }
 
 async function updateBalance(discordUser: DiscordUser, amount: number, taxPayed: boolean) {
-    await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username, taxPayed });
+    await UserUtils.updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username, taxPayed });
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
+    await UserUtils.updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
     if (amount < 0) {
         await incrementStatAndUser("money-lost-in-gambling", discordUser, -amount);
     } else {

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { ChatInputCommandInteraction, Client, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
-import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, getUserRole } from "@helpers";
+import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, UserUtils } from "@helpers";
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler, Taxation } from "./plugins";
 import * as Commands from "./commands";
@@ -121,7 +121,7 @@ const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
         if (!commandRef || !message.guild) {
             throw new Error();
         }
-        const userRole = await getUserRole(message.author, message.guild);
+        const userRole = await UserUtils.getUserRole(message.author, message.guild);
         if (commandRef.role && userRole < commandRef.role) {
             await message.reply("You don't have the required role to use this command! 🥴");
         } else {

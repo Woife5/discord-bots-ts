@@ -4,6 +4,6 @@ export * from "./stat-handler";
 export * from "./message-wrapper";
 
 export * from "./number.util";
-export * from "./user.util";
+export * as UserUtils from "./user.util";
 export * from "./message.util";
 export * from "./string.util";

@@ -2,7 +2,7 @@ import { Message, EmbedBuilder, User, ChatInputCommandInteraction } from "discor
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand } from "../command-interfaces";
-import { getUserCurrency } from "@helpers";
+import { UserUtils } from "@helpers";
 
 export const balance: ICommand = {
     data: new SlashCommandBuilder()
@@ -21,7 +21,7 @@ export const balance: ICommand = {
 };
 
 async function runCommand(user: User) {
-    const userBalance = await getUserCurrency(user.id);
+    const userBalance = await UserUtils.getUserBalance(user.id);
 
     return new EmbedBuilder()
         .setColor("Yellow")

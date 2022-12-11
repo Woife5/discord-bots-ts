@@ -1,5 +1,5 @@
 import type { Message, PartialMessage } from "discord.js";
-import { incrementStatAndUser, Log, PluginReturnCode, usePower, CensorshipUtil } from "@helpers";
+import { incrementStatAndUser, Log, PluginReturnCode, UserUtils, CensorshipUtil } from "@helpers";
 
 const log = new Log("Censorship");
 
@@ -29,7 +29,9 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
         return "CONTINUE";
     }
 
-    if (await usePower(message.author.id, "censorship-immunity")) {
+    if (await UserUtils.hasPower(message.author.id, "censorship-immunity")) {
+        const powerUpdate = await UserUtils.getPowerUpdate(message.author.id, "censorship-immunity", -1);
+        await UserUtils.updateUser(message.author.id, powerUpdate);
         return "CONTINUE";
     }
 
