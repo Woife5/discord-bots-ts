@@ -101,16 +101,25 @@ const userSchema = new Schema<IUser>({
 export const User = model<IUser>("User", userSchema);
 
 // --------------------------------------------------------
-// CONFIG SCHEMA
+// CONFIG SCHEMA - no longer used
 // --------------------------------------------------------
 
+/**
+ * @deprecated
+ */
 type ConfigType = {
     key: "censored" | "feet-related";
-    value: string[];
+    value: Map<string, string>;
 };
 
+/**
+ * @deprecated
+ */
 type ConfigKeys = ConfigType["key"];
 
+/**
+ * @deprecated
+ */
 const configSchema = new Schema<ConfigType>({
     key: {
         type: String,
@@ -119,18 +128,27 @@ const configSchema = new Schema<ConfigType>({
         lowercase: true,
     },
     value: {
-        type: Schema.Types.Mixed,
+        type: Schema.Types.Map,
         required: true,
     },
 });
 
+/**
+ * @deprecated
+ */
 const ConfigDB = model<ConfigType>("Config", configSchema);
 
+/**
+ * @deprecated
+ */
 type ConfigCacheEntry = {
     config: ConfigType;
     expires: number;
 };
 
+/**
+ * @deprecated
+ */
 export class ConfigCache {
     private static _cache = new Map<ConfigKeys, ConfigCacheEntry>();
 
@@ -165,6 +183,86 @@ export class ConfigCache {
             { $set: { value: config.value } },
             { upsert: true }
         ).exec();
+    }
+}
+
+// --------------------------------------------------------
+// CENSORED SCHEMA
+// --------------------------------------------------------
+
+type Censored = {
+    owner: string;
+    value: string;
+};
+
+const censoredSchema = new Schema<Censored>({
+    owner: {
+        type: String,
+        required: true,
+    },
+    value: {
+        type: String,
+        required: true,
+        lowercase: true,
+    },
+});
+
+const CensoredDB = model<Censored>("Censored", censoredSchema);
+
+export class CensorshipUtil {
+    private static _cache = new Set<string>();
+
+    static async getAll(): Promise<Set<string>> {
+        if (this._cache.size === 0) {
+            const censored = await CensoredDB.find({}).exec();
+            this._cache = new Set(censored.map(c => c.value));
+        }
+
+        return this._cache;
+    }
+
+    /**
+     * NOT cached
+     * @returns null if the provided value is not censored, the owner of the value otherwise.
+     */
+    static async findOwner(value: string): Promise<string | null> {
+        const censored = await CensoredDB.findOne({ value }).exec();
+        if (!censored) {
+            return null;
+        }
+
+        return censored.owner;
+    }
+
+    /**
+     * NOT cached
+     * @returns an array containing all string censored by the provided user.
+     */
+    static async findCensored(owner: string): Promise<string[]> {
+        const censored = await CensoredDB.find({ owner }).exec();
+        return censored.map(c => c.value);
+    }
+
+    static async isCensored(value: string): Promise<boolean> {
+        return (await this.getAll()).has(value.trim().toLowerCase());
+    }
+
+    /**
+     * Adds a new censored string to the database and updated the cache.
+     */
+    static async add(censored: Censored): Promise<Censored> {
+        const value = censored.value.trim().toLowerCase();
+        this._cache.add(value);
+        return await CensoredDB.create({ owner: censored.owner, value });
+    }
+
+    /**
+     * Removes a censored string from the database and updates the cache.
+     */
+    static async remove(censored: string): Promise<void> {
+        const value = censored.trim().toLowerCase();
+        this._cache.delete(value);
+        await CensoredDB.deleteOne({ value }).exec();
     }
 }
 

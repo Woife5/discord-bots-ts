@@ -1,13 +1,5 @@
-import { ratingEmojis } from "@data";
-import {
-    ConfigCache,
-    getMemberRole,
-    getUserActionCache,
-    NumberUtils,
-    PluginReturnCode,
-    updateUserActionCache,
-    updateUserBalance,
-} from "@helpers";
+import { ratingEmojis, feetRelated } from "@data";
+import { UserUtils, NumberUtils, PluginReturnCode } from "@helpers";
 import { Role } from "commands/command-interfaces";
 import {
     ChannelType,
@@ -53,7 +45,7 @@ export async function handleReaction(
 
     const member = await guild.members.fetch(user.id);
 
-    const role = await getMemberRole(member);
+    const role = await UserUtils.getMemberRole(member);
     if (role < Role.ADMIN) {
         return "CONTINUE";
     }
@@ -72,15 +64,15 @@ export async function handleReaction(
 
         const userId = reaction.message.author?.id;
         if (userId) {
-            const userCache = getUserActionCache(userId);
+            const userCache = UserUtils.getUserActionCache(userId);
             if (userCache && userCache.feetCash) {
                 return "ABORT";
             }
 
-            updateUserActionCache(userId, { feetCash: true });
+            UserUtils.updateUserActionCache(userId, { feetCash: true });
             const moneyWon = (rating + 1) * 10;
 
-            await updateUserBalance({ userId, amount: moneyWon });
+            await UserUtils.updateUserBalance({ userId, amount: moneyWon });
             await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
         }
 
@@ -100,14 +92,6 @@ function isInFeetChannel(message: Message | PartialMessage) {
 
 async function isFeetRelated(msg: string) {
     const text = msg.toLowerCase().trim();
-
-    const config = await ConfigCache.get("feet-related");
-
-    if (!config) {
-        return false;
-    }
-
-    const feetRelated = config as string[];
 
     for (const word of feetRelated) {
         if (text.includes(word)) {

@@ -22,6 +22,36 @@ export type UserBalanceUpdateArgs = {
 const userCache = new Map<string, HydratedDocument<IUser> | null>();
 const userActionsCache = new Map<string, UserActionCacheItem>();
 
+async function getUser(userId: string): Promise<HydratedDocument<IUser> | null> {
+    if (userCache.has(userId)) {
+        return userCache.get(userId) ?? null;
+    }
+
+    const user = await User.findOne({ userId });
+    if (user) {
+        userCache.set(userId, user);
+    }
+
+    return user;
+}
+
+export async function updateUser(userId: string, newValues: Partial<IUser>) {
+    let existingUser = await getUser(userId);
+
+    if (!existingUser) {
+        existingUser = await createUserSimple(userId, newValues.userName ?? "unknown");
+    }
+
+    Object.keys(newValues).forEach(key => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        existingUser[key] = newValues[key];
+    });
+
+    const newUser = await existingUser.save();
+    userCache.set(userId, newUser);
+}
+
 export function invalidateUserCache(userId: string) {
     userCache.delete(userId);
 }
@@ -53,12 +83,12 @@ export async function getMemberRole(member: GuildMember): Promise<Role> {
 }
 
 /**
- * This function will not check if the user's balance will be below 0 after or before the action.
+ * This function will NOT check if the user's balance will be below 0 after or before the action.
  */
 export async function updateUserBalance(args: UserBalanceUpdateArgs): Promise<boolean> {
     const { userId, username = "unknown", amount, taxPayed } = args;
 
-    let user = await User.findOne({ userId: userId });
+    let user = await getUser(userId);
 
     if (!user) {
         user = await createUserSimple(userId, username);
@@ -69,23 +99,18 @@ export async function updateUserBalance(args: UserBalanceUpdateArgs): Promise<bo
     taxPayed && (user.lastTransaction = new Date());
     await user.save();
 
+    userCache.set(userId, user);
+
     return true;
 }
 
-export async function getUserCurrency(userId: string): Promise<number> {
-    const user = await User.findOne({ userId });
-
-    return user?.angryCoins || 0;
+export async function getUserBalance(userId: string): Promise<number> {
+    const user = await getUser(userId);
+    return user?.angryCoins ?? 0;
 }
 
 export async function hasPower(userId: string, power: Powers): Promise<boolean> {
-    let user;
-    if (userCache.has(userId)) {
-        user = userCache.get(userId);
-    } else {
-        user = await User.findOne({ userId });
-        userCache.set(userId, user);
-    }
+    const user = await getUser(userId);
 
     if (!user || !user.powers[power] || user.powers[power] <= 0) {
         return false;
@@ -94,23 +119,18 @@ export async function hasPower(userId: string, power: Powers): Promise<boolean> 
     return true;
 }
 
-export async function usePower(userId: string, power: Powers): Promise<boolean> {
-    let user;
-    if (userCache.has(userId)) {
-        user = userCache.get(userId);
-    } else {
-        user = await User.findOne({ userId });
-    }
+export async function getPowerUpdate(userId: string, power: Powers, amount: number) {
+    const user = await getUser(userId);
 
-    if (!user || !user.powers[power] || user.powers[power] <= 0) {
-        return false;
-    }
-
-    user.powers[power] -= 1;
-    user.markModified("powers");
-    await user.save();
-    userCache.set(userId, user);
-    return true;
+    return {
+        userId,
+        userName: user?.userName ?? "unknown",
+        powers: {
+            [power]: (user?.powers[power] ?? 0) + amount,
+            ...user?.powers,
+        },
+        angryCoins: user?.angryCoins ?? 0,
+    } satisfies Partial<IUser>;
 }
 
 export function updateUserActionCache(userId: string, update: Partial<UserActionCacheItem>) {

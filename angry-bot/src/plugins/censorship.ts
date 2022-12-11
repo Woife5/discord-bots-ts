@@ -1,5 +1,5 @@
 import type { Message, PartialMessage } from "discord.js";
-import { incrementStatAndUser, Log, ConfigCache, PluginReturnCode, usePower } from "@helpers";
+import { incrementStatAndUser, Log, PluginReturnCode, UserUtils, CensorshipUtil } from "@helpers";
 
 const log = new Log("Censorship");
 
@@ -8,17 +8,16 @@ function escapeRegExp(string: string) {
 }
 
 export async function censor(message: Message | PartialMessage): Promise<PluginReturnCode> {
-    const censored = await ConfigCache.get("censored");
+    const censored = await CensorshipUtil.getAll();
 
-    if (!censored || !message.content || !message.author) {
+    if (censored.size <= 0 || !message.content || !message.author) {
         return "CONTINUE";
     }
 
     let hasToBeCensored = false;
     let censoredContent = message.content.replaceAll("\\", "\\ ");
-    const censoredStrings = censored as string[];
 
-    censoredStrings.forEach(string => {
+    censored.forEach(string => {
         if (message.content?.toLowerCase().includes(string)) {
             hasToBeCensored = true;
             const regex = new RegExp(escapeRegExp(string), "ig");
@@ -30,7 +29,9 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
         return "CONTINUE";
     }
 
-    if (await usePower(message.author.id, "censorship-immunity")) {
+    if (await UserUtils.hasPower(message.author.id, "censorship-immunity")) {
+        const powerUpdate = await UserUtils.getPowerUpdate(message.author.id, "censorship-immunity", -1);
+        await UserUtils.updateUser(message.author.id, powerUpdate);
         return "CONTINUE";
     }
 

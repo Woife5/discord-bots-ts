@@ -1,4 +1,4 @@
-import { User, Log, updateUserBalance, DateUtils, GuildSettingsCache } from "@helpers";
+import { User, Log, UserUtils, DateUtils, GuildSettingsCache } from "@helpers";
 import { ChannelType, Client } from "discord.js";
 
 const TAXATION_RATE = 0.1;
@@ -35,7 +35,7 @@ export async function tax(client: Client) {
         return;
     }
 
-    await updateUserBalance({
+    await UserUtils.updateUserBalance({
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         userId: process.env.CLIENT_ID!,
         amount: taxMoney,
