@@ -1,8 +1,8 @@
 import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryBirthday } from "@data";
-import { DateUtils } from "@helpers";
 import { ICommand } from "./command-interfaces";
+import { daysUntil } from "helpers/date.util";
 
 function getEmbed() {
     const nextBirthday = new Date(angryBirthday);
@@ -16,7 +16,7 @@ function getEmbed() {
         .setTitle("MY BIRTHDAY")
         .setDescription(
             `My birthday is on ${angryBirthday.toLocaleDateString("de-AT")}, in ${Math.round(
-                DateUtils.daysUntil(nextBirthday)
+                daysUntil(nextBirthday)
             )} days.`
         )
         .setAuthor({

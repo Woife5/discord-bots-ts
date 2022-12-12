@@ -1,13 +1,16 @@
 /* eslint-disable no-console */
 import { ChatInputCommandInteraction, Client, Collection, Message } from "discord.js";
 import dotenv from "dotenv";
-import { MessageUtils, init, DateUtils, Log, MessageWrapper, PluginReturnCode, UserUtils } from "@helpers";
+import { init, Log, MessageWrapper, PluginReturnCode } from "@helpers";
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler, Taxation } from "./plugins";
 import * as Commands from "./commands";
 import { ICommand } from "commands/command-interfaces";
 import { registerApplicationCommands } from "plugins/register-commands";
 import { GatewayIntentBits } from "discord-api-types/v10";
+import { getUserRole } from "helpers/user.util";
+import { getNextTime } from "helpers/date.util";
+import { startsWith } from "helpers/message.util";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -69,7 +72,7 @@ client.on("ready", async () => {
         }, 24 * 60 * 60 * 1000);
 
         Tarotreminder.remind(client);
-    }, DateUtils.getNextTime(19).getTime() - Date.now());
+    }, getNextTime(19).getTime() - Date.now());
 
     // Check every day at some time if a given user has spent some coins today, otherwise tax them
     setTimeout(() => {
@@ -78,7 +81,7 @@ client.on("ready", async () => {
         }, 24 * 60 * 60 * 1000);
 
         Taxation.tax(client);
-    }, DateUtils.getNextTime(19).getTime() - Date.now());
+    }, getNextTime(19).getTime() - Date.now());
 
     // Re-register all slash commands when the bot starts
     registerApplicationCommands(token, clientId, commands);
@@ -104,9 +107,13 @@ client.on("interactionCreate", async interaction => {
 });
 
 const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
-    if (!MessageUtils.startsWith(message, prefix)) {
+    if (!startsWith(message, prefix)) {
         return "CONTINUE";
     }
+
+    message.reply(
+        "Using message commands will be disabled soon. Discord does not like bots using message commands. Please use slash commands instead."
+    );
 
     const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
     const command = args.shift()?.toLowerCase() || "help";
@@ -121,7 +128,7 @@ const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
         if (!commandRef || !message.guild) {
             throw new Error();
         }
-        const userRole = await UserUtils.getUserRole(message.author, message.guild);
+        const userRole = await getUserRole(message.author, message.guild);
         if (commandRef.role && userRole < commandRef.role) {
             await message.reply("You don't have the required role to use this command! 🥴");
         } else {

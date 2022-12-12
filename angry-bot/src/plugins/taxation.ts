@@ -1,5 +1,7 @@
-import { User, Log, UserUtils, DateUtils, GuildSettingsCache } from "@helpers";
+import { User, Log, GuildSettingsCache } from "@helpers";
 import { ChannelType, Client } from "discord.js";
+import { isToday } from "helpers/date.util";
+import { updateUserBalance } from "helpers/user.util";
 
 const TAXATION_RATE = 0.1;
 const log = new Log("Taxation");
@@ -15,7 +17,7 @@ export async function tax(client: Client) {
 
     const taxedUsers: [string, number][] = [];
     for (const user of users) {
-        if (user.userId === process.env.CLIENT_ID || DateUtils.isToday(user.lastTransaction)) {
+        if (user.userId === process.env.CLIENT_ID || isToday(user.lastTransaction)) {
             continue;
         }
 
@@ -35,7 +37,7 @@ export async function tax(client: Client) {
         return;
     }
 
-    await UserUtils.updateUserBalance({
+    await updateUserBalance({
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         userId: process.env.CLIENT_ID!,
         amount: taxMoney,

@@ -1,8 +1,9 @@
 import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { incrementStatAndUser, NumberUtils } from "@helpers";
+import { incrementStatAndUser } from "@helpers";
 import { ICatgirlResponse, ICommand } from "./command-interfaces";
 import fetch from "node-fetch";
+import { getRandomInt } from "helpers/number.util";
 
 const randomUrl = "https://nekos.moe/api/v1/random/image";
 const imageUrl = "https://nekos.moe/image/";
@@ -12,7 +13,7 @@ async function runCommand() {
     const res = await fetch(randomUrl);
     const result = (await res.json()) as ICatgirlResponse;
 
-    const randomWord = result.images[0].tags[NumberUtils.getRandomInt(0, result.images[0].tags.length - 1)];
+    const randomWord = result.images[0].tags[getRandomInt(0, result.images[0].tags.length - 1)];
     const image = imageUrl + result.images[0].id;
 
     // send answer

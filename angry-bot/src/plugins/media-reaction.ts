@@ -1,8 +1,9 @@
-import { MessageUtils, PluginReturnCode } from "@helpers";
+import { PluginReturnCode } from "@helpers";
 import type { Message } from "discord.js";
+import { cleanContains } from "helpers/message.util";
 
 export async function react(message: Message): Promise<PluginReturnCode> {
-    if (MessageUtils.cleanContains(message, "medien") || MessageUtils.cleanContains(message, "theorie")) {
+    if (cleanContains(message, "medien") || cleanContains(message, "theorie")) {
         const medienMessage = await message.reply("Medientheorie!");
         await medienMessage.react("❤️");
         await medienMessage.react("♥");

@@ -12,7 +12,9 @@ import {
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, uncensorable } from "@data";
 import { ICommand } from "../command-interfaces";
-import { UserUtils, Powers, CensorshipUtil, StringUtils } from "@helpers";
+import { Powers, CensorshipUtil } from "@helpers";
+import { hasEmoji, toCleanLowerCase } from "helpers/string.util";
+import { getPowerUpdate, getUserBalance, isUserPower, updateUser } from "helpers/user.util";
 
 type ShopItemNames = "censorship" | "un-censorship";
 
@@ -120,7 +122,7 @@ async function regularPurchase(
     amount: number
 ): Promise<InteractionResponse<boolean>> {
     const embed = defaultEmbed();
-    const userBalance = await UserUtils.getUserBalance(userId);
+    const userBalance = await getUserBalance(userId);
     if (userBalance < shopItem.price * amount) {
         return interaction.reply({
             embeds: [embed.setDescription("You don't have enough angry coins to buy this item.")],
@@ -128,10 +130,10 @@ async function regularPurchase(
         });
     }
 
-    if (UserUtils.isUserPower(shopItem.name)) {
-        const update = await UserUtils.getPowerUpdate(userId, shopItem.name, amount);
+    if (isUserPower(shopItem.name)) {
+        const update = await getPowerUpdate(userId, shopItem.name, amount);
         update.angryCoins -= shopItem.price * amount;
-        await UserUtils.updateUser(userId, update);
+        await updateUser(userId, update);
     }
 
     return interaction.reply({
@@ -146,14 +148,14 @@ async function censorshipPurchase(
     message: string
 ): Promise<InteractionResponse<boolean>> {
     const embed = defaultEmbed();
-    const userBalance = await UserUtils.getUserBalance(userId);
+    const userBalance = await getUserBalance(userId);
     if (userBalance < shopItem.price) {
         return interaction.reply({
             embeds: [embed.setDescription("You don't have enough angry coins to buy this item.")],
         });
     }
 
-    const censoredString = StringUtils.toCleanLowerCase(message);
+    const censoredString = toCleanLowerCase(message);
     if (shopItem.name == "censorship") {
         return buyCensorship(interaction, userId, shopItem.price, censoredString);
     }
@@ -176,7 +178,7 @@ async function buyCensorship(
     censoredString: string
 ): Promise<InteractionResponse<boolean>> {
     const embed = defaultEmbed();
-    if (censoredString.length < 4 && !StringUtils.hasEmoji(censoredString)) {
+    if (censoredString.length < 4 && !hasEmoji(censoredString)) {
         return interaction.reply({
             embeds: [
                 embed.setDescription(
@@ -200,9 +202,9 @@ async function buyCensorship(
         });
     }
 
-    const userBalance = await UserUtils.getUserBalance(userId);
+    const userBalance = await getUserBalance(userId);
     await CensorshipUtil.add({ owner: userId, value: censoredString });
-    await UserUtils.updateUser(userId, { angryCoins: userBalance - price });
+    await updateUser(userId, { angryCoins: userBalance - price });
 
     return interaction.reply({
         embeds: [embed.setTitle("Purchase successful").setDescription(`You bought \`${censoredString}\`!`)],
@@ -222,10 +224,10 @@ async function buyRemoveCensorship(
         return interaction.reply({ embeds: [embed.setDescription("This string is not censored.")], ephemeral: true });
     }
 
-    const userBalance = await UserUtils.getUserBalance(userId);
+    const userBalance = await getUserBalance(userId);
     if (owner === userId) {
         await CensorshipUtil.remove(censoredString);
-        await UserUtils.updateUser(userId, { angryCoins: userBalance - price });
+        await updateUser(userId, { angryCoins: userBalance - price });
         return interaction.reply({
             embeds: [embed.setTitle("Purchase successful").setDescription(`You liberated \`${censoredString}\`!`)],
         });
@@ -267,7 +269,7 @@ async function buyRemoveCensorship(
                 return;
             }
             await CensorshipUtil.remove(censoredString);
-            await UserUtils.updateUser(userId, { angryCoins: userBalance - price - noOwnershipSurcharge });
+            await updateUser(userId, { angryCoins: userBalance - price - noOwnershipSurcharge });
             await buttonInteraction.reply({
                 content: `Purchase confirmed! \n You liberated \`${censoredString}\` from <@${owner}>!`,
                 components: [],

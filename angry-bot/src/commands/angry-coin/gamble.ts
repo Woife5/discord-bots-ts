@@ -2,7 +2,9 @@ import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand } from "../command-interfaces";
-import { UserUtils, incrementStatAndUser, NumberUtils } from "@helpers";
+import { incrementStatAndUser } from "@helpers";
+import { getRandomInt } from "helpers/number.util";
+import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 export const gamble: ICommand = {
     data: new SlashCommandBuilder()
@@ -31,7 +33,7 @@ export const gamble: ICommand = {
 };
 
 async function runCommand(user: DiscordUser, amount: number, all: boolean) {
-    const userBalance = await UserUtils.getUserBalance(user.id);
+    const userBalance = await getUserBalance(user.id);
 
     if (all) {
         amount = userBalance;
@@ -62,13 +64,13 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 
     let upperLimit = 1;
 
-    const userCache = UserUtils.getUserActionCache(user.id);
+    const userCache = getUserActionCache(user.id);
     if (userCache && userCache.gambles > 4) {
         upperLimit = 7;
     }
-    UserUtils.updateUserActionCache(user.id, { gambles: 1 });
+    updateUserActionCache(user.id, { gambles: 1 });
 
-    const win = NumberUtils.getRandomInt(0, upperLimit) === 0;
+    const win = getRandomInt(0, upperLimit) === 0;
     const taxPayed = !win && amount >= userBalance / 10;
     await updateBalance(user, win ? amount : -amount, taxPayed);
 
@@ -87,9 +89,9 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 }
 
 async function updateBalance(discordUser: DiscordUser, amount: number, taxPayed: boolean) {
-    await UserUtils.updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username, taxPayed });
+    await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username, taxPayed });
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await UserUtils.updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
+    await updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
     if (amount < 0) {
         await incrementStatAndUser("money-lost-in-gambling", discordUser, -amount);
     } else {

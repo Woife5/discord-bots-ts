@@ -2,7 +2,7 @@ import { adminRoleId } from "@data";
 import { Role } from "commands/command-interfaces";
 import { Guild, GuildMember, User as DiscordUser } from "discord.js";
 import { HydratedDocument } from "mongoose";
-import { DateUtils } from "./date.util";
+import { isToday } from "./date.util";
 import { createUserSimple, IUser, Powers, User } from "./db-helpers";
 
 type UserActionCacheItem = {
@@ -136,7 +136,7 @@ export async function getPowerUpdate(userId: string, power: Powers, amount: numb
 export function updateUserActionCache(userId: string, update: Partial<UserActionCacheItem>) {
     const item = userActionsCache.get(userId);
 
-    if (!item || !DateUtils.isToday(item.date)) {
+    if (!item || !isToday(item.date)) {
         const newItem: UserActionCacheItem = {
             date: update.date ?? new Date(),
             emojiCash: update.emojiCash ?? 0,
@@ -154,7 +154,7 @@ export function updateUserActionCache(userId: string, update: Partial<UserAction
 
 export function getUserActionCache(userId: string): UserActionCacheItem | undefined {
     const user = userActionsCache.get(userId);
-    if (!user || !DateUtils.isToday(user.date)) {
+    if (!user || !isToday(user.date)) {
         return undefined;
     }
 

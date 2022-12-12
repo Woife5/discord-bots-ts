@@ -1,5 +1,5 @@
 import { ratingEmojis, feetRelated } from "@data";
-import { UserUtils, NumberUtils, PluginReturnCode } from "@helpers";
+import { PluginReturnCode } from "@helpers";
 import { Role } from "commands/command-interfaces";
 import {
     ChannelType,
@@ -10,6 +10,8 @@ import {
     PartialUser,
     User,
 } from "discord.js";
+import { getRandomInt } from "helpers/number.util";
+import { getMemberRole, getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
     if (!isInFeetChannel(message)) {
@@ -43,16 +45,22 @@ export async function handleReaction(
         return "CONTINUE";
     }
 
+    // Check if the bot reaction is still present
+    const botReactions = reaction.message.reactions.cache.filter(r => r.me);
+    if (!botReactions.some(r => r.emoji.name === "✅" || r.emoji.name === "❎")) {
+        return "CONTINUE";
+    }
+
     const member = await guild.members.fetch(user.id);
 
-    const role = await UserUtils.getMemberRole(member);
+    const role = await getMemberRole(member);
     if (role < Role.ADMIN) {
         return "CONTINUE";
     }
 
     if (reaction.emoji.name === "✅") {
-        const rating = NumberUtils.getRandomInt(0, 9);
-        const emojiId = NumberUtils.getRandomInt(0, ratingEmojis[rating].length - 1);
+        const rating = getRandomInt(0, 9);
+        const emojiId = getRandomInt(0, ratingEmojis[rating].length - 1);
 
         const ratingEmoji = ratingEmojis[rating][emojiId];
 
@@ -64,15 +72,15 @@ export async function handleReaction(
 
         const userId = reaction.message.author?.id;
         if (userId) {
-            const userCache = UserUtils.getUserActionCache(userId);
+            const userCache = getUserActionCache(userId);
             if (userCache && userCache.feetCash) {
                 return "ABORT";
             }
 
-            UserUtils.updateUserActionCache(userId, { feetCash: true });
+            updateUserActionCache(userId, { feetCash: true });
             const moneyWon = (rating + 1) * 10;
 
-            await UserUtils.updateUserBalance({ userId, amount: moneyWon });
+            await updateUserBalance({ userId, amount: moneyWon });
             await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
         }
 

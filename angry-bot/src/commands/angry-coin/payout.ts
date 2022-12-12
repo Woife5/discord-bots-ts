@@ -8,7 +8,7 @@ import {
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { ICommand, Role } from "../command-interfaces";
-import { UserUtils } from "@helpers";
+import { getUserBalance, getUserRole, updateUserBalance } from "helpers/user.util";
 
 export const payout: ICommand = {
     data: new SlashCommandBuilder()
@@ -24,7 +24,7 @@ export const payout: ICommand = {
         const amount = parseInt(amountStr, 10);
         const all = amountStr === "all";
 
-        if ((await UserUtils.getUserRole(interaction.user, interaction.guild)) !== Role.OWNER) {
+        if ((await getUserRole(interaction.user, interaction.guild)) !== Role.OWNER) {
             interaction.reply({ content: "You don't have permission to do this!", ephemeral: true });
             return;
         }
@@ -41,7 +41,7 @@ export const payout: ICommand = {
 
 async function runCommand(user: DiscordUser, amount: number, all: boolean) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const botBalance = await UserUtils.getUserBalance(process.env.CLIENT_ID!);
+    const botBalance = await getUserBalance(process.env.CLIENT_ID!);
 
     if (all) {
         amount = botBalance;
@@ -75,6 +75,6 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 
 async function updateBalance(discordUser: DiscordUser, amount: number) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await UserUtils.updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
-    await UserUtils.updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username });
+    await updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
+    await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username });
 }

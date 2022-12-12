@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
-import { User, Stats, PluginReturnCode, createUser, UserUtils } from "@helpers";
+import { User, Stats, PluginReturnCode, createUser } from "@helpers";
+import { getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
@@ -9,7 +10,7 @@ export async function count(message: Message): Promise<PluginReturnCode> {
     const userId = message.author.id;
 
     // Give the user a max of 100 coins per day for every emoji sent
-    const userCache = UserUtils.getUserActionCache(userId);
+    const userCache = getUserActionCache(userId);
     if (userCache) {
         let cashEarned = matches.length;
         const total = userCache.emojiCash + matches.length;
@@ -17,13 +18,13 @@ export async function count(message: Message): Promise<PluginReturnCode> {
             cashEarned = 100 - userCache.emojiCash;
         }
         if (cashEarned > 0) {
-            await UserUtils.updateUserBalance({ userId, amount: cashEarned });
+            await updateUserBalance({ userId, amount: cashEarned });
         }
     } else {
         const emojiCount = matches.length > 100 ? 100 : matches.length;
-        await UserUtils.updateUserBalance({ userId, amount: emojiCount });
+        await updateUserBalance({ userId, amount: emojiCount });
     }
-    UserUtils.updateUserActionCache(userId, { emojiCash: matches.length });
+    updateUserActionCache(userId, { emojiCash: matches.length });
 
     await Stats.findOneAndUpdate(
         { key: "total-angry-emojis-sent" },

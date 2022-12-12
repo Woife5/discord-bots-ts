@@ -1,7 +1,7 @@
 import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, Guild, Message, EmbedBuilder, User } from "discord.js";
-import { UserUtils } from "@helpers";
+import { getUserRole } from "helpers/user.util";
 import * as Commands from "./";
 import { ICommand, Role } from "./command-interfaces";
 
@@ -39,7 +39,7 @@ async function runCommand(user: User, guild: Guild | null) {
         return embed.setDescription("This command can only be used in a server.");
     }
 
-    const role = await UserUtils.getUserRole(user, guild);
+    const role = await getUserRole(user, guild);
 
     cache
         .filter(c => showCommand(c, role))

@@ -1,9 +1,10 @@
 import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { IBibleBook, ICommand } from "./command-interfaces";
-import { incrementStatAndUser, Log, NumberUtils } from "@helpers";
+import { incrementStatAndUser, Log } from "@helpers";
 import { bookNames } from "@data";
 import fetch from "node-fetch";
+import { getRandomInt } from "helpers/number.util";
 
 const log = new Log("Bibleverse");
 
@@ -30,7 +31,7 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
         }
     } else {
         // No book defined, get a random book number
-        bookNumber = NumberUtils.getRandomInt(1, numberOfBooks);
+        bookNumber = getRandomInt(1, numberOfBooks);
     }
     // end of book check
 
@@ -54,7 +55,7 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
         }
     } else {
         // No chapter defined, get a random chapter number
-        chapterNumber = NumberUtils.getRandomInt(1, book.chapters.length);
+        chapterNumber = getRandomInt(1, book.chapters.length);
     }
     // end of chapter check
 
@@ -68,7 +69,7 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
         }
     } else {
         // No verse defined, get a random verse number
-        verseNumber = NumberUtils.getRandomInt(1, book.chapters[chapterNumber - 1].verses.length);
+        verseNumber = getRandomInt(1, book.chapters[chapterNumber - 1].verses.length);
     }
     // end of verse check
 

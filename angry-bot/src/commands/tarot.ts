@@ -1,9 +1,10 @@
 import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { tarots, angryEmojis as angrys } from "@data";
-import { User, DateUtils, createUser, incrementStatAndUser } from "@helpers";
+import { User, createUser, incrementStatAndUser } from "@helpers";
 import { promisify } from "util";
 import { ICommand } from "./command-interfaces";
+import { isBeforeYesterdayMidnight, isToday } from "helpers/date.util";
 const wait = promisify(setTimeout);
 
 async function isTarotAllowed(user: DiscordUser): Promise<string | null> {
@@ -13,7 +14,7 @@ async function isTarotAllowed(user: DiscordUser): Promise<string | null> {
         return null;
     }
 
-    if (DateUtils.isToday(userData.lastTarot)) {
+    if (isToday(userData.lastTarot)) {
         const midnight = new Date();
         midnight.setHours(24, 0, 0, 0);
         const timeLeft = midnight.getTime() - Date.now();
@@ -34,7 +35,7 @@ async function updateUserAndGetStreak(user: DiscordUser, tarot: number): Promise
     userData.userName = user.username;
     userData.tarot = tarot;
     userData.angryCoins = userData.angryCoins + Math.ceil(tarot / 2);
-    if (DateUtils.isBeforeYesterdayMidnight(userData.lastTarot)) {
+    if (isBeforeYesterdayMidnight(userData.lastTarot)) {
         userData.tarotStreak = 1;
     } else {
         userData.tarotStreak = userData.tarotStreak + 1;
