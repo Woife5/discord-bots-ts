@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
 import { ICatboyPhraseResponse, ICatboyResponse } from "./command-interfaces";
 import fetch from "node-fetch";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 const randomUrl = "https://api.catboys.com/img ";
 const phraseUrl = "https://api.catboys.com/catboy";

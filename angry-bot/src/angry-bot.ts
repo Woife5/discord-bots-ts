@@ -11,7 +11,7 @@ import { getUserRole } from "helpers/user.util";
 import { getNextTime } from "shared/lib/utils/date.util";
 import { startsWith } from "shared/lib/utils/message.util";
 import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -62,7 +62,6 @@ Object.values(Commands).forEach(command => {
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
     await init();
-
     log = new Log("AngryBot");
 
     log.info(`Started bot version ${version}`, "angry-bot.ts");

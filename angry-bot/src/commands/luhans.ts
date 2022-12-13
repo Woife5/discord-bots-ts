@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { medienDispositive, geschmacksliste, funStuff, names } from "@data";
 import { incrementStatAndUser } from "@helpers";
 import { getRandomInt } from "shared/lib/utils/number.util";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 const medienKlausur = new Date("2021-07-02T11:00:00");
 

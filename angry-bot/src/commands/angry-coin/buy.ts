@@ -14,7 +14,7 @@ import { angryIconCDN, uncensorable } from "@data";
 import { Powers, CensorshipUtil } from "@helpers";
 import { getPowerUpdate, getUserBalance, isUserPower, updateUser } from "helpers/user.util";
 import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 type ShopItemNames = "censorship" | "un-censorship";
 

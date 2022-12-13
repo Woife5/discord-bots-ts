@@ -2,7 +2,7 @@ import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryBirthday } from "@data";
 import { daysUntil } from "shared/lib/utils/date.util";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const birthday: CommandHandler = {
     data: new SlashCommandBuilder().setName("birthday").setDescription("Get the date of my birthday."),

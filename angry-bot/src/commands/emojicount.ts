@@ -2,7 +2,7 @@ import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { Stats, User } from "@helpers";
 import { angryEmojis } from "@data";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 const embedColor = "#d94d26";
 

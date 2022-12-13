@@ -1,6 +1,6 @@
 import { ratingEmojis, feetRelated } from "@data";
 import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { Role } from "shared/lib/commands/types";
+import { Role } from "shared/lib/commands/types.d";
 import {
     ChannelType,
     Message,

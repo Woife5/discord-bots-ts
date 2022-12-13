@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { IYesNo } from "./command-interfaces";
 import { incrementStatAndUser } from "@helpers";
 import fetch from "node-fetch";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const yesno: CommandHandler = {
     data: new SlashCommandBuilder()

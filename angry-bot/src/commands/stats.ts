@@ -2,7 +2,7 @@ import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN } from "@data";
 import { getStat, StatKeys, User } from "@helpers";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const stats: CommandHandler = {
     data: new SlashCommandBuilder()

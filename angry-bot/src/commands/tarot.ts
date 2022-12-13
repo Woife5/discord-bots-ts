@@ -4,7 +4,7 @@ import { tarots, angryEmojis as angrys } from "@data";
 import { User, createUser, incrementStatAndUser } from "@helpers";
 import { promisify } from "util";
 import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 const wait = promisify(setTimeout);
 
 export const tarot: CommandHandler = {

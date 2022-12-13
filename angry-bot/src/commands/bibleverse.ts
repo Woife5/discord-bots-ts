@@ -5,7 +5,7 @@ import { incrementStatAndUser, Log } from "@helpers";
 import { bookNames } from "@data";
 import fetch from "node-fetch";
 import { getRandomInt } from "shared/lib/utils/number.util";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 const log = new Log("Bibleverse");
 

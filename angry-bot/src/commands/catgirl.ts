@@ -4,7 +4,7 @@ import { incrementStatAndUser } from "@helpers";
 import { ICatgirlResponse } from "./command-interfaces";
 import fetch from "node-fetch";
 import { getRandomInt } from "shared/lib/utils/number.util";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 const randomUrl = "https://nekos.moe/api/v1/random/image";
 const imageUrl = "https://nekos.moe/image/";

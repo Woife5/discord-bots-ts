@@ -1,7 +1,7 @@
 import { adminRoleId } from "@data";
 import { Guild, GuildMember, User as DiscordUser } from "discord.js";
 import type { HydratedDocument } from "mongoose";
-import { Role } from "shared/lib/commands/types";
+import { Role } from "shared/lib/commands/types.d";
 import { isToday } from "shared/lib/utils/date.util";
 import { createUserSimple, IUser, Powers, User } from "./db-helpers";
 

@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CensorshipUtil } from "@helpers";
-import { CommandHandler, Role } from "shared/lib/commands/types";
+import { CommandHandler, Role } from "shared/lib/commands/types.d";
 
 export const censored: CommandHandler = {
     data: new SlashCommandBuilder()

@@ -8,7 +8,7 @@ import {
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { getUserBalance, getUserRole, updateUserBalance } from "helpers/user.util";
-import { CommandHandler, Role } from "shared/lib/commands/types";
+import { CommandHandler, Role } from "shared/lib/commands/types.d";
 
 export const payout: CommandHandler = {
     data: new SlashCommandBuilder()

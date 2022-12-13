@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, prefix, repoURL, version } from "@data";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const about: CommandHandler = {
     data: new SlashCommandBuilder().setName("about").setDescription("Get a list of commands and a short explanation."),

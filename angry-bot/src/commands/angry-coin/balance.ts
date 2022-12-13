@@ -2,7 +2,7 @@ import { Message, EmbedBuilder, User, ChatInputCommandInteraction } from "discor
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { getUserBalance } from "helpers/user.util";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const balance: CommandHandler = {
     data: new SlashCommandBuilder()

@@ -2,7 +2,7 @@ import { REST } from "@discordjs/rest";
 import { Log } from "@helpers";
 import { Routes } from "discord-api-types/v10";
 import { Collection } from "discord.js";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 const log = new Log("RegisterCommands");
 

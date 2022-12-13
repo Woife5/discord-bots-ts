@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CensorshipUtil } from "@helpers";
 import { prefix } from "@data";
 import { getEmbed } from "./censored";
-import { CommandHandler, Role } from "shared/lib/commands/types";
+import { CommandHandler, Role } from "shared/lib/commands/types.d";
 
 export const censorship: CommandHandler = {
     data: new SlashCommandBuilder()

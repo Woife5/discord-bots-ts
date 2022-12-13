@@ -4,7 +4,7 @@ import { angryIconCDN, repoURL } from "@data";
 import { incrementStatAndUser } from "@helpers";
 import { getRandomInt } from "shared/lib/utils/number.util";
 import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const gamble: CommandHandler = {
     data: new SlashCommandBuilder()

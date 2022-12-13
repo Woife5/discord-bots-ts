@@ -2,7 +2,7 @@ import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, Guild, Message, EmbedBuilder, User } from "discord.js";
 import { getUserRole } from "helpers/user.util";
-import { CommandHandler, Role } from "shared/lib/commands/types";
+import { CommandHandler, Role } from "shared/lib/commands/types.d";
 import * as Commands from "./";
 
 type CachedCommand = {

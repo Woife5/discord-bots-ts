@@ -1,7 +1,7 @@
 import type { CommandInteraction, Message, User } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { User as DbUser, createUser } from "@helpers";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const tarotreminder: CommandHandler = {
     data: new SlashCommandBuilder()
