@@ -12,7 +12,7 @@ import {
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, uncensorable } from "@data";
 import { Powers, CensorshipUtil } from "@helpers";
-import { getPowerUpdate, getUserBalance, isUserPower, updateUser } from "helpers/user.util";
+import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";
 import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
@@ -134,6 +134,12 @@ async function regularPurchase(
         const update = await getPowerUpdate(userId, shopItem.name, amount);
         update.angryCoins -= shopItem.price * amount;
         await updateUser(userId, update);
+        await updateUserBalance({
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            userId: process.env.CLIENT_ID!,
+            amount: shopItem.price * amount,
+            username: "Angry",
+        });
     }
 
     return interaction.reply({
@@ -202,9 +208,8 @@ async function buyCensorship(
         });
     }
 
-    const userBalance = await getUserBalance(userId);
     await CensorshipUtil.add({ owner: userId, value: censoredString });
-    await updateUser(userId, { angryCoins: userBalance - price });
+    await updateBalance(userId, price);
 
     return interaction.reply({
         embeds: [embed.setTitle("Purchase successful").setDescription(`You bought \`${censoredString}\`!`)],
@@ -227,7 +232,7 @@ async function buyRemoveCensorship(
     const userBalance = await getUserBalance(userId);
     if (owner === userId) {
         await CensorshipUtil.remove(censoredString);
-        await updateUser(userId, { angryCoins: userBalance - price });
+        await updateBalance(userId, price);
         return interaction.reply({
             embeds: [embed.setTitle("Purchase successful").setDescription(`You liberated \`${censoredString}\`!`)],
         });
@@ -269,7 +274,7 @@ async function buyRemoveCensorship(
                 return;
             }
             await CensorshipUtil.remove(censoredString);
-            await updateUser(userId, { angryCoins: userBalance - price - noOwnershipSurcharge });
+            await updateBalance(userId, price + noOwnershipSurcharge);
             await buttonInteraction.reply({
                 content: `Purchase confirmed! \n You liberated \`${censoredString}\` from <@${owner}>!`,
                 components: [],
@@ -293,6 +298,16 @@ async function buyRemoveCensorship(
         ],
         components: [buttonRow],
         ephemeral: true,
+    });
+}
+
+async function updateBalance(userId: string, price: number) {
+    await updateUserBalance({ userId, amount: -price });
+    await updateUserBalance({
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        userId: process.env.CLIENT_ID!,
+        amount: price,
+        username: "Angry",
     });
 }
 
