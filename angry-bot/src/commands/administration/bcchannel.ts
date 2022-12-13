@@ -1,10 +1,10 @@
 import { Message, EmbedBuilder, PermissionFlagsBits, ChatInputCommandInteraction, ChannelType } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildSettingsCache } from "@helpers";
-import { ICommand, Role } from "../command-interfaces";
+import { CommandHandler, Role } from "shared/lib/commands/types";
 import { version } from "@data";
 
-export const bcchannel: ICommand = {
+export const bcchannel: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("bcchannel")
         .setDescription("Set the broadcast channel for bot announcements.")
@@ -36,7 +36,7 @@ const embed = new EmbedBuilder()
         text: `Angry Bot v${version}`,
     });
 
-export async function runCommand(guildId: string | null, channelId: string) {
+async function runCommand(guildId: string | null, channelId: string) {
     if (!guildId) {
         return embed.setDescription("This command can only be used in a server.");
     }

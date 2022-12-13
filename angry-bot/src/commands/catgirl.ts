@@ -1,13 +1,25 @@
 import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
-import { ICatgirlResponse, ICommand } from "./command-interfaces";
+import { ICatgirlResponse } from "./command-interfaces";
 import fetch from "node-fetch";
 import { getRandomInt } from "shared/lib/utils/number.util";
+import { CommandHandler } from "shared/lib/commands/types";
 
 const randomUrl = "https://nekos.moe/api/v1/random/image";
 const imageUrl = "https://nekos.moe/image/";
 
+export const catgirl: CommandHandler = {
+    data: new SlashCommandBuilder().setName("catgirl").setDescription("Get a random catgirl image."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        interaction.reply({ embeds: [await runCommand()] });
+        incrementStatAndUser("catgirls-requested", interaction.user);
+    },
+    executeMessage: async (message: Message): Promise<void> => {
+        message.reply({ embeds: [await runCommand()] });
+        incrementStatAndUser("catgirls-requested", message.author);
+    },
+};
 async function runCommand() {
     // load result from api and parse response
     const res = await fetch(randomUrl);
@@ -27,15 +39,3 @@ async function runCommand() {
         })
         .setImage(image);
 }
-
-export const catgirl: ICommand = {
-    data: new SlashCommandBuilder().setName("catgirl").setDescription("Get a random catgirl image."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        interaction.reply({ embeds: [await runCommand()] });
-        incrementStatAndUser("catgirls-requested", interaction.user);
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [await runCommand()] });
-        incrementStatAndUser("catgirls-requested", message.author);
-    },
-};

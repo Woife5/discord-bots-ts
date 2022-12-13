@@ -1,6 +1,6 @@
 import { ratingEmojis, feetRelated } from "@data";
 import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { Role } from "commands/command-interfaces";
+import { Role } from "shared/lib/commands/types";
 import {
     ChannelType,
     Message,
@@ -78,7 +78,7 @@ export async function handleReaction(
             }
 
             updateUserActionCache(userId, { feetCash: true });
-            const moneyWon = (rating + 1) * 10;
+            const moneyWon = (rating + 1) * 20;
 
             await updateUserBalance({ userId, amount: moneyWon });
             await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);

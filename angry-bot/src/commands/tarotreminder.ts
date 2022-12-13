@@ -1,20 +1,9 @@
 import type { CommandInteraction, Message, User } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { User as DbUser, createUser } from "@helpers";
-import { ICommand } from "./command-interfaces";
+import { CommandHandler } from "shared/lib/commands/types";
 
-async function updateReminder(user: User, subcommand: "enable" | "disable") {
-    let dbUser = await DbUser.findOne({ userId: user.id }).exec();
-
-    if (!dbUser) {
-        dbUser = await createUser(user);
-    }
-
-    dbUser.tarotreminder = subcommand === "enable";
-    await dbUser.save();
-}
-
-export const tarotreminder: ICommand = {
+export const tarotreminder: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("tarotreminder")
         .setDescription("Enable/disable the tarot reminder.")
@@ -50,3 +39,14 @@ export const tarotreminder: ICommand = {
         message.reply("Invalid argument!");
     },
 };
+
+async function updateReminder(user: User, subcommand: "enable" | "disable") {
+    let dbUser = await DbUser.findOne({ userId: user.id }).exec();
+
+    if (!dbUser) {
+        dbUser = await createUser(user);
+    }
+
+    dbUser.tarotreminder = subcommand === "enable";
+    await dbUser.save();
+}

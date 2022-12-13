@@ -5,13 +5,13 @@ import { init, Log } from "@helpers";
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler, Taxation } from "./plugins";
 import * as Commands from "./commands";
-import { ICommand } from "commands/command-interfaces";
 import { registerApplicationCommands } from "plugins/register-commands";
 import { GatewayIntentBits } from "discord-api-types/v10";
 import { getUserRole } from "helpers/user.util";
 import { getNextTime } from "shared/lib/utils/date.util";
 import { startsWith } from "shared/lib/utils/message.util";
 import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";
+import { CommandHandler } from "shared/lib/commands/types";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -52,7 +52,7 @@ const client = new Client({
     ],
 });
 
-const commands = new Collection<string, ICommand>();
+const commands = new Collection<string, CommandHandler>();
 
 // Set message commands
 Object.values(Commands).forEach(command => {

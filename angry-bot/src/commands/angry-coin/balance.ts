@@ -1,10 +1,10 @@
 import { Message, EmbedBuilder, User, ChatInputCommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
-import { ICommand } from "../command-interfaces";
 import { getUserBalance } from "helpers/user.util";
+import { CommandHandler } from "shared/lib/commands/types";
 
-export const balance: ICommand = {
+export const balance: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("balance")
         .setDescription("Check your current angry coin balance.")

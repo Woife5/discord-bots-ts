@@ -11,10 +11,10 @@ import {
 } from "discord.js";
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, uncensorable } from "@data";
-import { ICommand } from "../command-interfaces";
 import { Powers, CensorshipUtil } from "@helpers";
 import { getPowerUpdate, getUserBalance, isUserPower, updateUser } from "helpers/user.util";
 import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";
+import { CommandHandler } from "shared/lib/commands/types";
 
 type ShopItemNames = "censorship" | "un-censorship";
 
@@ -77,7 +77,7 @@ shopItems.forEach(shopItem => {
     });
 });
 
-export const buy: ICommand = {
+export const buy: CommandHandler = {
     data: data,
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.user;
