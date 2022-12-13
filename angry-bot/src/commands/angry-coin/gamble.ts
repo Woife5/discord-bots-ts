@@ -1,12 +1,12 @@
 import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
-import { ICommand } from "../command-interfaces";
 import { incrementStatAndUser } from "@helpers";
-import { getRandomInt } from "helpers/number.util";
+import { getRandomInt } from "shared/lib/utils/number.util";
 import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
+import { CommandHandler } from "shared/lib/commands/types";
 
-export const gamble: ICommand = {
+export const gamble: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("gamble")
         .setDescription("Gamble away a portion of your angry coins.")

@@ -3,17 +3,9 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CensorshipUtil } from "@helpers";
 import { prefix } from "@data";
 import { getEmbed } from "./censored";
-import { ICommand, Role } from "../command-interfaces";
+import { CommandHandler, Role } from "shared/lib/commands/types";
 
-async function updateConfig(subcommand: "add" | "remove", discordUser :DiscordUser, value: string) {
-    if (subcommand === "add") {
-        await CensorshipUtil.add({ value, owner: discordUser.id });
-    } else {
-        await CensorshipUtil.remove(value);
-    }
-}
-
-export const censorship: ICommand = {
+export const censorship: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("censorship")
         .setDescription("Add or remove a string from the censorship list.")
@@ -33,7 +25,7 @@ export const censorship: ICommand = {
         const subcommand = (interaction.options.get("action")?.value as "add" | "remove") ?? "add";
         const value = (interaction.options.get("value")?.value as string) ?? "";
 
-        await updateConfig(subcommand, interaction.user,value.toLowerCase().trim());
+        await updateConfig(subcommand, interaction.user, value.toLowerCase().trim());
 
         await interaction.reply({ embeds: [await getEmbed()] });
     },
@@ -59,3 +51,11 @@ export const censorship: ICommand = {
         }
     },
 };
+
+async function updateConfig(subcommand: "add" | "remove", discordUser: DiscordUser, value: string) {
+    if (subcommand === "add") {
+        await CensorshipUtil.add({ value, owner: discordUser.id });
+    } else {
+        await CensorshipUtil.remove(value);
+    }
+}

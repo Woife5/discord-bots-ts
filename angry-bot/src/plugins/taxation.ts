@@ -1,9 +1,9 @@
 import { User, Log, GuildSettingsCache } from "@helpers";
 import { ChannelType, Client } from "discord.js";
-import { isToday } from "helpers/date.util";
+import { isToday } from "shared/lib/utils/date.util";
 import { updateUserBalance } from "helpers/user.util";
 
-const TAXATION_RATE = 0.1;
+const TAXATION_RATE = 0.05;
 const log = new Log("Taxation");
 
 export async function tax(client: Client) {

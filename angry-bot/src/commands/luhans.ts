@@ -2,11 +2,22 @@ import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { medienDispositive, geschmacksliste, funStuff, names } from "@data";
 import { incrementStatAndUser } from "@helpers";
-import { ICommand } from "./command-interfaces";
-import { getRandomInt } from "helpers/number.util";
+import { getRandomInt } from "shared/lib/utils/number.util";
+import { CommandHandler } from "shared/lib/commands/types";
 
 const medienKlausur = new Date("2021-07-02T11:00:00");
 
+export const luhans: CommandHandler = {
+    data: new SlashCommandBuilder().setName("luhans").setDescription("Get a part of McLuhans wisdom."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        interaction.reply({ embeds: [runCommand()] });
+        incrementStatAndUser("mc-luhans", interaction.user);
+    },
+    executeMessage: async (message: Message): Promise<void> => {
+        message.reply({ embeds: [runCommand()] });
+        incrementStatAndUser("mc-luhans", message.author);
+    },
+};
 function runCommand() {
     const embed = new EmbedBuilder().setColor("DarkVividPink");
 
@@ -67,15 +78,3 @@ function runCommand() {
 
     return embed;
 }
-
-export const luhans: ICommand = {
-    data: new SlashCommandBuilder().setName("luhans").setDescription("Get a part of McLuhans wisdom."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        interaction.reply({ embeds: [runCommand()] });
-        incrementStatAndUser("mc-luhans", interaction.user);
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [runCommand()] });
-        incrementStatAndUser("mc-luhans", message.author);
-    },
-};

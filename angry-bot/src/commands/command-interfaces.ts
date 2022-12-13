@@ -1,6 +1,3 @@
-import { ChatInputCommandInteraction, Message } from "discord.js";
-import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from "@discordjs/builders";
-
 export interface IBookNames {
     [key: string]: number;
 }
@@ -64,25 +61,4 @@ export interface ICatboyResponse {
     artist_url: string;
     source_url: string;
     error: string;
-}
-
-export interface ISlashCommand {
-    (interaction: ChatInputCommandInteraction): void | Promise<void>;
-}
-
-export interface IMessageCommand {
-    (message: Message, args: string[]): void | Promise<void>;
-}
-
-export interface ICommand {
-    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
-    role?: Role;
-    executeInteraction: ISlashCommand;
-    executeMessage: IMessageCommand;
-}
-
-export enum Role {
-    USER,
-    ADMIN,
-    OWNER,
 }

@@ -1,8 +1,8 @@
 import { adminRoleId } from "@data";
-import { Role } from "commands/command-interfaces";
 import { Guild, GuildMember, User as DiscordUser } from "discord.js";
-import { HydratedDocument } from "mongoose";
-import { isToday } from "./date.util";
+import type { HydratedDocument } from "mongoose";
+import { Role } from "shared/lib/commands/types";
+import { isToday } from "shared/lib/utils/date.util";
 import { createUserSimple, IUser, Powers, User } from "./db-helpers";
 
 type UserActionCacheItem = {

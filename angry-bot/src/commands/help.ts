@@ -2,13 +2,23 @@ import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, Guild, Message, EmbedBuilder, User } from "discord.js";
 import { getUserRole } from "helpers/user.util";
+import { CommandHandler, Role } from "shared/lib/commands/types";
 import * as Commands from "./";
-import { ICommand, Role } from "./command-interfaces";
 
 type CachedCommand = {
     name: string;
     description: string;
     role: Role;
+};
+
+export const help: CommandHandler = {
+    data: new SlashCommandBuilder().setName("help").setDescription("Get a list of commands and a short explanation."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        await interaction.reply({ embeds: [await runCommand(interaction.user, interaction.guild)] });
+    },
+    executeMessage: async (message: Message): Promise<void> => {
+        await message.reply({ embeds: [await runCommand(message.author, message.guild)] });
+    },
 };
 
 let cache: CachedCommand[] | null = null;
@@ -49,13 +59,3 @@ async function runCommand(user: User, guild: Guild | null) {
 
     return embed;
 }
-
-export const help: ICommand = {
-    data: new SlashCommandBuilder().setName("help").setDescription("Get a list of commands and a short explanation."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        await interaction.reply({ embeds: [await runCommand(interaction.user, interaction.guild)] });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        await message.reply({ embeds: [await runCommand(message.author, message.guild)] });
-    },
-};

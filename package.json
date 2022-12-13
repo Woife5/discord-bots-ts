@@ -3,6 +3,7 @@
     "private": true,
     "license": "GPL-3.0",
     "workspaces": [
-        "angry-bot"
+        "angry-bot",
+        "shared"
     ]
 }

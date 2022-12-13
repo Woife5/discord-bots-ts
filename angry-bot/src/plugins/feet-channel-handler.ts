@@ -1,6 +1,6 @@
 import { ratingEmojis, feetRelated } from "@data";
-import { PluginReturnCode } from "@helpers";
-import { Role } from "commands/command-interfaces";
+import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
+import { Role } from "shared/lib/commands/types";
 import {
     ChannelType,
     Message,
@@ -10,7 +10,7 @@ import {
     PartialUser,
     User,
 } from "discord.js";
-import { getRandomInt } from "helpers/number.util";
+import { getRandomInt } from "shared/lib/utils/number.util";
 import { getMemberRole, getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
@@ -78,7 +78,7 @@ export async function handleReaction(
             }
 
             updateUserActionCache(userId, { feetCash: true });
-            const moneyWon = (rating + 1) * 10;
+            const moneyWon = (rating + 1) * 20;
 
             await updateUserBalance({ userId, amount: moneyWon });
             await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);

@@ -1,10 +1,10 @@
 import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ICommand } from "./command-interfaces";
 import { angryIconCDN } from "@data";
 import { getStat, StatKeys, User } from "@helpers";
+import { CommandHandler } from "shared/lib/commands/types";
 
-export const stats: ICommand = {
+export const stats: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("stats")
         .setDescription("Get stats for the server or about a specific user!")

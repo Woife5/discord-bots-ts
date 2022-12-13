@@ -1,7 +1,7 @@
 import { ChannelType, Client } from "discord.js";
 import { User, Log, GuildSettingsCache } from "@helpers";
 import { tarotReminders } from "@data";
-import { getRandomInt } from "helpers/number.util";
+import { getRandomInt } from "shared/lib/utils/number.util";
 
 const log = new Log("TarotReminder");
 

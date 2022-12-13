@@ -7,10 +7,10 @@ import {
 } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
-import { ICommand, Role } from "../command-interfaces";
 import { getUserBalance, getUserRole, updateUserBalance } from "helpers/user.util";
+import { CommandHandler, Role } from "shared/lib/commands/types";
 
-export const payout: ICommand = {
+export const payout: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("payout")
         .setDescription("Distribute the earned angry coins to the users.")

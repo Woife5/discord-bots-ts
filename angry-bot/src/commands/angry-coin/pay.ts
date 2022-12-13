@@ -1,10 +1,10 @@
 import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
-import { ICommand } from "../command-interfaces";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
+import { CommandHandler } from "shared/lib/commands/types";
 
-export const pay: ICommand = {
+export const pay: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("pay")
         .setDescription("Pay another user some angry coins.")

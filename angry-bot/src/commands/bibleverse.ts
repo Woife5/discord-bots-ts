@@ -1,15 +1,59 @@
 import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { IBibleBook, ICommand } from "./command-interfaces";
+import { IBibleBook } from "./command-interfaces";
 import { incrementStatAndUser, Log } from "@helpers";
 import { bookNames } from "@data";
 import fetch from "node-fetch";
-import { getRandomInt } from "helpers/number.util";
+import { getRandomInt } from "shared/lib/utils/number.util";
+import { CommandHandler } from "shared/lib/commands/types";
 
 const log = new Log("Bibleverse");
 
 const bibleAPI = "https://getbible.net/v2/elberfelder/";
 const numberOfBooks = 66;
+
+export const bibleverse: CommandHandler = {
+    data: new SlashCommandBuilder()
+        .setName("bibleverse")
+        .setDescription("Get a random bible verse. Optionally via the arguments a specific verse can be requested.")
+        .addStringOption(option =>
+            option
+                .setName("book")
+                .setDescription("The name or number of the book within the bible (1-66).")
+                .setRequired(false)
+        )
+        .addIntegerOption(option =>
+            option.setName("chapter").setDescription("The number of the chapter.").setRequired(false)
+        )
+        .addIntegerOption(option =>
+            option.setName("verse").setDescription("The number of the verse.").setRequired(false)
+        ),
+    executeInteraction: async (interaction: CommandInteraction) => {
+        const int_book = interaction.options.get("book")?.value as string | undefined;
+        const int_chapter = interaction.options.get("chapter")?.value as number | undefined;
+        const int_verse = interaction.options.get("verse")?.value as number | undefined;
+
+        await interaction.reply({ embeds: [await runCommand(int_book, int_chapter, int_verse)] });
+        await incrementStatAndUser("bibleverses-requested", interaction.user);
+    },
+    executeMessage: async (message: Message, args: string[]) => {
+        const str_book = args[0]?.toLowerCase() as string | undefined;
+        const str_chapter = args[1]?.toLowerCase() as string | undefined;
+        const str_verse = args[2]?.toLowerCase() as string | undefined;
+        let int_chapter: number | undefined;
+        let int_verse: number | undefined;
+
+        if (str_chapter) {
+            int_chapter = parseInt(str_chapter);
+        }
+        if (str_verse) {
+            int_verse = parseInt(str_verse);
+        }
+
+        await message.reply({ embeds: [await runCommand(str_book, int_chapter, int_verse)] });
+        await incrementStatAndUser("bibleverses-requested", message.author);
+    },
+};
 
 async function runCommand(int_book?: string, int_chapter?: number, int_verse?: number): Promise<EmbedBuilder> {
     // Check provided book
@@ -96,46 +140,3 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
             text: `${book.name} ${chapterNumber}:${verseNumber}`,
         });
 }
-
-export const bibleverse: ICommand = {
-    data: new SlashCommandBuilder()
-        .setName("bibleverse")
-        .setDescription("Get a random bible verse. Optionally via the arguments a specific verse can be requested.")
-        .addStringOption(option =>
-            option
-                .setName("book")
-                .setDescription("The name or number of the book within the bible (1-66).")
-                .setRequired(false)
-        )
-        .addIntegerOption(option =>
-            option.setName("chapter").setDescription("The number of the chapter.").setRequired(false)
-        )
-        .addIntegerOption(option =>
-            option.setName("verse").setDescription("The number of the verse.").setRequired(false)
-        ),
-    executeInteraction: async (interaction: CommandInteraction) => {
-        const int_book = interaction.options.get("book")?.value as string | undefined;
-        const int_chapter = interaction.options.get("chapter")?.value as number | undefined;
-        const int_verse = interaction.options.get("verse")?.value as number | undefined;
-
-        await interaction.reply({ embeds: [await runCommand(int_book, int_chapter, int_verse)] });
-        await incrementStatAndUser("bibleverses-requested", interaction.user);
-    },
-    executeMessage: async (message: Message, args: string[]) => {
-        const str_book = args[0]?.toLowerCase() as string | undefined;
-        const str_chapter = args[1]?.toLowerCase() as string | undefined;
-        const str_verse = args[2]?.toLowerCase() as string | undefined;
-        let int_chapter: number | undefined;
-        let int_verse: number | undefined;
-
-        if (str_chapter) {
-            int_chapter = parseInt(str_chapter);
-        }
-        if (str_verse) {
-            int_verse = parseInt(str_verse);
-        }
-
-        await message.reply({ embeds: [await runCommand(str_book, int_chapter, int_verse)] });
-        await incrementStatAndUser("bibleverses-requested", message.author);
-    },
-};

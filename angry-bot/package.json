@@ -1,6 +1,6 @@
 {
     "name": "angry-bot",
-    "version": "2.9.1",
+    "version": "2.9.2",
     "description": "Angry Bot.",
     "type": "module",
     "main": "./index.js",
@@ -28,6 +28,7 @@
         "discord.js": "^14.6.0",
         "dotenv": "^16.0.3",
         "mongoose": "^6.7.3",
-        "node-fetch": "^3.3.0"
+        "node-fetch": "^3.3.0",
+        "shared": "link:../shared"
     }
 }

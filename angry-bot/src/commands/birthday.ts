@@ -1,8 +1,18 @@
 import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryBirthday } from "@data";
-import { ICommand } from "./command-interfaces";
-import { daysUntil } from "helpers/date.util";
+import { daysUntil } from "shared/lib/utils/date.util";
+import { CommandHandler } from "shared/lib/commands/types";
+
+export const birthday: CommandHandler = {
+    data: new SlashCommandBuilder().setName("birthday").setDescription("Get the date of my birthday."),
+    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+        interaction.reply({ embeds: [getEmbed()] });
+    },
+    executeMessage: async (message: Message): Promise<void> => {
+        message.reply({ embeds: [getEmbed()] });
+    },
+};
 
 function getEmbed() {
     const nextBirthday = new Date(angryBirthday);
@@ -25,13 +35,3 @@ function getEmbed() {
             url: "https://github.com/Woife5/angrier-bot",
         });
 }
-
-export const birthday: ICommand = {
-    data: new SlashCommandBuilder().setName("birthday").setDescription("Get the date of my birthday."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        interaction.reply({ embeds: [getEmbed()] });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [getEmbed()] });
-    },
-};
