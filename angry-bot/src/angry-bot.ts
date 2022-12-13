@@ -62,6 +62,7 @@ Object.values(Commands).forEach(command => {
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
     await init();
+
     log = new Log("AngryBot");
 
     log.info(`Started bot version ${version}`, "angry-bot.ts");

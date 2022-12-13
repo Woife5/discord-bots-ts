@@ -29,6 +29,6 @@
         "dotenv": "^16.0.3",
         "mongoose": "^6.7.3",
         "node-fetch": "^3.3.0",
-        "shared": "link:./shared"
+        "shared": "link:shared"
     }
 }
