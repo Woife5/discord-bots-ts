@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { medienDispositive, geschmacksliste, funStuff, names } from "@data";
 import { incrementStatAndUser } from "@helpers";
 import { ICommand } from "./command-interfaces";
-import { getRandomInt } from "helpers/number.util";
+import { getRandomInt } from "shared/lib/utils/number.util";
 
 const medienKlausur = new Date("2021-07-02T11:00:00");
 

@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
 import { ICatgirlResponse, ICommand } from "./command-interfaces";
 import fetch from "node-fetch";
-import { getRandomInt } from "helpers/number.util";
+import { getRandomInt } from "shared/lib/utils/number.util";
 
 const randomUrl = "https://nekos.moe/api/v1/random/image";
 const imageUrl = "https://nekos.moe/image/";

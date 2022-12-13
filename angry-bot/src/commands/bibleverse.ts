@@ -4,7 +4,7 @@ import { IBibleBook, ICommand } from "./command-interfaces";
 import { incrementStatAndUser, Log } from "@helpers";
 import { bookNames } from "@data";
 import fetch from "node-fetch";
-import { getRandomInt } from "helpers/number.util";
+import { getRandomInt } from "shared/lib/utils/number.util";
 
 const log = new Log("Bibleverse");
 

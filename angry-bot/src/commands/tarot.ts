@@ -4,7 +4,7 @@ import { tarots, angryEmojis as angrys } from "@data";
 import { User, createUser, incrementStatAndUser } from "@helpers";
 import { promisify } from "util";
 import { ICommand } from "./command-interfaces";
-import { isBeforeYesterdayMidnight, isToday } from "helpers/date.util";
+import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
 const wait = promisify(setTimeout);
 
 async function isTarotAllowed(user: DiscordUser): Promise<string | null> {

@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
-import { User, Stats, PluginReturnCode, createUser } from "@helpers";
+import { User, Stats, createUser } from "@helpers";
+import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
 import { getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 export async function count(message: Message): Promise<PluginReturnCode> {

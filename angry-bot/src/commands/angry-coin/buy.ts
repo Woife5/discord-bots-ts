@@ -13,8 +13,8 @@ import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/b
 import { angryIconCDN, uncensorable } from "@data";
 import { ICommand } from "../command-interfaces";
 import { Powers, CensorshipUtil } from "@helpers";
-import { hasEmoji, toCleanLowerCase } from "helpers/string.util";
 import { getPowerUpdate, getUserBalance, isUserPower, updateUser } from "helpers/user.util";
+import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";
 
 type ShopItemNames = "censorship" | "un-censorship";
 
