@@ -1965,7 +1965,7 @@ semver@^7.3.7:
   dependencies:
     lru-cache "^6.0.0"
 
-"shared@link:shared":
+"shared@link:./shared":
   version "0.0.1"
 
 shebang-command@^2.0.0:
