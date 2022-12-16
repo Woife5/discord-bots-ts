@@ -5,6 +5,7 @@ import { User, createUser, incrementStatAndUser } from "@helpers";
 import { promisify } from "util";
 import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { getUser, updateUser } from "helpers/user.util";
 const wait = promisify(setTimeout);
 
 export const tarot: CommandHandler = {
@@ -79,24 +80,29 @@ async function isTarotAllowed(user: DiscordUser): Promise<string | null> {
 }
 
 async function updateUserAndGetStreak(user: DiscordUser, tarotId: number): Promise<number> {
-    let userData = await User.findOne({ userId: user.id });
+    const u = await getUser(user.id);
 
-    if (!userData) {
-        userData = await createUser(user);
-    }
+    let tarotStreak = 1;
+    let angryCoins: number;
 
-    userData.userName = user.username;
-    userData.tarot = tarotId;
-    userData.angryCoins = userData.angryCoins + Math.ceil(tarotId / 2);
-    if (isBeforeYesterdayMidnight(userData.lastTarot)) {
-        userData.tarotStreak = 1;
+    if (!u) {
+        angryCoins = Math.ceil(tarotId / 2);
     } else {
-        userData.tarotStreak = userData.tarotStreak + 1;
+        if (!isBeforeYesterdayMidnight(u?.lastTarot)) {
+            tarotStreak = u.tarotStreak + 1;
+        }
+        angryCoins = u.angryCoins + Math.ceil(tarotId / 2);
     }
-    userData.lastTarot = new Date();
 
-    await userData.save();
-    return userData.tarotStreak;
+    updateUser(user.id, {
+        lastTarot: new Date(),
+        userName: user.username,
+        tarot: tarotId,
+        angryCoins,
+        tarotStreak,
+    });
+
+    return tarotStreak;
 }
 
 function createEmbed(): EmbedBuilder {

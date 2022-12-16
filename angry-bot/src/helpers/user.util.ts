@@ -22,7 +22,7 @@ export type UserBalanceUpdateArgs = {
 const userCache = new Map<string, HydratedDocument<IUser> | null>();
 const userActionsCache = new Map<string, UserActionCacheItem>();
 
-async function getUser(userId: string): Promise<HydratedDocument<IUser> | null> {
+export async function getUser(userId: string): Promise<HydratedDocument<IUser> | null> {
     if (userCache.has(userId)) {
         return userCache.get(userId) ?? null;
     }

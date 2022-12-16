@@ -158,6 +158,7 @@ async function censorshipPurchase(
     if (userBalance < shopItem.price) {
         return interaction.reply({
             embeds: [embed.setDescription("You don't have enough angry coins to buy this item.")],
+            ephemeral: true,
         });
     }
 
@@ -270,7 +271,7 @@ async function buyRemoveCensorship(
             }
 
             if (userBalance < price + noOwnershipSurcharge) {
-                buttonInteraction.reply({ content: "You dont have enough coins!", components: [] });
+                buttonInteraction.reply({ content: "You dont have enough coins!", components: [], ephemeral: true });
                 return;
             }
             await CensorshipUtil.remove(censoredString);
@@ -282,7 +283,7 @@ async function buyRemoveCensorship(
         }
 
         if (buttonInteraction.customId === "cancel_uncensorship_purchase") {
-            await buttonInteraction.reply({ content: "Purchase canceled!", components: [] });
+            await buttonInteraction.reply({ content: "Purchase canceled!", components: [], ephemeral: true });
         }
     });
 
