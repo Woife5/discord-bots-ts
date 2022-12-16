@@ -4,13 +4,13 @@ import { init, Log } from "@helpers";
 import { prefix, version } from "@data";
 import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler, Taxation } from "./plugins";
 import * as Commands from "./commands";
-import { registerApplicationCommands } from "@shared/plugins/register-commands";
+import { registerApplicationCommands } from "shared/lib/plugins/register-commands";
 import { GatewayIntentBits } from "discord-api-types/v10";
 import { getUserRole } from "helpers/user.util";
-import { startsWith } from "@shared/utils/message.util";
-import { MessageWrapper, PluginReturnCode } from "@shared/messages/message-wrapper";
-import { CommandHandler } from "@shared/commands/types.d";
-import { runDaily } from "@shared/plugins/run-fixed";
+import { startsWith } from "shared/lib/utils/message.util";
+import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";
+import { CommandHandler } from "shared/lib/commands/types.d";
+import { runDaily } from "shared/lib/plugins/run-fixed";
 import { clientId, token } from "helpers/environment";
 
 let log: Log | undefined;
