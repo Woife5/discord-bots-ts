@@ -1,14 +1,10 @@
 import mongoose, { HydratedDocument } from "mongoose";
 import { User as DiscordUser } from "discord.js";
+import { mongoUri } from "./environment";
 const { Schema, connect, model } = mongoose;
 
 export async function init() {
-    if (!process.env.MONGO_URI) {
-        throw new Error("MONGO_URI is not defined.");
-    }
-
-    const uri = process.env.MONGO_URI;
-    await connect(uri);
+    await connect(mongoUri);
 }
 
 export async function createUser(user: DiscordUser): Promise<HydratedDocument<IUser>> {

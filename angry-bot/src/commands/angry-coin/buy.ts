@@ -15,6 +15,7 @@ import { Powers, CensorshipUtil } from "@helpers";
 import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";
 import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { clientId } from "helpers/environment";
 
 type ShopItemNames = "censorship" | "un-censorship";
 
@@ -135,8 +136,7 @@ async function regularPurchase(
         update.angryCoins -= shopItem.price * amount;
         await updateUser(userId, update);
         await updateUserBalance({
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            userId: process.env.CLIENT_ID!,
+            userId: clientId,
             amount: shopItem.price * amount,
             username: "Angry",
         });
@@ -305,8 +305,7 @@ async function buyRemoveCensorship(
 async function updateBalance(userId: string, price: number) {
     await updateUserBalance({ userId, amount: -price });
     await updateUserBalance({
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        userId: process.env.CLIENT_ID!,
+        userId: clientId,
         amount: price,
         username: "Angry",
     });

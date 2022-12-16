@@ -9,6 +9,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
 import { getUserBalance, getUserRole, updateUserBalance } from "helpers/user.util";
 import { CommandHandler, Role } from "shared/lib/commands/types.d";
+import { clientId } from "helpers/environment";
 
 export const payout: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -40,8 +41,7 @@ export const payout: CommandHandler = {
 };
 
 async function runCommand(user: DiscordUser, amount: number, all: boolean) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const botBalance = await getUserBalance(process.env.CLIENT_ID!);
+    const botBalance = await getUserBalance(clientId);
 
     if (all) {
         amount = botBalance;
@@ -74,7 +74,6 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 }
 
 async function updateBalance(discordUser: DiscordUser, amount: number) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
+    await updateUserBalance({ userId: clientId, amount: -amount, username: "Angry" });
     await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username });
 }

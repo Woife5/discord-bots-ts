@@ -4,6 +4,7 @@ import type { HydratedDocument } from "mongoose";
 import { Role } from "shared/lib/commands/types.d";
 import { isToday } from "shared/lib/utils/date.util";
 import { createUserSimple, IUser, Powers, User } from "./db-helpers";
+import { adminId } from "./environment";
 
 type UserActionCacheItem = {
     date: Date;
@@ -57,7 +58,7 @@ export function invalidateUserCache(userId: string) {
 }
 
 export async function getUserRole(user: DiscordUser, guild: Guild | null): Promise<Role> {
-    if (user.id === process.env.WOLFGANG_ID) {
+    if (user.id === adminId) {
         return Role.OWNER;
     }
 
@@ -71,7 +72,7 @@ export async function getUserRole(user: DiscordUser, guild: Guild | null): Promi
 }
 
 export async function getMemberRole(member: GuildMember): Promise<Role> {
-    if (member.user.id === process.env.WOLFGANG_ID) {
+    if (member.user.id === adminId) {
         return Role.OWNER;
     }
 

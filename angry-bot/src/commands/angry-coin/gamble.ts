@@ -5,6 +5,7 @@ import { incrementStatAndUser } from "@helpers";
 import { getRandomInt } from "shared/lib/utils/number.util";
 import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { clientId } from "helpers/environment";
 
 export const gamble: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -90,8 +91,7 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 
 async function updateBalance(discordUser: DiscordUser, amount: number, taxPayed: boolean) {
     await updateUserBalance({ userId: discordUser.id, amount, username: discordUser.username, taxPayed });
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await updateUserBalance({ userId: process.env.CLIENT_ID!, amount: -amount, username: "Angry" });
+    await updateUserBalance({ userId: clientId, amount: -amount, username: "Angry" });
     if (amount < 0) {
         await incrementStatAndUser("money-lost-in-gambling", discordUser, -amount);
     } else {

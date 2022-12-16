@@ -5,7 +5,8 @@
         "baseUrl": "./src",
         "paths": {
             "@helpers": ["helpers"],
-            "@data": ["data"]
+            "@data": ["data"],
+            "@shared/*": ["../node_modules/shared/lib/*"]
         }
     }
 }

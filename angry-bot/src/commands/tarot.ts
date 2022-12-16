@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { tarots, angryEmojis as angrys } from "@data";
-import { User, createUser, incrementStatAndUser } from "@helpers";
+import { User, incrementStatAndUser } from "@helpers";
 import { promisify } from "util";
 import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
 import { CommandHandler } from "shared/lib/commands/types.d";

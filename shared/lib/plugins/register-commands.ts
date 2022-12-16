@@ -1,10 +1,7 @@
 import { REST } from "@discordjs/rest";
-import { Log } from "@helpers";
 import { Routes } from "discord-api-types/v10";
 import { Collection } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
-
-const log = new Log("RegisterCommands");
 
 export async function registerApplicationCommands(
     token: string,
@@ -18,5 +15,6 @@ export async function registerApplicationCommands(
         body: commands.map(c => c.data.toJSON()),
     });
 
-    log.info(`Registered ${commands.size} commands for every guild.`, "registerApplicationCommands");
+    // eslint-disable-next-line no-console
+    console.info(`Registered ${commands.size} commands for every guild.`, "registerApplicationCommands");
 }
