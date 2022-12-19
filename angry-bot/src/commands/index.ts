@@ -14,6 +14,7 @@ export { catboy } from "./catboy";
 export { luhans } from "./luhans";
 export { stats } from "./stats";
 export { tarot } from "./tarot";
+export { topspammer } from "./topspammer";
 
 export { balance } from "./angry-coin/balance";
 export { gamble } from "./angry-coin/gamble";

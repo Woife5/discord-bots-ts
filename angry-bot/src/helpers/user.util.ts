@@ -165,3 +165,16 @@ export function getUserActionCache(userId: string): UserActionCacheItem | undefi
 export function isUserPower(power: string): power is Powers {
     return power === "censorship-immunity";
 }
+
+export async function getTopSpammers() {
+    const users = await User.find({ emojis: { $exists: true } }).exec();
+    return users
+        .map(user => {
+            return {
+                userId: user.userId,
+                userName: user.userName,
+                spamCount: Object.values(user.emojis).reduce((acc, cur) => acc + cur, 0),
+            };
+        })
+        .sort((a, b) => b.spamCount - a.spamCount);
+}
