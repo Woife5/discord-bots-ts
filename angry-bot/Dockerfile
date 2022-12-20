@@ -4,4 +4,4 @@ WORKDIR /usr/src
 
 COPY ./index.js ./index.mjs
 
-CMD [ "node", "./index.mjs" ]
+ENTRYPOINT [ "node", "./index.mjs" ]

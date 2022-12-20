@@ -15,6 +15,11 @@ import { clientId, token } from "helpers/environment";
 
 let log: Log | undefined;
 
+// immediately exit if a kill command is received
+process.on("SIGTERM", () => {
+    process.exit(0);
+});
+
 // Handle all uncaught exceptions
 process.on("uncaughtException", err => {
     log?.error(err, "uncaughtException");
