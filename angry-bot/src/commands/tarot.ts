@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { tarots, angryEmojis as angrys } from "@data";
-import { User, incrementStatAndUser } from "@helpers";
+import { incrementStatAndUser } from "@helpers";
 import { promisify } from "util";
 import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
@@ -62,7 +62,7 @@ export const tarot: CommandHandler = {
 };
 
 async function isTarotAllowed(user: DiscordUser): Promise<string | null> {
-    const userData = await User.findOne({ userId: user.id });
+    const userData = await getUser(user.id);
 
     if (!userData) {
         return null;

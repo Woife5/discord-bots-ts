@@ -1,7 +1,7 @@
 import type { CommandInteraction, Message, User } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { User as DbUser, createUser } from "@helpers";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { updateUser } from "helpers/user.util";
 
 export const tarotreminder: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -41,12 +41,8 @@ export const tarotreminder: CommandHandler = {
 };
 
 async function updateReminder(user: User, subcommand: "enable" | "disable") {
-    let dbUser = await DbUser.findOne({ userId: user.id }).exec();
-
-    if (!dbUser) {
-        dbUser = await createUser(user);
-    }
-
-    dbUser.tarotreminder = subcommand === "enable";
-    await dbUser.save();
+    await updateUser(user.id, {
+        userName: user.username,
+        tarotreminder: subcommand === "enable",
+    });
 }

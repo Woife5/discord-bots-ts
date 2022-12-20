@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
-import { User, Stats, createUser } from "@helpers";
+import { Stats } from "@helpers";
 import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
+import { getUser, getUserActionCache, updateUser, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
@@ -38,23 +38,16 @@ export async function count(message: Message): Promise<PluginReturnCode> {
         return acc;
     }, {} as { [key: string]: number });
 
-    let user = await User.findOne({ userId });
-
-    if (!user) {
-        user = await createUser(message.author);
-    }
-
-    // can be removed once every user is updated
-    if (!user.emojis) {
-        user.emojis = {};
-    }
+    const userEmojis = (await getUser(userId))?.emojis ?? {};
 
     for (const [emojiId, count1] of Object.entries(emojis)) {
-        user.emojis[emojiId] = (user.emojis[emojiId] ?? 0) + count1;
+        userEmojis[emojiId] = (userEmojis[emojiId] ?? 0) + count1;
     }
 
-    user.markModified("emojis");
-    await user.save();
+    await updateUser(userId, {
+        userName: message.author.username,
+        emojis: userEmojis,
+    });
 
     return "CONTINUE";
 }

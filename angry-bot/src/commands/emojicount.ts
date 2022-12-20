@@ -1,8 +1,9 @@
 import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { Stats, User } from "@helpers";
+import { Stats } from "@helpers";
 import { angryEmojis } from "@data";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { getUser } from "helpers/user.util";
 
 const embedColor = "#d94d26";
 
@@ -27,7 +28,7 @@ async function runCommand(user: DiscordUser | null | undefined) {
     const embed = new EmbedBuilder().setColor(embedColor).setTitle("Emoji Count");
 
     if (user) {
-        const userResult = await User.findOne({ userId: user.id }).exec();
+        const userResult = await getUser(user.id);
 
         if (!userResult) {
             return new EmbedBuilder().setColor(embedColor).setTitle("User not found!");
@@ -39,7 +40,7 @@ async function runCommand(user: DiscordUser | null | undefined) {
         const topEmojis = Object.entries(userResult.emojis)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
-            .map(([id, amount]) => `${angryEmojis[parseInt(id)]} - ${amount}x`)
+            .map(([id, amount]) => `${angryEmojis[parseInt(id)]} - ${amount.toLocaleString("de-AT")}x`)
             .join("\n");
 
         embed.setDescription(topEmojis);
@@ -53,7 +54,7 @@ async function runCommand(user: DiscordUser | null | undefined) {
 
         count = val.value;
 
-        embed.addFields({ name: "Total angry emojis sent", value: count.toString() });
+        embed.addFields({ name: "Total angry emojis sent", value: count.toLocaleString("de-AT") });
     }
 
     return embed;

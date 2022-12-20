@@ -1,8 +1,9 @@
 import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN } from "@data";
-import { getStat, StatKeys, User } from "@helpers";
+import { getStat, StatKeys } from "@helpers";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { getUser } from "helpers/user.util";
 
 export const stats: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -40,7 +41,7 @@ export const stats: CommandHandler = {
 async function generateUserStatEmbed(user: DiscordUser) {
     const embed = getStatEmbed().setTitle(`${user.username}'s stats`);
 
-    const userObj = await User.findOne({ userId: user.id });
+    const userObj = await getUser(user.id);
 
     if (!userObj) {
         embed.setDescription("No stats have been found for this user!");
@@ -48,7 +49,7 @@ async function generateUserStatEmbed(user: DiscordUser) {
     }
 
     const getStatFromUser = (key: StatKeys) => {
-        return (userObj.stats[key] || 0).toString();
+        return (userObj.stats[key] || 0).toLocaleString("de-AT");
     };
 
     embed.addFields([
@@ -60,7 +61,7 @@ async function generateUserStatEmbed(user: DiscordUser) {
             name: "Total Angry emojis sent",
             value: Object.values(userObj.emojis)
                 .reduce((a, b) => a + b, 0)
-                .toString(),
+                .toLocaleString("de-AT"),
         },
         {
             name: "Questions asked",
@@ -97,43 +98,43 @@ async function generateStatEmbed() {
     embed.addFields([
         {
             name: "Total angry reactions",
-            value: (await getStat("angry-reactions")).toString(),
+            value: (await getStat("angry-reactions")).toLocaleString("de-AT"),
         },
         {
             name: "Total angry emojis sent",
-            value: (await getStat("total-angry-emojis-sent")).toString(),
+            value: (await getStat("total-angry-emojis-sent")).toLocaleString("de-AT"),
         },
         {
             name: "Total tarots read",
-            value: (await getStat("tarots-read")).toString(),
+            value: (await getStat("tarots-read")).toLocaleString("de-AT"),
         },
         {
             name: "Total censored messages",
-            value: (await getStat("times-censored")).toString(),
+            value: (await getStat("times-censored")).toLocaleString("de-AT"),
         },
         {
             name: "Total yes/no questions asked",
-            value: (await getStat("yesno-questions")).toString(),
+            value: (await getStat("yesno-questions")).toLocaleString("de-AT"),
         },
         {
             name: "Toal McLuhans enlightenments offered",
-            value: (await getStat("mc-luhans")).toString(),
+            value: (await getStat("mc-luhans")).toLocaleString("de-AT"),
         },
         {
             name: "Total catgirls requested",
-            value: (await getStat("catgirls-requested")).toString(),
+            value: (await getStat("catgirls-requested")).toLocaleString("de-AT"),
         },
         {
             name: "Total catboys requested",
-            value: (await getStat("catboys-requested")).toString(),
+            value: (await getStat("catboys-requested")).toLocaleString("de-AT"),
         },
         {
             name: "Total bibleverses read",
-            value: (await getStat("bibleverses-requested")).toString(),
+            value: (await getStat("bibleverses-requested")).toLocaleString("de-AT"),
         },
         {
             name: "Total money lost in gambling",
-            value: (await getStat("money-lost-in-gambling")).toString(),
+            value: (await getStat("money-lost-in-gambling")).toLocaleString("de-AT"),
         },
     ]);
 
