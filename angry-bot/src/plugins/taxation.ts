@@ -1,8 +1,9 @@
 import { User, Log, GuildSettingsCache } from "@helpers";
 import { ChannelType, Client } from "discord.js";
 import { isToday } from "shared/lib/utils/date.util";
-import { updateUserBalance } from "helpers/user.util";
+import { invalidateUserCache, updateUserBalance } from "helpers/user.util";
 import { clientId } from "helpers/environment";
+import { angryEmojis } from "@data";
 
 const TAXATION_RATE = 0.05;
 const log = new Log("Taxation");
@@ -29,6 +30,7 @@ export async function tax(client: Client) {
             user.lastTransaction = new Date();
             taxedUsers.push([user.userName, taxationMoney]);
             await user.save();
+            invalidateUserCache(user.userId);
         } catch (err) {
             log.error(err);
         }
@@ -58,7 +60,7 @@ async function broadcast(client: Client, taxMoney: number, users: [string, numbe
         if (channel?.type === ChannelType.GuildText) {
             channel.send(
                 `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users
-                    .map(u => `${u[0]}(**${u[1]}$**)`)
+                    .map(u => `${u[0]}(**${u[1]}** ${angryEmojis[0]}s )`)
                     .join(", ")}\n\nThank you for your cooperation.`
             );
         } else {

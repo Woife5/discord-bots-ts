@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { tarots, angryEmojis as angrys } from "@data";
+import { tarots, angryEmojis } from "@data";
 import { incrementStatAndUser } from "@helpers";
 import { promisify } from "util";
 import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
@@ -109,7 +109,6 @@ function createEmbed(): EmbedBuilder {
     return new EmbedBuilder().setColor("DarkRed").setFields({
         name: "Angry Tarot",
         value: "Let me sense your angry",
-        inline: false,
     });
 }
 
@@ -118,7 +117,7 @@ async function setFields(embed: EmbedBuilder, tarotId: number, user: DiscordUser
 
     embed.spliceFields(0, 1, {
         name: "Angry Tarot",
-        value: `Your angry today is :angry${tarotId + 1}: ${angrys[tarotId]}`,
+        value: `Your angry today is ${angryEmojis[tarotId]}`,
     });
 
     if (tarots[tarotId].text) {

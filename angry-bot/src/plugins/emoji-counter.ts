@@ -2,6 +2,7 @@ import { Message } from "discord.js";
 import { Stats } from "@helpers";
 import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
 import { getUser, getUserActionCache, updateUser, updateUserActionCache, updateUserBalance } from "helpers/user.util";
+import { deepCopy } from "shared/lib/utils/object.util";
 
 export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
@@ -38,7 +39,7 @@ export async function count(message: Message): Promise<PluginReturnCode> {
         return acc;
     }, {} as { [key: string]: number });
 
-    const userEmojis = (await getUser(userId))?.emojis ?? {};
+    const userEmojis = deepCopy((await getUser(userId))?.emojis ?? {});
 
     for (const [emojiId, count1] of Object.entries(emojis)) {
         userEmojis[emojiId] = (userEmojis[emojiId] ?? 0) + count1;

@@ -40,7 +40,7 @@ async function runCommand(user: DiscordUser | null | undefined) {
         const topEmojis = Object.entries(userResult.emojis)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
-            .map(([id, amount]) => `${angryEmojis[parseInt(id)]} - ${amount.toLocaleString("de-AT")}x`)
+            .map(([id, amount]) => `${angryEmojis[parseInt(id) - 1]} - ${amount.toLocaleString("de-AT")}x`)
             .join("\n");
 
         embed.setDescription(topEmojis);
