@@ -1,9 +1,9 @@
-import { CommandInteraction, Message, User as DiscordUser, PermissionFlagsBits } from "discord.js";
+import { prefix } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CensorshipUtil } from "@helpers";
-import { prefix } from "@data";
-import { getEmbed } from "./censored";
+import { CommandInteraction, Message, PermissionFlagsBits, User as DiscordUser } from "discord.js";
 import { CommandHandler, Role } from "shared/lib/commands/types.d";
+import { getCensoredEmbed } from "./censored";
 
 export const censorship: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -27,7 +27,7 @@ export const censorship: CommandHandler = {
 
         await updateConfig(subcommand, interaction.user, value.toLowerCase().trim());
 
-        await interaction.reply({ embeds: [await getEmbed()] });
+        await interaction.reply({ embeds: [await getCensoredEmbed()] });
     },
     executeMessage: async (message: Message, args: string[]): Promise<void> => {
         if (args.length < 2) {
@@ -43,7 +43,7 @@ export const censorship: CommandHandler = {
 
         if (subcommand === "add" || subcommand === "remove") {
             await updateConfig(subcommand, message.author, censoredString);
-            await message.reply({ embeds: [await getEmbed()] });
+            await message.reply({ embeds: [await getCensoredEmbed()] });
         } else {
             await message.reply(
                 `Not a valid command. Proper usage would be:\n\`${prefix} censorship <add/remove> string\``

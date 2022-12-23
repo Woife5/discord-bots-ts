@@ -1,23 +1,19 @@
-import { CommandInteraction, Message, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CensorshipUtil } from "@helpers";
-import { CommandHandler, Role } from "shared/lib/commands/types.d";
+import { CommandInteraction, EmbedBuilder, Message } from "discord.js";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const censored: CommandHandler = {
-    data: new SlashCommandBuilder()
-        .setName("censored")
-        .setDescription("Get a list of censored strings.")
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
-    role: Role.ADMIN,
+    data: new SlashCommandBuilder().setName("censored").setDescription("Get a list of censored strings."),
     executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        interaction.reply({ embeds: [await getEmbed()] });
+        interaction.reply({ embeds: [await getCensoredEmbed()] });
     },
     executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [await getEmbed()] });
+        message.reply({ embeds: [await getCensoredEmbed()] });
     },
 };
 
-export async function getEmbed() {
+export async function getCensoredEmbed() {
     const c = await CensorshipUtil.getAll();
 
     if (c.size <= 0) {
