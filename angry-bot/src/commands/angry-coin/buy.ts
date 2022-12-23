@@ -1,21 +1,21 @@
+import { angryIconCDN, repoURL, uncensorable } from "@data";
+import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import { CensorshipUtil, Powers } from "@helpers";
 import {
-    Message,
-    EmbedBuilder,
-    ChatInputCommandInteraction,
-    ButtonInteraction,
     ActionRowBuilder,
     ButtonBuilder,
+    ButtonInteraction,
     ButtonStyle,
-    InteractionResponse,
+    ChatInputCommandInteraction,
     ComponentType,
+    EmbedBuilder,
+    InteractionResponse,
+    Message,
 } from "discord.js";
-import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import { angryIconCDN, uncensorable } from "@data";
-import { Powers, CensorshipUtil } from "@helpers";
-import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";
-import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";
-import { CommandHandler } from "shared/lib/commands/types.d";
 import { clientId } from "helpers/environment";
+import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";
+import { CommandHandler } from "shared/lib/commands/types.d";
+import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";
 
 type ShopItemNames = "censorship" | "un-censorship";
 
@@ -312,7 +312,7 @@ async function updateBalance(userId: string, price: number) {
 }
 
 function defaultEmbed() {
-    return new EmbedBuilder().setColor("Aqua").setAuthor({ name: "Angry", iconURL: angryIconCDN });
+    return new EmbedBuilder().setColor("Aqua").setAuthor({ name: "Angry", iconURL: angryIconCDN, url: repoURL });
 }
 
 function shopEmbed() {

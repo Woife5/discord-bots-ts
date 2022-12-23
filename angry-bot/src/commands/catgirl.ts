@@ -33,9 +33,5 @@ async function runCommand() {
         .setTitle("Catgirl")
         .setDescription(`Look at this ${randomWord} catgirl i found uwu`)
         .setColor("DarkGold")
-        .setAuthor({
-            name: "Angry Bot",
-            iconURL: "https://cdn.discordapp.com/attachments/314440449731592192/912125148474245221/angry.png",
-        })
         .setImage(image);
 }

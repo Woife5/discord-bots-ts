@@ -1,8 +1,7 @@
-import { ChatInputCommandInteraction, EmbedBuilder, Message } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandHandler } from "shared/lib/commands/types.d";
-import { angryIconCDN, repoURL, version } from "@data";
+import { ChatInputCommandInteraction, EmbedBuilder, Message } from "discord.js";
 import { getTopSpammers } from "helpers/user.util";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const topspammer: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -19,17 +18,7 @@ export const topspammer: CommandHandler = {
 async function runCommand() {
     const usersWithEmojis = await getTopSpammers();
 
-    const embed = new EmbedBuilder()
-        .setTitle("Top Angry Spammers")
-        .setColor("#d94d26")
-        .setAuthor({
-            name: "Angry",
-            iconURL: angryIconCDN,
-            url: repoURL,
-        })
-        .setFooter({
-            text: `Angry Bot v${version}`,
-        });
+    const embed = new EmbedBuilder().setTitle("Top Angry Spammers").setColor("#d94d26");
 
     for (let i = 0; i < 5 && i < usersWithEmojis.length; i++) {
         const user = usersWithEmojis[i];

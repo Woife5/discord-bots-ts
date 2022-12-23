@@ -1,6 +1,5 @@
-import { Message, EmbedBuilder, User, ChatInputCommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { angryIconCDN, repoURL } from "@data";
+import { ChatInputCommandInteraction, EmbedBuilder, Message, User } from "discord.js";
 import { getUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
@@ -25,13 +24,6 @@ async function runCommand(user: User) {
 
     return new EmbedBuilder()
         .setColor("Yellow")
-        .addFields({
-            name: "Current Balance",
-            value: `${user.username}'s current balance is: **${userBalance}** angry coins.`,
-        })
-        .setAuthor({
-            name: "Angry",
-            iconURL: angryIconCDN,
-            url: repoURL,
-        });
+        .setTitle("Current Balance")
+        .setDescription(`${user.username}'s current balance is: **${userBalance}** angry coins.`);
 }

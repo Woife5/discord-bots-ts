@@ -219,6 +219,20 @@ export class CensorshipUtil {
 
     /**
      * NOT cached
+     * @returns a list of all censoed values including their owners.
+     */
+    static async loadAll(): Promise<Censored[]> {
+        const censored = await CensoredDB.find({}).exec();
+        return censored.map(c => {
+            return {
+                owner: c.owner,
+                value: c.value,
+            } satisfies Censored;
+        });
+    }
+
+    /**
+     * NOT cached
      * @returns null if the provided value is not censored, the owner of the value otherwise.
      */
     static async findOwner(value: string): Promise<string | null> {
