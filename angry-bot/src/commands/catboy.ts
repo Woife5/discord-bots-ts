@@ -1,9 +1,9 @@
-import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
-import { ICatboyPhraseResponse, ICatboyResponse } from "./command-interfaces";
+import { CommandInteraction, EmbedBuilder, Message } from "discord.js";
 import fetch from "node-fetch";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { ICatboyPhraseResponse, ICatboyResponse } from "./command-interfaces";
 
 const randomUrl = "https://api.catboys.com/img ";
 const phraseUrl = "https://api.catboys.com/catboy";
@@ -33,9 +33,5 @@ async function runCommand() {
         .setTitle("Catboy")
         .setDescription(`Look at this catboy i found! ${catboyPhrase.response}`)
         .setColor("DarkGold")
-        .setAuthor({
-            name: "Angry Bot",
-            iconURL: "https://cdn.discordapp.com/attachments/314440449731592192/912125148474245221/angry.png",
-        })
         .setImage(result.url);
 }

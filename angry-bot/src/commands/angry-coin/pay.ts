@@ -1,6 +1,5 @@
-import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { angryIconCDN, repoURL } from "@data";
+import { ChatInputCommandInteraction, EmbedBuilder, Message, User as DiscordUser } from "discord.js";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
@@ -42,11 +41,7 @@ async function runCommand(from: DiscordUser, to: DiscordUser, amount: number) {
         return new EmbedBuilder().setColor("#ff4dde").setTitle("Haha, no.");
     }
 
-    const embed = new EmbedBuilder().setTitle("Pay").setColor("Yellow").setAuthor({
-        name: "Angry",
-        iconURL: angryIconCDN,
-        url: repoURL,
-    });
+    const embed = new EmbedBuilder().setTitle("Pay").setColor("Yellow");
 
     if ((await getUserBalance(from.id)) < amount) {
         return embed.setColor("Red").setDescription("You don't have enough angry coins to pay that amount.");

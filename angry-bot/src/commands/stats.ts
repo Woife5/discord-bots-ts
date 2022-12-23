@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { angryIconCDN } from "@data";
+import { angryIconCDN, repoURL } from "@data";
 import { getStat, StatKeys } from "@helpers";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import { getUser } from "helpers/user.util";
@@ -145,5 +145,6 @@ function getStatEmbed() {
     return new EmbedBuilder().setTitle("Server stats").setColor("Gold").setAuthor({
         name: "Angry Bot",
         iconURL: angryIconCDN,
+        url: repoURL,
     });
 }
