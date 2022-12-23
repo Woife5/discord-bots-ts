@@ -127,8 +127,8 @@ export async function getPowerUpdate(userId: string, power: Powers, amount: numb
         userId,
         userName: user?.userName ?? "unknown",
         powers: {
-            [power]: (user?.powers[power] ?? 0) + amount,
             ...user?.powers,
+            [power]: (user?.powers[power] ?? 0) + amount,
         },
         angryCoins: user?.angryCoins ?? 0,
     } satisfies Partial<IUser>;
