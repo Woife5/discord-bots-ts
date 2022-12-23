@@ -14,16 +14,18 @@ export const censored: CommandHandler = {
     },
 };
 
-const defaultEmbed = new EmbedBuilder().setColor("#d94d26").setTitle("No consored strings found!");
+const defaultEmbed = () => {
+    return new EmbedBuilder().setColor("#d94d26").setTitle("No consored strings found!");
+};
 
 export async function getCensoredEmbed() {
     const c = await CensorshipUtil.loadAll();
 
     if (c.length <= 0) {
-        return defaultEmbed;
+        return defaultEmbed();
     }
 
-    const embed = defaultEmbed.setTitle("Censored Strings:");
+    const embed = defaultEmbed().setTitle("Censored Strings:");
 
     const owners = new Map<string, string>();
     for (const item of c) {
