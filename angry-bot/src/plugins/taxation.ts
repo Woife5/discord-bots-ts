@@ -5,7 +5,7 @@ import { invalidateUserCache, updateUserBalance } from "helpers/user.util";
 import { clientId } from "helpers/environment";
 import { angryEmojis } from "@data";
 
-const TAXATION_RATE = 0.05;
+const TAXATION_RATE = 0.07;
 const log = new Log("Taxation");
 
 export async function tax(client: Client) {
@@ -24,7 +24,8 @@ export async function tax(client: Client) {
         }
 
         try {
-            const taxationMoney = Math.ceil(user.angryCoins * TAXATION_RATE);
+            let taxationMoney = user.angryCoins * TAXATION_RATE;
+            taxationMoney = Math.ceil(taxationMoney * (user.tarotreminder ? 0.5 : 1));
             user.angryCoins -= taxationMoney;
             taxMoney += taxationMoney;
             user.lastTransaction = new Date();

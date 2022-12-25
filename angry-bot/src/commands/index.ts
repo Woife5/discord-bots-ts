@@ -1,3 +1,4 @@
+export { announce } from "./administration/announce";
 export { censored } from "./administration/censored";
 export { censorship } from "./administration/censorship";
 export { bcchannel } from "./administration/bcchannel";
