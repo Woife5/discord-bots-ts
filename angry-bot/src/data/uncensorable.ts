@@ -10,7 +10,7 @@ export const uncensorable = [
     /^: {0,2}\($/,
     /^.?angry.?$/,
     /^:angry32:$/,
-    /^(<?:)?angry.{0,3}$/,
+    /^(((<?:)?a)?n)?gry[0-9]?$/, //prevent censoring all or multible angrys at once
     /^🤮$/,
     /^(.{0,2}\.)?png$/,
     /^attachments$/, //idk what this does, was in the list
