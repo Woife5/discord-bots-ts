@@ -6,9 +6,11 @@ export const uncensorable = [
     /^.{0,3}discordapp.{0,3}$/,
     /^.{0,3}discord.{0,3}$/,
     /^.?thomas förg.?$/,
+    /^.?thomas foerg.?$/,
     /^: {0,2}\($/,
     /^.?angry.?$/,
     /^:angry32:$/,
+    /^(<?:)?angry.{0,3}$/,
     /^🤮$/,
     /^(.{0,2}\.)?png$/,
     /^attachments$/, //idk what this does, was in the list
@@ -17,6 +19,6 @@ export const uncensorable = [
     /^images$/,
     /^feet$/,
     /^🦶$/,
-    /^Windows User Group$/,
-    /^fhWUG$/,
+    /^windows user group$/,
+    /^fhwug$/,
 ];
