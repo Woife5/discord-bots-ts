@@ -78,7 +78,11 @@ export async function handleReaction(
             }
 
             updateUserActionCache(userId, { feetCash: true });
-            const moneyWon = (rating + 1) * 20;
+            let moneyWon = (rating + 1) * 20;
+
+            if (reaction.message.attachments.some((a) => a.contentType?.includes("video"))) {
+                moneyWon *= 2;
+            }
 
             await updateUserBalance({ userId, amount: moneyWon });
             await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
