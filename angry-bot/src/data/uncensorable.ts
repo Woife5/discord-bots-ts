@@ -11,6 +11,7 @@ export const uncensorable = [
     /^.?angry.?$/,
     /^:angry32:$/,
     /^(((<?:)?a)?n)?gry[0-9]?$/, //prevent censoring all or multible angrys at once
+    /^<?:[^:]{0,5}$/, //hopefully prevet abusing <:emoji and :emoji style expressions 
     /^🤮$/,
     /^(.{0,2}\.)?png$/,
     /^attachments$/, //idk what this does, was in the list
