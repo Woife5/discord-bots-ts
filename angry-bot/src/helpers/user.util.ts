@@ -125,7 +125,7 @@ export async function getPowerUpdate(userId: string, power: Powers, amount: numb
 
     return {
         userId,
-        userName: user?.userName ?? "unknown",
+        userName: user?.userName,
         powers: {
             ...user?.powers,
             [power]: (user?.powers[power] ?? 0) + amount,
