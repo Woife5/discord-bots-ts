@@ -22,4 +22,5 @@ export const uncensorable = [
     /^🦶$/,
     /^windows user group$/,
     /^fhwug$/,
+    /<?:?angry[a-zA-Z0-9]*:?[0-9]{0,18}>?/, // hopefully prevents all angry emojis from being censored
 ];
