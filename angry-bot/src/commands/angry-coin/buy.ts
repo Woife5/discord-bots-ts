@@ -9,7 +9,6 @@ import {
     ChatInputCommandInteraction,
     ComponentType,
     EmbedBuilder,
-    InteractionResponse,
     Message,
 } from "discord.js";
 import { clientId } from "helpers/environment";
@@ -17,10 +16,10 @@ import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBala
 import { CommandHandler } from "shared/lib/commands/types.d";
 import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";
 
-type ShopItemNames = "censorship" | "un-censorship";
+type CensorshipItem = "censorship" | "un-censorship";
 
 type ShopItem = {
-    name: Powers | ShopItemNames;
+    name: Powers | CensorshipItem; 
     description: string;
     price: number;
     addOptions: (subcommand: SlashCommandSubcommandBuilder) => SlashCommandSubcommandBuilder;
@@ -29,6 +28,12 @@ type ShopItem = {
 const amountOption = (subcommand: SlashCommandSubcommandBuilder) => {
     return subcommand.addIntegerOption(option =>
         option.setName("amount").setDescription("The amount of this item you would like to buy.").setRequired(false)
+    );
+};
+
+const messageOption = (subcommand: SlashCommandSubcommandBuilder, description: string) => {
+    return subcommand.addStringOption(option =>
+        option.setName("message").setDescription(description).setRequired(true).setMaxLength(100)
     );
 };
 
@@ -44,13 +49,7 @@ const shopItems: ShopItem[] = [
         description: "Censor something you dont like! 😤",
         price: 500,
         addOptions: (subcommand: SlashCommandSubcommandBuilder) => {
-            return subcommand.addStringOption(option =>
-                option
-                    .setName("message")
-                    .setDescription("The censored string to be censored.")
-                    .setRequired(true)
-                    .setMaxLength(100)
-            );
+            return messageOption(subcommand, "The censored string to be censored.");
         },
     },
     {
@@ -58,19 +57,12 @@ const shopItems: ShopItem[] = [
         description: "Un-censor something you like again! 🥰",
         price: 300,
         addOptions: (subcommand: SlashCommandSubcommandBuilder) => {
-            return subcommand.addStringOption(option =>
-                option
-                    .setName("message")
-                    .setDescription("The censored string to be freed.")
-                    .setRequired(true)
-                    .setMaxLength(100)
-            );
+            return messageOption(subcommand, "The censored string to be freed.");
         },
     },
 ];
 
 const data = new SlashCommandBuilder().setName("buy").setDescription("Shop for things!");
-
 shopItems.forEach(shopItem => {
     data.addSubcommand(subcommand => {
         subcommand.setName(shopItem.name).setDescription(`(${shopItem.price} Coins) ${shopItem.description}`);
@@ -79,14 +71,31 @@ shopItems.forEach(shopItem => {
 });
 
 export const buy: CommandHandler = {
-    data: data,
+    data,
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
-        const user = interaction.user;
         const item = interaction.options.getSubcommand();
-        const amount = interaction.options.getInteger("amount") ?? 1;
-        const value = interaction.options.getString("message") ?? "";
+        const shopItem = shopItems.find(i => i.name === item);
+        if (!shopItem) {
+            await interaction.reply({ embeds: [shopEmbed] });
+            return;
+        }
 
-        await runShopCommand(interaction, user.id, item, amount, value);
+        const userBalance = await getUserBalance(interaction.user.id);
+        if (userBalance < shopItem.price) {
+            interaction.reply({
+                embeds: [defaultEmbed().setDescription("You don't have enough angry coins to buy this item.")],
+                ephemeral: true,
+            });
+            return;
+        }
+
+        if (isUserPower(shopItem.name)) {
+            await buyUserPower(interaction, shopItem);
+        }
+
+        if (isCensorshipItem(shopItem.name)) {
+            await censorshipPurchase(interaction, shopItem);
+        }
     },
     executeMessage: async (message: Message): Promise<void> => {
         message.reply({
@@ -95,164 +104,91 @@ export const buy: CommandHandler = {
     },
 };
 
-async function runShopCommand(
-    interaction: ChatInputCommandInteraction,
-    userId: string,
-    item: string,
-    amount: number,
-    message: string
-) {
-    const shopItemIndex = shopItems.findIndex(i => i.name === item);
-    if (shopItemIndex === -1 || isNaN(amount) || amount <= 0) {
-        interaction.reply({ embeds: [shopEmbed()] });
-        return;
-    }
-    const shopItem = shopItems[shopItemIndex];
-
-    if (!(shopItem.name == "censorship" || shopItem.name == "un-censorship")) {
-        await regularPurchase(interaction, userId, shopItem, amount);
-    } else {
-        await censorshipPurchase(interaction, userId, shopItem, message);
-    }
+function isCensorshipItem(item: string): item is CensorshipItem {
+    return item === "censorship" || item === "un-censorship";
 }
 
-async function regularPurchase(
-    interaction: ChatInputCommandInteraction,
-    userId: string,
-    shopItem: ShopItem,
-    amount: number
-): Promise<InteractionResponse<boolean>> {
-    const embed = defaultEmbed();
-    const userBalance = await getUserBalance(userId);
-    if (userBalance < shopItem.price * amount) {
-        return interaction.reply({
-            embeds: [embed.setDescription("You don't have enough angry coins to buy this item.")],
-            ephemeral: true,
-        });
-    }
+async function buyUserPower(interaction: ChatInputCommandInteraction, shopItem: ShopItem) {
+    const amount = interaction.options.getInteger("amount") ?? 1;
+    const userId = interaction.user.id;
 
-    if (isUserPower(shopItem.name)) {
-        const update = await getPowerUpdate(userId, shopItem.name, amount);
-        update.angryCoins -= shopItem.price * amount;
-        await updateUser(userId, update);
-        await updateUserBalance({
-            userId: clientId,
-            amount: shopItem.price * amount,
-            username: "Angry",
-        });
-    }
+    const update = await getPowerUpdate(userId, shopItem.name as Powers, amount);
+    update.angryCoins -= shopItem.price * amount;
+    await updateUser(userId, update);
+    await updateUserBalance({
+        userId: clientId,
+        amount: shopItem.price * amount,
+        username: "Angry",
+    });
 
     return interaction.reply({
-        embeds: [embed.setTitle("Purchase successful").setDescription(`You bought ${amount} ${shopItem.name}.`)],
+        embeds: [defaultEmbed().setTitle("Purchase successful").setDescription(`You bought ${amount} ${shopItem.name}.`)],
     });
 }
 
-async function censorshipPurchase(
-    interaction: ChatInputCommandInteraction,
-    userId: string,
-    shopItem: ShopItem,
-    message: string
-): Promise<InteractionResponse<boolean>> {
-    const embed = defaultEmbed();
-    const userBalance = await getUserBalance(userId);
-    if (userBalance < shopItem.price) {
-        return interaction.reply({
-            embeds: [embed.setDescription("You don't have enough angry coins to buy this item.")],
-            ephemeral: true,
-        });
-    }
-
+async function censorshipPurchase(interaction: ChatInputCommandInteraction, shopItem: ShopItem) {
+    const userId = interaction.user.id;
+    const message = interaction.options.getString("message") ?? "";
     const censoredString = toCleanLowerCase(message);
-    if (shopItem.name == "censorship") {
-        return buyCensorship(interaction, userId, shopItem.price, censoredString);
-    }
-    if (shopItem.name == "un-censorship") {
-        return buyRemoveCensorship(interaction, userId, shopItem.price, censoredString, 500);
-    }
-    return interaction.reply({
-        embeds: [
-            embed.setDescription(
-                "Hi if you read this message something went wrong. Please ping <@267281854690754561> 50 times 🥰"
-            ),
-        ],
-    });
-}
 
-async function buyCensorship(
-    interaction: ChatInputCommandInteraction,
-    userId: string,
-    price: number,
-    censoredString: string
-): Promise<InteractionResponse<boolean>> {
-    const embed = defaultEmbed();
-    if (censoredString.length < 4 && !hasEmoji(censoredString)) {
+    if (shopItem.name === "censorship") {
+        if (censoredString.length < 4 && !hasEmoji(censoredString)) {
+            return interaction.reply({
+                embeds: [
+                    defaultEmbed().setDescription(
+                        "This string is too short for censorship! 😟 \n Enter at least 4 charcters or an emoji."
+                    ),
+                ],
+                ephemeral: true,
+            });
+        }
+
+        if (uncensorable.filter(regex => regex.test(censoredString)).length > 0) {
+            return interaction.reply({
+                embeds: [defaultEmbed().setDescription("Sorry this string is forbidden from censoring 😨")],
+                ephemeral: true,
+            });
+        }
+
+        if (await CensorshipUtil.isCensored(censoredString)) {
+            return interaction.reply({
+                embeds: [defaultEmbed().setDescription("This string is already censored!")],
+                ephemeral: true,
+            });
+        }
+
+        await CensorshipUtil.add({ owner: userId, value: censoredString });
+        await updateBalance(userId, shopItem.price);
+
         return interaction.reply({
-            embeds: [
-                embed.setDescription(
-                    "This string is too short for censorship! 😟 \n Enter at least 4 charcters or an emoji."
-                ),
-            ],
-            ephemeral: true,
-        });
-    }
-    if (uncensorable.filter(regex => regex.test(censoredString)).length > 0) {
-        return interaction.reply({
-            embeds: [embed.setDescription("Sorry this string is forbidden from censoring 😨")],
-            ephemeral: true,
+            embeds: [defaultEmbed().setTitle("Purchase successful").setDescription(`You bought \`${censoredString}\`!`)],
         });
     }
 
-    if (await CensorshipUtil.isCensored(censoredString)) {
-        return interaction.reply({
-            embeds: [embed.setDescription("This string is already censored!")],
-            ephemeral: true,
-        });
-    }
-
-    await CensorshipUtil.add({ owner: userId, value: censoredString });
-    await updateBalance(userId, price);
-
-    return interaction.reply({
-        embeds: [embed.setTitle("Purchase successful").setDescription(`You bought \`${censoredString}\`!`)],
-    });
-}
-
-async function buyRemoveCensorship(
-    interaction: ChatInputCommandInteraction,
-    userId: string,
-    price: number,
-    censoredString: string,
-    noOwnershipSurcharge: number
-): Promise<InteractionResponse<boolean>> {
-    const embed = defaultEmbed();
+    // handle un-censorship
     const owner = await CensorshipUtil.findOwner(censoredString);
     if (owner == null) {
-        return interaction.reply({ embeds: [embed.setDescription("This string is not censored.")], ephemeral: true });
+        return interaction.reply({ embeds: [defaultEmbed().setDescription("This string is not censored.")], ephemeral: true });
     }
 
     const userBalance = await getUserBalance(userId);
     if (owner === userId) {
         await CensorshipUtil.remove(censoredString);
-        await updateBalance(userId, price);
+        await updateBalance(userId, shopItem.price);
         return interaction.reply({
-            embeds: [embed.setTitle("Purchase successful").setDescription(`You liberated \`${censoredString}\`!`)],
+            embeds: [defaultEmbed().setTitle("Purchase successful").setDescription(`You liberated \`${censoredString}\`!`)],
         });
     }
 
-    //surcharge button choice if user does not own censorship
-    const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    const noOwnershipSurcharge = 500;
+    const surchargeButtons = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder().setCustomId("confirm_uncensorship_purchase").setEmoji("😍").setStyle(ButtonStyle.Success),
         new ButtonBuilder().setCustomId("cancel_uncensorship_purchase").setEmoji("🤮").setStyle(ButtonStyle.Danger)
     );
 
     if (!interaction.channel) {
-        //idk i made this to get rid of the ugly red squiggly lines
         return interaction.reply({
-            embeds: [
-                embed.setDescription(
-                    "What uwu why does this interaction have no channel? >.< sowwy dont know what to do"
-                ),
-            ],
+            embeds: [ defaultEmbed().setDescription( "Please only use this command in a guild") ],
             ephemeral: true,
         });
     }
@@ -270,20 +206,22 @@ async function buyRemoveCensorship(
                 return;
             }
 
-            if (userBalance < price + noOwnershipSurcharge) {
-                buttonInteraction.reply({ content: "You dont have enough coins!", components: [], ephemeral: true });
+            if (userBalance < shopItem.price + noOwnershipSurcharge) {
+                buttonInteraction.reply({ embeds: [defaultEmbed().setDescription("You dont have enough coins!")], components: [], ephemeral: true });
                 return;
             }
             await CensorshipUtil.remove(censoredString);
-            await updateBalance(userId, price + noOwnershipSurcharge);
+            await updateUserBalance({ userId, amount: -(shopItem.price + noOwnershipSurcharge) });
+            await updateUserBalance({ userId: clientId, amount: shopItem.price });
+            await updateUserBalance({ userId: owner, amount: noOwnershipSurcharge });
             await buttonInteraction.reply({
-                content: `Purchase confirmed! \n You liberated \`${censoredString}\` from <@${owner}>!`,
+                embeds: [defaultEmbed().setDescription(`Purchase confirmed! \n You liberated \`${censoredString}\` from <@${owner}> and payed them 500¥!`)],
                 components: [],
             });
         }
 
         if (buttonInteraction.customId === "cancel_uncensorship_purchase") {
-            await buttonInteraction.reply({ content: "Purchase canceled!", components: [], ephemeral: true });
+            await buttonInteraction.reply({ embeds: [defaultEmbed().setDescription("Purchase canceled!")], components: [], ephemeral: true });
         }
     });
 
@@ -291,37 +229,32 @@ async function buyRemoveCensorship(
         interaction.editReply({ components: [] });
     });
 
-    return interaction.reply({
+    interaction.reply({
         embeds: [
-            embed.setDescription(
+            defaultEmbed().setDescription(
                 `<@${owner}> owns \`${censoredString}\`! \n Remove for an additional ${noOwnershipSurcharge} Angry Coins?`
             ),
         ],
-        components: [buttonRow],
+        components: [surchargeButtons],
         ephemeral: true,
     });
 }
 
 async function updateBalance(userId: string, price: number) {
     await updateUserBalance({ userId, amount: -price });
-    await updateUserBalance({
-        userId: clientId,
-        amount: price,
-        username: "Angry",
-    });
+    await updateUserBalance({ userId: clientId, amount: price, username: "Angry" });
 }
 
 function defaultEmbed() {
     return new EmbedBuilder().setColor("Aqua").setAuthor({ name: "Angry", iconURL: angryIconCDN, url: repoURL });
 }
 
-function shopEmbed() {
-    return defaultEmbed()
-        .setTitle("Shop Items")
-        .addFields(
-            shopItems.map(item => ({
-                name: item.name,
-                value: `\`${item.name}\`: ${item.description} (${item.price} angry coins)`,
-            }))
-        );
-}
+const shopEmbed = defaultEmbed()
+    .setTitle("Shop Items")
+    .addFields(
+        shopItems.map(item => ({
+            name: item.name,
+            value: `\`${item.name}\`: ${item.description} (${item.price} angry coins)`,
+        }))
+    );
+
