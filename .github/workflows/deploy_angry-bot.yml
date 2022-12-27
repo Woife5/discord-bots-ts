@@ -23,7 +23,7 @@ jobs:
                 host: ${{ secrets.SSH_HOST }}
                 port: ${{ secrets.SSH_PORT }}
                 username: ${{ secrets.SSH_USER }}
-                password: ${{ secrets.SSH_KEY }}
+                key: ${{ secrets.SSH_KEY }}
                 script: cd ${{ secrets.COMPOSE_LOCATION }} &&
                     docker-compose down &&
                     docker-compose pull &&
