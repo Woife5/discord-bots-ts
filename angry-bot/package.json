@@ -1,6 +1,6 @@
 {
     "name": "angry-bot",
-    "version": "2.9.14",
+    "version": "2.9.15",
     "description": "Angry Bot.",
     "type": "module",
     "main": "./index.js",

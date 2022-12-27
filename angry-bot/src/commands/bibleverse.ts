@@ -9,7 +9,7 @@ import { CommandHandler } from "shared/lib/commands/types.d";
 
 const log = new Log("Bibleverse");
 
-const bibleAPI = "https://getbible.net/v2/elberfelder/";
+const bibleAPI = "https://getbible.net/v2/akjv/";
 const numberOfBooks = 66;
 
 export const bibleverse: CommandHandler = {
@@ -120,17 +120,12 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
     let verseText = book.chapters[chapterNumber - 1].verses[verseNumber - 1].text;
 
     // Replace some words in the text with some random others
-    verseText = verseText.replaceAll("König", "Paul");
-    verseText = verseText.replaceAll("Gott", "Paul");
-    verseText = verseText.replaceAll("Christus", "Felix");
-    verseText = verseText.replaceAll("Mose", "Valentin");
-    verseText = verseText.replaceAll("Priester", "Axel");
-    verseText = verseText.replaceAll("Diener", "Kinder");
-    verseText = verseText.replaceAll("Jehovas", "Angrys");
-    verseText = verseText.replaceAll("Jesu Christi", "Wolfgang Rader");
-    verseText = verseText.replaceAll("Engel", "Axel");
-    verseText = verseText.replaceAll("Sünder", "Thomas");
-    verseText = verseText.replaceAll("Gottseligkeit", "Angrylosigkeit (a.k.a. Freude)");
+    const randomNumber = Math.sin(((bookNumber << 4) + (chapterNumber << 2) + verseNumber) * 66.6);
+    if (randomNumber > 0) {
+        for (const [pattern, replacement] of toReplace) {
+            verseText = verseText.replace(new RegExp(pattern, "ig"), `**${replacement}**`);
+        }
+    }
 
     return new EmbedBuilder()
         .setColor("Yellow")
@@ -140,3 +135,17 @@ async function runCommand(int_book?: string, int_chapter?: number, int_verse?: n
             text: `${book.name} ${chapterNumber}:${verseNumber}`,
         });
 }
+
+const toReplace: [string, string][] = [
+    ["king", "Paul"],
+    ["lord", "Paul"],
+    ["god", "Angry"],
+    ["christ", "Felix"],
+    ["priest", "Axel"],
+    ["angel", "Axel"],
+    ["moses", "Valentin"],
+    ["mary", "Vali"],
+    ["sinner", "Thomas"],
+    ["servants", "children"],
+    ["jesus christ", "Wolfgang Rader"],
+];
