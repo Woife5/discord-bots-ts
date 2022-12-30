@@ -31,5 +31,5 @@ async function runCommand(guildId: string | null, channelId: string) {
     }
 
     await GuildSettingsCache.set(guildId, { guildId, broadcastChannelId: channelId });
-    return adminEmbed().setDescription("The broadcast channel has been updated for the current guild.");
+    return adminEmbed().setDescription("The broadcast channel for the current server has been updated.");
 }
