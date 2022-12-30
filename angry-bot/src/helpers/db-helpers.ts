@@ -1,5 +1,5 @@
-import mongoose, { HydratedDocument } from "mongoose";
 import { User as DiscordUser } from "discord.js";
+import mongoose, { HydratedDocument } from "mongoose";
 import { mongoUri } from "./environment";
 const { Schema, connect, model } = mongoose;
 
@@ -323,6 +323,7 @@ export const LogDB = model<ILog>("Log", logSchema);
 export interface IGuildSettings {
     guildId: string;
     broadcastChannelId: string;
+    adminRoleId: string;
 }
 
 const guildSettingsSchema = new Schema<IGuildSettings>({
@@ -332,6 +333,10 @@ const guildSettingsSchema = new Schema<IGuildSettings>({
         unique: true,
     },
     broadcastChannelId: {
+        type: String,
+        required: false,
+    },
+    adminRoleId: {
         type: String,
         required: false,
     },

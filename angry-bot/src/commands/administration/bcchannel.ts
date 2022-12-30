@@ -1,8 +1,8 @@
-import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildSettingsCache } from "@helpers";
-import { ChannelType, ChatInputCommandInteraction, EmbedBuilder, PermissionFlagsBits } from "discord.js";
+import { ChannelType, ChatInputCommandInteraction, PermissionFlagsBits } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { adminEmbed } from "../embeds";
 
 export const bcchannel: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -17,7 +17,7 @@ export const bcchannel: CommandHandler = {
 
         if (channel.type !== ChannelType.GuildText) {
             interaction.reply({
-                embeds: [embed().setDescription("Only Text-Channels can be used as Broadcast Channels")],
+                embeds: [adminEmbed().setDescription("Only Text-Channels can be used as Broadcast Channels")],
             });
         }
 
@@ -25,20 +25,11 @@ export const bcchannel: CommandHandler = {
     },
 };
 
-const embed = () => {
-    return new EmbedBuilder()
-        .setColor("White")
-        .setTitle("Set Broadcast Channel")
-        .setFooter({
-            text: `Angry Bot v${version}`,
-        });
-};
-
 async function runCommand(guildId: string | null, channelId: string) {
     if (!guildId) {
-        return embed().setDescription("This command can only be used in a server.");
+        return adminEmbed().setDescription("This command can only be used in a server.");
     }
 
     await GuildSettingsCache.set(guildId, { guildId, broadcastChannelId: channelId });
-    return embed().setDescription("The broadcast channel has been updated for the current guild.");
+    return adminEmbed().setDescription("The broadcast channel has been updated for the current guild.");
 }

@@ -1,6 +1,6 @@
-import { angryIconCDN, repoURL, version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
+import { infoEmbed } from "commands/embeds";
+import { ChatInputCommandInteraction, User as DiscordUser } from "discord.js";
 import { getUser } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
@@ -19,14 +19,10 @@ export const about: CommandHandler = {
     },
 };
 
-const defaultEmbed = () => {
-    return new EmbedBuilder().setColor("#d94d26").setTitle("About");
-};
-
 async function aboutUser(discordUser: DiscordUser) {
     const user = await getUser(discordUser.id);
 
-    const embed = defaultEmbed().setTitle(discordUser.username);
+    const embed = infoEmbed().setTitle(discordUser.username);
     if (!user) {
         return embed.setDescription("Sorry, I have no information about that user.");
     }
@@ -48,19 +44,10 @@ async function aboutUser(discordUser: DiscordUser) {
 }
 
 function aboutBot() {
-    return defaultEmbed()
-        .addFields([
-            {
-                name: "Slash Command",
-                value: "I **only** use slash commands now. Just browse them by typing `/`.",
-            },
-        ])
-        .setAuthor({
-            name: "Angry",
-            iconURL: angryIconCDN,
-            url: repoURL,
-        })
-        .setFooter({
-            text: `Angry Bot v${version}`,
-        });
+    return infoEmbed().addFields([
+        {
+            name: "Slash Command",
+            value: "I **only** use slash commands now. Just browse them by typing `/`.",
+        },
+    ]);
 }

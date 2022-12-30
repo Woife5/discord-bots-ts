@@ -1,5 +1,6 @@
 import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { infoEmbed } from "../embeds";
 import { APIEmbedField, ChatInputCommandInteraction, EmbedBuilder, Guild, User } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import * as Commands from "../command-handlers";
@@ -11,23 +12,15 @@ export const help: CommandHandler = {
     },
 };
 
-const defaultEmbed = () =>
-    new EmbedBuilder()
-        .setColor("#d94d26")
-        .setTitle("Available Commands")
-        .setFooter({
-            text: `Angry Bot v${version}`,
-        });
-
 async function runCommand(user: User, guild: Guild | null) {
     if (!guild) {
-        return defaultEmbed().setDescription("This command can only be used in a server.");
+        return infoEmbed().setDescription("This command can only be used in a server.");
     }
 
     const isAdmin = guild?.members.cache.get(user.id)?.permissions.has("Administrator") ?? false;
 
     const showCommand = (command: CommandHandler) => isAdmin || command.data.default_member_permissions === "8";
-    return defaultEmbed().addFields(
+    return infoEmbed().setTitle("Available Commands").addFields(
         Object.values(Commands)
             .filter(showCommand)
             .map(command => {

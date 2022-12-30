@@ -1,9 +1,10 @@
 import { angryEmojis } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { Stats } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
+import { ChatInputCommandInteraction, User as DiscordUser } from "discord.js";
 import { getUser } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { infoEmbed } from "../embeds";
 
 export const emojicount: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -16,16 +17,12 @@ export const emojicount: CommandHandler = {
     },
 };
 
-const defaultEmbed = () => {
-    return new EmbedBuilder().setColor("#d94d26").setTitle("Emoji Count");
-};
-
 async function runCommand(user: DiscordUser | null | undefined) {
     if (user) {
         const userResult = await getUser(user.id);
 
         if (!userResult) {
-            return defaultEmbed().setTitle("User not found!");
+            return infoEmbed().setTitle("User not found!");
         }
 
         // Get top 5 used emojis
@@ -35,14 +32,14 @@ async function runCommand(user: DiscordUser | null | undefined) {
             .map(([id, amount]) => `${angryEmojis[parseInt(id) - 1]} - ${amount.toLocaleString("de-AT")}x`)
             .join("\n");
 
-        return defaultEmbed().setDescription(topEmojis).setTitle(`Top 5 emojis sent for ${user.username}`);
+        return infoEmbed().setDescription(topEmojis).setTitle(`Top 5 emojis sent for ${user.username}`);
     }
 
     const val = await Stats.findOne({ key: "total-angry-emojis-sent" }).exec();
 
     if (!val || val.key !== "total-angry-emojis-sent") {
-        return defaultEmbed().setTitle("Error 🤒");
+        return infoEmbed().setTitle("Error 🤒");
     }
 
-    return defaultEmbed().addFields({ name: "Total angry emojis sent", value: val.value.toLocaleString("de-AT") });
+    return infoEmbed().addFields({ name: "Total angry emojis sent", value: val.value.toLocaleString("de-AT") });
 }

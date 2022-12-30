@@ -20,8 +20,8 @@ export const censorship: CommandHandler = {
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
-        const subcommand = (interaction.options.get("action")?.value as "add" | "remove") ?? "add";
-        const value = (interaction.options.get("value")?.value as string) ?? "";
+        const subcommand = interaction.options.getString("action", true) as "add" | "remove";
+        const value = interaction.options.getString("value", true);
 
         await updateConfig(subcommand, interaction.user, value.toLowerCase().trim());
 

@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { getTopSpammers } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { infoEmbedColor } from "../embeds";
 
 export const topspammer: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -15,7 +16,7 @@ export const topspammer: CommandHandler = {
 async function runCommand() {
     const usersWithEmojis = await getTopSpammers();
 
-    const embed = new EmbedBuilder().setTitle("Top Angry Spammers").setColor("#d94d26");
+    const embed = new EmbedBuilder().setTitle("Top Angry Spammers").setColor(infoEmbedColor);
 
     for (let i = 0; i < 5 && i < usersWithEmojis.length; i++) {
         const user = usersWithEmojis[i];

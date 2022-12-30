@@ -18,7 +18,7 @@ export const yesno: CommandHandler = {
             option.setName("question").setDescription("Your question to the angry-oracle").setRequired(true)
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
-        const question: string = (interaction.options.get("question")?.value as string) ?? "";
+        const question = interaction.options.getString("question", true);
         interaction.reply({ embeds: [await runCommand(question)] });
         incrementStatAndUser("yesno-questions", interaction.user);
     },

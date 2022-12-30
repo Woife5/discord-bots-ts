@@ -1,9 +1,8 @@
-import { adminRoleId } from "@data";
 import { Guild, GuildMember, User as DiscordUser } from "discord.js";
 import type { HydratedDocument } from "mongoose";
 import { Role } from "shared/lib/commands/types.d";
 import { isToday } from "shared/lib/utils/date.util";
-import { createUserSimple, IUser, Powers, User } from "./db-helpers";
+import { createUserSimple, GuildSettingsCache, IUser, Powers, User } from "./db-helpers";
 import { adminId } from "./environment";
 
 type UserActionCacheItem = {
@@ -76,7 +75,12 @@ export async function getMemberRole(member: GuildMember): Promise<Role> {
         return Role.OWNER;
     }
 
-    if (member.permissions.has("Administrator") || member.roles.cache.has(adminRoleId)) {
+    if (member.permissions.has("Administrator")) {
+        return Role.ADMIN;
+    }
+
+    const guildSettings = await GuildSettingsCache.get(member.guild.id);
+    if (guildSettings?.adminRoleId && member.roles.cache.has(guildSettings.adminRoleId)) {
         return Role.ADMIN;
     }
 
@@ -87,16 +91,16 @@ export async function getMemberRole(member: GuildMember): Promise<Role> {
  * This function will NOT check if the user's balance will be below 0 after or before the action.
  */
 export async function updateUserBalance(args: UserBalanceUpdateArgs): Promise<boolean> {
-    const { userId, username = "unknown", amount, taxPayed } = args;
+    const { userId, username, amount, taxPayed } = args;
 
     let user = await getUser(userId);
 
     if (!user) {
-        user = await createUserSimple(userId, username);
+        user = await createUserSimple(userId, username ?? "unknown");
     }
 
     user.angryCoins += amount;
-    username !== "unknown" && (user.userName = username);
+    username != null && (user.userName = username);
     taxPayed && (user.lastTransaction = new Date());
     await user.save();
 

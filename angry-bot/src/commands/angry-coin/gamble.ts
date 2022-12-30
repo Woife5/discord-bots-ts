@@ -1,7 +1,7 @@
-import { angryIconCDN, repoURL } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
+import { angryCoinEmbed } from "commands/embeds";
+import { ChatInputCommandInteraction, User as DiscordUser } from "discord.js";
 import { clientId } from "helpers/environment";
 import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
@@ -35,27 +35,14 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
     }
 
     if (isNaN(amount) || amount <= 0 || amount > userBalance) {
-        return new EmbedBuilder()
-            .setColor("Red")
+        return angryCoinEmbed()
             .setTitle("Gamble")
             .setDescription(
                 "Invalid amount! You have to gamble a positive amount of coins that you own (debt maybe coming soon)."
-            )
-            .setAuthor({
-                name: "Angry",
-                iconURL: angryIconCDN,
-                url: repoURL,
-            });
+            );
     }
 
-    const embed = new EmbedBuilder()
-        .setColor("Yellow")
-        .addFields({ name: "Gambling", value: `You gambled ${amount} angry coins` })
-        .setAuthor({
-            name: "Angry",
-            iconURL: angryIconCDN,
-            url: repoURL,
-        });
+    const embed = angryCoinEmbed().addFields({ name: "Gambling", value: `You gambled ${amount} angry coins` });
 
     let upperLimit = 1;
 
