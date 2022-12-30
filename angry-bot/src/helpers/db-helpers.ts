@@ -4,6 +4,7 @@ import { mongoUri } from "./environment";
 const { Schema, connect, model } = mongoose;
 
 export async function init() {
+    mongoose.set("strictQuery", true);
     await connect(mongoUri);
 }
 
