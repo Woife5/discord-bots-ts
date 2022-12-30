@@ -2,14 +2,12 @@ import { angryIconCDN, repoURL } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
     ChatInputCommandInteraction,
-    EmbedBuilder,
-    Message,
-    PermissionFlagsBits,
+    EmbedBuilder, PermissionFlagsBits,
     User as DiscordUser,
 } from "discord.js";
 import { adminId, clientId } from "helpers/environment";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
-import { CommandHandler, Role } from "shared/lib/commands/types.d";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const payout: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -20,7 +18,6 @@ export const payout: CommandHandler = {
         )
         .addUserOption(option => option.setName("user").setDescription("The user to distribute the coins to."))
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
-    role: Role.OWNER,
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const amountStr = interaction.options.getString("amount") ?? "";
         const amount = parseInt(amountStr, 10);
@@ -33,13 +30,6 @@ export const payout: CommandHandler = {
         }
 
         interaction.reply({ embeds: [await runCommand(user ?? interaction.user, amount, all)] });
-    },
-    executeMessage: async (message: Message, args: string[]): Promise<void> => {
-        const amount = parseInt(args[0] ?? "", 10);
-        const all = args[0] === "all";
-        const user = message.mentions.users.first();
-
-        message.reply({ embeds: [await runCommand(user ?? message.author, amount, all)] });
     },
 };
 

@@ -1,20 +1,12 @@
-import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, prefix, repoURL, version } from "@data";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const about: CommandHandler = {
     data: new SlashCommandBuilder().setName("about").setDescription("Get a list of commands and a short explanation."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        interaction.reply({ embeds: [runCommand()] });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [runCommand()] });
-    },
-};
-
-function runCommand() {
-    return new EmbedBuilder()
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
+        const embed = new EmbedBuilder()
         .setColor("#d94d26")
         .setTitle("About")
         .addFields([
@@ -32,4 +24,6 @@ function runCommand() {
         .setFooter({
             text: `Angry Bot v${version}`,
         });
-}
+        interaction.reply({ embeds: [embed] });
+    },
+};

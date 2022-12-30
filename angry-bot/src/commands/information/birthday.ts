@@ -1,16 +1,13 @@
-import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryBirthday } from "@data";
-import { daysUntil } from "shared/lib/utils/date.util";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { daysUntil } from "shared/lib/utils/date.util";
 
 export const birthday: CommandHandler = {
     data: new SlashCommandBuilder().setName("birthday").setDescription("Get the date of my birthday."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         interaction.reply({ embeds: [getEmbed()] });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [getEmbed()] });
     },
 };
 

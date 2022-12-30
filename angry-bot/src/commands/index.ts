@@ -1,24 +1,29 @@
+// administration
 export { announce } from "./administration/announce";
-export { censored } from "./administration/censored";
 export { censorship } from "./administration/censorship";
 export { bcchannel } from "./administration/bcchannel";
 
-export { about } from "./about";
-export { birthday } from "./birthday";
-export { emojicount } from "./emojicount";
-export { tarotreminder } from "./tarotreminder";
-export { help } from "./help";
-export { yesno } from "./yesno";
-export { bibleverse } from "./bibleverse";
-export { catgirl } from "./catgirl";
-export { catboy } from "./catboy";
-export { luhans } from "./luhans";
-export { stats } from "./stats";
-export { tarot } from "./tarot";
-export { topspammer } from "./topspammer";
-
+// angry-coin
 export { balance } from "./angry-coin/balance";
 export { gamble } from "./angry-coin/gamble";
 export { pay } from "./angry-coin/pay";
 export { buy } from "./angry-coin/buy";
 export { payout } from "./angry-coin/payout";
+
+// information
+export { about } from "./information/about";
+export { birthday } from "./information/birthday";
+export { censored } from "./information/censored";
+export { emojicount } from "./information/emojicount";
+export { help } from "./information/help";
+export { stats } from "./information/stats";
+export { topspammer } from "./information/topspammer";
+
+// no category
+export { bibleverse } from "./bibleverse";
+export { catboy } from "./catboy";
+export { catgirl } from "./catgirl";
+export { luhans } from "./luhans";
+export { tarot } from "./tarot";
+export { tarotreminder } from "./tarotreminder";
+export { yesno } from "./yesno";

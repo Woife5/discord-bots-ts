@@ -1,11 +1,11 @@
-import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { IBibleBook } from "./command-interfaces";
-import { incrementStatAndUser, Log } from "@helpers";
 import { bookNames } from "@data";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { incrementStatAndUser, Log } from "@helpers";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
-import { getRandomInt } from "shared/lib/utils/number.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { getRandomInt } from "shared/lib/utils/number.util";
+import { IBibleBook } from "./command-interfaces";
 
 const log = new Log("Bibleverse");
 
@@ -28,34 +28,21 @@ export const bibleverse: CommandHandler = {
         .addIntegerOption(option =>
             option.setName("verse").setDescription("The number of the verse.").setRequired(false)
         ),
-    executeInteraction: async (interaction: CommandInteraction) => {
-        const int_book = interaction.options.get("book")?.value as string | undefined;
-        const int_chapter = interaction.options.get("chapter")?.value as number | undefined;
-        const int_verse = interaction.options.get("verse")?.value as number | undefined;
+    executeInteraction: async (interaction: ChatInputCommandInteraction) => {
+        const int_book = interaction.options.getString("book");
+        const int_chapter = interaction.options.getNumber("chapter");
+        const int_verse = interaction.options.getNumber("verse");
 
         await interaction.reply({ embeds: [await runCommand(int_book, int_chapter, int_verse)] });
         await incrementStatAndUser("bibleverses-requested", interaction.user);
     },
-    executeMessage: async (message: Message, args: string[]) => {
-        const str_book = args[0]?.toLowerCase() as string | undefined;
-        const str_chapter = args[1]?.toLowerCase() as string | undefined;
-        const str_verse = args[2]?.toLowerCase() as string | undefined;
-        let int_chapter: number | undefined;
-        let int_verse: number | undefined;
-
-        if (str_chapter) {
-            int_chapter = parseInt(str_chapter);
-        }
-        if (str_verse) {
-            int_verse = parseInt(str_verse);
-        }
-
-        await message.reply({ embeds: [await runCommand(str_book, int_chapter, int_verse)] });
-        await incrementStatAndUser("bibleverses-requested", message.author);
-    },
 };
 
-async function runCommand(int_book?: string, int_chapter?: number, int_verse?: number): Promise<EmbedBuilder> {
+async function runCommand(
+    int_book: string | null,
+    int_chapter: number | null,
+    int_verse: number | null
+): Promise<EmbedBuilder> {
     // Check provided book
     let bookNumber: number;
     if (int_book) {

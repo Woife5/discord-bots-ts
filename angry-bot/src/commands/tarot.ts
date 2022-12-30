@@ -1,16 +1,16 @@
-import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
+import { angryEmojis, tarots } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { tarots, angryEmojis } from "@data";
 import { incrementStatAndUser } from "@helpers";
-import { promisify } from "util";
-import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { getUser, updateUser } from "helpers/user.util";
+import { CommandHandler } from "shared/lib/commands/types.d";
+import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
+import { promisify } from "util";
 const wait = promisify(setTimeout);
 
 export const tarot: CommandHandler = {
     data: new SlashCommandBuilder().setName("tarot").setDescription("Get your daily angry tarot reading."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const notAllowed = await isTarotAllowed(interaction.user);
         if (notAllowed) {
             await interaction.reply({
@@ -20,7 +20,7 @@ export const tarot: CommandHandler = {
             return;
         }
 
-        const embed = createEmbed();
+        const embed = defaultEmbed();
 
         const result = Math.floor(Math.random() * tarots.length);
 
@@ -34,31 +34,19 @@ export const tarot: CommandHandler = {
             await wait(500);
         }
 
-        await setFields(embed, result, interaction.user);
+        const streak = await updateUserAndGetStreak(interaction.user, result);
+        await setFields(embed, result, interaction.user, streak);
 
         await interaction.editReply({ embeds: [embed] });
         await incrementStatAndUser("tarots-read", interaction.user);
     },
-    executeMessage: async (message: Message): Promise<void> => {
-        const notAllowed = await isTarotAllowed(message.author);
-        if (notAllowed) {
-            message.reply({
-                content: notAllowed,
-            });
-            return;
-        }
+};
 
-        message.reply("Let me sense your angry...");
-        const embed = createEmbed();
-
-        const result = Math.floor(Math.random() * tarots.length);
-        await setFields(embed, result, message.author);
-
-        await wait(2000);
-
-        await message.reply({ embeds: [embed] });
-        await incrementStatAndUser("tarots-read", message.author);
-    },
+const defaultEmbed = () => {
+    return new EmbedBuilder().setColor("DarkRed").setFields({
+        name: "Angry Tarot",
+        value: "Let me sense your angry",
+    });
 };
 
 async function isTarotAllowed(user: DiscordUser): Promise<string | null> {
@@ -105,16 +93,7 @@ async function updateUserAndGetStreak(user: DiscordUser, tarotId: number): Promi
     return tarotStreak;
 }
 
-function createEmbed(): EmbedBuilder {
-    return new EmbedBuilder().setColor("DarkRed").setFields({
-        name: "Angry Tarot",
-        value: "Let me sense your angry",
-    });
-}
-
-async function setFields(embed: EmbedBuilder, tarotId: number, user: DiscordUser) {
-    const streak = await updateUserAndGetStreak(user, tarotId);
-
+async function setFields(embed: EmbedBuilder, tarotId: number, user: DiscordUser, streak: number) {
     embed.spliceFields(0, 1, {
         name: "Angry Tarot",
         value: `Your angry today is ${angryEmojis[tarotId]}`,

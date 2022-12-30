@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChatInputCommandInteraction, EmbedBuilder, Message, User } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, User } from "discord.js";
 import { getUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
@@ -11,11 +11,6 @@ export const balance: CommandHandler = {
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.options.getUser("user") ?? interaction.user;
         interaction.reply({ embeds: [await runCommand(user)], ephemeral: true });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        const user = message.mentions.users.first() ?? message.author;
-
-        message.reply({ embeds: [await runCommand(user)] });
     },
 };
 

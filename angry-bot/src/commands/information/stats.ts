@@ -1,16 +1,16 @@
-import { CommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { getStat, StatKeys } from "@helpers";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { getUser } from "helpers/user.util";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const stats: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("stats")
         .setDescription("Get stats for the server or about a specific user!")
         .addUserOption(option => option.setName("user").setDescription("The user to get stats for.")),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.options.getUser("user");
 
         let result: EmbedBuilder;
@@ -23,36 +23,22 @@ export const stats: CommandHandler = {
 
         await interaction.reply({ embeds: [result] });
     },
-    executeMessage: async (message: Message): Promise<void> => {
-        const user = message.mentions.users.first();
-
-        let result: EmbedBuilder;
-
-        if (user) {
-            result = await generateUserStatEmbed(user);
-        } else {
-            result = await generateStatEmbed();
-        }
-
-        await message.reply({ embeds: [result] });
-    },
 };
 
 async function generateUserStatEmbed(user: DiscordUser) {
-    const embed = getStatEmbed().setTitle(`${user.username}'s stats`);
+    const embed = defaultEmbed().setTitle(`${user.username}'s stats`);
 
     const userObj = await getUser(user.id);
 
     if (!userObj) {
-        embed.setDescription("No stats have been found for this user!");
-        return embed;
+        return embed.setDescription("No stats have been found for this user!");
     }
 
     const getStatFromUser = (key: StatKeys) => {
         return (userObj.stats[key] || 0).toLocaleString("de-AT");
     };
 
-    embed.addFields([
+    return embed.addFields([
         {
             name: "Tarots read",
             value: getStatFromUser("tarots-read"),
@@ -88,14 +74,10 @@ async function generateUserStatEmbed(user: DiscordUser) {
             value: getStatFromUser("money-lost-in-gambling"),
         },
     ]);
-
-    return embed;
 }
 
 async function generateStatEmbed() {
-    const embed = getStatEmbed();
-
-    embed.addFields([
+    return defaultEmbed().addFields([
         {
             name: "Total angry reactions",
             value: (await getStat("angry-reactions")).toLocaleString("de-AT"),
@@ -137,14 +119,11 @@ async function generateStatEmbed() {
             value: (await getStat("money-lost-in-gambling")).toLocaleString("de-AT"),
         },
     ]);
-
-    return embed;
 }
 
-function getStatEmbed() {
-    return new EmbedBuilder().setTitle("Server stats").setColor("Gold").setAuthor({
+const defaultEmbed = () =>
+    new EmbedBuilder().setTitle("Server stats").setColor("Gold").setAuthor({
         name: "Angry Bot",
         iconURL: angryIconCDN,
         url: repoURL,
     });
-}

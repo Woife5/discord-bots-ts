@@ -1,7 +1,7 @@
-import type { CommandInteraction, Message, User } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { ChatInputCommandInteraction, EmbedBuilder, User } from "discord.js";
 import { updateUser } from "helpers/user.util";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const tarotreminder: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -14,35 +14,25 @@ export const tarotreminder: CommandHandler = {
                 .setRequired(true)
                 .addChoices({ name: "Enable", value: "enable" }, { name: "Disable", value: "disable" })
         ),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        const subcommand = (interaction.options.get("action")?.value as "enable" | "disable") ?? "enable";
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
+        const action = interaction.options.getString("action") as "enable" | "disable";
 
-        await updateReminder(interaction.user, subcommand);
-        if (subcommand === "enable") {
-            interaction.reply("Tarot reminder enabled!");
+        await updateReminder(interaction.user, action);
+        if (action === "enable") {
+            interaction.reply({ embeds: [embed().setDescription("Tarot reminder enabled!")] });
         } else {
-            interaction.reply("Tarot reminder disabled!");
+            interaction.reply({ embeds: [embed().setDescription("Tarot reminder disabled!")] });
         }
-    },
-    executeMessage: async (message: Message, args: string[]): Promise<void> => {
-        if (args.length === 0) {
-            message.reply("No arguments provided!");
-            return;
-        }
-
-        if (args[0] === "enable" || args[0] === "disable") {
-            await updateReminder(message.author, args[0]);
-            message.reply(`Tarot reminder ${args[0]}d`);
-            return;
-        }
-
-        message.reply("Invalid argument!");
     },
 };
 
-async function updateReminder(user: User, subcommand: "enable" | "disable") {
+const embed = () => {
+    return new EmbedBuilder().setColor("DarkRed");
+};
+
+async function updateReminder(user: User, action: "enable" | "disable") {
     await updateUser(user.id, {
         userName: user.username,
-        tarotreminder: subcommand === "enable",
+        tarotreminder: action === "enable",
     });
 }

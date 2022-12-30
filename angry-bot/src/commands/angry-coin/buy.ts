@@ -9,7 +9,6 @@ import {
     ChatInputCommandInteraction,
     ComponentType,
     EmbedBuilder,
-    Message,
 } from "discord.js";
 import { clientId } from "helpers/environment";
 import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";
@@ -96,11 +95,6 @@ export const buy: CommandHandler = {
         if (isCensorshipItem(shopItem.name)) {
             await censorshipPurchase(interaction, shopItem);
         }
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({
-            embeds: [defaultEmbed().setDescription("Please use slash commands to access the angry shop 🤮🤮🤮")],
-        });
     },
 };
 

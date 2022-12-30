@@ -1,9 +1,9 @@
-import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { IYesNo } from "./command-interfaces";
 import { incrementStatAndUser } from "@helpers";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { IYesNo } from "./command-interfaces";
 
 export const yesno: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -12,14 +12,10 @@ export const yesno: CommandHandler = {
         .addStringOption(option =>
             option.setName("question").setDescription("Your question to the angry-oracle").setRequired(true)
         ),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const question: string = (interaction.options.get("question")?.value as string) ?? "";
         interaction.reply({ embeds: [await runCommand(question)] });
         incrementStatAndUser("yesno-questions", interaction.user);
-    },
-    executeMessage: async (message: Message, args: string[]): Promise<void> => {
-        message.reply({ embeds: [await runCommand(args.join(" "))] });
-        incrementStatAndUser("yesno-questions", message.author);
     },
 };
 

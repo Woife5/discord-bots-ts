@@ -1,8 +1,8 @@
-import { Message, EmbedBuilder, PermissionFlagsBits, ChatInputCommandInteraction, ChannelType } from "discord.js";
+import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildSettingsCache } from "@helpers";
-import { CommandHandler, Role } from "shared/lib/commands/types.d";
-import { version } from "@data";
+import { ChannelType, ChatInputCommandInteraction, EmbedBuilder, PermissionFlagsBits } from "discord.js";
+import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const bcchannel: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -12,7 +12,6 @@ export const bcchannel: CommandHandler = {
         .addChannelOption(option =>
             option.setName("channel").setDescription("The channel to broadcast to.").setRequired(true)
         ),
-    role: Role.ADMIN,
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const channel = interaction.options.getChannel("channel", true);
 
@@ -23,9 +22,6 @@ export const bcchannel: CommandHandler = {
         }
 
         interaction.reply({ embeds: [await runCommand(interaction.guildId, channel.id)] });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [await runCommand(message.guildId, message.channelId)] });
     },
 };
 
@@ -44,6 +40,5 @@ async function runCommand(guildId: string | null, channelId: string) {
     }
 
     await GuildSettingsCache.set(guildId, { guildId, broadcastChannelId: channelId });
-
     return embed().setDescription("The broadcast channel has been updated for the current guild.");
 }

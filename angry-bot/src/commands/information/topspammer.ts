@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChatInputCommandInteraction, EmbedBuilder, Message } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { getTopSpammers } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
@@ -9,9 +9,6 @@ export const topspammer: CommandHandler = {
         .setDescription("Get a list of the global top 5 angry spammers."),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         interaction.reply({ embeds: [await runCommand()] });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [await runCommand()] });
     },
 };
 

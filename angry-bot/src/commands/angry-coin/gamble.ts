@@ -1,11 +1,11 @@
-import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryIconCDN, repoURL } from "@data";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
-import { getRandomInt } from "shared/lib/utils/number.util";
+import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
+import { clientId } from "helpers/environment";
 import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
-import { clientId } from "helpers/environment";
+import { getRandomInt } from "shared/lib/utils/number.util";
 
 export const gamble: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -24,12 +24,6 @@ export const gamble: CommandHandler = {
         const all = amountStr === "all";
 
         interaction.reply({ embeds: [await runCommand(interaction.user, amount, all)] });
-    },
-    executeMessage: async (message: Message, args: string[]): Promise<void> => {
-        const amount = parseInt(args[0] ?? "", 10);
-        const all = args[0] === "all";
-
-        message.reply({ embeds: [await runCommand(message.author, amount, all)] });
     },
 };
 
