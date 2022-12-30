@@ -2,7 +2,7 @@ import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { APIEmbedField, ChatInputCommandInteraction, EmbedBuilder, Guild, User } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
-import * as Commands from "..";
+import * as Commands from "../command-handlers";
 
 export const help: CommandHandler = {
     data: new SlashCommandBuilder().setName("help").setDescription("Get a list of commands and a short explanation."),

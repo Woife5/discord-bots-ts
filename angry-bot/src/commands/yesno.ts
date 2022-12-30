@@ -3,7 +3,12 @@ import { incrementStatAndUser } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
 import { CommandHandler } from "shared/lib/commands/types.d";
-import { IYesNo } from "./command-interfaces";
+
+type ApiResponse = {
+    answer: "yes" | "no" | "maybe";
+    forced: boolean;
+    image: string;
+};
 
 export const yesno: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -21,7 +26,7 @@ export const yesno: CommandHandler = {
 
 async function runCommand(question: string) {
     const res = await fetch("https://yesno.wtf/api");
-    const result = (await res.json()) as IYesNo;
+    const result = (await res.json()) as ApiResponse;
 
     if (!question) {
         question = "Ehm how?";

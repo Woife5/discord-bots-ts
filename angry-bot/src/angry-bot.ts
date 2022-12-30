@@ -8,7 +8,7 @@ import { CommandHandler } from "shared/lib/commands/types.d";
 import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";
 import { registerApplicationCommands } from "shared/lib/plugins/register-commands";
 import { runDaily } from "shared/lib/plugins/run-fixed";
-import * as Commands from "./commands";
+import * as Commands from "./commands/command-handlers";
 import { Censorship, Emojicounter, FeetHandler, MediaHandler, Reactor, Tarotreminder, Taxation } from "./plugins";
 
 let log: Log | undefined;

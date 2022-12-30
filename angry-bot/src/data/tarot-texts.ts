@@ -1,7 +1,9 @@
-/* eslint-disable max-len */
-import { ITarot } from "../commands/command-interfaces";
+type Tarot = {
+    text: string;
+    media?: string;
+};
 
-export const tarots: ITarot[] = [
+export const tarots: Tarot[] = [
     {
         text: "She is the first Angry and witness of creation. Remember also the :angry1: in your life. A mentor, a mother, a higher power. Let her guide you so that you too can become an :angry1:.",
     },

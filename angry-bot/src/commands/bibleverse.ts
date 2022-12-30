@@ -5,7 +5,26 @@ import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import { getRandomInt } from "shared/lib/utils/number.util";
-import { IBibleBook } from "./command-interfaces";
+
+type BibleVerse = {
+    chapter: number;
+    verse: number;
+    name: string;
+    text: string;
+};
+
+type BibleChapter = {
+    chapter: number;
+    name: string;
+    verses: BibleVerse[];
+};
+
+type BibleBook = {
+    encoding: "UTF-8";
+    nr: number;
+    name: string;
+    chapters: BibleChapter[];
+};
 
 const log = new Log("Bibleverse");
 
@@ -67,10 +86,10 @@ async function runCommand(
     // end of book check
 
     // Download provided book
-    let book: IBibleBook;
+    let book: BibleBook;
     try {
         const response = await fetch(`${bibleAPI}${bookNumber}.json`);
-        book = (await response.json()) as IBibleBook;
+        book = (await response.json()) as BibleBook;
     } catch (error) {
         log.error(error);
         return new EmbedBuilder().setTitle("Error while downloading the bible!");

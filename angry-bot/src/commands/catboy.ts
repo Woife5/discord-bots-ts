@@ -3,10 +3,22 @@ import { incrementStatAndUser } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
 import { CommandHandler } from "shared/lib/commands/types.d";
-import { ICatboyPhraseResponse, ICatboyResponse } from "./command-interfaces";
 
 const randomUrl = "https://api.catboys.com/img ";
 const phraseUrl = "https://api.catboys.com/catboy";
+
+type CatboyPhraseResponse = {
+    response: string;
+    error: string;
+};
+
+type CatboyResponse = {
+    url: string;
+    artist: string;
+    artist_url: string;
+    source_url: string;
+    error: string;
+};
 
 export const catboy: CommandHandler = {
     data: new SlashCommandBuilder().setName("catboy").setDescription("Get a random catboy image."),
@@ -19,10 +31,10 @@ export const catboy: CommandHandler = {
 async function runCommand() {
     // load result from api and parse response
     const res = await fetch(randomUrl);
-    const result = (await res.json()) as ICatboyResponse;
+    const result = (await res.json()) as CatboyResponse;
 
     const phrase = await fetch(phraseUrl);
-    const catboyPhrase = (await phrase.json()) as ICatboyPhraseResponse;
+    const catboyPhrase = (await phrase.json()) as CatboyPhraseResponse;
 
     // send answer
     return new EmbedBuilder()
