@@ -1,17 +1,15 @@
 /* eslint-disable no-console */
-import { ChatInputCommandInteraction, Client, Collection, Message } from "discord.js";
+import { version } from "@data";
 import { init, Log } from "@helpers";
-import { prefix, version } from "@data";
-import { Censorship, Tarotreminder, Emojicounter, Reactor, FeetHandler, MediaHandler, Taxation } from "./plugins";
-import * as Commands from "./commands";
-import { registerApplicationCommands } from "shared/lib/plugins/register-commands";
 import { GatewayIntentBits } from "discord-api-types/v10";
-import { getUserRole } from "helpers/user.util";
-import { startsWith } from "shared/lib/utils/message.util";
-import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { CommandHandler } from "shared/lib/commands/types.d";
-import { runDaily } from "shared/lib/plugins/run-fixed";
+import { Client, Collection, Message } from "discord.js";
 import { clientId, token } from "helpers/environment";
+import { CommandHandler } from "shared/lib/commands/types.d";
+import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";
+import { registerApplicationCommands } from "shared/lib/plugins/register-commands";
+import { runDaily } from "shared/lib/plugins/run-fixed";
+import * as Commands from "./commands/command-handlers";
+import { Censorship, Emojicounter, FeetHandler, MediaHandler, Reactor, Tarotreminder, Taxation } from "./plugins";
 
 let log: Log | undefined;
 
@@ -46,7 +44,7 @@ const client = new Client({
 
 const commands = new Collection<string, CommandHandler>();
 
-// Set message commands
+// Set commands
 Object.values(Commands).forEach(command => {
     commands.set(command.data.name, command);
 });
@@ -73,7 +71,7 @@ client.on("ready", async () => {
 });
 
 client.on("interactionCreate", async interaction => {
-    if (!interaction.isCommand()) {
+    if (!interaction.isChatInputCommand()) {
         return;
     }
 
@@ -83,48 +81,13 @@ client.on("interactionCreate", async interaction => {
     }
 
     try {
-        await commands.get(interaction.commandName)?.executeInteraction(interaction as ChatInputCommandInteraction);
+        await commands.get(interaction.commandName)?.executeInteraction(interaction);
     } catch (error) {
         log?.error(error, "interactionCreate");
         interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
         return;
     }
 });
-
-const handleCommands = async (message: Message): Promise<PluginReturnCode> => {
-    if (!startsWith(message, prefix)) {
-        return "CONTINUE";
-    }
-
-    message.reply(
-        "Using message commands will be disabled soon. Discord does not like bots using message commands. Please use slash commands instead."
-    );
-
-    const args = message.cleanContent.slice(prefix.length).trim().split(/ +/);
-    const command = args.shift()?.toLowerCase() || "help";
-
-    if (!commands.has(command)) {
-        await message.reply("That is not a command i know of 🥴");
-        return "ABORT";
-    }
-
-    try {
-        const commandRef = commands.get(command);
-        if (!commandRef || !message.guild) {
-            throw new Error();
-        }
-        const userRole = await getUserRole(message.author, message.guild);
-        if (commandRef.role && userRole < commandRef.role) {
-            await message.reply("You don't have the required role to use this command! 🥴");
-        } else {
-            await commandRef.executeMessage(message, args);
-        }
-    } catch (error) {
-        await message.reply("An error occured 🥴");
-    }
-
-    return "ABORT";
-};
 
 const isApplicable = async (message: Message): Promise<PluginReturnCode> => {
     if (message.author.id === client.user?.id || message.author.bot) {
@@ -138,7 +101,6 @@ client.on("messageCreate", async message => {
     await msg.applyPlugin(isApplicable);
 
     await msg.applyPlugin(FeetHandler.handleFeetChannelMessage);
-    await msg.applyPlugin(handleCommands);
     await msg.applyPlugin(Censorship.censor);
     await msg.applyPlugin(Emojicounter.count);
     await msg.applyPlugin(MediaHandler.react);

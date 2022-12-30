@@ -1,9 +1,14 @@
-import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { IYesNo } from "./command-interfaces";
 import { incrementStatAndUser } from "@helpers";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
 import { CommandHandler } from "shared/lib/commands/types.d";
+
+type ApiResponse = {
+    answer: "yes" | "no" | "maybe";
+    forced: boolean;
+    image: string;
+};
 
 export const yesno: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -12,20 +17,16 @@ export const yesno: CommandHandler = {
         .addStringOption(option =>
             option.setName("question").setDescription("Your question to the angry-oracle").setRequired(true)
         ),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
-        const question: string = (interaction.options.get("question")?.value as string) ?? "";
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
+        const question = interaction.options.getString("question", true);
         interaction.reply({ embeds: [await runCommand(question)] });
         incrementStatAndUser("yesno-questions", interaction.user);
-    },
-    executeMessage: async (message: Message, args: string[]): Promise<void> => {
-        message.reply({ embeds: [await runCommand(args.join(" "))] });
-        incrementStatAndUser("yesno-questions", message.author);
     },
 };
 
 async function runCommand(question: string) {
     const res = await fetch("https://yesno.wtf/api");
-    const result = (await res.json()) as IYesNo;
+    const result = (await res.json()) as ApiResponse;
 
     if (!question) {
         question = "Ehm how?";

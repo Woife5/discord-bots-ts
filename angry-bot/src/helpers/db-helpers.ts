@@ -1,9 +1,10 @@
-import mongoose, { HydratedDocument } from "mongoose";
 import { User as DiscordUser } from "discord.js";
+import mongoose, { HydratedDocument } from "mongoose";
 import { mongoUri } from "./environment";
 const { Schema, connect, model } = mongoose;
 
 export async function init() {
+    mongoose.set("strictQuery", true);
     await connect(mongoUri);
 }
 
@@ -95,92 +96,6 @@ const userSchema = new Schema<IUser>({
 });
 
 export const User = model<IUser>("User", userSchema);
-
-// --------------------------------------------------------
-// CONFIG SCHEMA - no longer used
-// --------------------------------------------------------
-
-/**
- * @deprecated
- */
-type ConfigType = {
-    key: "censored" | "feet-related";
-    value: Map<string, string>;
-};
-
-/**
- * @deprecated
- */
-type ConfigKeys = ConfigType["key"];
-
-/**
- * @deprecated
- */
-const configSchema = new Schema<ConfigType>({
-    key: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
-    },
-    value: {
-        type: Schema.Types.Map,
-        required: true,
-    },
-});
-
-/**
- * @deprecated
- */
-const ConfigDB = model<ConfigType>("Config", configSchema);
-
-/**
- * @deprecated
- */
-type ConfigCacheEntry = {
-    config: ConfigType;
-    expires: number;
-};
-
-/**
- * @deprecated
- */
-export class ConfigCache {
-    private static _cache = new Map<ConfigKeys, ConfigCacheEntry>();
-
-    static async get(key: ConfigKeys) {
-        const entry = this._cache.get(key);
-        if (!entry || entry.expires < Date.now()) {
-            const config = await ConfigDB.findOne({ key }).exec();
-
-            if (!config) {
-                return null;
-            }
-
-            this._cache.set(key, {
-                config: config,
-                expires: Date.now() + 999 * 60 * 10,
-            });
-
-            return config.value;
-        }
-
-        return entry.config.value;
-    }
-
-    static async set(config: ConfigType) {
-        this._cache.set(config.key, {
-            config: config,
-            expires: Date.now() + 999 * 60 * 10,
-        });
-
-        return await ConfigDB.updateOne(
-            { key: config.key },
-            { $set: { value: config.value } },
-            { upsert: true }
-        ).exec();
-    }
-}
 
 // --------------------------------------------------------
 // CENSORED SCHEMA
@@ -408,6 +323,7 @@ export const LogDB = model<ILog>("Log", logSchema);
 export interface IGuildSettings {
     guildId: string;
     broadcastChannelId: string;
+    adminRoleId: string;
 }
 
 const guildSettingsSchema = new Schema<IGuildSettings>({
@@ -417,6 +333,10 @@ const guildSettingsSchema = new Schema<IGuildSettings>({
         unique: true,
     },
     broadcastChannelId: {
+        type: String,
+        required: false,
+    },
+    adminRoleId: {
         type: String,
         required: false,
     },

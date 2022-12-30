@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChatInputCommandInteraction, EmbedBuilder, Message, User } from "discord.js";
+import { angryCoinEmbed } from "commands/embeds";
+import { ChatInputCommandInteraction, User } from "discord.js";
 import { getUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
@@ -12,18 +13,12 @@ export const balance: CommandHandler = {
         const user = interaction.options.getUser("user") ?? interaction.user;
         interaction.reply({ embeds: [await runCommand(user)], ephemeral: true });
     },
-    executeMessage: async (message: Message): Promise<void> => {
-        const user = message.mentions.users.first() ?? message.author;
-
-        message.reply({ embeds: [await runCommand(user)] });
-    },
 };
 
 async function runCommand(user: User) {
     const userBalance = await getUserBalance(user.id);
 
-    return new EmbedBuilder()
-        .setColor("Yellow")
+    return angryCoinEmbed()
         .setTitle("Current Balance")
         .setDescription(`${user.username}'s current balance is: **${userBalance}** angry coins.`);
 }

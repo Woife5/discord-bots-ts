@@ -1,16 +1,14 @@
-import { CommandInteraction, Message, EmbedBuilder } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryBirthday } from "@data";
-import { daysUntil } from "shared/lib/utils/date.util";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { infoEmbed } from "commands/embeds";
+import { ChatInputCommandInteraction } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { daysUntil } from "shared/lib/utils/date.util";
 
 export const birthday: CommandHandler = {
     data: new SlashCommandBuilder().setName("birthday").setDescription("Get the date of my birthday."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         interaction.reply({ embeds: [getEmbed()] });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [getEmbed()] });
     },
 };
 
@@ -21,17 +19,11 @@ function getEmbed() {
         nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
     }
 
-    return new EmbedBuilder()
-        .setColor("#d94d26")
+    return infoEmbed()
         .setTitle("MY BIRTHDAY")
         .setDescription(
             `My birthday is on ${angryBirthday.toLocaleDateString("de-AT")}, in ${Math.round(
                 daysUntil(nextBirthday)
             )} days.`
-        )
-        .setAuthor({
-            name: "Angry",
-            iconURL: "https://cdn.discordapp.com/attachments/314440449731592192/912125148474245221/angry.png",
-            url: "https://github.com/Woife5/angrier-bot",
-        });
+        );
 }

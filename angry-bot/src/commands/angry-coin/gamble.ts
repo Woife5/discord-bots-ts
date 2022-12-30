@@ -1,11 +1,11 @@
-import { ChatInputCommandInteraction, Message, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { angryIconCDN, repoURL } from "@data";
 import { incrementStatAndUser } from "@helpers";
-import { getRandomInt } from "shared/lib/utils/number.util";
+import { angryCoinEmbed } from "commands/embeds";
+import { ChatInputCommandInteraction, User as DiscordUser } from "discord.js";
+import { clientId } from "helpers/environment";
 import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
-import { clientId } from "helpers/environment";
+import { getRandomInt } from "shared/lib/utils/number.util";
 
 export const gamble: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -25,12 +25,6 @@ export const gamble: CommandHandler = {
 
         interaction.reply({ embeds: [await runCommand(interaction.user, amount, all)] });
     },
-    executeMessage: async (message: Message, args: string[]): Promise<void> => {
-        const amount = parseInt(args[0] ?? "", 10);
-        const all = args[0] === "all";
-
-        message.reply({ embeds: [await runCommand(message.author, amount, all)] });
-    },
 };
 
 async function runCommand(user: DiscordUser, amount: number, all: boolean) {
@@ -41,27 +35,14 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
     }
 
     if (isNaN(amount) || amount <= 0 || amount > userBalance) {
-        return new EmbedBuilder()
-            .setColor("Red")
+        return angryCoinEmbed()
             .setTitle("Gamble")
             .setDescription(
                 "Invalid amount! You have to gamble a positive amount of coins that you own (debt maybe coming soon)."
-            )
-            .setAuthor({
-                name: "Angry",
-                iconURL: angryIconCDN,
-                url: repoURL,
-            });
+            );
     }
 
-    const embed = new EmbedBuilder()
-        .setColor("Yellow")
-        .addFields({ name: "Gambling", value: `You gambled ${amount} angry coins` })
-        .setAuthor({
-            name: "Angry",
-            iconURL: angryIconCDN,
-            url: repoURL,
-        });
+    const embed = angryCoinEmbed().addFields({ name: "Gambling", value: `You gambled ${amount} angry coins` });
 
     let upperLimit = 1;
 

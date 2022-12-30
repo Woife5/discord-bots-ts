@@ -8,8 +8,6 @@ export const uncensorable = [
     /^.?thomas förg.?$/,
     /^.?thomas foerg.?$/,
     /^: {0,2}\($/,
-    /^.?angry.?$/,
-    /^:angry32:$/,
     /^(((<?:)?a)?n)?gry[0-9]?$/, //prevent censoring all or multible angrys at once
     /^<?:[^:]{0,5}$/, //hopefully prevet abusing <:emoji and :emoji style expressions 
     /^🤮$/,

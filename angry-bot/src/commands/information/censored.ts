@@ -1,21 +1,19 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CensorshipUtil } from "@helpers";
-import { CommandInteraction, EmbedBuilder, Message } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { getUser } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
+import { infoEmbedColor } from "../embeds";
 
 export const censored: CommandHandler = {
     data: new SlashCommandBuilder().setName("censored").setDescription("Get a list of censored strings."),
-    executeInteraction: async (interaction: CommandInteraction): Promise<void> => {
+    executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         interaction.reply({ embeds: [await getCensoredEmbed()] });
-    },
-    executeMessage: async (message: Message): Promise<void> => {
-        message.reply({ embeds: [await getCensoredEmbed()] });
     },
 };
 
 const defaultEmbed = () => {
-    return new EmbedBuilder().setColor("#d94d26").setTitle("No consored strings found!");
+    return new EmbedBuilder().setColor(infoEmbedColor).setTitle("No consored strings found!");
 };
 
 export async function getCensoredEmbed() {

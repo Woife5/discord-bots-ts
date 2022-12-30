@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChatInputCommandInteraction, EmbedBuilder, Message, User as DiscordUser } from "discord.js";
+import { angryCoinEmbed } from "commands/embeds";
+import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
@@ -22,18 +23,6 @@ export const pay: CommandHandler = {
 
         interaction.reply({ embeds: [await runCommand(from, to, amount)] });
     },
-    executeMessage: async (message: Message, args: string[]): Promise<void> => {
-        const from = message.author;
-        const to = message.mentions.users.first();
-        const amount = parseInt(args[1]);
-
-        if (!to || amount == undefined) {
-            await message.reply("Invalid arguments.");
-            return;
-        }
-
-        message.reply({ embeds: [await runCommand(from, to, amount)] });
-    },
 };
 
 async function runCommand(from: DiscordUser, to: DiscordUser, amount: number) {
@@ -41,10 +30,10 @@ async function runCommand(from: DiscordUser, to: DiscordUser, amount: number) {
         return new EmbedBuilder().setColor("#ff4dde").setTitle("Haha, no.");
     }
 
-    const embed = new EmbedBuilder().setTitle("Pay").setColor("Yellow");
+    const embed = angryCoinEmbed().setTitle("Pay");
 
     if ((await getUserBalance(from.id)) < amount) {
-        return embed.setColor("Red").setDescription("You don't have enough angry coins to pay that amount.");
+        return embed.setDescription("You don't have enough angry coins to pay that amount.");
     }
 
     await updateUserBalance({ userId: from.id, amount: -amount, username: from.username });
