@@ -1,4 +1,5 @@
 // administration
+export { adminrole } from "./administration/adminrole";
 export { announce } from "./administration/announce";
 export { censorship } from "./administration/censorship";
 export { bcchannel } from "./administration/bcchannel";
