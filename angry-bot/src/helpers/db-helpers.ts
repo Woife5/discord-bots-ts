@@ -17,6 +17,7 @@ export async function createUserSimple(id: string, name: string): Promise<Hydrat
         userId: id,
         userName: name,
         emojis: {},
+        stickers: {},
         stats: {},
         powers: {},
     });
@@ -39,6 +40,9 @@ export interface IUser {
         [key in StatKeys]: number;
     };
     emojis: {
+        [key: string]: number;
+    };
+    stickers: {
         [key: string]: number;
     };
     angryCoins: number;
@@ -78,6 +82,10 @@ const userSchema = new Schema<IUser>({
         default: {},
     },
     emojis: {
+        type: Schema.Types.Mixed,
+        default: {},
+    },
+    stickers: {
         type: Schema.Types.Mixed,
         default: {},
     },
@@ -207,6 +215,7 @@ export type StatsType =
               | "catboys-requested"
               | "bibleverses-requested"
               | "total-angry-emojis-sent"
+              | "total-angry-stickers-sent"
               | "money-lost-in-gambling"
               | "money-won-in-gambling";
           value: number;

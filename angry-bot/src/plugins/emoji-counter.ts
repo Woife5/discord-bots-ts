@@ -1,31 +1,26 @@
-import { Message } from "discord.js";
 import { Stats } from "@helpers";
+import { Message } from "discord.js";
+import { getUser, getUserActionCache, getUserBalance, updateUser, updateUserActionCache } from "helpers/user.util";
 import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { getUser, getUserActionCache, updateUser, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 import { deepCopy } from "shared/lib/utils/object.util";
+
+const emojiRegex = new RegExp("<:angry([0-9]{1,3}):[0-9]+>", "g");
 
 export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
-    const regex = new RegExp("<:angry([0-9]{1,3}):[0-9]+>", "g");
-    const matches = Array.from(message.cleanContent.matchAll(regex), m => m[1]);
+    const matches = Array.from(message.cleanContent.matchAll(emojiRegex), m => m[1]);
+
+    // Get a list of all the stickers sent
+    const stickerList = Array.from(message.stickers.values())
+        .filter(s => s.name.toLowerCase().includes("angry"))
+        .map(s => s.name);
 
     const userId = message.author.id;
+    const user = await getUser(userId);
 
     // Give the user a max of 100 coins per day for every emoji sent
-    const userCache = getUserActionCache(userId);
-    if (userCache) {
-        let cashEarned = matches.length;
-        const total = userCache.emojiCash + matches.length;
-        if (total > 100) {
-            cashEarned = 100 - userCache.emojiCash;
-        }
-        if (cashEarned > 0) {
-            await updateUserBalance({ userId, amount: cashEarned });
-        }
-    } else {
-        const emojiCount = matches.length > 100 ? 100 : matches.length;
-        await updateUserBalance({ userId, amount: emojiCount });
-    }
+    // Additionally every sticker sent will grant 1 coin
+    const moneyEarned = getMoneyEarned(userId, matches.length) + stickerList.length;
     updateUserActionCache(userId, { emojiCash: matches.length });
 
     await Stats.findOneAndUpdate(
@@ -34,21 +29,58 @@ export async function count(message: Message): Promise<PluginReturnCode> {
         { upsert: true, new: true }
     ).exec();
 
+    await Stats.findOneAndUpdate(
+        { key: "total-angry-stickers-sent" },
+        { $inc: { value: stickerList.length } },
+        { upsert: true, new: true }
+    ).exec();
+
     const emojis = matches.reduce((acc, emojiId) => {
         acc[emojiId] = (acc[emojiId] ?? 0) + 1;
         return acc;
     }, {} as { [key: string]: number });
 
-    const userEmojis = deepCopy((await getUser(userId))?.emojis ?? {});
+    const stickers = stickerList.reduce((acc, stickerName) => {
+        acc[stickerName] = (acc[stickerName] ?? 0) + 1;
+        return acc;
+    }, {} as { [key: string]: number });
+
+    const userEmojis = deepCopy(user?.emojis ?? {});
+    const userStickers = deepCopy(user?.stickers ?? {});
 
     for (const [emojiId, count1] of Object.entries(emojis)) {
         userEmojis[emojiId] = (userEmojis[emojiId] ?? 0) + count1;
     }
 
+    for (const [stickerName, count2] of Object.entries(stickers)) {
+        userStickers[stickerName] = (userStickers[stickerName] ?? 0) + count2;
+    }
+
+    const initialBalance = user?.angryCoins ?? 0;
     await updateUser(userId, {
         userName: message.author.username,
         emojis: userEmojis,
+        stickers: userStickers,
+        angryCoins: initialBalance + moneyEarned,
     });
 
     return "CONTINUE";
+}
+
+function getMoneyEarned(userId: string, emojisSent: number): number {
+    const userCache = getUserActionCache(userId);
+    if (!userCache) {
+        const emojiCount = emojisSent > 100 ? 100 : emojisSent;
+        return emojiCount;
+    }
+
+    let cashEarned = emojisSent;
+    const total = userCache.emojiCash + emojisSent;
+    if (total > 100) {
+        cashEarned = 100 - userCache.emojiCash;
+    }
+    if (cashEarned > 0) {
+        return cashEarned;
+    }
+    return 0;
 }

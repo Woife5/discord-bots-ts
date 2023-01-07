@@ -50,6 +50,12 @@ async function generateUserStatEmbed(user: DiscordUser) {
                 .toLocaleString("de-AT"),
         },
         {
+            name: "Total Angry stickers sent",
+            value: Object.values(userObj.stickers)
+                .reduce((a, b) => a + b, 0)
+                .toLocaleString("de-AT"),
+        },
+        {
             name: "Questions asked",
             value: getStatFromUser("yesno-questions"),
         },
@@ -87,6 +93,10 @@ async function generateStatEmbed() {
             {
                 name: "Total angry emojis sent",
                 value: (await getStat("total-angry-emojis-sent")).toLocaleString("de-AT"),
+            },
+            {
+                name: "Total angry stickers sent",
+                value: (await getStat("total-angry-stickers-sent")).toLocaleString("de-AT"),
             },
             {
                 name: "Total tarots read",
