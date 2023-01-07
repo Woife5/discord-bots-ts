@@ -1,6 +1,6 @@
 import { Stats } from "@helpers";
 import { Message } from "discord.js";
-import { getUser, getUserActionCache, getUserBalance, updateUser, updateUserActionCache } from "helpers/user.util";
+import { getUser, getUserActionCache, updateUser, updateUserActionCache } from "helpers/user.util";
 import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
 import { deepCopy } from "shared/lib/utils/object.util";
 
