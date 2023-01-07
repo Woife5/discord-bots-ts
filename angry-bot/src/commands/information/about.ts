@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { GuildSettingsCache } from "@helpers";
 import { infoEmbed } from "commands/embeds";
-import { ChatInputCommandInteraction, User as DiscordUser } from "discord.js";
-import { getUser } from "helpers/user.util";
+import { ChatInputCommandInteraction, Guild, User as DiscordUser } from "discord.js";
+import { getUser, getUserActionCache } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 
 export const about: CommandHandler = {
@@ -12,7 +13,11 @@ export const about: CommandHandler = {
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.options.getUser("user");
         if (!user) {
-            interaction.reply({ embeds: [aboutBot()] });
+            if (interaction.guild) {
+                interaction.reply({ embeds: [await aboutGuild(interaction.guild)] });
+            } else {
+                interaction.reply({ embeds: [aboutBot()] });
+            }
         } else {
             interaction.reply({ embeds: [await aboutUser(user)], ephemeral: true });
         }
@@ -40,6 +45,27 @@ async function aboutUser(discordUser: DiscordUser) {
         });
     }
 
+    const userCache = getUserActionCache(discordUser.id);
+    if (userCache != undefined) {
+        const cash = Math.min(100, userCache.emojiCash ?? 0);
+        embed.addFields({
+            name: "Emoji cash",
+            value: `${100 - cash} more money can be earned by spamming emojis today.`,
+        });
+
+        embed.addFields({
+            name: "Feet cash",
+            value: userCache.feetCash
+                ? "No more cache availabe for sending feetpics/feetvids."
+                : "Feet cash is still available today!",
+        });
+    } else {
+        embed.addFields({
+            name: "Daily actions",
+            value: "All daily actions to gain cash are still available!",
+        });
+    }
+
     return embed;
 }
 
@@ -50,4 +76,29 @@ function aboutBot() {
             value: "I **only** use slash commands now. Just browse them by typing `/`.",
         },
     ]);
+}
+
+async function aboutGuild(guild: Guild) {
+    const guildSettings = await GuildSettingsCache.get(guild.id);
+
+    if (!guildSettings) {
+        return aboutBot();
+    }
+
+    return infoEmbed()
+        .setDescription(`Settings for **${guild.name}**:`)
+        .addFields([
+            {
+                name: "Admin role",
+                value: guildSettings.adminRoleId
+                    ? `<@&${guildSettings.adminRoleId}>`
+                    : "Set up an adminrole with `/adminrole`.",
+            },
+            {
+                name: "Broadcast channel",
+                value: guildSettings.broadcastChannelId
+                    ? `<#${guildSettings.broadcastChannelId}>`
+                    : "Set up a broadcast channel with `/bcchannel`.",
+            },
+        ]);
 }

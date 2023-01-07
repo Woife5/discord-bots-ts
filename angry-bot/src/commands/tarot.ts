@@ -8,6 +8,8 @@ import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
 import { promisify } from "util";
 const wait = promisify(setTimeout);
 
+const currentlyHandling = new Set<string>();
+
 export const tarot: CommandHandler = {
     data: new SlashCommandBuilder().setName("tarot").setDescription("Get your daily angry tarot reading."),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
@@ -19,6 +21,7 @@ export const tarot: CommandHandler = {
             });
             return;
         }
+        currentlyHandling.add(interaction.user.id);
 
         const embed = defaultEmbed();
 
@@ -39,6 +42,7 @@ export const tarot: CommandHandler = {
 
         await interaction.editReply({ embeds: [embed] });
         await incrementStatAndUser("tarots-read", interaction.user);
+        currentlyHandling.delete(interaction.user.id);
     },
 };
 
@@ -50,6 +54,10 @@ const defaultEmbed = () => {
 };
 
 async function isTarotAllowed(user: DiscordUser): Promise<string | null> {
+    if (currentlyHandling.has(user.id)) {
+        return "You can't use this command right now!";
+    }
+
     const userData = await getUser(user.id);
 
     if (!userData) {
