@@ -219,12 +219,14 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
             }
             await CensorshipUtil.remove(censoredString);
             await updateUserBalance({ userId, amount: -(shopItem.price + noOwnershipSurcharge) });
-            await updateUserBalance({ userId: clientId, amount: shopItem.price });
-            await updateUserBalance({ userId: owner, amount: noOwnershipSurcharge });
+            await updateUserBalance({ userId: clientId, amount: shopItem.price + 0.25 * noOwnershipSurcharge });
+            await updateUserBalance({ userId: owner, amount: 0.75 * noOwnershipSurcharge });
             await buttonInteraction.reply({
                 embeds: [
                     angryCoinEmbed().setDescription(
-                        `Purchase confirmed! \n You liberated \`${censoredString}\` from <@${owner}> and payed them 500¥!`
+                        `Purchase confirmed! \n You liberated \`${censoredString}\` from <@${owner}> and payed them ${
+                            0.75 * noOwnershipSurcharge
+                        } coins excluding 25% VAT.`
                     ),
                 ],
                 components: [],
