@@ -2,7 +2,7 @@ import { Guild, GuildMember, User as DiscordUser } from "discord.js";
 import type { HydratedDocument } from "mongoose";
 import { Role } from "shared/lib/commands/types.d";
 import { isToday } from "shared/lib/utils/date.util";
-import { createUserSimple, GuildSettingsCache, IUser, Powers, User } from "./db-helpers";
+import { createUserSimple, GuildSettingsCache, IUser, Powers, User, UserStatKeys } from "./db-helpers";
 import { adminId } from "./environment";
 
 type UserActionCacheItem = {
@@ -170,15 +170,64 @@ export function isUserPower(power: string): power is Powers {
     return power === "censorship-immunity";
 }
 
+const userStatKeys = new Set<UserStatKeys>([
+    "bibleverses-requested",
+    "catboys-requested",
+    "catgirls-requested",
+    "mc-luhans",
+    "money-lost-in-gambling",
+    "money-won-in-gambling",
+    "tarots-read",
+    "times-censored",
+    "total-angry-stickers-sent",
+    "yesno-questions",
+]);
+export function isUserStatKey(key: string): key is UserStatKeys {
+    return userStatKeys.has(key as UserStatKeys);
+}
+
+export async function getTopByStat(stat: UserStatKeys) {
+    const users = await User.find({ stats: { $exists: true } }).exec();
+    return toSortedArray(users, user => user.stats[stat] ?? 0);
+}
+
 export async function getTopSpammers() {
     const users = await User.find({ emojis: { $exists: true } }).exec();
+    return toSortedArray(users, user => {
+        return Object.values(user.emojis).reduce((acc, cur) => acc + cur, 0);
+    });
+}
+
+export async function getTopStickerSpammer() {
+    const users = await User.find({ stickers: { $exists: true } }).exec();
+    return toSortedArray(users, user => {
+        return Object.values(user.stickers).reduce((acc, cur) => acc + cur, 0);
+    });
+}
+
+export async function getTopMoneyHoarders() {
+    const users = await User.find({ angryCoins: { $gt: 0 } }).exec();
+    return toSortedArray(users, user => user.angryCoins);
+}
+
+export type TopSpamResult = {
+    userId: string;
+    userName: string;
+    spamCount: number;
+};
+
+function toSortedArray(
+    users: HydratedDocument<IUser>[],
+    mappingFn: (user: HydratedDocument<IUser>) => number
+): TopSpamResult[] {
     return users
         .map(user => {
             return {
                 userId: user.userId,
                 userName: user.userName,
-                spamCount: Object.values(user.emojis).reduce((acc, cur) => acc + cur, 0),
+                spamCount: mappingFn(user),
             };
         })
+        .filter(user => user.spamCount > 0)
         .sort((a, b) => b.spamCount - a.spamCount);
 }

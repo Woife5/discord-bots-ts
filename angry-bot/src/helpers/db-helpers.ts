@@ -28,6 +28,10 @@ export async function createUserSimple(id: string, name: string): Promise<Hydrat
 // --------------------------------------------------------
 
 export type Powers = "censorship-immunity";
+export type UserStatKeys = Exclude<
+    StatKeys,
+    "individual-tarots-read:any" | "angry-reactions" | "total-angry-emojis-sent"
+>;
 
 export interface IUser {
     userId: string;
@@ -37,7 +41,7 @@ export interface IUser {
     tarotStreak: number;
     tarotreminder: boolean;
     stats: {
-        [key in StatKeys]: number;
+        [key in UserStatKeys]: number;
     };
     emojis: {
         [key: string]: number;

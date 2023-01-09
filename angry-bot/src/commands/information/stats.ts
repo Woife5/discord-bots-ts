@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { getStat, StatKeys } from "@helpers";
+import { getStat, UserStatKeys } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { getUser } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
@@ -34,7 +34,7 @@ async function generateUserStatEmbed(user: DiscordUser) {
         return embed.setDescription("No stats have been found for this user!");
     }
 
-    const getStatFromUser = (key: StatKeys) => {
+    const getStatFromUser = (key: UserStatKeys) => {
         return (userObj.stats[key] || 0).toLocaleString("de-AT");
     };
 

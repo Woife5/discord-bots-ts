@@ -18,7 +18,7 @@ export { censored } from "./information/censored";
 export { emojicount } from "./information/emojicount";
 export { help } from "./information/help";
 export { stats } from "./information/stats";
-export { topspammer } from "./information/topspammer";
+export { top } from "./information/top";
 
 // no category
 export { bibleverse } from "./bibleverse";
