@@ -3,7 +3,7 @@ import type { HydratedDocument } from "mongoose";
 import { Role } from "shared/lib/commands/types.d";
 import { isToday } from "shared/lib/utils/date.util";
 import { createUserSimple, GuildSettingsCache, IUser, Powers, User, UserStatKeys } from "./db-helpers";
-import { adminId } from "./environment";
+import { adminId, clientId } from "./environment";
 
 type UserActionCacheItem = {
     date: Date;
@@ -207,7 +207,10 @@ export async function getTopStickerSpammer() {
 
 export async function getTopMoneyHoarders() {
     const users = await User.find({ angryCoins: { $gt: 0 } }).exec();
-    return toSortedArray(users, user => user.angryCoins);
+    return toSortedArray(
+        users.filter(user => user.userId !== clientId),
+        user => user.angryCoins
+    );
 }
 
 export type TopSpamResult = {
