@@ -60,8 +60,8 @@ export const customReactions: CustomReaction = {
     "775641005830438962": {
         reactions: [
             "<:angry1:824231077588762634>",
-            ":regional_indicator_c:",
-            ":regional_indicator_h:",
+            "🇨",
+            "🇭",
             "🇮",
             ":black_cat:",
             "🇷",
@@ -73,10 +73,10 @@ export const customReactions: CustomReaction = {
     "676092929978269718": {
         reactions: [
             angryEmojis[0],
-            "smiling_imp",
-            "shark",
-            "dumpling",
-            "new_moon_with_face",
+            "😈",
+            "🦈",
+            "🥟",
+            "🌚",
             angryEmojis[1],
         ],
         angrys: 2,
@@ -84,11 +84,11 @@ export const customReactions: CustomReaction = {
     "300673115791294474": {
         reactions: [
             angryEmojis[0],
-            "regional_indicator_m",
-            "face_holding_back_tears",
-            "regional_indicator_t",
-            "regional_indicator_z",
-            "regional_indicator_i",
+            "🇲",
+            "🥹",
+            "🇹",
+            "🇿",
+            "🇮",
             angryEmojis[8],
         ],
         angrys: 2,
