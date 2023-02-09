@@ -1,3 +1,5 @@
+import { angryEmojis } from "./angry-emojis";
+
 export interface CustomReaction {
     [key: string]: {
         reactions: string[];
@@ -65,6 +67,29 @@ export const customReactions: CustomReaction = {
             "🇷",
             "🇦",
             "<:angry3:824231102725488640>",
+        ],
+        angrys: 2,
+    },
+    "676092929978269718": {
+        reactions: [
+            angryEmojis[0],
+            "smiling_imp",
+            "shark",
+            "dumpling",
+            "new_moon_with_face",
+            angryEmojis[1],
+        ],
+        angrys: 2,
+    },
+    "300673115791294474": {
+        reactions: [
+            angryEmojis[0],
+            "regional_indicator_m",
+            "face_holding_back_tears",
+            "regional_indicator_t",
+            "regional_indicator_z",
+            "regional_indicator_i",
+            angryEmojis[8],
         ],
         angrys: 2,
     },
