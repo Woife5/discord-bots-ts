@@ -564,33 +564,33 @@ export const tarots: Tarot[] = [
         text: "Up until the 19th century, people used to be :angry all the time. But then they discovered that being angry all the time is good for your health. So they stopped being angry. And that is why not everybody is angry today. Pathetic.",
     },
     {
-        text: ":angry191: belongs to GenZ. Thea are the angry of the future. They are angry because they are young and they don't know what they want. But they will get angry when they grow up. And that is why they are the angry of the future.",
+        text: ":angry192: belongs to GenZ. Thea are the angry of the future. They are angry because they are young and they don't know what they want. But they will get angry when they grow up. And that is why they are the angry of the future.",
     },
     {
-        text: "According to ancient Chinese medicine, :angry192: is the angry of the heart. It is the angry that makes you feel like you are going to die. And that is why it is the angry of the heart.",
+        text: "According to ancient Chinese medicine, :angry193: is the angry of the heart. It is the angry that makes you feel like you are going to die. And that is why it is the angry of the heart.",
     },
     {
-        text: "Apple invented :angry193: in 2001. But the world was not ready for it. So they had to wait until 2019 to release it. And that is why it was called the angry of the future internally.",
+        text: "Apple invented :angry194: in 2001. But the world was not ready for it. So they had to wait until 2019 to release it. And that is why it was called the angry of the future internally.",
     },
     {
-        text: ":angry194: thinks that you are a loser. And that is why it is angry.",
+        text: ":angry195: thinks that you are a loser. And that is why it is angry.",
     },
     {
-        text: "Sometimes at night you can hear :angry195: screaming. It is the angry of the night. And it is angry because it is the angry of the night.",
+        text: "Sometimes at night you can hear :angry196: screaming. It is the angry of the night. And it is angry because it is the angry of the night.",
     },
     {
         text: ":angry196: leaves a lot to be desired. It costs a lot of money and it doesn't work very well. But it is still better than :angry197:.",
     },
     {
-        text: ":angry197: can hear you. It knows what you are thinking. And that is the reaseon why it is angry.",
+        text: ":angry198: can hear you. It knows what you are thinking. And that is the reaseon why it is angry.",
     },
     {
-        text: "1967 was the year of :angry198:. It was the first year that humankind was able to put angry on the moon. Even today it is considered to be the most important event in human history.",
-    },
-    {
-        text: ":angry199: loves canibalism. It once tried to eat :angry5:. Just like you, it may not be the most popular thing in the world. But it is still a thing.",
+        text: "1967 was the year of :angry199:. It was the first year that humankind was able to put angry on the moon. Even today it is considered to be the most important event in human history.",
     },
     {
         text: "Once upon a time in the early 1300s a vulcano errupted. Thousands of tons of angry were released into the air. Scientists believe that the reason for the erruption was :angry200: and its anger. Use it's anger to your advantage.",
+    },
+    {
+        text: ":angry201: loves canibalism. It once tried to eat :angry5:. Just like you, it may not be the most popular thing in the world. But it is still a thing.",
     },
 ];
