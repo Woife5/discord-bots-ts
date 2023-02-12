@@ -561,7 +561,7 @@ export const tarots: Tarot[] = [
         text: "Forklift operators are fans of :angry190:. They are very strong and can lift heavy things. But they are also very angry. And that is why they are cool.",
     },
     {
-        text: "Up until the 19th century, people used to be :angry all the time. But then they discovered that being angry all the time is good for your health. So they stopped being angry. And that is why not everybody is angry today. Pathetic.",
+        text: "Up until the 19th century, people used to be :angry191: all the time. But then they discovered that being angry all the time is good for your health. So they stopped being angry. And that is why not everybody is angry today. Pathetic.",
     },
     {
         text: ":angry192: belongs to GenZ. Thea are the angry of the future. They are angry because they are young and they don't know what they want. But they will get angry when they grow up. And that is why they are the angry of the future.",
