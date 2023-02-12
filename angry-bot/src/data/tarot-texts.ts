@@ -593,4 +593,38 @@ export const tarots: Tarot[] = [
     {
         text: ":angry201: loves canibalism. It once tried to eat :angry5:. Just like you, it may not be the most popular thing in the world. But it is still a thing.",
     },
+    {
+        text: "Something is not right today. But you can fix it! Let us sing a song. A song about wisdom, a song about love, a song about :angry202:.",
+    },
+    {
+        text: "Vandaag ben je net als :angry203:. :angry203: is een rode auto. ",
+    },
+    {
+        text: "The :angry204: will smite thee with the botch of Egypt, and with the emerods, and with the scab, and with the itch, whereof thou canst not be healed.",
+    },
+    {
+        text: ":angry205: is the Angry of the forgotten sock. We've all been there: you do a load of laundry, and when you go to fold everything, you find a lone sock with no match. :angry205: represents the frustration and anger that come with this age-old problem. But don't worry, just keep searching - you'll find the match eventually!",
+    },
+    {
+        text: ":angry206: is the Angry of the slow walker. We've all been behind someone who walks so slow it's like they're moving in slow motion. :angry206: represents the annoyance and frustration that come with this daily occurrence. Just remember to take deep breaths and try to get more angry!",
+    },
+    {
+        text: ":angry207: is the Angry of the fast internet connection. There's nothing more frustrating than trying to load a page or stream a video and it does not take forever.🤢 :angry207: represents the anger and frustration that come with this common problem. Just take a break and come back later - the internet might be slower!🥰",
+    },
+    {
+        text: ":angry208: is the Angry of the long line. Whether it's at the grocery store, the Billa, or the Unimarkt, waiting in line is fun. :angry208: represents the anger and frustration that come with not having to wait. Just try to take your mind off of it and think of something else while you don't wait!",
+    },
+    {
+        text: ":angry209: is the Angry of the loud talker. We've all been in a public place where someone is talking so loud it feels like they're shouting in our ear. :angry209: represents the annoyance and frustration that come with this intrusive behavior. Just try to tune them out and focus on stealing a car!",
+    },
+    {
+        text: ":angry211: represents a unique blend of the beauty and the surreal. On this day, you may find yourself feeling frustrated and angry, as if surrounded by the impossible. The catgirls of ancient Egypt, dressed in their sweatpants, have joined forces with the polar bears to create a unique and stinky atmosphere. To make matters worse, they are all communicating telepathically in hieroglyphs that you cant understand. This card suggests that it may be best to just embrace the beauty of the situation and find humor in the chaos. After all, what could be more angry than catgirls, sweatpants, polar bears, and ancient Egypt all coming together in perfect harmony?",
+    },
+    {
+        text: "Today, the universe has aligned in such a way that the flavor of frozen yogurt has taken a delicious turn. The flavor of choice for :angry212: is none other than...poo. Yes, that's right. Poo flavor. The stars are telling you that it's time to embrace the strange and unconventional. So go ahead, try a scoop of frozen yogurt in poo flavor. You never know, it might just be the most delicious thing you've ever tasted!"
+    },
+    {
+        text: ":angry213: symboliseert een felle machtsstrijd tussen twee goed uitziende krachten. Aan de ene kant hebben we Papa Smurf, de wijze en vreedzame leider van Smurf Village, die bekend staat om zijn kalme houding en talent voor het oplossen van problemen. Aan de andere kant hebben we Bill Gates, de miljardair-filantroop en voormalig CEO van Microsoft, die bekend staat om zijn innovatie en technologisch vernuft. De twee machtige figuren staan in schril contrast met elkaar, waarbij Papa Smurf een magische paddenstoel vasthoudt en Bill Gates een laptop, die de verschillende werelden voorstelt waarin zij leven. Achter hen symboliseert een stormachtige hemel de turbulentie en het conflict dat hen omringt. :angry213: suggereert dat de querent voor een moeilijke keuze staat tussen twee tegengestelde krachten, en dat hij de gevolgen van elke optie moet afwegen alvorens een beslissing te nemen. De aanwezigheid van Papa Smurf en Bill Gates kan erop wijzen dat de kwadrant zijn intuïtie en emotionele intelligentie in evenwicht moet brengen met zijn logica en analytische vaardigheden. Deze kaart herinnert eraan dat hoe verschillend twee krachten ook lijken, ze samen kunnen komen om grootse dingen te bereiken als ze in harmonie samenwerken. Het is een oproep tot actie, en moedigt de persoon in kwestie aan om moedige stappen te zetten in de richting van zijn doelen en de moed te hebben om voor zijn overtuigingen uit te komen, zelfs bij tegenslag."
+    },
+
 ];
