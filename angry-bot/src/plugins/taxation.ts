@@ -52,20 +52,24 @@ export async function tax(client: Client) {
 
 async function broadcast(client: Client, taxMoney: number, users: [string, number][]) {
     for (const [, guild] of client.guilds.cache) {
-        const guildSettings = await GuildSettingsCache.get(guild.id);
-        if (!guildSettings) {
-            continue;
-        }
+        try {
+            const guildSettings = await GuildSettingsCache.get(guild.id);
+            if (!guildSettings || !guildSettings.broadcastChannelId) {
+                continue;
+            }
 
-        const channel = await client.channels.fetch(guildSettings.broadcastChannelId);
-        if (channel?.type === ChannelType.GuildText) {
-            channel.send(
-                `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users
-                    .map(u => `${u[0]}(**${u[1]}** ${angryEmojis[0]}s )`)
-                    .join(", ")}\n\nThank you for your cooperation.`
-            );
-        } else {
-            log.error(`Could not find broadcast channel for guild ${guild.id}`);
+            const channel = await client.channels.fetch(guildSettings.broadcastChannelId);
+            if (channel?.type === ChannelType.GuildText) {
+                await channel.send(
+                    `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users
+                        .map(u => `${u[0]}(**${u[1]}** ${angryEmojis[0]}s )`)
+                        .join(", ")}\n\nThank you for your cooperation.`
+                );
+            } else {
+                log.error(`Could not find broadcast channel for guild ${guild.id}`);
+            }
+        } catch (err) {
+            log.error(err, "Taxation.broadcast");
         }
     }
 }
