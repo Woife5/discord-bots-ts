@@ -1,7 +1,6 @@
-import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildSettingsCache } from "@helpers";
-import { ChannelType, ChatInputCommandInteraction, EmbedBuilder, Guild, PermissionFlagsBits } from "discord.js";
+import { ChannelType, ChatInputCommandInteraction, Guild, PermissionFlagsBits } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import { adminEmbed } from "../embeds";
 
@@ -31,7 +30,9 @@ async function runCommand(message: string, guild: Guild | null) {
 
     const channel = await guild.channels.fetch(channelId);
     if (channel?.type !== ChannelType.GuildText) {
-        return adminEmbed().setDescription("The set broadcast channel is not a text channel, this should not happen x.x");
+        return adminEmbed().setDescription(
+            "The set broadcast channel is not a text channel, this should not happen x.x"
+        );
     }
 
     await channel.send(message);

@@ -1,9 +1,8 @@
-import { version } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { infoEmbed } from "../embeds";
-import { APIEmbedField, ChatInputCommandInteraction, EmbedBuilder, Guild, User } from "discord.js";
+import { APIEmbedField, ChatInputCommandInteraction, Guild, User } from "discord.js";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import * as Commands from "../command-handlers";
+import { infoEmbed } from "../embeds";
 
 export const help: CommandHandler = {
     data: new SlashCommandBuilder().setName("help").setDescription("Get a list of commands and a short explanation."),
@@ -20,14 +19,16 @@ async function runCommand(user: User, guild: Guild | null) {
     const isAdmin = guild?.members.cache.get(user.id)?.permissions.has("Administrator") ?? false;
 
     const showCommand = (command: CommandHandler) => isAdmin || command.data.default_member_permissions === "8";
-    return infoEmbed().setTitle("Available Commands").addFields(
-        Object.values(Commands)
-            .filter(showCommand)
-            .map(command => {
-                return {
-                    name: command.data.name,
-                    value: command.data.description,
-                } satisfies APIEmbedField;
-            })
-    );
+    return infoEmbed()
+        .setTitle("Available Commands")
+        .addFields(
+            Object.values(Commands)
+                .filter(showCommand)
+                .map(command => {
+                    return {
+                        name: command.data.name,
+                        value: command.data.description,
+                    } satisfies APIEmbedField;
+                })
+        );
 }
