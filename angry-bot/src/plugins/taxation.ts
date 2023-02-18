@@ -33,7 +33,7 @@ export async function tax(client: Client) {
             await user.save();
             invalidateUserCache(user.userId);
         } catch (err) {
-            log.error(err);
+            log.error(err, "tax");
         }
     }
 
@@ -66,10 +66,10 @@ async function broadcast(client: Client, taxMoney: number, users: [string, numbe
                         .join(", ")}\n\nThank you for your cooperation.`
                 );
             } else {
-                log.error(`Could not find broadcast channel for guild ${guild.id}`);
+                log.error(`Could not find broadcast channel for guild ${guild.id}`, "broadcast");
             }
         } catch (err) {
-            log.error(err, "Taxation.broadcast");
+            log.error(err, "broadcast");
         }
     }
 }

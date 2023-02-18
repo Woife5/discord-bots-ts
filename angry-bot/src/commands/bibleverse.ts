@@ -48,11 +48,11 @@ export const bibleverse: CommandHandler = {
             option.setName("verse").setDescription("The number of the verse.").setRequired(false)
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction) => {
-        const int_book = interaction.options.getString("book");
-        const int_chapter = interaction.options.getNumber("chapter");
-        const int_verse = interaction.options.getNumber("verse");
+        const str_book = interaction.options.getString("book");
+        const int_chapter = interaction.options.getInteger("chapter");
+        const int_verse = interaction.options.getInteger("verse");
 
-        await interaction.reply({ embeds: [await runCommand(int_book, int_chapter, int_verse)] });
+        await interaction.reply({ embeds: [await runCommand(str_book, int_chapter, int_verse)] });
         await incrementStatAndUser("bibleverses-requested", interaction.user);
     },
 };

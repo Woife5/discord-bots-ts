@@ -20,7 +20,7 @@ export async function remind(client: Client) {
             const member = await client.users.fetch(user.userId);
             await member.send(tarotReminders[getRandomInt(0, tarotReminders.length - 1)]);
         } catch (err) {
-            log.error(err, "Tarotreminder.remind");
+            log.error(err, "remind");
         }
     }
 
@@ -46,10 +46,10 @@ async function broadcast(client: Client, userIds: string[]) {
                         .join(", ")}\n\nDisappointing.`
                 );
             } else {
-                log.error(`Could not find broadcast channel for guild ${guild.id}`, "Tarotreminder.broadcast");
+                log.error(`Could not find broadcast channel for guild ${guild.id}`, "broadcast");
             }
         } catch (err) {
-            log.error(err, "Tarotreminder.broadcast");
+            log.error(err, "broadcast");
         }
     }
 }
