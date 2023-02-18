@@ -133,12 +133,18 @@ const censoredSchema = new Schema<Censored>({
 const CensoredDB = model<Censored>("Censored", censoredSchema);
 
 export class CensorshipUtil {
-    private static _cache = new Set<string>();
+    private static _cache = new Map<string, Set<string>>();
 
-    static async getAll(): Promise<Set<string>> {
+    static async getAll(): Promise<Map<string, Set<string>>> {
         if (this._cache.size === 0) {
             const censored = await CensoredDB.find({}).exec();
-            this._cache = new Set(censored.map(c => c.value));
+            this._cache = new Map();
+
+            for (const c of censored) {
+                const user = this._cache.get(c.owner) || new Set();
+                user.add(c.value);
+                this._cache.set(c.owner, user);
+            }
         }
 
         return this._cache;
@@ -189,8 +195,13 @@ export class CensorshipUtil {
      */
     static async add(censored: Censored): Promise<Censored> {
         const value = censored.value.trim().toLowerCase();
-        this._cache.add(value);
-        return await CensoredDB.create({ owner: censored.owner, value });
+        const result = await CensoredDB.create({ owner: censored.owner, value });
+
+        const user = this._cache.get(censored.owner) ?? new Set();
+        user.add(value);
+        this._cache.set(censored.owner, user);
+
+        return result;
     }
 
     /**
@@ -198,8 +209,12 @@ export class CensorshipUtil {
      */
     static async remove(censored: string): Promise<void> {
         const value = censored.trim().toLowerCase();
-        this._cache.delete(value);
         await CensoredDB.deleteOne({ value }).exec();
+
+        for (const [owner, set] of this._cache) {
+            set.delete(value);
+            this._cache.set(owner, set);
+        }
     }
 }
 

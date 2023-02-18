@@ -172,6 +172,13 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         });
     }
 
+    if (owner === clientId) {
+        return interaction.reply({
+            embeds: [angryCoinEmbed().setDescription("I'm sorry, this one is mine.")],
+            ephemeral: true,
+        });
+    }
+
     const userBalance = await getUserBalance(userId);
     if (owner === userId) {
         await CensorshipUtil.remove(censoredString);

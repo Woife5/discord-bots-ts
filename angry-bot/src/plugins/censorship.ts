@@ -2,6 +2,8 @@ import type { Message, PartialMessage } from "discord.js";
 import { incrementStatAndUser, Log, CensorshipUtil } from "@helpers";
 import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
 import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
+import { clientId } from "helpers/environment";
+import { hasEmoji } from "shared/lib/utils/string.util";
 
 const log = new Log("Censorship");
 
@@ -19,21 +21,34 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
     let hasToBeCensored = false;
     let censoredContent = message.content.replaceAll("\\", "\\ ");
 
-    censored.forEach(string => {
-        if (message.content?.toLowerCase().includes(string)) {
-            hasToBeCensored = true;
-            const regex = new RegExp(escapeRegExp(string), "ig");
-            censoredContent = censoredContent.replace(regex, "`CENSORED` ");
-        }
-    });
+    const hasImmunity = await hasPower(message.author.id, "censorship-immunity");
+    let usedImmunity = false;
 
-    if (!hasToBeCensored) {
-        return "CONTINUE";
+    for (const [owner, words] of censored) {
+        for (const word of words) {
+            let regex = new RegExp(`\\b${escapeRegExp(word)}\\b`, "ig");
+            if (hasEmoji(word)) {
+                regex = new RegExp(escapeRegExp(word), "ig");
+            }
+
+            if (regex.test(message.content?.toLowerCase())) {
+                if (hasImmunity && owner !== clientId) {
+                    usedImmunity = true;
+                    continue;
+                }
+
+                hasToBeCensored = true;
+                censoredContent = censoredContent.replace(regex, "`CENSORED` ");
+            }
+        }
     }
 
-    if (await hasPower(message.author.id, "censorship-immunity")) {
+    if (usedImmunity) {
         const powerUpdate = await getPowerUpdate(message.author.id, "censorship-immunity", -1);
         await updateUser(message.author.id, powerUpdate);
+    }
+
+    if (!hasToBeCensored) {
         return "CONTINUE";
     }
 
