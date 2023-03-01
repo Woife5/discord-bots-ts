@@ -114,19 +114,25 @@ export const User = model<IUser>("User", userSchema);
 // --------------------------------------------------------
 
 type Censored = {
-    owner: string;
+    owner?: string;
     value: string;
+    priceModifier: number;
 };
 
 const censoredSchema = new Schema<Censored>({
     owner: {
         type: String,
-        required: true,
+        required: false,
     },
     value: {
         type: String,
         required: true,
         lowercase: true,
+        unique: true,
+    },
+    priceModifier: {
+        type: Number,
+        default: 1,
     },
 });
 
@@ -141,6 +147,10 @@ export class CensorshipUtil {
             this._cache = new Map();
 
             for (const c of censored) {
+                if (!c.owner) {
+                    // No owner means this item is not currently censored.
+                    continue;
+                }
                 const user = this._cache.get(c.owner) || new Set();
                 user.add(c.value);
                 this._cache.set(c.owner, user);
@@ -152,7 +162,7 @@ export class CensorshipUtil {
 
     /**
      * NOT cached
-     * @returns a list of all censoed values including their owners.
+     * @returns a list of all censored values including their owners.
      */
     static async loadAll(): Promise<Censored[]> {
         const censored = await CensoredDB.find({}).exec();
@@ -160,6 +170,7 @@ export class CensorshipUtil {
             return {
                 owner: c.owner,
                 value: c.value,
+                priceModifier: c.priceModifier,
             } satisfies Censored;
         });
     }
@@ -170,7 +181,7 @@ export class CensorshipUtil {
      */
     static async findOwner(value: string): Promise<string | null> {
         const censored = await CensoredDB.findOne({ value }).exec();
-        if (!censored) {
+        if (!censored || !censored.owner) {
             return null;
         }
 
@@ -193,23 +204,46 @@ export class CensorshipUtil {
     /**
      * Adds a new censored string to the database and updated the cache.
      */
-    static async add(censored: Censored): Promise<Censored> {
+    static async add(censored: { owner: string; value: string }): Promise<Censored> {
         const value = censored.value.trim().toLowerCase();
-        const result = await CensoredDB.create({ owner: censored.owner, value });
+        let found = await CensoredDB.findOne({ value }).exec();
+
+        if (found) {
+            found.owner = censored.owner;
+            await found.save();
+        } else {
+            found = await CensoredDB.create({ owner: censored.owner, value });
+        }
 
         const user = this._cache.get(censored.owner) ?? new Set();
         user.add(value);
         this._cache.set(censored.owner, user);
 
-        return result;
+        return found;
+    }
+
+    /**
+     * NOT cached
+     * Loads the current price modifier for the provided value.
+     */
+    static async getPriceModifier(valueStr: string): Promise<number> {
+        const value = valueStr.trim().toLowerCase();
+        const item = await CensoredDB.findOne({ value }).exec();
+        return item?.priceModifier ?? 1;
     }
 
     /**
      * Removes a censored string from the database and updates the cache.
+     * Also makes the item more expensive to buy in the future.
      */
     static async remove(censored: string): Promise<void> {
         const value = censored.trim().toLowerCase();
-        await CensoredDB.deleteOne({ value }).exec();
+        const found = await CensoredDB.findOne({ value }).exec();
+        if (found) {
+            found.owner = undefined;
+            found.priceModifier += 1;
+            await found.save();
+        }
 
         for (const [owner, set] of this._cache) {
             set.delete(value);

@@ -27,6 +27,11 @@ export async function getCensoredEmbed() {
 
     const owners = new Map<string, string>();
     for (const item of c) {
+        if (!item.owner) {
+            // skip items with no owner, these are currently not active or owned by anyone
+            continue;
+        }
+
         if (!owners.has(item.owner)) {
             owners.set(item.owner, `\`${item.value}\``);
         } else {

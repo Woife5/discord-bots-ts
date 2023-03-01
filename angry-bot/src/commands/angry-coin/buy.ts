@@ -54,7 +54,7 @@ const shopItems: ShopItem[] = [
     {
         name: "un-censorship",
         description: "Un-censor something you like again! 🥰",
-        price: 300,
+        price: 500,
         addOptions: (subcommand: SlashCommandSubcommandBuilder) => {
             return messageOption(subcommand, "The censored string to be freed.");
         },
@@ -127,6 +127,19 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
     const message = interaction.options.getString("message") ?? "";
     const censoredString = toCleanLowerCase(message);
 
+    const priceModifier = await CensorshipUtil.getPriceModifier(censoredString);
+    const price = shopItem.price * priceModifier;
+
+    if (price > (await getUserBalance(userId))) {
+        return interaction.reply({
+            embeds: [
+                angryCoinEmbed().setDescription(
+                    "Sorry, this string is quite hot 🔥🔥🔥🔥 You can't afford it. :( It would cost `${price}` angry coins."
+                ),
+            ],
+        });
+    }
+
     if (shopItem.name === "censorship") {
         if (censoredString.length < 4 && !hasEmoji(censoredString)) {
             return interaction.reply({
@@ -154,7 +167,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         }
 
         await CensorshipUtil.add({ owner: userId, value: censoredString });
-        await updateBalance(userId, shopItem.price);
+        await payBot(userId, price);
 
         return interaction.reply({
             embeds: [
@@ -182,7 +195,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
     const userBalance = await getUserBalance(userId);
     if (owner === userId) {
         await CensorshipUtil.remove(censoredString);
-        await updateBalance(userId, shopItem.price);
+        await payBot(userId, price);
         return interaction.reply({
             embeds: [
                 angryCoinEmbed().setTitle("Purchase successful").setDescription(`You liberated \`${censoredString}\`!`),
@@ -190,7 +203,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         });
     }
 
-    const noOwnershipSurcharge = 500;
+    const noOwnershipSurcharge = 300;
     const surchargeButtons = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder().setCustomId("confirm_uncensorship_purchase").setEmoji("😍").setStyle(ButtonStyle.Success),
         new ButtonBuilder().setCustomId("cancel_uncensorship_purchase").setEmoji("🤮").setStyle(ButtonStyle.Danger)
@@ -216,17 +229,17 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                 return;
             }
 
-            if (userBalance < shopItem.price + noOwnershipSurcharge) {
+            if (userBalance < price + noOwnershipSurcharge) {
                 buttonInteraction.reply({
-                    embeds: [angryCoinEmbed().setDescription("You dont have enough coins!")],
+                    embeds: [angryCoinEmbed().setDescription("You don't have enough coins!")],
                     components: [],
                     ephemeral: true,
                 });
                 return;
             }
             await CensorshipUtil.remove(censoredString);
-            await updateUserBalance({ userId, amount: -(shopItem.price + noOwnershipSurcharge) });
-            await updateUserBalance({ userId: clientId, amount: shopItem.price + 0.25 * noOwnershipSurcharge });
+            await updateUserBalance({ userId, amount: -(price + noOwnershipSurcharge) });
+            await updateUserBalance({ userId: clientId, amount: price + 0.25 * noOwnershipSurcharge });
             await updateUserBalance({ userId: owner, amount: 0.75 * noOwnershipSurcharge });
             await buttonInteraction.reply({
                 embeds: [
@@ -264,7 +277,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
     });
 }
 
-async function updateBalance(userId: string, price: number) {
+async function payBot(userId: string, price: number) {
     await updateUserBalance({ userId, amount: -price });
     await updateUserBalance({ userId: clientId, amount: price, username: "Angry" });
 }
