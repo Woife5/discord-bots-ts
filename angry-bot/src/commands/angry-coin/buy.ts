@@ -228,10 +228,15 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                 buttonInteraction.reply({ content: "These buttons aren't for you! 😡", ephemeral: true });
                 return;
             }
+            collector.stop();
 
             if (userBalance < price + noOwnershipSurcharge) {
-                buttonInteraction.reply({
-                    embeds: [angryCoinEmbed().setDescription("You don't have enough coins!")],
+                await buttonInteraction.reply({
+                    embeds: [
+                        angryCoinEmbed().setDescription(
+                            `You don't have enough coins, the base price of this item is ${price} coins!`
+                        ),
+                    ],
                     components: [],
                     ephemeral: true,
                 });
@@ -254,6 +259,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         }
 
         if (buttonInteraction.customId === "cancel_uncensorship_purchase") {
+            collector.stop();
             await buttonInteraction.reply({
                 embeds: [angryCoinEmbed().setDescription("Purchase canceled!")],
                 components: [],
