@@ -134,7 +134,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         return interaction.reply({
             embeds: [
                 angryCoinEmbed().setDescription(
-                    "Sorry, this string is quite hot 🔥🔥🔥🔥 You can't afford it. :( It would cost `${price}` angry coins."
+                    `Sorry, this string is quite hot 🔥🔥🔥🔥 You can't afford it. :( It would cost \`${price}\` angry coins.`
                 ),
             ],
         });
@@ -234,7 +234,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                 await buttonInteraction.reply({
                     embeds: [
                         angryCoinEmbed().setDescription(
-                            `You don't have enough coins, the base price of this item is ${price} coins!`
+                            `You don't have enough coins, the base price of this item is \`${price}\` coins!`
                         ),
                     ],
                     components: [],
