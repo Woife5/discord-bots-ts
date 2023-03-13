@@ -62,8 +62,9 @@ client.on("ready", async () => {
     });
 
     // Check every day at some time if a given user has spent some coins today, otherwise tax them
-    runDaily(19, () => {
-        Taxation.tax(client);
+    runDaily(19, async () => {
+        const result = await Taxation.tax();
+        Taxation.broadcast(client, result.taxMoney, result.taxedUsers);
     });
 
     // Re-register all slash commands when the bot starts
