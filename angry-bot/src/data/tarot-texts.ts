@@ -621,10 +621,10 @@ export const tarots: Tarot[] = [
         text: ":angry211: represents a unique blend of the beauty and the surreal. On this day, you may find yourself feeling frustrated and angry, as if surrounded by the impossible. The catgirls of ancient Egypt, dressed in their sweatpants, have joined forces with the polar bears to create a unique and stinky atmosphere. To make matters worse, they are all communicating telepathically in hieroglyphs that you cant understand. This card suggests that it may be best to just embrace the beauty of the situation and find humor in the chaos. After all, what could be more angry than catgirls, sweatpants, polar bears, and ancient Egypt all coming together in perfect harmony?",
     },
     {
-        text: "Today, the universe has aligned in such a way that the flavor of frozen yogurt has taken a delicious turn. The flavor of choice for :angry212: is none other than...poo. Yes, that's right. Poo flavor. The stars are telling you that it's time to embrace the strange and unconventional. So go ahead, try a scoop of frozen yogurt in poo flavor. You never know, it might just be the most delicious thing you've ever tasted!"
+        text: "Today, the universe has aligned in such a way that the flavor of frozen yogurt has taken a delicious turn. The flavor of choice for :angry212: is none other than...poo. Yes, that's right. Poo flavor. The stars are telling you that it's time to embrace the strange and unconventional. So go ahead, try a scoop of frozen yogurt in poo flavor. You never know, it might just be the most delicious thing you've ever tasted!",
     },
     {
-        text: ":angry213: symboliseert een felle machtsstrijd tussen twee goed uitziende krachten. Aan de ene kant hebben we Papa Smurf, de wijze en vreedzame leider van Smurf Village, die bekend staat om zijn kalme houding en talent voor het oplossen van problemen. Aan de andere kant hebben we Bill Gates, de miljardair-filantroop en voormalig CEO van Microsoft, die bekend staat om zijn innovatie en technologisch vernuft. De twee machtige figuren staan in schril contrast met elkaar, waarbij Papa Smurf een magische paddenstoel vasthoudt en Bill Gates een laptop, die de verschillende werelden voorstelt waarin zij leven. Achter hen symboliseert een stormachtige hemel de turbulentie en het conflict dat hen omringt. :angry213: suggereert dat de querent voor een moeilijke keuze staat tussen twee tegengestelde krachten, en dat hij de gevolgen van elke optie moet afwegen alvorens een beslissing te nemen. De aanwezigheid van Papa Smurf en Bill Gates kan erop wijzen dat de kwadrant zijn intuïtie en emotionele intelligentie in evenwicht moet brengen met zijn logica en analytische vaardigheden. Deze kaart herinnert eraan dat hoe verschillend twee krachten ook lijken, ze samen kunnen komen om grootse dingen te bereiken als ze in harmonie samenwerken. Het is een oproep tot actie, en moedigt de persoon in kwestie aan om moedige stappen te zetten in de richting van zijn doelen en de moed te hebben om voor zijn overtuigingen uit te komen, zelfs bij tegenslag."
+        text: ":angry213: symboliseert een felle machtsstrijd tussen twee goed uitziende krachten. Aan de ene kant hebben we Papa Smurf, de wijze en vreedzame leider van Smurf Village, die bekend staat om zijn kalme houding en talent voor het oplossen van problemen. Aan de andere kant hebben we Bill Gates, de miljardair-filantroop en voormalig CEO van Microsoft, die bekend staat om zijn innovatie en technologisch vernuft. De twee machtige figuren staan in schril contrast met elkaar, waarbij Papa Smurf een magische paddenstoel vasthoudt en Bill Gates een laptop, die de verschillende werelden voorstelt waarin zij leven. Achter hen symboliseert een stormachtige hemel de turbulentie en het conflict dat hen omringt. :angry213: suggereert dat de querent voor een moeilijke keuze staat tussen twee tegengestelde krachten, en dat hij de gevolgen van elke optie moet afwegen alvorens een beslissing te nemen. De aanwezigheid van Papa Smurf en Bill Gates kan erop wijzen dat de kwadrant zijn intuïtie en emotionele intelligentie in evenwicht moet brengen met zijn logica en analytische vaardigheden. Deze kaart herinnert eraan dat hoe verschillend twee krachten ook lijken, ze samen kunnen komen om grootse dingen te bereiken als ze in harmonie samenwerken. Het is een oproep tot actie, en moedigt de persoon in kwestie aan om moedige stappen te zetten in de richting van zijn doelen en de moed te hebben om voor zijn overtuigingen uit te komen, zelfs bij tegenslag.",
     },
     {
         text: ":angry214: quite often thinks about :angry215:. It is a very strange thing to think about. Because there are only two things that :angry214: can think about. And one of them is :angry215:.",
@@ -633,22 +633,22 @@ export const tarots: Tarot[] = [
         text: "Sometimes :angry215: thinks about :angry214:. It is a very strange thing to think about. Because there are only two things that :angry215: can think about. And one of them is :angry214:.",
     },
     {   
-        text: "The Story of :angry216: is a very sad story. Once upon a time (2014) :angry216: was a very happy and nice person. But then :angry216: got angry. And then :angry216: got very angry. And then :angry216: got very very angry. And then :angry216: got very very very angry. And then :angry216: got very very very very angry. And then :angry216: got very very very very very angry. And then :angry216: got very very very very very very angry. And then :angry216: got very very very very very very very angry. And then :angry216: got very very very very very very very very angry. And then :angry216: got very very very very very very very very very angry. And then :angry216: was not angry anymore. :("
+        text: "The Story of :angry216: is a very sad story. Once upon a time (2014) :angry216: was a very happy and nice person. But then :angry216: got angry. And then :angry216: got very angry. And then :angry216: got very very angry. And then :angry216: got very very very angry. And then :angry216: got very very very very angry. And then :angry216: got very very very very very angry. And then :angry216: got very very very very very very angry. And then :angry216: got very very very very very very very angry. And then :angry216: got very very very very very very very very angry. And then :angry216: got very very very very very very very very very angry. And then :angry216: was not angry anymore. :(",
     },
     {
-        text: ":angry217: allows you to drink coke today. How cool is that? "
+        text: ":angry217: allows you to drink coke today. How cool is that? ",
     },
     {
-        text: ":angry218: has problems with it's legs. It can't walk. It can't run. It can't jump. It can't do anything. It's just a big pile of legs. "
+        text: ":angry218: has problems with it's legs. It can't walk. It can't run. It can't jump. It can't do anything. It's just a big pile of legs. ",
     },
     {
-        text: ":angry219: loves to purchase censorship immunity. It is not very honourable, but it is very effective. You can't stop it, but you can become it. "
+        text: ":angry219: loves to purchase censorship immunity. It is not very honourable, but it is very effective. You can't stop it, but you can become it. ",
     },
     {
-        text: ":angry220: wants the world to think that you are something special. But sadly :angry220: is a liar. Think about it. "
+        text: ":angry220: wants the world to think that you are something special. But sadly :angry220: is a liar. Think about it. ",
     },
     {
-        text: "Only fourteen people were enlightened by :angry221:. And you are not one of them. But use the day to lie to your friends and family, and tell them that you are one of those fourteen people. They will respect you for this. But never forget: you are a liar. It is in your nature. It is in your blood. It is what you do. "
+        text: "Only fourteen people were enlightened by :angry221:. And you are not one of them. But use the day to lie to your friends and family, and tell them that you are one of those fourteen people. They will respect you for this. But never forget: you are a liar. It is in your nature. It is in your blood. It is what you do. ",
     },
     
 ];
