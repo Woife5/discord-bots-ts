@@ -72,13 +72,6 @@ shopItems.forEach(shopItem => {
 export const buy: CommandHandler = {
     data,
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
-        await interaction.reply({
-            embeds: [
-                angryCoinEmbed().setDescription("🚧 I am sorry, the shop is currently under construction \\:( 🚧"),
-            ],
-        });
-
-        /*
         const item = interaction.options.getSubcommand();
         const shopItem = shopItems.find(i => i.name === item);
         if (!shopItem) {
@@ -102,7 +95,6 @@ export const buy: CommandHandler = {
         if (isCensorshipItem(shopItem.name)) {
             await censorshipPurchase(interaction, shopItem);
         }
-        */
     },
 };
 
