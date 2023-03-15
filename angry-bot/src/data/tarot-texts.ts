@@ -632,7 +632,7 @@ export const tarots: Tarot[] = [
     {
         text: "Sometimes :angry215: thinks about :angry214:. It is a very strange thing to think about. Because there are only two things that :angry215: can think about. And one of them is :angry214:.",
     },
-    {   
+    {
         text: "The Story of :angry216: is a very sad story. Once upon a time (2014) :angry216: was a very happy and nice person. But then :angry216: got angry. And then :angry216: got very angry. And then :angry216: got very very angry. And then :angry216: got very very very angry. And then :angry216: got very very very very angry. And then :angry216: got very very very very very angry. And then :angry216: got very very very very very very angry. And then :angry216: got very very very very very very very angry. And then :angry216: got very very very very very very very very angry. And then :angry216: got very very very very very very very very very angry. And then :angry216: was not angry anymore. :(",
     },
     {
@@ -650,5 +650,4 @@ export const tarots: Tarot[] = [
     {
         text: "Only fourteen people were enlightened by :angry221:. And you are not one of them. But use the day to lie to your friends and family, and tell them that you are one of those fourteen people. They will respect you for this. But never forget: you are a liar. It is in your nature. It is in your blood. It is what you do. ",
     },
-    
 ];
