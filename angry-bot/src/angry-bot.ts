@@ -4,10 +4,10 @@ import { init, Log } from "@helpers";
 import { GatewayIntentBits } from "discord-api-types/v10";
 import { Client, Collection, Message } from "discord.js";
 import { clientId, token } from "helpers/environment";
+import { schedule } from "node-cron";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";
 import { registerApplicationCommands } from "shared/lib/plugins/register-commands";
-import { runDaily } from "shared/lib/plugins/run-fixed";
 import * as Commands from "./commands/command-handlers";
 import { Censorship, Emojicounter, FeetHandler, MediaHandler, Reactor, Tarotreminder, Taxation } from "./plugins";
 
@@ -57,15 +57,23 @@ client.on("ready", async () => {
     log.info(`Started bot version ${version}`, "angry-bot.ts");
 
     // Set Tarotreminder to run every day at 19:00
-    runDaily(19, () => {
-        Tarotreminder.remind(client);
-    });
+    schedule(
+        "0 19 * * *",
+        () => {
+            Tarotreminder.remind(client);
+        },
+        { timezone: "Europe/Vienna" }
+    );
 
     // Check every day at some time if a given user has spent some coins today, otherwise tax them
-    runDaily(19, async () => {
-        const result = await Taxation.tax();
-        Taxation.broadcast(client, result.taxMoney, result.taxedUsers);
-    });
+    schedule(
+        "0 19 * * *",
+        async () => {
+            const result = await Taxation.tax();
+            Taxation.broadcast(client, result.taxMoney, result.taxedUsers);
+        },
+        { timezone: "Europe/Vienna" }
+    );
 
     // Re-register all slash commands when the bot starts
     registerApplicationCommands(token, clientId, commands);

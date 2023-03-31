@@ -1,6 +1,6 @@
 {
     "name": "angry-bot",
-    "version": "3.3.5",
+    "version": "3.3.6",
     "description": "Angry Bot.",
     "type": "module",
     "main": "./index.js",
@@ -16,6 +16,7 @@
     },
     "author": "Wolfgang Schwendtbauer",
     "devDependencies": {
+        "@types/node-cron": "^3.0.7",
         "@typescript-eslint/eslint-plugin": "^5.47.1",
         "@typescript-eslint/parser": "^5.47.1",
         "esbuild": "^0.16.12",
@@ -28,6 +29,7 @@
         "discord.js": "^14.7.1",
         "dotenv": "^16.0.3",
         "mongoose": "^6.8.2",
+        "node-cron": "^3.0.2",
         "node-fetch": "^3.3.0",
         "shared": "link:shared"
     }

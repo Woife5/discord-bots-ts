@@ -1,4 +1,5 @@
-const REQUIRE_SHIM = `import module from 'module'; if(typeof globalThis.require === "undefined"){globalThis.require = module.createRequire(import.meta.url);}`;
+const REQUIRE_SHIM = 'import module from "module"; if(typeof globalThis.require === "undefined"){globalThis.require = module.createRequire(import.meta.url);}';
+const DIRNAME_SHIM = 'if(typeof __dirname === "undefined"){globalThis.__dirname = new URL(".", import.meta.url).pathname;}';
 
 const isProdBuild = process.argv[2] === "--prod";
 
@@ -16,6 +17,6 @@ build({
     target: "node18",
     format: "esm",
     banner: {
-        js: REQUIRE_SHIM,
+        js: `${REQUIRE_SHIM};${DIRNAME_SHIM}`,
     },
 });
