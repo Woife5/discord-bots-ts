@@ -10,7 +10,7 @@
         "typecheck": "tsc --noEmit"
     },
     "peerDependencies": {
-        "discord.js": "^14.7.1"
+        "discord.js": "^14.9.0"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.47.1",
