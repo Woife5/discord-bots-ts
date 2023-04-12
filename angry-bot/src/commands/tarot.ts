@@ -108,7 +108,7 @@ async function setFields(embed: EmbedBuilder, tarotId: number, user: DiscordUser
     });
 
     if (tarots[tarotId].text) {
-        embed.addFields({ name: "Die Weißheit des angrys besagt:", value: tarots[tarotId].text });
+        embed.addFields({ name: "Angry's wisdom states:", value: tarots[tarotId].text.substring(0, 1023) });
     }
 
     if (tarots[tarotId].media) {
