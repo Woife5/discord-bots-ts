@@ -198,7 +198,8 @@ export class CensorshipUtil {
     }
 
     static async isCensored(value: string): Promise<boolean> {
-        return (await this.getAll()).has(value.trim().toLowerCase());
+        const entry = await CensoredDB.findOne({ value }).exec();
+        return !!entry && !!entry.owner;
     }
 
     /**
