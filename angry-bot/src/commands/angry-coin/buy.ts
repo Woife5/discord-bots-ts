@@ -10,7 +10,7 @@ import {
     ChatInputCommandInteraction,
     ComponentType,
 } from "discord.js";
-import { clientId } from "helpers/environment";
+import { clientId } from "shared/lib/utils/env.util";
 import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import { hasEmoji, toCleanLowerCase } from "shared/lib/utils/string.util";

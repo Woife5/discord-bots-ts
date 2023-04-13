@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryCoinEmbed } from "commands/embeds";
 import { ChatInputCommandInteraction, PermissionFlagsBits, User as DiscordUser } from "discord.js";
-import { adminId, clientId } from "helpers/environment";
+import { adminId, clientId } from "shared/lib/utils/env.util";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 

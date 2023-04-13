@@ -10,6 +10,7 @@
         "typecheck": "tsc --noEmit"
     },
     "peerDependencies": {
+        "dotenv": "^16.0.3",
         "discord.js": "^14.9.0"
     },
     "devDependencies": {

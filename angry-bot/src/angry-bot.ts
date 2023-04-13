@@ -3,7 +3,7 @@ import { version } from "@data";
 import { init, Log } from "@helpers";
 import { GatewayIntentBits } from "discord-api-types/v10";
 import { Client, Collection, Message } from "discord.js";
-import { clientId, token } from "helpers/environment";
+import { clientId, token } from "shared/lib/utils/env.util";
 import { schedule } from "node-cron";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";

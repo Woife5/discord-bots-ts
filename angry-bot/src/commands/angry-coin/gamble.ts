@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
 import { angryCoinEmbed } from "commands/embeds";
 import { ChatInputCommandInteraction, User as DiscordUser } from "discord.js";
-import { clientId } from "helpers/environment";
+import { clientId } from "shared/lib/utils/env.util";
 import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "shared/lib/commands/types.d";
 import { getRandomInt } from "shared/lib/utils/number.util";
