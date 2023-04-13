@@ -191,7 +191,7 @@ export const feetRelated = [
     "fiaß",
     "zechan",
     "zehan",
-    "Schua",
-    "Schuah",
-    "Schuach",
+    "schua",
+    "schuah",
+    "schuach",
 ];
