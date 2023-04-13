@@ -192,6 +192,4 @@ export const feetRelated = [
     "zechan",
     "zehan",
     "schua",
-    "schuah",
-    "schuach",
 ];
