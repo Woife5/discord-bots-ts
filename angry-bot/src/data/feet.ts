@@ -183,4 +183,13 @@ export const feetRelated = [
     "полынь",
     "подпятник",
     "подъемник для обуви",
+    "haxn",
+    "fuaß",
+    "boa",
+    "fersn",
+    "ferschn",
+    "fiaß",
+    "zechan",
+    "zehan",
+    "schua",
 ];
