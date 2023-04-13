@@ -4,6 +4,10 @@
     "license": "GPL-3.0",
     "workspaces": [
         "angry-bot",
+        "willhaben-bot",
         "shared"
-    ]
+    ],
+    "scripts": {
+        "preinstall": "cd shared && yarn link"
+    }
 }
