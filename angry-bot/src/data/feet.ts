@@ -19,6 +19,7 @@ export const feetRelated = [
     "🤸‍♂️",
     "🤸",
     "fuß",
+    "foot",
     "feet",
     "toe",
     "zeh",
