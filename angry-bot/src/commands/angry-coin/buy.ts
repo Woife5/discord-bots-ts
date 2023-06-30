@@ -234,7 +234,9 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                 await buttonInteraction.reply({
                     embeds: [
                         angryCoinEmbed().setDescription(
-                            `You don't have enough coins, the base price of this item is \`${price}\` coins!`
+                            `You don't have enough coins, the price of this item is \`${
+                                price + noOwnershipSurcharge
+                            }\` coins!`
                         ),
                     ],
                     components: [],
@@ -275,7 +277,9 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
     interaction.reply({
         embeds: [
             angryCoinEmbed().setDescription(
-                `<@${owner}> owns \`${censoredString}\`! \n Remove for an additional ${noOwnershipSurcharge} Angry Coins?`
+                `<@${owner}> owns \`${censoredString}\`! \n Remove for an additional ${noOwnershipSurcharge} Angry Coins? (total price: \`${
+                    price + noOwnershipSurcharge
+                }\`)`
             ),
         ],
         components: [surchargeButtons],
