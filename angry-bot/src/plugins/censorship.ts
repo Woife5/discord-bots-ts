@@ -24,7 +24,7 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
     const hasImmunity = await hasPower(message.author.id, "censorship-immunity");
     let usedImmunity = false;
 
-    for (const [owner, words] of censored) {
+    outer: for (const [owner, words] of censored) {
         for (const word of words) {
             let regex = new RegExp(`\\b${escapeRegExp(word)}\\b`, "ig");
             if (hasEmoji(word)) {
@@ -34,7 +34,7 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
             if (regex.test(message.content?.toLowerCase())) {
                 if (hasImmunity && owner !== clientId) {
                     usedImmunity = true;
-                    continue;
+                    break outer;
                 }
 
                 hasToBeCensored = true;

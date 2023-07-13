@@ -23,7 +23,8 @@ type CatboyResponse = {
 export const catboy: CommandHandler = {
     data: new SlashCommandBuilder().setName("catboy").setDescription("Get a random catboy image."),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
-        interaction.reply({ embeds: [await runCommand()] });
+        await interaction.deferReply();
+        interaction.editReply({ embeds: [await runCommand()] });
         incrementStatAndUser("catboys-requested", interaction.user);
     },
 };
