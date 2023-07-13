@@ -1,9 +1,8 @@
+import { CensorshipUtil, Log, incrementStatAndUser } from "@helpers";
 import type { Message, PartialMessage } from "discord.js";
-import { incrementStatAndUser, Log, CensorshipUtil } from "@helpers";
+import { clientId } from "helpers/environment";
 import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
 import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { clientId } from "helpers/environment";
-import { hasEmoji } from "shared/lib/utils/string.util";
 
 const log = new Log("Censorship");
 
@@ -24,17 +23,14 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
     const hasImmunity = await hasPower(message.author.id, "censorship-immunity");
     let usedImmunity = false;
 
-    outer: for (const [owner, words] of censored) {
+    for (const [owner, words] of censored) {
         for (const word of words) {
-            let regex = new RegExp(`\\b${escapeRegExp(word)}\\b`, "ig");
-            if (hasEmoji(word)) {
-                regex = new RegExp(escapeRegExp(word), "ig");
-            }
+            const regex = new RegExp(escapeRegExp(word), "ig");
 
             if (regex.test(message.content?.toLowerCase())) {
                 if (hasImmunity && owner !== clientId) {
                     usedImmunity = true;
-                    break outer;
+                    break;
                 }
 
                 hasToBeCensored = true;

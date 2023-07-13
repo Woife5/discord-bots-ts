@@ -1,6 +1,6 @@
 {
     "name": "angry-bot",
-    "version": "3.3.11",
+    "version": "3.3.12",
     "description": "Angry Bot.",
     "type": "module",
     "main": "./index.js",
@@ -31,6 +31,6 @@
         "mongoose": "^6.8.2",
         "node-cron": "^3.0.2",
         "node-fetch": "^3.3.1",
-        "shared": "link:shared"
+        "shared": "link:../shared"
     }
 }
