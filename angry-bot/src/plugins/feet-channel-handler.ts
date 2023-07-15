@@ -55,22 +55,45 @@ export async function handleReaction(
 
     const role = await getMemberRole(member);
     if (role < Role.ADMIN) {
+
+        // accept the vote if more than 3 people vote for yes
+        const count = reaction.count ?? 0;
+        if (count > 3 && reaction.emoji.name === "✅") {
+            return await handleAcceptedFeetImage(reaction.message);
+        }
+
+        if (count > 3 && reaction.emoji.name === "❎") {
+            await reaction.message.delete();
+            return "DELETED";
+        }
+
         return "CONTINUE";
     }
 
     if (reaction.emoji.name === "✅") {
+        return await handleAcceptedFeetImage(reaction.message);
+    }
+
+    if (reaction.emoji.name === "❎") {
+        await reaction.message.delete();
+    }
+
+    return "DELETED";
+}
+
+async function handleAcceptedFeetImage(message: Message | PartialMessage): Promise<PluginReturnCode> {
         const rating = getRandomInt(0, 9);
         const emojiId = getRandomInt(0, ratingEmojis[rating].length - 1);
 
         const ratingEmoji = ratingEmojis[rating][emojiId];
 
-        await reaction.message.reactions.removeAll();
+        await message.reactions.removeAll();
 
-        await reaction.message.reply(`${rating + 1}/10 🦶 ${ratingEmoji}`);
-        await reaction.message.react("🦶");
-        await reaction.message.react(ratingEmoji);
+        await message.reply(`${rating + 1}/10 🦶 ${ratingEmoji}`);
+        await message.react("🦶");
+        await message.react(ratingEmoji);
 
-        const userId = reaction.message.author?.id;
+        const userId = message.author?.id;
         if (userId) {
             const userCache = getUserActionCache(userId);
             if (userCache && userCache.feetCash) {
@@ -80,22 +103,19 @@ export async function handleReaction(
             updateUserActionCache(userId, { feetCash: true });
             let moneyWon = (rating + 1) * 20;
 
-            if (reaction.message.attachments.some((a) => a.contentType?.includes("video"))) {
+            if (message.attachments.some((a) => a.contentType?.includes("video"))) {
+                moneyWon *= 2;
+            }
+
+            if (new Date().getDay() === 5) {
                 moneyWon *= 2;
             }
 
             await updateUserBalance({ userId, amount: moneyWon });
-            await reaction.message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
+            await message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
         }
 
         return "ABORT";
-    }
-
-    if (reaction.emoji.name === "❎") {
-        await reaction.message.delete();
-    }
-
-    return "DELETED";
 }
 
 function isInFeetChannel(message: Message | PartialMessage) {
