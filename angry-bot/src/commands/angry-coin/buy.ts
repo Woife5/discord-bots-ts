@@ -106,6 +106,17 @@ async function buyUserPower(interaction: ChatInputCommandInteraction, shopItem: 
     const amount = interaction.options.getInteger("amount") ?? 1;
     const userId = interaction.user.id;
 
+    const price = shopItem.price * amount;
+    const userBalance = await getUserBalance(userId);
+
+    if (userBalance < price) {
+        interaction.reply({
+            embeds: [angryCoinEmbed().setDescription("You don't have enough angry coins to buy this  :(")],
+            ephemeral: true,
+        });
+        return;
+    }
+
     const update = await getPowerUpdate(userId, shopItem.name as Powers, amount);
     update.angryCoins -= shopItem.price * amount;
     await updateUser(userId, update);
