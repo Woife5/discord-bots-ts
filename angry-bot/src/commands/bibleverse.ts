@@ -28,7 +28,7 @@ type BibleBook = {
 
 const log = new Log("Bibleverse");
 
-const bibleAPI = "https://getbible.net/v2/akjv/";
+const bibleAPI = "https://api.getbible.net/v2/akjv/";
 const numberOfBooks = 66;
 
 export const bibleverse: CommandHandler = {
