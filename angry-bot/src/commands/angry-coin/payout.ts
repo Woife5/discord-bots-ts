@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryCoinEmbed } from "commands/embeds";
 import { ChatInputCommandInteraction, PermissionFlagsBits, User as DiscordUser } from "discord.js";
-import { adminId, clientId } from "shared/lib/utils/env.util";
+import { adminId, clientId } from "@woife5/shared/lib/utils/env.util";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 
 export const payout: CommandHandler = {
     data: new SlashCommandBuilder()

@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { getStat, UserStatKeys } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { getUser } from "helpers/user.util";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { infoEmbed } from "../embeds";
 
 export const stats: CommandHandler = {

@@ -1,5 +1,5 @@
 {
-    "name": "willhaben-bot",
+    "name": "@woife5/willhaben-bot",
     "version": "0.1.0",
     "description": "Willhaben Bot",
     "type": "module",
@@ -25,13 +25,11 @@
     },
     "dependencies": {
         "@discordjs/rest": "^1.7.0",
+        "@woife5/shared": "workspace:*",
         "discord-api-types": "^0.37.37",
         "discord.js": "^14.9.0",
         "dotenv": "^16.0.3",
         "mongoose": "^6.8.2",
         "willhaben": "^0.2.1"
-    },
-    "peerDependencies": {
-        "shared": "link:shared"
     }
 }

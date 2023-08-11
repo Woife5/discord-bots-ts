@@ -1,6 +1,6 @@
 import { User as DiscordUser } from "discord.js";
 import mongoose, { HydratedDocument } from "mongoose";
-import { mongoUri } from "shared/lib/utils/env.util";
+import { mongoUri } from "@woife5/shared/lib/utils/env.util";
 const { Schema, connect, model } = mongoose;
 
 export async function init() {

@@ -3,8 +3,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
 import { getUser, updateUser } from "helpers/user.util";
-import { CommandHandler } from "shared/lib/commands/types.d";
-import { isBeforeYesterdayMidnight, isToday } from "shared/lib/utils/date.util";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { isBeforeYesterdayMidnight, isToday } from "@woife5/shared/lib/utils/date.util";
 import { promisify } from "util";
 const wait = promisify(setTimeout);
 

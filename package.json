@@ -7,7 +7,5 @@
         "willhaben-bot",
         "shared"
     ],
-    "scripts": {
-        "preinstall": "cd shared && yarn link"
-    }
+    "packageManager": "yarn@3.6.1"
 }

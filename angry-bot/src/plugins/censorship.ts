@@ -1,9 +1,9 @@
 import type { Message, PartialMessage } from "discord.js";
 import { incrementStatAndUser, Log, CensorshipUtil } from "@helpers";
 import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
-import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { clientId } from "shared/lib/utils/env.util";
-import { hasEmoji } from "shared/lib/utils/string.util";
+import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import { clientId } from "@woife5/shared/lib/utils/env.util";
+import { hasEmoji } from "@woife5/shared/lib/utils/string.util";
 
 const log = new Log("Censorship");
 

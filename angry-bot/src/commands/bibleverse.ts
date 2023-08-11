@@ -3,8 +3,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser, Log } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
-import { CommandHandler } from "shared/lib/commands/types.d";
-import { getRandomInt } from "shared/lib/utils/number.util";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 
 type BibleVerse = {
     chapter: number;

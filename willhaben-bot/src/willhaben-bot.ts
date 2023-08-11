@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import { CommandHandler } from "shared/lib/commands/types.d";
-import { registerApplicationCommands } from "shared/lib/plugins/register-commands";
-import { clientId, token } from "shared/lib/utils/env.util";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
+import { clientId, token } from "@woife5/shared/lib/utils/env.util";
 import * as Commands from "./commands/command-handlers";
 
 // immediately exit if a kill command is received

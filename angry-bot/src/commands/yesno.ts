@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 
 type ApiResponse = {
     answer: "yes" | "no" | "maybe";

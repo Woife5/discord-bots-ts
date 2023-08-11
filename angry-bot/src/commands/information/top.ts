@@ -8,7 +8,7 @@ import {
     isUserStatKey,
     TopSpamResult,
 } from "helpers/user.util";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { infoEmbedColor } from "../embeds";
 
 const topChoices = [

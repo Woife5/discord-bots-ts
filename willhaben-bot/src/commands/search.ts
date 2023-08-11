@@ -1,5 +1,5 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { CommandHandler } from "shared/lib/commands/types";
+import { CommandHandler } from "@woife5/shared/lib/commands/types";
 import willhaben from "willhaben";
 
 type WillhabenResult = {

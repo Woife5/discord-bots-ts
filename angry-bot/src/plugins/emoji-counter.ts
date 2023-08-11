@@ -1,8 +1,8 @@
 import { Stats } from "@helpers";
 import { Message } from "discord.js";
 import { getUser, getUserActionCache, updateUser, updateUserActionCache } from "helpers/user.util";
-import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { deepCopy } from "shared/lib/utils/object.util";
+import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import { deepCopy } from "@woife5/shared/lib/utils/object.util";
 
 const emojiRegex = new RegExp("<:angry([0-9]{1,3}):[0-9]+>", "g");
 

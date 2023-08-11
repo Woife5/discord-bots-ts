@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildSettingsCache } from "@helpers";
 import { ChannelType, ChatInputCommandInteraction, PermissionFlagsBits } from "discord.js";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { adminEmbed } from "../embeds";
 
 export const bcchannel: CommandHandler = {

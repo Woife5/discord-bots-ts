@@ -1,6 +1,6 @@
 {
-    "name": "angry-bot",
-    "version": "3.3.10",
+    "name": "@woife5/angry-bot",
+    "version": "3.3.11",
     "description": "Angry Bot.",
     "type": "module",
     "main": "./index.js",
@@ -25,14 +25,12 @@
     },
     "dependencies": {
         "@discordjs/rest": "^1.7.0",
+        "@woife5/shared": "workspace:*",
         "discord-api-types": "^0.37.37",
         "discord.js": "^14.9.0",
         "dotenv": "^16.0.3",
         "mongoose": "^6.8.2",
         "node-cron": "^3.0.2",
         "node-fetch": "^3.3.1"
-    },
-    "peerDependencies": {
-        "shared": "link:shared"
     }
 }
