@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildSettingsCache } from "@helpers";
 import { ChatInputCommandInteraction, PermissionFlagsBits } from "discord.js";
-import { adminId } from "helpers/environment";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { adminId } from "@woife5/shared/lib/utils/env.util";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { adminEmbed } from "../embeds";
 
 export const adminrole: CommandHandler = {

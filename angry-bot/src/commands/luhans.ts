@@ -2,8 +2,8 @@ import { funStuff, geschmacksliste, medienDispositive, names } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import { CommandHandler } from "shared/lib/commands/types.d";
-import { getRandomInt } from "shared/lib/utils/number.util";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 
 const medienKlausur = new Date("2021-07-02T11:00:00");
 

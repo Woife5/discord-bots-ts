@@ -4,6 +4,8 @@
     "license": "GPL-3.0",
     "workspaces": [
         "angry-bot",
+        "willhaben-bot",
         "shared"
-    ]
+    ],
+    "packageManager": "yarn@3.6.1"
 }

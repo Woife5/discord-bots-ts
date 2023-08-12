@@ -1,8 +1,8 @@
 import { CensorshipUtil, Log, incrementStatAndUser } from "@helpers";
 import type { Message, PartialMessage } from "discord.js";
-import { clientId } from "helpers/environment";
 import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
-import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
+import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import { clientId } from "@woife5/shared/lib/utils/env.util";
 
 const log = new Log("Censorship");
 

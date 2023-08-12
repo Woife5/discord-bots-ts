@@ -1,7 +1,7 @@
 import { User, Log, GuildSettingsCache } from "@helpers";
 import { ChannelType, Client } from "discord.js";
 import { invalidateUserCache, updateUserBalance } from "helpers/user.util";
-import { clientId } from "helpers/environment";
+import { clientId } from "@woife5/shared/lib/utils/env.util";
 import { angryEmojis } from "@data";
 
 const TAXATION_RATE = 0.07;

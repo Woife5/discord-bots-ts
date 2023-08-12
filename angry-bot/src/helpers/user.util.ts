@@ -1,9 +1,9 @@
 import { Guild, GuildMember, User as DiscordUser } from "discord.js";
 import type { HydratedDocument } from "mongoose";
-import { Role } from "shared/lib/commands/types.d";
-import { isToday } from "shared/lib/utils/date.util";
+import { Role } from "@woife5/shared/lib/commands/types.d";
+import { isToday } from "@woife5/shared/lib/utils/date.util";
 import { createUserSimple, GuildSettingsCache, IUser, Powers, User, UserStatKeys } from "./db-helpers";
-import { adminId, clientId } from "./environment";
+import { adminId, clientId } from "@woife5/shared/lib/utils/env.util";
 
 type UserActionCacheItem = {
     date: Date;

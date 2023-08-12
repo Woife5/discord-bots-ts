@@ -1,8 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { APIEmbedField, ChatInputCommandInteraction, Guild, User } from "discord.js";
+import { APIEmbedField, ChatInputCommandInteraction, EmbedBuilder, Guild, User } from "discord.js";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import * as Commands from "../command-handlers";
-import { infoEmbed } from "../embeds";
+import * as Commands from "./command-handlers";
 
 export const help: CommandHandler = {
     data: new SlashCommandBuilder().setName("help").setDescription("Get a list of commands and a short explanation."),
@@ -13,13 +12,15 @@ export const help: CommandHandler = {
 
 async function runCommand(user: User, guild: Guild | null) {
     if (!guild) {
-        return infoEmbed().setDescription("This command can only be used in a server.");
+        return new EmbedBuilder().setDescription("This command can only be used in a server.");
     }
 
     const isAdmin = guild?.members.cache.get(user.id)?.permissions.has("Administrator") ?? false;
 
     const showCommand = (command: CommandHandler) => isAdmin || command.data.default_member_permissions === "8";
-    return infoEmbed()
+    return new EmbedBuilder()
+        .setColor("White")
+        .setAuthor({ name: "Willhaben" })
         .setTitle("Available Commands")
         .addFields(
             Object.values(Commands)

@@ -3,7 +3,7 @@ import { GuildSettingsCache } from "@helpers";
 import { infoEmbed } from "commands/embeds";
 import { ChatInputCommandInteraction, Guild, User as DiscordUser } from "discord.js";
 import { getUser, getUserActionCache } from "helpers/user.util";
-import { CommandHandler } from "shared/lib/commands/types.d";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 
 export const about: CommandHandler = {
     data: new SlashCommandBuilder()

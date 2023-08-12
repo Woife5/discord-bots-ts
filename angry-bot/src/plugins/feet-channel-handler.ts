@@ -1,6 +1,6 @@
 import { ratingEmojis, feetRelated } from "@data";
-import type { PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { Role } from "shared/lib/commands/types.d";
+import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import { Role } from "@woife5/shared/lib/commands/types.d";
 import {
     ChannelType,
     Message,
@@ -10,7 +10,7 @@ import {
     PartialUser,
     User,
 } from "discord.js";
-import { getRandomInt } from "shared/lib/utils/number.util";
+import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import { getMemberRole, getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {

@@ -2,8 +2,8 @@ import { angryBirthday } from "@data";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { infoEmbed } from "commands/embeds";
 import { ChatInputCommandInteraction } from "discord.js";
-import { CommandHandler } from "shared/lib/commands/types.d";
-import { daysUntil } from "shared/lib/utils/date.util";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { daysUntil } from "@woife5/shared/lib/utils/date.util";
 
 export const birthday: CommandHandler = {
     data: new SlashCommandBuilder().setName("birthday").setDescription("Get the date of my birthday."),

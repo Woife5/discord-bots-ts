@@ -3,11 +3,11 @@ import { version } from "@data";
 import { init, Log } from "@helpers";
 import { GatewayIntentBits } from "discord-api-types/v10";
 import { Client, Collection, Message } from "discord.js";
-import { clientId, token } from "helpers/environment";
+import { clientId, token } from "@woife5/shared/lib/utils/env.util";
 import { schedule } from "node-cron";
-import { CommandHandler } from "shared/lib/commands/types.d";
-import { MessageWrapper, PluginReturnCode } from "shared/lib/messages/message-wrapper";
-import { registerApplicationCommands } from "shared/lib/plugins/register-commands";
+import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { MessageWrapper, PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
 import * as Commands from "./commands/command-handlers";
 import { Censorship, Emojicounter, FeetHandler, MediaHandler, Reactor, Tarotreminder, Taxation } from "./plugins";
 
