@@ -75,7 +75,7 @@ jobs:
               id: package-version
               uses: martinbeentjes/npm-get-version-action@main
               with: 
-                  path: angry-bot
+                  path: willhaben-bot
             - name: Download build
               uses: actions/download-artifact@v2
               with:
