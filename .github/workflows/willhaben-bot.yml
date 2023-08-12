@@ -1,4 +1,4 @@
-name: Angry Bot
+name: Willhaben Bot
 
 on:
     pull_request:
