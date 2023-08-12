@@ -21,6 +21,7 @@ type WillhabenResult = {
     };
     description: string;
     selfLink: string;
+    seo_url: string;
     location: string;
     heading: string;
     body_dyn: string;
@@ -70,20 +71,34 @@ export const search: CommandHandler = {
         }
 
         let page = 1;
+        let pages = 1;
         const results: WillhabenResult[] = await willhaben
             .new()
             .keyword(searchTerm)
             .count(PAGE_SIZE * PAGE_AMOUNT)
             .search();
 
-        const embed = defaultEmbed().addFields(
-            results.slice(0, PAGE_SIZE).map(res => ({
-                name: res.heading.substring(0, 100),
-                value: res.body_dyn.substring(0, 2000),
-            }))
-        );
+        const maxIndex = results.length - 1;
+        pages = Math.ceil(maxIndex / PAGE_SIZE);
+
+        if (pages === 0) {
+            interaction.editReply({
+                embeds: [
+                    defaultEmbed()
+                        .setTitle("No results found :(")
+                        .setDescription("Try again with a different search term."),
+                ],
+            });
+            return;
+        }
 
         if (!interaction.channel) {
+            const embed = defaultEmbed().addFields(
+                results.slice(0, maxIndex < PAGE_SIZE ? maxIndex : PAGE_SIZE).map(res => ({
+                    name: res.heading.substring(0, 100),
+                    value: res.body_dyn.substring(0, 2000),
+                }))
+            );
             await interaction.editReply({ embeds: [embed] });
             return;
         }
@@ -92,7 +107,6 @@ export const search: CommandHandler = {
         const prevButton = new ButtonBuilder().setCustomId("prev").setLabel("⬅️").setStyle(ButtonStyle.Primary);
         const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents([prevButton, nextButton]);
         const collector = interaction.channel.createMessageComponentCollector({
-            filter: i => i.user.id === interaction.user.id,
             componentType: ComponentType.Button,
             time: 60_000,
         });
@@ -106,7 +120,7 @@ export const search: CommandHandler = {
                 page -= 1;
             }
 
-            await i.update({ embeds: [buildEmbed(results, page)] });
+            await i.update({ embeds: [buildEmbed(results, page, pages, maxIndex)] });
         });
 
         collector.on("end", async () => {
@@ -114,19 +128,21 @@ export const search: CommandHandler = {
             await interaction.editReply({ embeds: [expired], components: [] });
         });
 
-        await interaction.editReply({ embeds: [buildEmbed(results, page)], components: [buttonRow] });
+        await interaction.editReply({ embeds: [buildEmbed(results, page, pages, maxIndex)], components: [buttonRow] });
     },
 };
 
-function buildEmbed(results: WillhabenResult[], page: number) {
+function buildEmbed(results: WillhabenResult[], page: number, pages: number, maxIndex: number) {
+    const start = (page - 1) * PAGE_SIZE;
+    const end = maxIndex < page * PAGE_SIZE ? maxIndex : page * PAGE_SIZE;
     return defaultEmbed()
         .addFields(
-            results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map(res => ({
+            results.slice(start, end).map(res => ({
                 name: res.heading.substring(0, 100),
-                value: res.body_dyn.substring(0, 2000),
+                value: res.body_dyn.substring(0, 1500) + `\n[Link](https://willhaben.at/iad/${res.seo_url})\n`,
             }))
         )
-        .setFooter({ text: `Page ${page}/${PAGE_AMOUNT}` });
+        .setFooter({ text: `Page ${page}/${pages}` });
 }
 
 function defaultEmbed() {
