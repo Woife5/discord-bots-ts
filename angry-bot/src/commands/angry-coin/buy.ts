@@ -106,6 +106,17 @@ async function buyUserPower(interaction: ChatInputCommandInteraction, shopItem: 
     const amount = interaction.options.getInteger("amount") ?? 1;
     const userId = interaction.user.id;
 
+    const price = shopItem.price * amount;
+    const userBalance = await getUserBalance(userId);
+
+    if (userBalance < price) {
+        interaction.reply({
+            embeds: [angryCoinEmbed().setDescription("You don't have enough angry coins to buy this  :(")],
+            ephemeral: true,
+        });
+        return;
+    }
+
     const update = await getPowerUpdate(userId, shopItem.name as Powers, amount);
     update.angryCoins -= shopItem.price * amount;
     await updateUser(userId, update);
@@ -234,7 +245,9 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                 await buttonInteraction.reply({
                     embeds: [
                         angryCoinEmbed().setDescription(
-                            `You don't have enough coins, the base price of this item is \`${price}\` coins!`
+                            `You don't have enough coins, the price of this item is \`${
+                                price + noOwnershipSurcharge
+                            }\` coins!`
                         ),
                     ],
                     components: [],
@@ -275,7 +288,9 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
     interaction.reply({
         embeds: [
             angryCoinEmbed().setDescription(
-                `<@${owner}> owns \`${censoredString}\`! \n Remove for an additional ${noOwnershipSurcharge} Angry Coins?`
+                `<@${owner}> owns \`${censoredString}\`! \n Remove for an additional ${noOwnershipSurcharge} Angry Coins? (total price: \`${
+                    price + noOwnershipSurcharge
+                }\`)`
             ),
         ],
         components: [surchargeButtons],
