@@ -16,11 +16,10 @@
     },
     "author": "Wolfgang Schwendtbauer",
     "devDependencies": {
-        "@types/node-cron": "^3.0.7",
-        "@typescript-eslint/eslint-plugin": "^5.58.0",
-        "@typescript-eslint/parser": "^5.58.0",
-        "esbuild": "^0.16.12",
-        "eslint": "^8.38.0",
+        "@typescript-eslint/eslint-plugin": "^6.5.0",
+        "@typescript-eslint/parser": "^6.5.0",
+        "esbuild": "^0.19.2",
+        "eslint": "^8.48.0",
         "typescript": "^4.9.4"
     },
     "dependencies": {
@@ -28,7 +27,7 @@
         "@woife5/shared": "workspace:*",
         "discord-api-types": "^0.37.37",
         "discord.js": "^14.9.0",
-        "dotenv": "^16.0.3",
+        "dotenv": "^16.3.1",
         "mongoose": "^6.8.2",
         "willhaben": "^0.2.1"
     }
