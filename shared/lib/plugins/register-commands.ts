@@ -16,5 +16,5 @@ export async function registerApplicationCommands(
     });
 
     // eslint-disable-next-line no-console
-    console.info(`Registered ${commands.size} commands for every guild.`, "registerApplicationCommands");
+    console.info(`Registered ${commands.size} commands for every guild.`);
 }
