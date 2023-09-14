@@ -88,17 +88,8 @@ export const search: CommandHandler = {
                 data = pagedResults.prevPage();
             }
 
-            if (!pagedResults.hasNextPage()) {
-                nextButton.setDisabled(true);
-            } else {
-                nextButton.setDisabled(false);
-            }
-
-            if (!pagedResults.hasPrevPage()) {
-                prevButton.setDisabled(true);
-            } else {
-                prevButton.setDisabled(false);
-            }
+            nextButton.setDisabled(!pagedResults.hasNextPage());
+            prevButton.setDisabled(!pagedResults.hasPrevPage());
 
             await i.update({
                 embeds: [buildEmbed(data, pagedResults.page, pagedResults.pages)],
