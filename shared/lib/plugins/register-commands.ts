@@ -1,4 +1,4 @@
-import { CommandHandler } from "commands/types";
+import { CommandHandler } from "../commands/types";
 import { Collection, REST, Routes } from "discord.js";
 
 export async function registerApplicationCommands(
