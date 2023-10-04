@@ -1,7 +1,6 @@
 import { angryEmojis, tarots } from "@data";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser, SlashCommandBuilder } from "discord.js";
 import { getUser, updateUser } from "helpers/user.util";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { isBeforeYesterdayMidnight, isToday } from "@woife5/shared/lib/utils/date.util";

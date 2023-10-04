@@ -1,7 +1,6 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildSettingsCache } from "@helpers";
 import { infoEmbed } from "commands/embeds";
-import { ChatInputCommandInteraction, Guild, User as DiscordUser } from "discord.js";
+import { ChatInputCommandInteraction, Guild, User as DiscordUser, SlashCommandBuilder } from "discord.js";
 import { getUser, getUserActionCache } from "helpers/user.util";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 

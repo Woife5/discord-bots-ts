@@ -1,7 +1,6 @@
 import { funStuff, geschmacksliste, medienDispositive, names } from "@data";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { incrementStatAndUser } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 

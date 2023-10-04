@@ -1,5 +1,4 @@
 import { uncensorable } from "@data";
-import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { CensorshipUtil, Powers } from "@helpers";
 import { angryCoinEmbed } from "commands/embeds";
 import {
@@ -9,6 +8,8 @@ import {
     ButtonStyle,
     ChatInputCommandInteraction,
     ComponentType,
+    SlashCommandBuilder,
+    SlashCommandSubcommandBuilder,
 } from "discord.js";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
 import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";

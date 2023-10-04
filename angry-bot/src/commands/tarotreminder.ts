@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChatInputCommandInteraction, EmbedBuilder, User } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, User } from "discord.js";
 import { updateUser } from "helpers/user.util";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 

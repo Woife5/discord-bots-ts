@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { CensorshipUtil } from "@helpers";
-import { ChatInputCommandInteraction, PermissionFlagsBits } from "discord.js";
+import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getCensoredEmbed } from "../information/censored";

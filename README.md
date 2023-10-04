@@ -2,15 +2,15 @@
 
 ## Setup
 
-Make sure you have `yarn` installed:
+Make sure you have `pnpm` installed:
 
-    npm install -g yarn
+    npm install -g pnpm
 
 ## Angry Bot
 
 The scripts to build an run the bot can be found in `angry-bot/package.json`. Run them with:
 
-    yarn <scriptname>
+    pnpm <scriptname>
 
 ### Run the bot
 
@@ -33,9 +33,9 @@ For local development all the required secrets can be added to a `.env` file whi
 
 To finally start the development version of the bot run:
 
-    yarn start
+    pnpm start
 
 This will transpile and run the bot with `node`.
 Version 18 of `node` is used in production so it would be wise to also use it for development although it may also work with other version.
-If any files change you have to stop the running process using `Ctrl+C` and run `yarn start` again.
+If any files change you have to stop the running process using `Ctrl+C` and run `pnpm start` again.
 Otherwise the changes will not be applied.

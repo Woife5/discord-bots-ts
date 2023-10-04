@@ -21,25 +21,29 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v2
             - name: Setup Node
               uses: actions/setup-node@v3
               with:
                   node-version: "18"
-                  cache: "yarn"
-                  cache-dependency-path: "yarn.lock"
-            - run: yarn install --frozen-lockfile
+                  cache: "pnpm"
+                  cache-dependency-path: "pnpm-lock.yaml"
+            - run: pnpm install
             - name: Run linting
-              run: yarn lint
+              run: pnpm lint
     Typecheck:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v2
             - name: Setup Node
               uses: actions/setup-node@v3
               with:
                   node-version: "18"
-                  cache: "yarn"
-                  cache-dependency-path: "yarn.lock"
-            - run: yarn install --frozen-lockfile
+                  cache: "pnpm"
+                  cache-dependency-path: "pnpm-lock.yaml"
+            - run: pnpm install
             - name: Run typechecking
-              run: yarn typecheck
+              run: pnpm typecheck

@@ -1,7 +1,5 @@
-import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v10";
-import { Collection } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { CommandHandler } from "../commands/types";
+import { Collection, REST, Routes } from "discord.js";
 
 export async function registerApplicationCommands(
     token: string,

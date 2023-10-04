@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { APIEmbedField, ChatInputCommandInteraction, EmbedBuilder, Guild, User } from "discord.js";
+import { APIEmbedField, ChatInputCommandInteraction, EmbedBuilder, Guild, SlashCommandBuilder, User } from "discord.js";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import * as Commands from "./command-handlers";
 
