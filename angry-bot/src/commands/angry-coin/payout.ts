@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { angryCoinEmbed } from "commands/embeds";
-import { ChatInputCommandInteraction, PermissionFlagsBits, User as DiscordUser } from "discord.js";
+import { ChatInputCommandInteraction, PermissionFlagsBits, User as DiscordUser, SlashCommandBuilder } from "discord.js";
 import { adminId, clientId } from "@woife5/shared/lib/utils/env.util";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";

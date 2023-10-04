@@ -5,16 +5,16 @@
     "type": "module",
     "main": "./index.js",
     "license": "GPL-3.0",
+    "author": "Wolfgang Schwendtbauer",
     "scripts": {
-        "start": "yarn build:dev && node ./index-dev.js",
+        "start": "pnpm build:dev && node ./index-dev.js",
         "build": "node build.js --prod",
         "build:dev": "node build.js --dev",
         "lint": "eslint ./src/**/*.ts",
         "typecheck": "tsc --noEmit",
-        "predockerize": "yarn lint && yarn typecheck && yarn build",
+        "predockerize": "pnpm lint && pnpm typecheck && pnpm build",
         "dockerize": "docker buildx build -t woife5/angry-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64,linux/arm/v7,linux/arm/v6 -o type=registry ."
     },
-    "author": "Wolfgang Schwendtbauer",
     "devDependencies": {
         "@types/node-cron": "^3.0.8",
         "@typescript-eslint/eslint-plugin": "^6.6.0",

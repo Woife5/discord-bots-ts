@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildSettingsCache } from "@helpers";
-import { ChannelType, ChatInputCommandInteraction, PermissionFlagsBits } from "discord.js";
+import { ChannelType, ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { adminEmbed } from "../embeds";
 

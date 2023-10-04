@@ -1,7 +1,6 @@
 import { angryEmojis } from "@data";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { Stats } from "@helpers";
-import { ChatInputCommandInteraction, User as DiscordUser } from "discord.js";
+import { ChatInputCommandInteraction, User as DiscordUser, SlashCommandBuilder } from "discord.js";
 import { getUser } from "helpers/user.util";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { infoEmbed } from "../embeds";
