@@ -16,3 +16,7 @@ export function infoEmbed() {
 export function angryCoinEmbed() {
     return new EmbedBuilder().setColor("Yellow").setAuthor(author);
 }
+
+export function errorEmbed() {
+    return new EmbedBuilder().setColor("#ff4dde");
+}
