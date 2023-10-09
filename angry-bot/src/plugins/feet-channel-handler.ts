@@ -55,7 +55,6 @@ export async function handleReaction(
 
     const role = await getMemberRole(member);
     if (role < Role.ADMIN) {
-
         // accept the vote if more than 3 people vote for yes
         const count = reaction.count ?? 0;
         if (count > 3 && reaction.emoji.name === "✅") {
@@ -82,40 +81,40 @@ export async function handleReaction(
 }
 
 async function handleAcceptedFeetImage(message: Message | PartialMessage): Promise<PluginReturnCode> {
-        const rating = getRandomInt(0, 9);
-        const emojiId = getRandomInt(0, ratingEmojis[rating].length - 1);
+    const rating = getRandomInt(0, 9);
+    const emojiId = getRandomInt(0, ratingEmojis[rating].length - 1);
 
-        const ratingEmoji = ratingEmojis[rating][emojiId];
+    const ratingEmoji = ratingEmojis[rating][emojiId];
 
-        await message.reactions.removeAll();
+    await message.reactions.removeAll();
 
-        await message.reply(`${rating + 1}/10 🦶 ${ratingEmoji}`);
-        await message.react("🦶");
-        await message.react(ratingEmoji);
+    await message.reply(`${rating + 1}/10 🦶 ${ratingEmoji}`);
+    await message.react("🦶");
+    await message.react(ratingEmoji);
 
-        const userId = message.author?.id;
-        if (userId) {
-            const userCache = getUserActionCache(userId);
-            if (userCache && userCache.feetCash) {
-                return "ABORT";
-            }
-
-            updateUserActionCache(userId, { feetCash: true });
-            let moneyWon = (rating + 1) * 20;
-
-            if (message.attachments.some((a) => a.contentType?.includes("video"))) {
-                moneyWon *= 2;
-            }
-
-            if (new Date().getDay() === 5) {
-                moneyWon *= 2;
-            }
-
-            await updateUserBalance({ userId, amount: moneyWon });
-            await message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
+    const userId = message.author?.id;
+    if (userId) {
+        const userCache = getUserActionCache(userId);
+        if (userCache && userCache.feetCash) {
+            return "ABORT";
         }
 
-        return "ABORT";
+        updateUserActionCache(userId, { feetCash: true });
+        let moneyWon = (rating + 1) * 20;
+
+        if (message.attachments.some(a => a.contentType?.includes("video"))) {
+            moneyWon *= 2;
+        }
+
+        if (new Date().getDay() === 5) {
+            moneyWon *= 2;
+        }
+
+        await updateUserBalance({ userId, amount: moneyWon });
+        await message.reply(`You won ${moneyWon} angry coins for this awesome contribution!`);
+    }
+
+    return "ABORT";
 }
 
 function isInFeetChannel(message: Message | PartialMessage) {

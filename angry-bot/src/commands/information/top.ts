@@ -37,7 +37,7 @@ const topChoices = [
     },
 ] as const;
 
-type SortByKeys = typeof topChoices[number]["value"];
+type SortByKeys = (typeof topChoices)[number]["value"];
 
 export const top: CommandHandler = {
     data: new SlashCommandBuilder()

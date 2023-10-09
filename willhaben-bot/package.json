@@ -1,6 +1,6 @@
 {
     "name": "@woife5/willhaben-bot",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "Willhaben Bot",
     "type": "module",
     "main": "./index.js",
@@ -11,6 +11,8 @@
         "build": "node build.js --prod",
         "build:dev": "node build.js --dev",
         "lint": "eslint ./src/**/*.ts",
+        "format": "prettier --check ./src/**/*.ts",
+        "format:fix": "prettier --write ./src/**/*.ts",
         "typecheck": "tsc --noEmit",
         "predockerize": "pnpm lint && pnpm typecheck && pnpm build",
         "dockerize": "docker buildx build -t woife5/willhaben-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64,linux/arm/v7,linux/arm/v6 -o type=registry ."
@@ -19,16 +21,17 @@
         "@typescript-eslint/eslint-plugin": "^6.7.4",
         "@typescript-eslint/parser": "^6.7.4",
         "esbuild": "^0.19.4",
-        "eslint": "^8.50.0",
-        "typescript": "^5.2.2"
+        "eslint": "^8.51.0",
+        "typescript": "^5.2.2",
+        "prettier": "^3.0.3"
     },
     "dependencies": {
         "@discordjs/rest": "^2.0.1",
         "@woife5/shared": "workspace:*",
-        "discord-api-types": "^0.37.59",
+        "discord-api-types": "^0.37.60",
         "discord.js": "^14.13.0",
         "dotenv": "^16.3.1",
-        "mongoose": "^7.5.4",
+        "mongoose": "^7.6.0",
         "willhaben": "^0.2.1"
     }
 }

@@ -40,7 +40,7 @@ export const tarotReminders = [
     "Think about this: If you don't get your daily tarot, you will be the only one who doesn't get their daily tarot. And that's sad.",
     "Sausage is a good food. But it is not as good as your daily tarot.",
     "You are a nerd if you don't get your daily tarot.",
-    "🤧", 
+    "🤧",
     "Cars waste a lot of energy. You can save the planet by getting your daily tarot.",
     "It is an old saying that you should get your daily tarot. It is also an old saying that you should not waste your time reading this.",
     "I am not in love with you anymore. I am in love with your daily tarot.",

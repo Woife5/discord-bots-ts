@@ -9,7 +9,10 @@ export class PagedFinder {
 
     private results: WillhabenResult[] = [];
 
-    constructor(public PAGE_SIZE = 5, public PAGE_AMOUNT = 5) {}
+    constructor(
+        public PAGE_SIZE = 5,
+        public PAGE_AMOUNT = 5
+    ) {}
 
     public async find(keyword: string, category: Optional<string>) {
         const w = willhaben

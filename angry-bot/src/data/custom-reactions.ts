@@ -71,26 +71,11 @@ export const customReactions: CustomReaction = {
         angrys: 2,
     },
     "676092929978269718": {
-        reactions: [
-            angryEmojis[0],
-            "😈",
-            "🦈",
-            "🥟",
-            "🌚",
-            angryEmojis[1],
-        ],
+        reactions: [angryEmojis[0], "😈", "🦈", "🥟", "🌚", angryEmojis[1]],
         angrys: 2,
     },
     "300673115791294474": {
-        reactions: [
-            angryEmojis[0],
-            "🇲",
-            "🥹",
-            "🇹",
-            "🇿",
-            "🇮",
-            angryEmojis[8],
-        ],
+        reactions: [angryEmojis[0], "🇲", "🥹", "🇹", "🇿", "🇮", angryEmojis[8]],
         angrys: 2,
     },
 };

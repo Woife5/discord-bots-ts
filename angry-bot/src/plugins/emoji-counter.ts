@@ -35,15 +35,21 @@ export async function count(message: Message): Promise<PluginReturnCode> {
         { upsert: true, new: true }
     ).exec();
 
-    const emojis = matches.reduce((acc, emojiId) => {
-        acc[emojiId] = (acc[emojiId] ?? 0) + 1;
-        return acc;
-    }, {} as { [key: string]: number });
+    const emojis = matches.reduce(
+        (acc, emojiId) => {
+            acc[emojiId] = (acc[emojiId] ?? 0) + 1;
+            return acc;
+        },
+        {} as { [key: string]: number }
+    );
 
-    const stickers = stickerList.reduce((acc, stickerName) => {
-        acc[stickerName] = (acc[stickerName] ?? 0) + 1;
-        return acc;
-    }, {} as { [key: string]: number });
+    const stickers = stickerList.reduce(
+        (acc, stickerName) => {
+            acc[stickerName] = (acc[stickerName] ?? 0) + 1;
+            return acc;
+        },
+        {} as { [key: string]: number }
+    );
 
     const userEmojis = deepCopy(user?.emojis ?? {});
     const userStickers = deepCopy(user?.stickers ?? {});
