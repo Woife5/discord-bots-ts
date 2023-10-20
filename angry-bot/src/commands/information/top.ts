@@ -35,6 +35,14 @@ const topChoices = [
         name: "Most money in the bank",
         value: "money-in-bank",
     },
+    {
+        name: "Most catgirls requested",
+        value: "catgirls-requested",
+    },
+    {
+        name: "Most catboys requested (RIP) :(",
+        value: "catboys-requested",
+    },
 ] as const;
 
 type SortByKeys = (typeof topChoices)[number]["value"];
