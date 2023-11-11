@@ -1,9 +1,4 @@
 /* eslint-disable no-console */
-import dotenv from "dotenv";
-if (process.env.NODE_ENV !== "production") {
-    dotenv.config();
-}
-
 const { CLIENT_ID, BOT_TOKEN, WOLFGANG_ID, MONGO_URI } = process.env;
 
 if (!CLIENT_ID || !BOT_TOKEN || !WOLFGANG_ID || !MONGO_URI) {

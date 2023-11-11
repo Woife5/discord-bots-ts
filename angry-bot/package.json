@@ -1,13 +1,13 @@
 {
     "name": "@woife5/angry-bot",
-    "version": "3.4.1",
+    "version": "3.4.2",
     "description": "Angry Bot.",
     "type": "module",
     "main": "./index.js",
     "license": "GPL-3.0",
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
-        "start": "pnpm build:dev && node ./index-dev.js",
+        "start": "pnpm build:dev && node --env-file=.env ./index-dev.js",
         "build": "node build.js --prod",
         "build:dev": "node build.js --dev",
         "lint": "eslint ./src/**/*.ts",
@@ -18,22 +18,21 @@
         "dockerize": "docker buildx build -t woife5/angry-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64,linux/arm/v7,linux/arm/v6 -o type=registry ."
     },
     "devDependencies": {
-        "@types/node-cron": "^3.0.9",
-        "@typescript-eslint/eslint-plugin": "^6.7.4",
-        "@typescript-eslint/parser": "^6.7.4",
-        "esbuild": "^0.19.4",
-        "eslint": "^8.51.0",
+        "@types/node-cron": "^3.0.11",
+        "@typescript-eslint/eslint-plugin": "^6.10.0",
+        "@typescript-eslint/parser": "^6.10.0",
+        "esbuild": "^0.19.5",
+        "eslint": "^8.53.0",
         "typescript": "^5.2.2",
         "prettier": "^3.0.3"
     },
     "dependencies": {
         "@discordjs/rest": "^2.0.1",
         "@woife5/shared": "workspace:*",
-        "discord-api-types": "^0.37.60",
+        "discord-api-types": "^0.37.63",
         "discord.js": "^14.13.0",
-        "dotenv": "^16.3.1",
         "mongoose": "^7.6.0",
-        "node-cron": "^3.0.2",
+        "node-cron": "^3.0.3",
         "node-fetch": "^3.3.2"
     }
 }
