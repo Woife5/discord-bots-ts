@@ -2,15 +2,13 @@
 
 ## Setup
 
-Make sure you have `pnpm` installed:
-
-    npm install -g pnpm
+Make sure you have `bun` installed: [bun.sh](https://bun.sh)
 
 ## Angry Bot
 
 The scripts to build an run the bot can be found in `angry-bot/package.json`. Run them with:
 
-    pnpm <scriptname>
+    bun run <scriptname>
 
 ### Run the bot
 
@@ -23,9 +21,9 @@ Required Secrets:
 -   WOLFGANG_ID
 
 For local development a **MongoDB** has to be running locally and its connection string has to be set. It should look something like this:
-    
+
     mongodb://admin:password@localhost:27017/angryBot?authSource=admin
-    
+
 Where `admin` and `password` are the credentials for the database and `angryBot` is the name of the database.
 The `?authSource=admin` part tells mongo to use the `admin` database for authentication.
 
@@ -33,9 +31,6 @@ For local development all the required secrets can be added to a `.env` file whi
 
 To finally start the development version of the bot run:
 
-    pnpm start
+    bun run start
 
-This will transpile and run the bot with `node`.
-Version 18 of `node` is used in production so it would be wise to also use it for development although it may also work with other version.
-If any files change you have to stop the running process using `Ctrl+C` and run `pnpm start` again.
-Otherwise the changes will not be applied.
+This will transpile and run the bot. As soon as any source file changes, bun will automatically restart the bot.

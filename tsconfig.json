@@ -1,14 +1,25 @@
 {
     "compilerOptions": {
-        "target": "ES2022",
-        "lib": ["ES2021"],
-        "module": "ES2022",
-        "moduleResolution": "Node",
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
+        "types": ["bun-types"],
+
+        "lib": ["ESNext"],
+        "module": "esnext",
+        "target": "esnext",
+
+        "moduleResolution": "bundler",
+        "noEmit": true,
+        "allowImportingTsExtensions": true,
+        "moduleDetection": "force",
+
+        "allowJs": true, // allow importing `.js` from `.ts`
+
+        // best practices
         "strict": true,
+        "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
+        "composite": true,
+        "downlevelIteration": true,
+        "allowSyntheticDefaultImports": true,
         "strictNullChecks": true,
         "alwaysStrict": true
     }
