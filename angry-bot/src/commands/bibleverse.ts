@@ -1,7 +1,6 @@
 import { bookNames } from "@data";
 import { incrementStatAndUser, Log } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import fetch from "node-fetch";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 

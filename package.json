@@ -2,5 +2,10 @@
     "type": "module",
     "private": true,
     "license": "GPL-3.0",
-    "packageManager": "pnpm@8.8.0"
+    "packageManager": "bun@1.0.11",
+    "workspaces": [
+        "angry-bot",
+        "willhaben-bot",
+        "shared"
+    ]
 }

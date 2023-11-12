@@ -1,7 +1,7 @@
-FROM node:20-alpine
+FROM oven/bun:alpine
 
 WORKDIR /usr/src
 
-COPY ./index.js ./index.mjs
+COPY ./willhaben-bot.js ./willhaben-bot.js
 
-ENTRYPOINT [ "node", "./index.mjs" ]
+ENTRYPOINT [ "bun", "./willhaben-bot.js" ]
