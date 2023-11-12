@@ -14,7 +14,7 @@
         "format:fix": "prettier --write ./src/**/*.ts",
         "typecheck": "tsc --noEmit",
         "predockerize": "bun run lint && bun run typecheck && bun run build",
-        "dockerize": "docker buildx build -t woife5/angry-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64,linux/arm/v7,linux/arm/v6 -o type=registry ."
+        "dockerize": "docker buildx build -t woife5/angry-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
     },
     "devDependencies": {
         "@types/node-cron": "^3.0.11",
