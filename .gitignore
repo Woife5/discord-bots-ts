@@ -8,6 +8,7 @@ Thumbs.db
 # Compiled files
 build
 node_modules
+tsconfig.tsbuildinfo
 
 # IDE files
 .vscode
