@@ -4,8 +4,6 @@ import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser, SlashCo
 import { getUser, updateUser } from "helpers/user.util";
 import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { isBeforeYesterdayMidnight, isToday } from "@woife5/shared/lib/utils/date.util";
-import { promisify } from "util";
-const wait = promisify(setTimeout);
 
 const currentlyHandling = new Set<string>();
 
@@ -33,7 +31,7 @@ export const tarot: CommandHandler = {
                 value: `Let me sense your angry${".".repeat(i + 1)}`,
             });
             await interaction.editReply({ embeds: [embed] });
-            await wait(500);
+            await Bun.sleep(500);
         }
 
         const streak = await updateUserAndGetStreak(interaction.user, result);
