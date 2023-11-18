@@ -26,10 +26,6 @@ async function runCommand(question: string) {
     const res = await fetch("https://yesno.wtf/api");
     const result = (await res.json()) as ApiResponse;
 
-    if (!question) {
-        question = "Ehm how?";
-    }
-
     return new EmbedBuilder()
         .setColor("Blue")
         .setTitle(question)

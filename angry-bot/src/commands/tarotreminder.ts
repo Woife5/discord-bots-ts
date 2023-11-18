@@ -14,19 +14,15 @@ export const tarotreminder: CommandHandler = {
                 .addChoices({ name: "Enable", value: "enable" }, { name: "Disable", value: "disable" })
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
-        const action = interaction.options.getString("action") as "enable" | "disable";
-
+        const action = interaction.options.getString("action", true) as "enable" | "disable";
         await updateReminder(interaction.user, action);
+        const embed = new EmbedBuilder().setColor("DarkRed");
         if (action === "enable") {
-            interaction.reply({ embeds: [embed().setDescription("Tarot reminder enabled!")] });
+            interaction.reply({ embeds: [embed.setDescription("Tarot reminder enabled!")] });
         } else {
-            interaction.reply({ embeds: [embed().setDescription("Tarot reminder disabled!")] });
+            interaction.reply({ embeds: [embed.setDescription("Tarot reminder disabled!")] });
         }
     },
-};
-
-const embed = () => {
-    return new EmbedBuilder().setColor("DarkRed");
 };
 
 async function updateReminder(user: User, action: "enable" | "disable") {

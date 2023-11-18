@@ -16,16 +16,16 @@ const defaultEmbed = () => {
 };
 
 export async function getCensoredEmbed() {
-    const c = await CensorshipUtil.loadAll();
+    const allCensored = await CensorshipUtil.loadAll();
 
-    if (c.length <= 0) {
+    if (allCensored.length <= 0) {
         return defaultEmbed();
     }
 
     const embed = defaultEmbed().setTitle("Censored Strings:");
 
     const owners = new Map<string, string>();
-    for (const item of c) {
+    for (const item of allCensored) {
         if (!item.owner) {
             // skip items with no owner, these are currently not active or owned by anyone
             continue;

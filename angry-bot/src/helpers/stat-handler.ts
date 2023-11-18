@@ -16,7 +16,7 @@ export async function incrementStatAndUser(key: StatKeys, user: DiscordUser, amo
     try {
         await Stats.findOneAndUpdate({ key }, { $inc: { value: amount } }, { upsert: true }).exec();
         await User.findOneAndUpdate({ userId: user.id }, { $inc: { ["stats." + key]: amount } }).exec();
-        await invalidateUserCache(user.id);
+        invalidateUserCache(user.id);
     } catch (err) {
         log.error(err, "incrementStatAndUser");
     }

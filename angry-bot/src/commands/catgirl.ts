@@ -25,15 +25,14 @@ export const catgirl: CommandHandler = {
         incrementStatAndUser("catgirls-requested", interaction.user);
     },
 };
+
 async function runCommand() {
-    // load result from api and parse response
     const res = await fetch(randomUrl);
     const result = (await res.json()) as CatgirlResponse;
 
     const randomWord = result.images[0].tags[getRandomInt(0, result.images[0].tags.length - 1)];
     const image = imageUrl + result.images[0].id;
 
-    // send answer
     return new EmbedBuilder()
         .setTitle("Catgirl")
         .setDescription(`Look at this ${randomWord} catgirl i found uwu`)

@@ -18,9 +18,8 @@ function runCommand() {
     const embed = new EmbedBuilder().setColor("DarkVividPink");
 
     switch (getRandomInt(0, 2)) {
-        // Case to get fun stuff
+        // Calculate the time since the medien-t test.
         case 0: {
-            // Calculate the time since the medien-t test.
             let msSinceKlausur = Date.now() - medienKlausur.getTime();
             const dSinceKlausur = Math.floor(msSinceKlausur / 1000 / 60 / 60 / 24);
             msSinceKlausur -= dSinceKlausur * 1000 * 60 * 60 * 24;
@@ -33,12 +32,11 @@ function runCommand() {
 
             const sSinceKlausur = Math.floor(msSinceKlausur / 1000);
 
-            // No need to calculate dayText since it has been days when this code was created!
             const secondText = sSinceKlausur > 1 ? "Sekunden" : "Sekunde";
             const minuteText = mSinceKlausur > 1 ? "Minuten" : "Minute";
             const hourText = hSinceKlausur > 1 ? "Stunden" : "Stunde";
 
-            embed
+            return embed
                 .addFields({
                     name: "McKlausur",
                     value: `Sei glücklich, es sind bereits ${dSinceKlausur} Tage ${hSinceKlausur} ${hourText} ${mSinceKlausur} ${minuteText} und ${sSinceKlausur} ${secondText} sind seit der Medientheorie Klausur mit ${
@@ -46,8 +44,6 @@ function runCommand() {
                     } vergangen!\nEine rachsüchtige Erinnerung - ich hoffe, sie macht dich wütend.`,
                 })
                 .setTimestamp(medienKlausur);
-
-            break;
         }
 
         // Case to get some proper medienDispositive!
@@ -57,20 +53,16 @@ function runCommand() {
                 name: `Hallo, ich bin ${name} und das ist meine momentane, unverständliche Weisheit:`,
                 value: medienDispositive[getRandomInt(0, medienDispositive.length - 1)],
             });
-            embed.setAuthor({ name: name });
-            break;
+            return embed.setAuthor({ name: name });
         }
 
         // Good to know when this exam ended
-        case 2: {
+        default: {
             let text = funStuff[getRandomInt(0, funStuff.length - 1)];
             text = text.replaceAll("<name>", names[getRandomInt(0, names.length - 1)]);
             text = text.replaceAll("<geschmack>", geschmacksliste[getRandomInt(0, geschmacksliste.length - 1)]);
             text = text.replaceAll("<dispositiv>", medienDispositive[getRandomInt(0, medienDispositive.length - 1)]);
-            embed.setDescription(text);
-            break;
+            return embed.setDescription(text);
         }
     }
-
-    return embed;
 }

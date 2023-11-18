@@ -19,8 +19,8 @@ export async function remind(client: Client) {
         try {
             const member = await client.users.fetch(user.userId);
             await member.send(tarotReminders[getRandomInt(0, tarotReminders.length - 1)]);
-        } catch (err) {
-            log.error(err, "remind");
+        } catch {
+            // ignored -> user has disabled direct messages
         }
     }
 

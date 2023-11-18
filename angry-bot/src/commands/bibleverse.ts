@@ -56,32 +56,31 @@ export const bibleverse: CommandHandler = {
 };
 
 async function runCommand(
-    int_book: string | null,
+    str_book: string | null,
     int_chapter: number | null,
     int_verse: number | null
 ): Promise<EmbedBuilder> {
     // Check provided book
     let bookNumber: number;
-    if (int_book) {
-        if (isNaN(Number(int_book))) {
+    if (str_book) {
+        if (isNaN(Number(str_book))) {
             // Check if int_book is a valid book name
-            bookNumber = bookNames[int_book.toLowerCase()];
+            bookNumber = bookNames[str_book.toLowerCase()];
             if (!bookNumber) {
                 return new EmbedBuilder().setTitle("Invalid book name!");
             }
         } else {
             // Check if the provided book number is valid
-            if (Number(int_book) < 1 || Number(int_book) > numberOfBooks) {
+            if (Number(str_book) < 1 || Number(str_book) > numberOfBooks) {
                 return new EmbedBuilder().setTitle("Invalid book number!");
             } else {
-                bookNumber = Number(int_book);
+                bookNumber = Number(str_book);
             }
         }
     } else {
         // No book defined, get a random book number
         bookNumber = getRandomInt(1, numberOfBooks);
     }
-    // end of book check
 
     // Download provided book
     let book: BibleBook;
@@ -105,7 +104,6 @@ async function runCommand(
         // No chapter defined, get a random chapter number
         chapterNumber = getRandomInt(1, book.chapters.length);
     }
-    // end of chapter check
 
     // Check provided verse
     let verseNumber: number;
@@ -119,7 +117,6 @@ async function runCommand(
         // No verse defined, get a random verse number
         verseNumber = getRandomInt(1, book.chapters[chapterNumber - 1].verses.length);
     }
-    // end of verse check
 
     let verseText = book.chapters[chapterNumber - 1].verses[verseNumber - 1].text;
 
@@ -127,7 +124,7 @@ async function runCommand(
     const randomNumber = Math.sin(((bookNumber << 4) + (chapterNumber << 2) + verseNumber) * 66.6);
     if (randomNumber > 0) {
         for (const [pattern, replacement] of toReplace) {
-            verseText = verseText.replace(new RegExp(pattern, "ig"), `**${replacement}**`);
+            verseText = verseText.replace(pattern, `**${replacement}**`);
         }
     }
 
@@ -140,16 +137,20 @@ async function runCommand(
         });
 }
 
-const toReplace: [string, string][] = [
-    ["king", "Paul"],
-    ["lord", "Paul"],
-    ["god", "Angry"],
-    ["christ", "Felix"],
-    ["priest", "Axel"],
-    ["angel", "Axel"],
-    ["moses", "Valentin"],
-    ["mary", "Vali"],
-    ["sinner", "Thomas"],
-    ["servants", "children"],
-    ["jesus christ", "Wolfgang Rader"],
+function ig(pattern: string) {
+    return new RegExp(pattern, "ig");
+}
+
+const toReplace: [RegExp, string][] = [
+    [ig("king") , "Paul"],
+    [ig("lord") , "Paul"],
+    [ig("god") , "Angry"],
+    [ig("christ") , "Felix"],
+    [ig("priest") , "Axel"],
+    [ig("angel") , "Axel"],
+    [ig("moses") , "Valentin"],
+    [ig("mary") , "Vali"],
+    [ig("sinner") , "Thomas"],
+    [ig("servants") , "children"],
+    [ig("jesus christ"), "Wolfgang Rader"],
 ];
