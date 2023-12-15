@@ -1,6 +1,6 @@
 {
     "name": "@woife5/angry-bot",
-    "version": "3.5.2",
+    "version": "3.5.3",
     "description": "Angry Bot.",
     "type": "module",
     "main": "./angry-bot.js",
@@ -18,17 +18,17 @@
     },
     "devDependencies": {
         "@types/node-cron": "^3.0.11",
-        "@typescript-eslint/eslint-plugin": "^6.10.0",
-        "@typescript-eslint/parser": "^6.10.0",
-        "bun-types": "^1.0.11",
-        "eslint": "^8.53.0",
-        "prettier": "^3.0.3",
-        "typescript": "^5.2.2"
+        "@typescript-eslint/eslint-plugin": "^6.14.0",
+        "@typescript-eslint/parser": "^6.14.0",
+        "bun-types": "^1.0.18",
+        "eslint": "^8.55.0",
+        "prettier": "^3.1.1",
+        "typescript": "^5.3.3"
     },
     "dependencies": {
         "@woife5/shared": "workspace:*",
-        "discord.js": "^14.13.0",
-        "mongoose": "^7.6.0",
+        "discord.js": "^14.14.1",
+        "mongoose": "^8.0.3",
         "node-cron": "^3.0.3"
     }
 }

@@ -295,10 +295,10 @@ export const tarots: Tarot[] = [
     },
     {
         text: ":angry100: is the Angry of Bill Kaulitz! 🥵🥵🥵 Omg you won! All the best!",
-        media: "https://cdn.discordapp.com/attachments/837083403026563082/841329234395791411/billkaulitz.png",
+        media: "https://cdn.whatsthetemperatureinvaliszimmer.com/angry/billkaulitz.png",
     },
     {
-        text: "https://cdn.discordapp.com/attachments/842709567959072771/843113533554425876/angry111.mp4",
+        text: "https://cdn.whatsthetemperatureinvaliszimmer.com/angry/angry111.mp4",
     },
     { text: ":angry102: is made of parmesan. You know what to do!" },
     {
@@ -439,7 +439,7 @@ export const tarots: Tarot[] = [
     },
     {
         text: "",
-        media: "https://cdn.discordapp.com/attachments/837083403026563082/862808739757162496/wooden-duck-76478.jpg",
+        media: "https://cdn.whatsthetemperatureinvaliszimmer.com/angry/wooden-duck-76478.jpg",
     },
     {
         text: ":angry150: is a part of Paul Huhninvasion. Learn more about Paul Huhn and his parts of Paul Huhninvasion here: https://www.youtube.com/watch?v=Hvh_5WO4TzA",

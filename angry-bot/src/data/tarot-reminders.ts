@@ -20,7 +20,7 @@ export const tarotReminders = [
     "I'm sorry Dave, I'm afraid I can't do that. You have not gotten your daily tarot yet.",
     "You are not a real angry bot user until you have gotten your daily tarot.",
     "What do you have in common with Joseph Stalin? Rght! You have not gotten your daily tarot yet: Just like him, you are a bad person: A bad person who has not gotten their daily tarot yet.",
-    "Here comes ANGRY! https://cdn.discordapp.com/attachments/837083403026563082/1045059451293552750/Angry.png ",
+    "Here comes ANGRY! https://cdn.whatsthetemperatureinvaliszimmer.com/angry/Angry.png.txt ",
     "Why?",
     "Oh look at that! It's time for your daily tarot! ",
     "Little known fact: The first angry bot user to get their daily tarot was not you. It was me. And I'm still angry about it.",
