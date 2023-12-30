@@ -8,3 +8,4 @@ export * from "./rating-data";
 export * from "./tarot-texts";
 export * from "./feet";
 export * from "./uncensorable";
+export * from "./advertisements";

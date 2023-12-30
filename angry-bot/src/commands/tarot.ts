@@ -1,4 +1,4 @@
-import { angryEmojis, tarots } from "@data";
+import { angryEmojis, getRandomAdvertisement, tarots } from "@data";
 import { incrementStatAndUser } from "@helpers";
 import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser, SlashCommandBuilder } from "discord.js";
 import { getUser, updateUser } from "helpers/user.util";
@@ -113,6 +113,13 @@ async function setFields(embed: EmbedBuilder, tarotId: number, streak: number) {
     }
 
     embed.addFields({ name: "Angry Coins", value: `You earned ${Math.ceil(tarotId / 2)} angry coins for this tarot!` });
+
+    if (Math.random() > 0.8) {
+        embed.addFields({
+            name: "Advertisement",
+            value: `Advertisements help keep tarots free!\n\n${getRandomAdvertisement()}`,
+        });
+    }
 
     if (streak % 100 === 0) {
         const numberOfEmojis = streak / 100;

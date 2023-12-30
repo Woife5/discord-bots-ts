@@ -3,8 +3,10 @@ import type { Message, PartialMessage } from "discord.js";
 import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
 import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
+import { getRandomAdvertisement } from "@data";
 
 const log = new Log("Censorship");
+let censoredCounter = 0;
 
 function escapeRegExp(string: string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -48,16 +50,22 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
         return "CONTINUE";
     }
 
-    if (censoredContent.length >= 1940) {
-        const cutAt = censoredContent.indexOf(" ", 1850);
-        if (cutAt < 0 || cutAt > 1950) {
-            censoredContent = censoredContent.substring(0, 1950);
+    if (censoredContent.length >= 1900) {
+        const cutAt = censoredContent.indexOf(" ", 1800);
+        if (cutAt < 0 || cutAt > 1900) {
+            censoredContent = censoredContent.substring(0, 1900);
         } else {
             censoredContent = censoredContent.substring(0, cutAt);
         }
     }
 
     censoredContent = `${message.author}, ${censoredContent}\nThat is illegal!`;
+
+    censoredCounter += 1;
+    if (censoredCounter > 5 && Math.random() > 0.8) {
+        censoredContent += `\n\n${getRandomAdvertisement()}`;
+        censoredCounter = 0;
+    }
 
     try {
         if (message.deletable) {
@@ -68,7 +76,6 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
             }
         } else {
             log.error(`Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`);
-
             return "CONTINUE";
         }
     } catch (error) {
