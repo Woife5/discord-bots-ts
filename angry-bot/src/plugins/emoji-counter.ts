@@ -8,12 +8,17 @@ const emojiRegex = new RegExp("<:angry([0-9]{1,3}):[0-9]+>", "g");
 
 export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
-    const matches = Array.from(message.cleanContent.matchAll(emojiRegex), m => m[1]);
+    const matches = Array.from(message.content.matchAll(emojiRegex), m => m[1]);
 
     // Get a list of all the stickers sent
     const stickerList = Array.from(message.stickers.values())
         .filter(s => s.name.toLowerCase().includes("angry"))
         .map(s => s.name);
+
+    // If no emojis or stickers were sent, return
+    if (matches.length <= 0 && stickerList.length <= 0) {
+        return "CONTINUE";
+    }
 
     const userId = message.author.id;
     const user = await getUser(userId);
