@@ -91,5 +91,5 @@ export const funStuff = [
     "Kennst du noch die roten Handschuhe? Sie sind der Inbegriff der <geschmack>. Eine schöne Kontroverse, kaufe dir doch heute die blauen Handschuhe und schenke sie <name>! Heute ist ein Tag der Sauberkeit und Hygiene.",
     "Hast du schon einmal von dem Wutzyklus gehört? Nein, forsche doch in den heiligen Schriften des <name> im Kapitel des Mediendispositivs nach neuen Erkenntnissen in der Wut.",
     "Rache wird bekanntlich heiß serviert, aber hast du dir schon einmal Gedanken gemacht, wie WUT serviert wird? Richtig! Mit :angry34:!",
-    "Primus Maximus! Potzblitz, wo ist meine Sauce hin? Es ist so spät und ich habe noch nicht meinen Halb-Eins Moment gehabt! (Tipp: Frage doch <names> 😉.)",
+    "Primus Maximus! Potzblitz, wo ist meine Sauce hin? Es ist so spät und ich habe noch nicht meinen Halb-Eins Moment gehabt! (Tipp: Frage doch <name> 😉.)",
 ];
