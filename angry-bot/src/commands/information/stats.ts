@@ -110,7 +110,7 @@ async function generateStatEmbed() {
                 value: (await getStat("yesno-questions")).toLocaleString("de-AT"),
             },
             {
-                name: "Toal McLuhans enlightenments offered",
+                name: "Total McLuhans enlightenments offered",
                 value: (await getStat("mc-luhans")).toLocaleString("de-AT"),
             },
             {
