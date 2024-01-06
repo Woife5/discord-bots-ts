@@ -32,6 +32,10 @@ const topChoices = [
         value: "tarots-read",
     },
     {
+        name: "Most luhans requested",
+        value: "mc-luhans",
+    },
+    {
         name: "Most money in the bank",
         value: "money-in-bank",
     },
