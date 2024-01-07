@@ -32,7 +32,7 @@ const topChoices = [
         value: "tarots-read",
     },
     {
-        name: "Most luhans requested",
+        name: "Most McLuhans enlightenments received",
         value: "mc-luhans",
     },
     {
