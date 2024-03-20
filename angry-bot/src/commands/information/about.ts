@@ -47,17 +47,22 @@ async function aboutUser(discordUser: DiscordUser) {
     const userCache = getUserActionCache(discordUser.id);
     if (userCache != undefined) {
         const cash = Math.min(100, userCache.emojiCash ?? 0);
-        embed.addFields({
-            name: "Emoji cash",
-            value: `${100 - cash} more money can be earned by spamming emojis today.`,
-        });
-
-        embed.addFields({
-            name: "Feet cash",
-            value: userCache.feetCash
-                ? "No more cache availabe for sending feetpics/feetvids."
-                : "Feet cash is still available today!",
-        });
+        embed.addFields(
+            {
+                name: "Emoji cash",
+                value: `${100 - cash} more money can be earned by spamming emojis today.`,
+            },
+            {
+                name: "Feet cash",
+                value: userCache.feetCash
+                    ? "No more cache availabe for sending feetpics/feetvids."
+                    : "Feet cash is still available today!",
+            },
+            {
+                name: "Catboys",
+                value: `${userCache.catboys} catboys requested today.`,
+            }
+        );
     } else {
         embed.addFields({
             name: "Daily actions",

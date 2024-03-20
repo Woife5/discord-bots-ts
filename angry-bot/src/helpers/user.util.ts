@@ -10,6 +10,7 @@ type UserActionCacheItem = {
     emojiCash: number;
     feetCash: boolean;
     gambles: number;
+    catboys: number;
 };
 
 export type UserBalanceUpdateArgs = {
@@ -147,6 +148,7 @@ export function updateUserActionCache(userId: string, update: Partial<UserAction
             emojiCash: update.emojiCash ?? 0,
             feetCash: update.feetCash ?? false,
             gambles: update.gambles ?? 0,
+            catboys: update.catboys ?? 0,
         };
         userActionsCache.set(userId, newItem);
         return;
@@ -155,6 +157,7 @@ export function updateUserActionCache(userId: string, update: Partial<UserAction
     item.emojiCash += update.emojiCash ?? 0;
     item.feetCash = update.feetCash ?? item.feetCash;
     item.gambles += update.gambles ?? 0;
+    item.catboys += update.catboys ?? 0;
 }
 
 export function getUserActionCache(userId: string): UserActionCacheItem | undefined {

@@ -44,7 +44,7 @@ const topChoices = [
         value: "catgirls-requested",
     },
     {
-        name: "Most catboys requested (RIP) :(",
+        name: "Most catboys requested",
         value: "catboys-requested",
     },
 ] as const;
