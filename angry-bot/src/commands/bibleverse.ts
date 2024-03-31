@@ -142,15 +142,15 @@ function ig(pattern: string) {
 }
 
 const toReplace: [RegExp, string][] = [
-    [ig("king") , "Paul"],
-    [ig("lord") , "Paul"],
-    [ig("god") , "Angry"],
-    [ig("christ") , "Felix"],
-    [ig("priest") , "Axel"],
-    [ig("angel") , "Axel"],
-    [ig("moses") , "Valentin"],
-    [ig("mary") , "Vali"],
-    [ig("sinner") , "Thomas"],
-    [ig("servants") , "children"],
+    [ig("king"), "Paul"],
+    [ig("lord"), "Paul"],
+    [ig("god"), "Angry"],
+    [ig("christ"), "Felix"],
+    [ig("priest"), "Axel"],
+    [ig("angel"), "Axel"],
+    [ig("moses"), "Valentin"],
+    [ig("mary"), "Vali"],
+    [ig("sinner"), "Thomas"],
+    [ig("servants"), "children"],
     [ig("jesus christ"), "Wolfgang Rader"],
 ];

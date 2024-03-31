@@ -8,8 +8,37 @@ import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 const SPECIAL_THRESHHOLD = 10;
 const SPECIAL_CHANCE = 0.1;
 
-const MAX_NORMAL = 265;
-const MAX_OBESE = 29;
+type CatboyInfo = {
+    // naming: string;
+    // extension: string;
+    maxIndex: number;
+};
+
+function isCatboyInfo(data: unknown): data is CatboyInfo {
+    return (
+        typeof data === "object" &&
+        data !== null &&
+        // typeof (data as CatboyInfo).naming === "string" &&
+        // typeof (data as CatboyInfo).extension === "string" &&
+        typeof (data as CatboyInfo).maxIndex === "number"
+    );
+}
+
+// Fallback values from first version
+let MAX_NORMAL = 255,
+    MAX_OBESE = 28;
+
+Promise.all([fetch(`${cdnURL}/catboys/normal/info.json`), fetch(`${cdnURL}/catboys/obese/info.json`)])
+    .then(([normal, obese]) => Promise.all([normal.json(), obese.json()]))
+    .then(([normal, obese]) => {
+        if (isCatboyInfo(normal)) {
+            MAX_NORMAL = normal.maxIndex || 255;
+        }
+
+        if (isCatboyInfo(obese)) {
+            MAX_OBESE = obese.maxIndex || 28;
+        }
+    });
 
 const matziDiscordId = "300673115791294474";
 
