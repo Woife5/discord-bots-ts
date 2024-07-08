@@ -8,7 +8,7 @@
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
         "start": "bun --watch ./src/angry-bot.ts",
-        "build": "bun build ./src/angry-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
+        "build": "bun build ./src/angry-bot.ts --outdir . --minify-whitespace --target bun",
         "lint": "eslint ./src/**/*.ts",
         "format": "prettier --check ./src/**/*.ts",
         "format:fix": "prettier --write ./src/**/*.ts",
