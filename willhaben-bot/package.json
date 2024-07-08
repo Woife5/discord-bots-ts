@@ -1,6 +1,6 @@
 {
     "name": "@woife5/willhaben-bot",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "Willhaben Bot",
     "type": "module",
     "main": "./index.js",
@@ -17,16 +17,16 @@
         "dockerize": "docker buildx build -t woife5/willhaben-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^6.14.0",
-        "@typescript-eslint/parser": "^6.14.0",
-        "bun-types": "^1.0.33",
-        "eslint": "^8.55.0",
-        "prettier": "^3.1.1",
-        "typescript": "^5.3.3"
+        "@typescript-eslint/eslint-plugin": "^7.16.0",
+        "@typescript-eslint/parser": "^7.16.0",
+        "bun-types": "^1.1.18",
+        "eslint": "^9.6.0",
+        "prettier": "^3.3.2",
+        "typescript": "^5.5.3"
     },
     "dependencies": {
         "@woife5/shared": "workspace:*",
-        "discord.js": "^14.14.1",
+        "discord.js": "^14.15.3",
         "willhaben": "^0.2.1"
     }
 }

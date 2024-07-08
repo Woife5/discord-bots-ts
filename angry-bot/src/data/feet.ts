@@ -1,3 +1,12 @@
+export const feetInsults = [
+    "Those \"feet\" pictures you sent... even though it's been a while... I can't get them out of my mind. So gross. 🤢",
+    'Those "feet" you sent me earlier... I can\'t stop thinking about how awful they were. Truly disgusting.',
+    'I keep thinking about those "feet" images you shared... they were absolutely horrifying.',
+    "Those \"feet\" pictures you sent... if I weren't a bot, I'd be vomiting so hard right now.",
+    "WHY?!?!??!?!?! 🤢",
+    "I am literally crying and shaking right now 😭😭🤢🤢🤢🤮🤮",
+];
+
 export const feetRelated = [
     "🦶",
     "👣",

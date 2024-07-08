@@ -1,8 +1,10 @@
-import { ratingEmojis, feetRelated } from "@data";
+import { ratingEmojis, feetRelated, feetInsults } from "@data";
 import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
 import { Role } from "@woife5/shared/lib/commands/types.d";
 import {
+    AttachmentBuilder,
     ChannelType,
+    GuildMember,
     Message,
     MessageReaction,
     PartialMessage,
@@ -13,6 +15,9 @@ import {
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import { getMemberRole, getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
+const HANDLING_MESSAGES = new Set<string>();
+setInterval(HANDLING_MESSAGES.clear, 1000 * 60 * 60 * 24);
+
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
     if (!isInFeetChannel(message)) {
         return "CONTINUE";
@@ -21,10 +26,11 @@ export async function handleFeetChannelMessage(message: Message): Promise<Plugin
     if (message.attachments.size > 0) {
         await message.react("✅");
         await message.react("❎");
+        await message.react("❌");
         return "ABORT";
     }
 
-    if (!(await isFeetRelated(message.cleanContent))) {
+    if (!isFeetRelated(message.cleanContent)) {
         await message.delete();
     }
 
@@ -51,6 +57,7 @@ export async function handleReaction(
         return "CONTINUE";
     }
 
+    HANDLING_MESSAGES.add(reaction.message.id);
     const member = await guild.members.fetch(user.id);
 
     const role = await getMemberRole(member);
@@ -66,6 +73,10 @@ export async function handleReaction(
             return "DELETED";
         }
 
+        if (count > 3 && reaction.emoji.name === "❌") {
+            handleAwfulFeetImage(reaction.message, member);
+        }
+
         return "CONTINUE";
     }
 
@@ -76,6 +87,46 @@ export async function handleReaction(
     if (reaction.emoji.name === "❎") {
         await reaction.message.delete();
     }
+
+    if (reaction.emoji.name === "❌") {
+        handleAwfulFeetImage(reaction.message, member);
+    }
+
+    return "DELETED";
+}
+
+async function handleAwfulFeetImage(message: Message | PartialMessage, author: GuildMember): Promise<PluginReturnCode> {
+    const punishment = getRandomInt(5, 10) * 10;
+    await updateUserBalance({ userId: author.id, amount: -punishment });
+
+    const buffer = await fetch(message.attachments.first()!.url)
+        .then(r => r.blob())
+        .then(b => b.arrayBuffer())
+        .then(b => Buffer.from(b));
+
+    const files = [new AttachmentBuilder(buffer).setName("censored.png").setSpoiler(true)];
+    const censored = await message.channel.send({ files });
+    await message.delete();
+    await censored.reply(
+        `What the fuck was that supposed to be?? 🤮🤮🤮 ${author}\nI will take ${punishment} coins from you for that 🤢🤮`
+    );
+
+    // Send a follow-up message 45 minutes to 2 hours after the image was deleted
+    setTimeout(
+        () => {
+            author.send(feetInsults[getRandomInt(0, feetInsults.length - 1)]);
+        },
+        1000 * 60 * getRandomInt(45, 120)
+    );
+
+    // Send another follow-up after 4 hours
+    setTimeout(
+        async () => {
+            await author.send("I think i will have to deduct even more money ... It was baaad!");
+            await updateUserBalance({ userId: author.id, amount: -10 });
+        },
+        1000 * 60 * 240
+    );
 
     return "DELETED";
 }
@@ -121,7 +172,7 @@ function isInFeetChannel(message: Message | PartialMessage) {
     return !(message.channel.type !== ChannelType.GuildText || message.channel.name !== "angry-feet");
 }
 
-async function isFeetRelated(msg: string) {
+function isFeetRelated(msg: string) {
     const text = msg.toLowerCase().trim();
 
     for (const word of feetRelated) {
