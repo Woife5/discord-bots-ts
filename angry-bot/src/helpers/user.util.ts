@@ -212,7 +212,7 @@ export async function getTopMoneyHoarders() {
     const users = await User.find({ angryCoins: { $gt: 0 } }).exec();
     return toSortedArray(
         users.filter(user => user.userId !== clientId),
-        user => user.angryCoins
+        user => user.angryCoins,
     );
 }
 
@@ -224,7 +224,7 @@ export type TopSpamResult = {
 
 function toSortedArray(
     users: HydratedDocument<IUser>[],
-    mappingFn: (user: HydratedDocument<IUser>) => number
+    mappingFn: (user: HydratedDocument<IUser>) => number,
 ): TopSpamResult[] {
     return users
         .map(user => {

@@ -9,7 +9,7 @@ export const payout: CommandHandler = {
         .setName("payout")
         .setDescription("Distribute the earned angry coins to the users.")
         .addStringOption(option =>
-            option.setName("amount").setDescription("The amount of coins to distribute or `all`.").setRequired(true)
+            option.setName("amount").setDescription("The amount of coins to distribute or `all`.").setRequired(true),
         )
         .addUserOption(option => option.setName("user").setDescription("The user to distribute the coins to."))
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
@@ -41,7 +41,7 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
 
     if (isNaN(amount) || amount <= 0 || amount > botBalance) {
         return embed.setDescription(
-            "The selected amount is not valid, please select a valid, positive integer or `all`."
+            "The selected amount is not valid, please select a valid, positive integer or `all`.",
         );
     }
 

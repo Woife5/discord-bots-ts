@@ -13,7 +13,7 @@ export const yesno: CommandHandler = {
         .setName("yesno")
         .setDescription("Get a yes or no answer to a question.")
         .addStringOption(option =>
-            option.setName("question").setDescription("Your question to the angry-oracle").setRequired(true)
+            option.setName("question").setDescription("Your question to the angry-oracle").setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const question = interaction.options.getString("question", true);

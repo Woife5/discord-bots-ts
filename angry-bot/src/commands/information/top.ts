@@ -60,7 +60,7 @@ export const top: CommandHandler = {
                 .setName("sort-by")
                 .setDescription("The attribute to sort the users by")
                 .addChoices(...topChoices)
-                .setRequired(true)
+                .setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const sortBy = interaction.options.getString("sort-by", true) as SortByKeys;

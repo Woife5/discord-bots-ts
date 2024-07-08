@@ -9,7 +9,7 @@ export const announce: CommandHandler = {
         .setDescription("Announce someting in a guild's broadcast channel.")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption(option =>
-            option.setName("message").setDescription("The message to announce.").setRequired(true)
+            option.setName("message").setDescription("The message to announce.").setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const message = interaction.options.getString("message") ?? "";
@@ -30,7 +30,7 @@ async function runCommand(message: string, guild: Guild | null) {
     const channel = await guild.channels.fetch(channelId);
     if (channel?.type !== ChannelType.GuildText) {
         return adminEmbed().setDescription(
-            "The set broadcast channel is not a text channel, this should not happen x.x"
+            "The set broadcast channel is not a text channel, this should not happen x.x",
         );
     }
 

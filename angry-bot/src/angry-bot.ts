@@ -62,7 +62,7 @@ client.on("ready", async () => {
         () => {
             Tarotreminder.remind(client);
         },
-        { timezone: "Europe/Vienna" }
+        { timezone: "Europe/Vienna" },
     );
 
     // Check every day at some time if a given user has spent some coins today, otherwise tax them
@@ -72,7 +72,7 @@ client.on("ready", async () => {
             const result = await Taxation.tax();
             Taxation.broadcast(client, result.taxMoney, result.taxedUsers);
         },
-        { timezone: "Europe/Vienna" }
+        { timezone: "Europe/Vienna" },
     );
 
     // Re-register all slash commands when the bot starts

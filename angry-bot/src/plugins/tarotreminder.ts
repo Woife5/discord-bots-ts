@@ -26,7 +26,7 @@ export async function remind(client: Client) {
 
     await broadcast(
         client,
-        users.map(u => u.userId)
+        users.map(u => u.userId),
     );
 }
 
@@ -43,7 +43,7 @@ async function broadcast(client: Client, userIds: string[]) {
                 await channel.send(
                     `What a shame, these people have not yet had their tarot reading today:\n${userIds
                         .map(id => `<@${id}>`)
-                        .join(", ")}\n\nDisappointing.`
+                        .join(", ")}\n\nDisappointing.`,
                 );
             } else {
                 log.error(`Could not find broadcast channel for guild ${guild.id}`, "broadcast");

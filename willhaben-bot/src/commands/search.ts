@@ -14,10 +14,10 @@ export const search: CommandHandler = {
         .setName("search")
         .setDescription("Search for a specific item on willhaben.")
         .addStringOption(option =>
-            option.setName("searchterm").setDescription("The search term to search for.").setRequired(true)
+            option.setName("searchterm").setDescription("The search term to search for.").setRequired(true),
         )
         .addStringOption(option =>
-            option.setName("category").setDescription("The category to search in.").setRequired(false)
+            option.setName("category").setDescription("The category to search in.").setRequired(false),
         ),
     executeInteraction: async interaction => {
         const searchTerm = interaction.options.getString("searchterm", true);
@@ -31,7 +31,7 @@ export const search: CommandHandler = {
                     defaultEmbed()
                         .setTitle("Unknown category x.x")
                         .setDescription(
-                            "Please select one from this list: https://gist.github.com/Woife5/00405ef11eb624ccd70a49cc3ffe480d"
+                            "Please select one from this list: https://gist.github.com/Woife5/00405ef11eb624ccd70a49cc3ffe480d",
                         ),
                 ],
             });
@@ -57,7 +57,7 @@ export const search: CommandHandler = {
                 pagedResults.nextPage().map(res => ({
                     name: res.heading.substring(0, 100),
                     value: res.body_dyn.substring(0, 2000),
-                }))
+                })),
             );
             await interaction.editReply({ embeds: [embed] });
             return;
@@ -118,7 +118,7 @@ function buildEmbed(results: WillhabenResult[], page: number, pages: number) {
             results.map(res => ({
                 name: res.heading.substring(0, 100),
                 value: res.body_dyn.substring(0, 1500) + `\n[Link](https://willhaben.at/iad/${res.seo_url})\n`,
-            }))
+            })),
         )
         .setFooter({ text: `Page ${page}/${pages}` });
 }

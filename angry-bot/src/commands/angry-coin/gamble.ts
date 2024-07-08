@@ -14,7 +14,7 @@ export const gamble: CommandHandler = {
             option
                 .setName("amount")
                 .setDescription("The amount of coins you want to gamble or `all`, if you are feeling very lucky ;)")
-                .setRequired(true)
+                .setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const amountStr = interaction.options.getString("amount") ?? "";
@@ -37,7 +37,7 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
         return angryCoinEmbed()
             .setTitle("Gamble")
             .setDescription(
-                "Invalid amount! You have to gamble a positive amount of coins that you own (debt maybe coming soon)."
+                "Invalid amount! You have to gamble a positive amount of coins that you own (debt maybe coming soon).",
             );
     }
 

@@ -61,7 +61,7 @@ async function aboutUser(discordUser: DiscordUser) {
             {
                 name: "Catboys",
                 value: `${userCache.catboys} catboys requested today.`,
-            }
+            },
         );
     } else {
         embed.addFields({

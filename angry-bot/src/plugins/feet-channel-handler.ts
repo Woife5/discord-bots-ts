@@ -39,7 +39,7 @@ export async function handleFeetChannelMessage(message: Message): Promise<Plugin
 
 export async function handleReaction(
     reaction: MessageReaction | PartialMessageReaction,
-    user: User | PartialUser
+    user: User | PartialUser,
 ): Promise<PluginReturnCode> {
     if (!isInFeetChannel(reaction.message)) {
         return "CONTINUE";
@@ -108,7 +108,7 @@ async function handleAwfulFeetImage(message: Message | PartialMessage, author: G
     const censored = await message.channel.send({ files });
     await message.delete();
     await censored.reply(
-        `What the fuck was that supposed to be?? 🤮🤮🤮 ${author}\nI will take ${punishment} coins from you for that 🤢🤮`
+        `What the fuck was that supposed to be?? 🤮🤮🤮 ${author}\nI will take ${punishment} coins from you for that 🤢🤮`,
     );
 
     // Send a follow-up message 45 minutes to 2 hours after the image was deleted
@@ -116,7 +116,7 @@ async function handleAwfulFeetImage(message: Message | PartialMessage, author: G
         () => {
             author.send(feetInsults[getRandomInt(0, feetInsults.length - 1)]);
         },
-        1000 * 60 * getRandomInt(45, 120)
+        1000 * 60 * getRandomInt(45, 120),
     );
 
     // Send another follow-up after 4 hours
@@ -125,7 +125,7 @@ async function handleAwfulFeetImage(message: Message | PartialMessage, author: G
             await author.send("I think i will have to deduct even more money ... It was baaad!");
             await updateUserBalance({ userId: author.id, amount: -10 });
         },
-        1000 * 60 * 240
+        1000 * 60 * 240,
     );
 
     return "DELETED";

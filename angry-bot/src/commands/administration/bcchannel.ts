@@ -9,7 +9,7 @@ export const bcchannel: CommandHandler = {
         .setDescription("Set the broadcast channel for bot announcements.")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addChannelOption(option =>
-            option.setName("channel").setDescription("The channel to broadcast to.").setRequired(true)
+            option.setName("channel").setDescription("The channel to broadcast to.").setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const channel = interaction.options.getChannel("channel", true);

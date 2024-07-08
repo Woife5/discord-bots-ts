@@ -11,7 +11,7 @@ export const tarotreminder: CommandHandler = {
                 .setName("action")
                 .setDescription("Enable or disable the reminder.")
                 .setRequired(true)
-                .addChoices({ name: "Enable", value: "enable" }, { name: "Disable", value: "disable" })
+                .addChoices({ name: "Enable", value: "enable" }, { name: "Disable", value: "disable" }),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const action = interaction.options.getString("action", true) as "enable" | "disable";

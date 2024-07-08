@@ -61,7 +61,7 @@ export async function broadcast(
     client: Client,
     taxMoney: number,
     users: [string, number][],
-    endingMessage = "Thank you for your cooperation."
+    endingMessage = "Thank you for your cooperation.",
 ) {
     for (const [, guild] of client.guilds.cache) {
         try {
@@ -75,7 +75,7 @@ export async function broadcast(
                 await channel.send(
                     `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users
                         .map(u => `${u[0]}(**${u[1]}** ${angryEmojis[0]}s )`)
-                        .join(", ")}\n\n${endingMessage}`
+                        .join(", ")}\n\n${endingMessage}`,
                 );
             } else {
                 log.error(`Could not find broadcast channel for guild ${guild.id}`, "broadcast");

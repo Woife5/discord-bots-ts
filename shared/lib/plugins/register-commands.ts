@@ -4,7 +4,7 @@ import { Collection, REST, Routes } from "discord.js";
 export async function registerApplicationCommands(
     token: string,
     clientId: string,
-    commands: Collection<string, CommandHandler>
+    commands: Collection<string, CommandHandler>,
 ) {
     const rest = new REST({ version: "10" }).setToken(token);
 

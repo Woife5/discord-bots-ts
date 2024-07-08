@@ -12,9 +12,9 @@ export const pay: CommandHandler = {
             option
                 .setName("amount")
                 .setDescription(
-                    "The amount of angry coins you want to pay or `all` if you want to send all of your coins."
+                    "The amount of angry coins you want to pay or `all` if you want to send all of your coins.",
                 )
-                .setRequired(true)
+                .setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const from = interaction.user;

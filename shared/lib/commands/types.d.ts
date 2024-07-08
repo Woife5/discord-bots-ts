@@ -1,8 +1,8 @@
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { SlashCommandBuilder } from "@discordjs/builders";
+import type { SlashCommandOptionsOnlyBuilder } from "@discordjs/builders";
 
 export type CommandHandler = {
-    data: SlashCommandBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
+    data: SlashCommandOptionsOnlyBuilder | Omit<SlashCommandOptionsOnlyBuilder, "addSubcommand" | "addSubcommandGroup">;
     executeInteraction: (interaction: ChatInputCommandInteraction) => Promise<void> | void;
 };
 

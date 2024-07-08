@@ -27,13 +27,13 @@ type ShopItem = {
 
 const amountOption = (subcommand: SlashCommandSubcommandBuilder) => {
     return subcommand.addIntegerOption(option =>
-        option.setName("amount").setDescription("The amount of this item you would like to buy.").setRequired(false)
+        option.setName("amount").setDescription("The amount of this item you would like to buy.").setRequired(false),
     );
 };
 
 const messageOption = (subcommand: SlashCommandSubcommandBuilder, description: string) => {
     return subcommand.addStringOption(option =>
-        option.setName("message").setDescription(description).setRequired(true).setMaxLength(100)
+        option.setName("message").setDescription(description).setRequired(true).setMaxLength(100),
     );
 };
 
@@ -146,7 +146,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         return interaction.reply({
             embeds: [
                 angryCoinEmbed().setDescription(
-                    `Sorry, this string is quite hot 🔥🔥🔥🔥 You can't afford it. :( It would cost \`${price}\` angry coins.`
+                    `Sorry, this string is quite hot 🔥🔥🔥🔥 You can't afford it. :( It would cost \`${price}\` angry coins.`,
                 ),
             ],
         });
@@ -157,7 +157,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
             return interaction.reply({
                 embeds: [
                     angryCoinEmbed().setDescription(
-                        "This string is too short for censorship! 😟 \n Enter at least 4 charcters or an emoji."
+                        "This string is too short for censorship! 😟 \n Enter at least 4 charcters or an emoji.",
                     ),
                 ],
                 ephemeral: true,
@@ -218,7 +218,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
     const noOwnershipSurcharge = 300;
     const surchargeButtons = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder().setCustomId("confirm_uncensorship_purchase").setEmoji("😍").setStyle(ButtonStyle.Success),
-        new ButtonBuilder().setCustomId("cancel_uncensorship_purchase").setEmoji("🤮").setStyle(ButtonStyle.Danger)
+        new ButtonBuilder().setCustomId("cancel_uncensorship_purchase").setEmoji("🤮").setStyle(ButtonStyle.Danger),
     );
 
     if (!interaction.channel) {
@@ -248,7 +248,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                         angryCoinEmbed().setDescription(
                             `You don't have enough coins, the price of this item is \`${
                                 price + noOwnershipSurcharge
-                            }\` coins!`
+                            }\` coins!`,
                         ),
                     ],
                     components: [],
@@ -265,7 +265,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                     angryCoinEmbed().setDescription(
                         `Purchase confirmed! \n You liberated \`${censoredString}\` from <@${owner}> and payed them ${
                             0.75 * noOwnershipSurcharge
-                        } coins excluding 25% VAT.`
+                        } coins excluding 25% VAT.`,
                     ),
                 ],
                 components: [],
@@ -291,7 +291,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
             angryCoinEmbed().setDescription(
                 `<@${owner}> owns \`${censoredString}\`! \n Remove for an additional ${noOwnershipSurcharge} Angry Coins? (total price: \`${
                     price + noOwnershipSurcharge
-                }\`)`
+                }\`)`,
             ),
         ],
         components: [surchargeButtons],
@@ -310,5 +310,5 @@ const shopEmbed = angryCoinEmbed()
         shopItems.map(item => ({
             name: item.name,
             value: `\`${item.name}\`: ${item.description} (${item.price} angry coins)`,
-        }))
+        })),
     );

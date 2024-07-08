@@ -31,7 +31,7 @@ export async function react(message: Message): Promise<PluginReturnCode> {
     await Stats.findOneAndUpdate(
         { key: "angry-reactions" },
         { $inc: { value: angrys } },
-        { upsert: true, new: true }
+        { upsert: true, new: true },
     ).exec();
 
     return "CONTINUE";

@@ -10,7 +10,7 @@ export const adminrole: CommandHandler = {
         .setDescription("Set the admin role for the current guild.")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addRoleOption(option =>
-            option.setName("role").setDescription("The role which sould have admin rights to the bot").setRequired(true)
+            option.setName("role").setDescription("The role which sould have admin rights to the bot").setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const role = interaction.options.getRole("role", true);

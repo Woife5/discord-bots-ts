@@ -13,10 +13,10 @@ export const censorship: CommandHandler = {
                 .setName("action")
                 .setDescription("The action to perform (add/remove)")
                 .setRequired(true)
-                .addChoices({ name: "Add", value: "add" }, { name: "Remove", value: "remove" })
+                .addChoices({ name: "Add", value: "add" }, { name: "Remove", value: "remove" }),
         )
         .addStringOption(option =>
-            option.setName("value").setDescription("The value to add or remove.").setRequired(true)
+            option.setName("value").setDescription("The value to add or remove.").setRequired(true),
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {

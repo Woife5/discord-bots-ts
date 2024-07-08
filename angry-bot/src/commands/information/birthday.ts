@@ -22,7 +22,7 @@ function getEmbed() {
         .setTitle("MY BIRTHDAY")
         .setDescription(
             `My birthday is on ${angryBirthday.toLocaleDateString("de-AT")}, in ${Math.round(
-                daysUntil(nextBirthday)
-            )} days.`
+                daysUntil(nextBirthday),
+            )} days.`,
         );
 }

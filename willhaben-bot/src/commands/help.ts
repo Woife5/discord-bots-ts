@@ -29,6 +29,6 @@ async function runCommand(user: User, guild: Guild | null) {
                         name: command.data.name,
                         value: command.data.description,
                     } satisfies APIEmbedField;
-                })
+                }),
         );
 }

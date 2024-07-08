@@ -31,13 +31,13 @@ export async function count(message: Message): Promise<PluginReturnCode> {
     await Stats.findOneAndUpdate(
         { key: "total-angry-emojis-sent" },
         { $inc: { value: matches.length } },
-        { upsert: true, new: true }
+        { upsert: true, new: true },
     ).exec();
 
     await Stats.findOneAndUpdate(
         { key: "total-angry-stickers-sent" },
         { $inc: { value: stickerList.length } },
-        { upsert: true, new: true }
+        { upsert: true, new: true },
     ).exec();
 
     const emojis = matches.reduce(
@@ -45,7 +45,7 @@ export async function count(message: Message): Promise<PluginReturnCode> {
             acc[emojiId] = (acc[emojiId] ?? 0) + 1;
             return acc;
         },
-        {} as { [key: string]: number }
+        {} as { [key: string]: number },
     );
 
     const stickers = stickerList.reduce(
@@ -53,7 +53,7 @@ export async function count(message: Message): Promise<PluginReturnCode> {
             acc[stickerName] = (acc[stickerName] ?? 0) + 1;
             return acc;
         },
-        {} as { [key: string]: number }
+        {} as { [key: string]: number },
     );
 
     const userEmojis = deepCopy(user?.emojis ?? {});

@@ -14,7 +14,7 @@ export const surprisetax: CommandHandler = {
             interaction.client,
             result.taxMoney,
             result.taxedUsers,
-            "Thank you for your surprise donation \\:D"
+            "Thank you for your surprise donation \\:D",
         );
         interaction.reply({ embeds: [adminEmbed().setDescription("Executed command :D")] });
     },

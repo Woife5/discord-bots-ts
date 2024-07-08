@@ -37,13 +37,13 @@ export const bibleverse: CommandHandler = {
             option
                 .setName("book")
                 .setDescription("The name or number of the book within the bible (1-66).")
-                .setRequired(false)
+                .setRequired(false),
         )
         .addIntegerOption(option =>
-            option.setName("chapter").setDescription("The number of the chapter.").setRequired(false)
+            option.setName("chapter").setDescription("The number of the chapter.").setRequired(false),
         )
         .addIntegerOption(option =>
-            option.setName("verse").setDescription("The number of the verse.").setRequired(false)
+            option.setName("verse").setDescription("The number of the verse.").setRequired(false),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction) => {
         const str_book = interaction.options.getString("book");
@@ -58,7 +58,7 @@ export const bibleverse: CommandHandler = {
 async function runCommand(
     str_book: string | null,
     int_chapter: number | null,
-    int_verse: number | null
+    int_verse: number | null,
 ): Promise<EmbedBuilder> {
     // Check provided book
     let bookNumber: number;

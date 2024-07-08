@@ -3,7 +3,7 @@ const { CLIENT_ID, BOT_TOKEN, WOLFGANG_ID, MONGO_URI } = process.env;
 
 if (!CLIENT_ID || !BOT_TOKEN || !WOLFGANG_ID || !MONGO_URI) {
     console.error(
-        "Please provide all of the following environment variables: CLIENT_ID, BOT_TOKEN, WOLFGANG_ID, MONGO_URI"
+        "Please provide all of the following environment variables: CLIENT_ID, BOT_TOKEN, WOLFGANG_ID, MONGO_URI",
     );
     process.exit(1);
 }
