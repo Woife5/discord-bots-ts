@@ -16,7 +16,7 @@ import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import { getMemberRole, getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 const HANDLING_MESSAGES = new Set<string>();
-setInterval(HANDLING_MESSAGES.clear, 1000 * 60 * 60 * 24);
+setInterval(() => HANDLING_MESSAGES.clear(), 1000 * 60 * 60 * 24);
 
 export async function handleFeetChannelMessage(message: Message): Promise<PluginReturnCode> {
     if (!isInFeetChannel(message)) {
