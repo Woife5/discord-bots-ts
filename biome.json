@@ -17,8 +17,8 @@
         "enabled": true,
         "rules": {
             "recommended": true,
-            "complexity": { "noStaticOnlyClass": "warn" },
-            "style": { "noParameterAssign": "warn" }
+            "complexity": { "noStaticOnlyClass": "off" },
+            "style": { "noParameterAssign": "off" }
         }
     }
 }

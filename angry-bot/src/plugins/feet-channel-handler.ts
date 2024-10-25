@@ -100,7 +100,12 @@ async function handleAwfulFeetImage(message: Message | PartialMessage, author: G
     await updateUserBalance({ userId: author.id, amount: -punishment });
 
     // we can assume that the first attachment exists as otherwise we would not get here
-    const buffer = await fetch(message.attachments.first()!.url)
+    const attachment = message.attachments.first();
+    if (!attachment) {
+        return "CONTINUE";
+    }
+
+    const buffer = await fetch(attachment.url)
         .then((r) => r.blob())
         .then((b) => b.arrayBuffer())
         .then((b) => Buffer.from(b));
