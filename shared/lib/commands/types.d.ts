@@ -1,5 +1,5 @@
-import type { ChatInputCommandInteraction } from "discord.js";
 import type { SlashCommandOptionsOnlyBuilder } from "@discordjs/builders";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 export type CommandHandler = {
     data: SlashCommandOptionsOnlyBuilder | Omit<SlashCommandOptionsOnlyBuilder, "addSubcommand" | "addSubcommandGroup">;
@@ -7,7 +7,7 @@ export type CommandHandler = {
 };
 
 export enum Role {
-    USER,
-    ADMIN,
-    OWNER,
+    USER = 0,
+    ADMIN = 1,
+    OWNER = 2,
 }

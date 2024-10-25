@@ -1,18 +1,18 @@
-import { ratingEmojis, feetRelated, feetInsults } from "@data";
-import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import { feetInsults, feetRelated, ratingEmojis } from "@data";
 import { Role } from "@woife5/shared/lib/commands/types.d";
+import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import {
     AttachmentBuilder,
     ChannelType,
-    GuildMember,
-    Message,
-    MessageReaction,
-    PartialMessage,
-    PartialMessageReaction,
-    PartialUser,
-    User,
+    type GuildMember,
+    type Message,
+    type MessageReaction,
+    type PartialMessage,
+    type PartialMessageReaction,
+    type PartialUser,
+    type User,
 } from "discord.js";
-import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import { getMemberRole, getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 const HANDLING_MESSAGES = new Set<string>();
@@ -52,8 +52,8 @@ export async function handleReaction(
     }
 
     // Check if the bot reaction is still present
-    const botReactions = reaction.message.reactions.cache.filter(r => r.me);
-    if (!botReactions.some(r => r.emoji.name === "✅" || r.emoji.name === "❎")) {
+    const botReactions = reaction.message.reactions.cache.filter((r) => r.me);
+    if (!botReactions.some((r) => r.emoji.name === "✅" || r.emoji.name === "❎")) {
         return "CONTINUE";
     }
 
@@ -99,12 +99,17 @@ async function handleAwfulFeetImage(message: Message | PartialMessage, author: G
     const punishment = getRandomInt(5, 10) * 10;
     await updateUserBalance({ userId: author.id, amount: -punishment });
 
+    // we can assume that the first attachment exists as otherwise we would not get here
     const buffer = await fetch(message.attachments.first()!.url)
-        .then(r => r.blob())
-        .then(b => b.arrayBuffer())
-        .then(b => Buffer.from(b));
+        .then((r) => r.blob())
+        .then((b) => b.arrayBuffer())
+        .then((b) => Buffer.from(b));
 
     const files = [new AttachmentBuilder(buffer).setName("censored.png").setSpoiler(true)];
+    if (!message.channel.isSendable()) {
+        return "ABORT";
+    }
+
     const censored = await message.channel.send({ files });
     await message.delete();
     await censored.reply(
@@ -146,14 +151,14 @@ async function handleAcceptedFeetImage(message: Message | PartialMessage): Promi
     const userId = message.author?.id;
     if (userId) {
         const userCache = getUserActionCache(userId);
-        if (userCache && userCache.feetCash) {
+        if (userCache?.feetCash) {
             return "ABORT";
         }
 
         updateUserActionCache(userId, { feetCash: true });
         let moneyWon = (rating + 1) * 20;
 
-        if (message.attachments.some(a => a.contentType?.includes("video"))) {
+        if (message.attachments.some((a) => a.contentType?.includes("video"))) {
             moneyWon *= 2;
         }
 

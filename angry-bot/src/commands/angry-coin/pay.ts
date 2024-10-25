@@ -1,14 +1,14 @@
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { angryCoinEmbed, errorEmbed } from "commands/embeds";
-import { ChatInputCommandInteraction, User as DiscordUser, SlashCommandBuilder } from "discord.js";
+import { type ChatInputCommandInteraction, type User as DiscordUser, SlashCommandBuilder } from "discord.js";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 
 export const pay: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("pay")
         .setDescription("Pay another user some angry coins.")
-        .addUserOption(option => option.setName("user").setDescription("The user to pay.").setRequired(true))
-        .addStringOption(option =>
+        .addUserOption((option) => option.setName("user").setDescription("The user to pay.").setRequired(true))
+        .addStringOption((option) =>
             option
                 .setName("amount")
                 .setDescription(
@@ -31,10 +31,10 @@ async function runCommand(from: DiscordUser, to: DiscordUser, amountStr: string)
     if (amountStr === "all") {
         amount = userBalance;
     } else {
-        amount = parseInt(amountStr, 10);
+        amount = Number.parseInt(amountStr, 10);
     }
 
-    if (isNaN(amount)) {
+    if (Number.isNaN(amount)) {
         return errorEmbed().setDescription("Invalid amount argument!");
     }
 

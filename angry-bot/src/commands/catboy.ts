@@ -1,9 +1,9 @@
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { incrementStatAndUser } from "@helpers";
-import { getUserActionCache, updateUserActionCache } from "helpers/user.util";
 import { cdnURL } from "@data";
+import { incrementStatAndUser } from "@helpers";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { getUserActionCache, updateUserActionCache } from "helpers/user.util";
 
 const SPECIAL_THRESHHOLD = 10;
 const SPECIAL_CHANCE = 0.1;
@@ -25,8 +25,8 @@ function isCatboyInfo(data: unknown): data is CatboyInfo {
 }
 
 // Fallback values from first version
-let MAX_NORMAL = 255,
-    MAX_OBESE = 28;
+let MAX_NORMAL = 255;
+let MAX_OBESE = 28;
 
 Promise.all([fetch(`${cdnURL}/catboys/normal/info.json`), fetch(`${cdnURL}/catboys/obese/info.json`)])
     .then(([normal, obese]) => Promise.all([normal.json(), obese.json()]))
@@ -56,7 +56,9 @@ export const catboy: CommandHandler = {
                 image = `${cdnURL}/catboys/obese/catboy_${getRandomInt(1, MAX_OBESE)}.png`;
                 description = "Look at this fabulous special boi i found 😻 uwu";
                 setTimeout(() => {
-                    interaction.channel?.send(`<@${matziDiscordId}> this one is for you :3`);
+                    if (interaction.channel?.isSendable()) {
+                        interaction.channel?.send(`<@${matziDiscordId}> this one is for you :3`);
+                    }
                 }, 50);
             }
         }

@@ -1,7 +1,7 @@
 import { GuildSettingsCache } from "@helpers";
-import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { adminId } from "@woife5/shared/lib/utils/env.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { adminEmbed } from "../embeds";
 
 export const adminrole: CommandHandler = {
@@ -9,8 +9,11 @@ export const adminrole: CommandHandler = {
         .setName("adminrole")
         .setDescription("Set the admin role for the current guild.")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .addRoleOption(option =>
-            option.setName("role").setDescription("The role which sould have admin rights to the bot").setRequired(true),
+        .addRoleOption((option) =>
+            option
+                .setName("role")
+                .setDescription("The role which sould have admin rights to the bot")
+                .setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const role = interaction.options.getRole("role", true);

@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
-import { Client, Collection, GatewayIntentBits } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
 import { clientId, token } from "@woife5/shared/lib/utils/env.util";
+import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as Commands from "./commands/command-handlers";
 
 // immediately exit if a kill command is received
@@ -17,9 +16,9 @@ const client = new Client({
 const commands = new Collection<string, CommandHandler>();
 
 // Set commands
-Object.values(Commands).forEach(command => {
+for (const command of Object.values(Commands)) {
     commands.set(command.data.name, command);
-});
+}
 
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
@@ -28,7 +27,7 @@ client.on("ready", async () => {
     registerApplicationCommands(token, clientId, commands);
 });
 
-client.on("interactionCreate", async interaction => {
+client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) {
         return;
     }
@@ -47,4 +46,4 @@ client.on("interactionCreate", async interaction => {
     }
 });
 
-client.login(token).catch(e => console.error(e));
+client.login(token).catch((e) => console.error(e));

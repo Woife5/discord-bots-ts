@@ -1,9 +1,14 @@
 import { angryEmojis, getRandomAdvertisement, tarots } from "@data";
 import { incrementStatAndUser } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser, SlashCommandBuilder } from "discord.js";
-import { getUser, updateUser } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { isBeforeYesterdayMidnight, isToday } from "@woife5/shared/lib/utils/date.util";
+import {
+    type ChatInputCommandInteraction,
+    type User as DiscordUser,
+    EmbedBuilder,
+    SlashCommandBuilder,
+} from "discord.js";
+import { getUser, updateUser } from "helpers/user.util";
 
 const currentlyHandling = new Set<string>();
 

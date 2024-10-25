@@ -1,5 +1,5 @@
-import { CommandHandler } from "../commands/types";
-import { Collection, REST, Routes } from "discord.js";
+import { type Collection, REST, Routes } from "discord.js";
+import type { CommandHandler } from "../commands/types";
 
 export async function registerApplicationCommands(
     token: string,
@@ -10,9 +10,8 @@ export async function registerApplicationCommands(
 
     // Will crash the bot if it fails
     await rest.put(Routes.applicationCommands(clientId), {
-        body: commands.map(c => c.data.toJSON()),
+        body: commands.map((c) => c.data.toJSON()),
     });
 
-    // eslint-disable-next-line no-console
     console.info(`Registered ${commands.size} commands for every guild.`);
 }

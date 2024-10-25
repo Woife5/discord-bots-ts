@@ -1,6 +1,6 @@
-import { User as DiscordUser } from "discord.js";
-import mongoose, { HydratedDocument } from "mongoose";
 import { mongoUri } from "@woife5/shared/lib/utils/env.util";
+import type { User as DiscordUser } from "discord.js";
+import mongoose, { type HydratedDocument } from "mongoose";
 const { Schema, connect, model } = mongoose;
 
 export async function init() {
@@ -142,22 +142,22 @@ export class CensorshipUtil {
     private static _cache = new Map<string, Set<string>>();
 
     static async getAll(): Promise<Map<string, Set<string>>> {
-        if (this._cache.size === 0) {
+        if (CensorshipUtil._cache.size === 0) {
             const censored = await CensoredDB.find({}).exec();
-            this._cache = new Map();
+            CensorshipUtil._cache = new Map();
 
             for (const c of censored) {
                 if (!c.owner) {
                     // No owner means this item is not currently censored.
                     continue;
                 }
-                const user = this._cache.get(c.owner) || new Set();
+                const user = CensorshipUtil._cache.get(c.owner) || new Set();
                 user.add(c.value);
-                this._cache.set(c.owner, user);
+                CensorshipUtil._cache.set(c.owner, user);
             }
         }
 
-        return this._cache;
+        return CensorshipUtil._cache;
     }
 
     /**
@@ -166,7 +166,7 @@ export class CensorshipUtil {
      */
     static async loadAll(): Promise<Censored[]> {
         const censored = await CensoredDB.find({}).exec();
-        return censored.map(c => {
+        return censored.map((c) => {
             return {
                 owner: c.owner,
                 value: c.value,
@@ -194,7 +194,7 @@ export class CensorshipUtil {
      */
     static async findCensored(owner: string): Promise<string[]> {
         const censored = await CensoredDB.find({ owner }).exec();
-        return censored.map(c => c.value);
+        return censored.map((c) => c.value);
     }
 
     static async isCensored(value: string): Promise<boolean> {
@@ -216,9 +216,9 @@ export class CensorshipUtil {
             found = await CensoredDB.create({ owner: censored.owner, value });
         }
 
-        const user = this._cache.get(censored.owner) ?? new Set();
+        const user = CensorshipUtil._cache.get(censored.owner) ?? new Set();
         user.add(value);
-        this._cache.set(censored.owner, user);
+        CensorshipUtil._cache.set(censored.owner, user);
 
         return found;
     }
@@ -246,9 +246,9 @@ export class CensorshipUtil {
             await found.save();
         }
 
-        for (const [owner, set] of this._cache) {
+        for (const [owner, set] of CensorshipUtil._cache) {
             set.delete(value);
-            this._cache.set(owner, set);
+            CensorshipUtil._cache.set(owner, set);
         }
     }
 }
@@ -322,7 +322,7 @@ export async function getStat(key: StatKeys) {
 type LogType = "info" | "error" | "debug";
 
 export class Log {
-    constructor(private component: string = "Global") {}
+    constructor(private component = "Global") {}
 
     info(message: unknown, funcName = "") {
         Log.log("info", message, this.getComponentName(funcName));
@@ -337,7 +337,7 @@ export class Log {
     }
 
     private getComponentName(funcName: string) {
-        return `${this.component}${funcName ? "." + funcName : ""}`;
+        return `${this.component}${funcName ? `.${funcName}` : ""}`;
     }
 
     private static async log(type: LogType, message: unknown, component: string) {
@@ -416,7 +416,7 @@ export class GuildSettingsCache {
     private static _cache = new Map<string, GuildSettingsCacheEntry>();
 
     static async get(key: string): Promise<IGuildSettings | null> {
-        const entry = this._cache.get(key);
+        const entry = GuildSettingsCache._cache.get(key);
         if (!entry || entry.expires < Date.now()) {
             const config = await GuildSettingsDB.findOne({ guildId: key }).exec();
 
@@ -424,7 +424,7 @@ export class GuildSettingsCache {
                 return null;
             }
 
-            this._cache.set(key, {
+            GuildSettingsCache._cache.set(key, {
                 config: config,
                 expires: Date.now() + 999 * 60 * 10,
             });
@@ -449,7 +449,7 @@ export class GuildSettingsCache {
             entry.broadcastChannelId = config.broadcastChannelId;
         }
 
-        this._cache.set(guildId, {
+        GuildSettingsCache._cache.set(guildId, {
             config: entry,
             expires: Date.now() + 999 * 60 * 10,
         });

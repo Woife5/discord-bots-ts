@@ -1,6 +1,6 @@
 import { GuildSettingsCache } from "@helpers";
-import { ChannelType, ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { ChannelType, type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { adminEmbed } from "../embeds";
 
 export const bcchannel: CommandHandler = {
@@ -8,7 +8,7 @@ export const bcchannel: CommandHandler = {
         .setName("bcchannel")
         .setDescription("Set the broadcast channel for bot announcements.")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .addChannelOption(option =>
+        .addChannelOption((option) =>
             option.setName("channel").setDescription("The channel to broadcast to.").setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {

@@ -1,15 +1,15 @@
 import { angryEmojis } from "@data";
 import { Stats } from "@helpers";
-import { ChatInputCommandInteraction, User as DiscordUser, SlashCommandBuilder } from "discord.js";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { type ChatInputCommandInteraction, type User as DiscordUser, SlashCommandBuilder } from "discord.js";
 import { getUser } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { infoEmbed } from "../embeds";
 
 export const emojicount: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("emojicount")
         .setDescription("Get the total number of angry emojis sent.")
-        .addUserOption(option => option.setName("user").setDescription("The user to get the emoji count for.")),
+        .addUserOption((option) => option.setName("user").setDescription("The user to get the emoji count for.")),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.options.getUser("user");
         interaction.reply({ embeds: [await runCommand(user)] });
@@ -28,7 +28,7 @@ async function runCommand(user: DiscordUser | null | undefined) {
         const topEmojis = Object.entries(userResult.emojis)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
-            .map(([id, amount]) => `${angryEmojis[parseInt(id) - 1]} - ${amount.toLocaleString("de-AT")}x`)
+            .map(([id, amount]) => `${angryEmojis[Number.parseInt(id) - 1]} - ${amount.toLocaleString("de-AT")}x`)
             .join("\n");
 
         return infoEmbed().setDescription(topEmojis).setTitle(`Top 5 emojis sent for ${user.username}`);

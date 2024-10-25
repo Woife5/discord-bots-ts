@@ -1,14 +1,19 @@
 import { GuildSettingsCache } from "@helpers";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { infoEmbed } from "commands/embeds";
-import { ChatInputCommandInteraction, Guild, User as DiscordUser, SlashCommandBuilder } from "discord.js";
+import {
+    type ChatInputCommandInteraction,
+    type User as DiscordUser,
+    type Guild,
+    SlashCommandBuilder,
+} from "discord.js";
 import { getUser, getUserActionCache } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 
 export const about: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("about")
         .setDescription("Get information about the bot or, if provieded, about the given user.")
-        .addUserOption(option => option.setName("user").setDescription("The user to get information about.")),
+        .addUserOption((option) => option.setName("user").setDescription("The user to get information about.")),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.options.getUser("user");
         if (!user) {
@@ -45,7 +50,7 @@ async function aboutUser(discordUser: DiscordUser) {
     }
 
     const userCache = getUserActionCache(discordUser.id);
-    if (userCache != undefined) {
+    if (userCache !== undefined) {
         const cash = Math.min(100, userCache.emojiCash ?? 0);
         embed.addFields(
             {

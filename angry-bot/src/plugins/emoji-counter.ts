@@ -1,19 +1,18 @@
 import { Stats } from "@helpers";
-import { Message } from "discord.js";
-import { getUser, getUserActionCache, updateUser, updateUserActionCache } from "helpers/user.util";
 import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
-import { deepCopy } from "@woife5/shared/lib/utils/object.util";
+import type { Message } from "discord.js";
+import { getUser, getUserActionCache, updateUser, updateUserActionCache } from "helpers/user.util";
 
-const emojiRegex = new RegExp("<:angry([0-9]{1,3}):[0-9]+>", "g");
+const emojiRegex = /<:angry([0-9]{1,3}):[0-9]+>/g;
 
 export async function count(message: Message): Promise<PluginReturnCode> {
     // Get a list of emoji IDs from the message
-    const matches = Array.from(message.content.matchAll(emojiRegex), m => m[1]);
+    const matches = Array.from(message.content.matchAll(emojiRegex), (m) => m[1]);
 
     // Get a list of all the stickers sent
     const stickerList = Array.from(message.stickers.values())
-        .filter(s => s.name.toLowerCase().includes("angry"))
-        .map(s => s.name);
+        .filter((s) => s.name.toLowerCase().includes("angry"))
+        .map((s) => s.name);
 
     // If no emojis or stickers were sent, return
     if (matches.length <= 0 && stickerList.length <= 0) {
@@ -56,8 +55,8 @@ export async function count(message: Message): Promise<PluginReturnCode> {
         {} as { [key: string]: number },
     );
 
-    const userEmojis = deepCopy(user?.emojis ?? {});
-    const userStickers = deepCopy(user?.stickers ?? {});
+    const userEmojis = structuredClone(user?.emojis ?? {});
+    const userStickers = structuredClone(user?.stickers ?? {});
 
     for (const [emojiId, count1] of Object.entries(emojis)) {
         userEmojis[emojiId] = (userEmojis[emojiId] ?? 0) + count1;

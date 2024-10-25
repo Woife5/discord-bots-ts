@@ -1,21 +1,21 @@
 import { CensorshipUtil } from "@helpers";
-import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { getCensoredEmbed } from "../information/censored";
 
 export const censorship: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("censorship")
         .setDescription("Add or remove a string from the permanent censorship list.")
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option
                 .setName("action")
                 .setDescription("The action to perform (add/remove)")
                 .setRequired(true)
                 .addChoices({ name: "Add", value: "add" }, { name: "Remove", value: "remove" }),
         )
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option.setName("value").setDescription("The value to add or remove.").setRequired(true),
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),

@@ -1,13 +1,12 @@
-/* eslint-disable no-console */
 import { version } from "@data";
-import { init, Log } from "@helpers";
-import { GatewayIntentBits } from "discord-api-types/v10";
-import { Client, Collection, Message } from "discord.js";
-import { clientId, token } from "@woife5/shared/lib/utils/env.util";
-import { schedule } from "node-cron";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { MessageWrapper, PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import { Log, init } from "@helpers";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { MessageWrapper, type PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
 import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
+import { clientId, token } from "@woife5/shared/lib/utils/env.util";
+import { GatewayIntentBits } from "discord-api-types/v10";
+import { Client, Collection, type Message } from "discord.js";
+import { schedule } from "node-cron";
 import * as Commands from "./commands/command-handlers";
 import { Censorship, Emojicounter, FeetHandler, MediaHandler, Reactor, Tarotreminder, Taxation } from "./plugins";
 
@@ -19,13 +18,13 @@ process.on("SIGTERM", () => {
 });
 
 // Handle all uncaught exceptions
-process.on("uncaughtException", err => {
+process.on("uncaughtException", (err) => {
     log?.error(err, "uncaughtException");
     console.error(err);
     process.exit(1);
 });
 
-process.on("unhandledRejection", err => {
+process.on("unhandledRejection", (err) => {
     log?.error(err, "unhandledRejection");
     console.error(err);
     process.exit(1);
@@ -45,9 +44,9 @@ const client = new Client({
 const commands = new Collection<string, CommandHandler>();
 
 // Set commands
-Object.values(Commands).forEach(command => {
+for (const command of Object.values(Commands)) {
     commands.set(command.data.name, command);
-});
+}
 
 client.on("ready", async () => {
     console.log("Bot is logged in and ready!");
@@ -79,7 +78,7 @@ client.on("ready", async () => {
     registerApplicationCommands(token, clientId, commands);
 });
 
-client.on("interactionCreate", async interaction => {
+client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) {
         return;
     }
@@ -105,7 +104,7 @@ const isApplicable = async (message: Message): Promise<PluginReturnCode> => {
     return "CONTINUE";
 };
 
-client.on("messageCreate", async message => {
+client.on("messageCreate", async (message) => {
     const msg = new MessageWrapper(message);
     await msg.applyPlugin(isApplicable);
 
@@ -132,4 +131,4 @@ client.on("messageReactionAdd", async (messageReaction, user) => {
     await FeetHandler.handleReaction(messageReaction, user);
 });
 
-client.login(token).catch(e => console.error(e));
+client.login(token).catch((e) => console.error(e));

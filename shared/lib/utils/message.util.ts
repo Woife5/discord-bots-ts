@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import type { Message } from "discord.js";
 
 /**
  * Checks if the clean-content of a message is the same as a given `value`.
