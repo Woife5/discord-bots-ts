@@ -47,7 +47,7 @@ jobs:
             - name: Build
               run: bun run build
             - name: Upload build
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: willhaben-bot
                   path: willhaben-bot/willhaben-bot.js
@@ -65,7 +65,7 @@ jobs:
               with:
                   path: willhaben-bot
             - name: Download build
-              uses: actions/download-artifact@v2
+              uses: actions/download-artifact@v4
               with:
                   name: willhaben-bot
                   path: willhaben-bot
