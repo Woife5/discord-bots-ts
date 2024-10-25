@@ -1,6 +1,6 @@
 {
     "name": "@woife5/willhaben-bot",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "description": "Willhaben Bot",
     "type": "module",
     "main": "./index.js",
