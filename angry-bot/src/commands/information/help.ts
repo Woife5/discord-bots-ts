@@ -1,5 +1,11 @@
-import { APIEmbedField, ChatInputCommandInteraction, Guild, SlashCommandBuilder, User } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import {
+    type APIEmbedField,
+    type ChatInputCommandInteraction,
+    type Guild,
+    SlashCommandBuilder,
+    type User,
+} from "discord.js";
 import * as Commands from "../command-handlers";
 import { infoEmbed } from "../embeds";
 
@@ -23,7 +29,7 @@ async function runCommand(user: User, guild: Guild | null) {
         .addFields(
             Object.values(Commands)
                 .filter(showCommand)
-                .map(command => {
+                .map((command) => {
                     return {
                         name: command.data.name,
                         value: command.data.description,

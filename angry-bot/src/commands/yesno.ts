@@ -1,6 +1,6 @@
 import { incrementStatAndUser } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 type ApiResponse = {
     answer: "yes" | "no" | "maybe";
@@ -12,7 +12,7 @@ export const yesno: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("yesno")
         .setDescription("Get a yes or no answer to a question.")
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option.setName("question").setDescription("Your question to the angry-oracle").setRequired(true),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {

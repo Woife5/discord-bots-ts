@@ -1,8 +1,8 @@
-import { User, Log, GuildSettingsCache } from "@helpers";
-import { ChannelType, Client } from "discord.js";
-import { invalidateUserCache, updateUserBalance } from "helpers/user.util";
-import { clientId } from "@woife5/shared/lib/utils/env.util";
 import { angryEmojis } from "@data";
+import { GuildSettingsCache, Log, User } from "@helpers";
+import { clientId } from "@woife5/shared/lib/utils/env.util";
+import { ChannelType, type Client } from "discord.js";
+import { invalidateUserCache, updateUserBalance } from "helpers/user.util";
 
 const TAXATION_RATE = 0.07;
 const log = new Log("Taxation");
@@ -74,7 +74,7 @@ export async function broadcast(
             if (channel?.type === ChannelType.GuildText) {
                 await channel.send(
                     `The government has collected **${taxMoney}** angry coins in taxes. These have been collected from the following users: ${users
-                        .map(u => `${u[0]}(**${u[1]}** ${angryEmojis[0]}s )`)
+                        .map((u) => `${u[0]}(**${u[1]}** ${angryEmojis[0]}s )`)
                         .join(", ")}\n\n${endingMessage}`,
                 );
             } else {

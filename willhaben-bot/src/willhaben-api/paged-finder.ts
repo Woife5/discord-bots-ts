@@ -1,5 +1,5 @@
-import { WillhabenResult } from "./types";
 import willhaben from "willhaben";
+import type { WillhabenResult } from "./types";
 
 type Optional<T> = T | null | undefined;
 

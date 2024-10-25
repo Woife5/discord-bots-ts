@@ -1,16 +1,16 @@
 import { incrementStatAndUser } from "@helpers";
-import { angryCoinEmbed } from "commands/embeds";
-import { ChatInputCommandInteraction, User as DiscordUser, SlashCommandBuilder } from "discord.js";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
-import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { angryCoinEmbed } from "commands/embeds";
+import { type ChatInputCommandInteraction, type User as DiscordUser, SlashCommandBuilder } from "discord.js";
+import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 
 export const gamble: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("gamble")
         .setDescription("Gamble away a portion of your angry coins.")
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option
                 .setName("amount")
                 .setDescription("The amount of coins you want to gamble or `all`, if you are feeling very lucky ;)")
@@ -18,7 +18,7 @@ export const gamble: CommandHandler = {
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const amountStr = interaction.options.getString("amount") ?? "";
-        const amount = parseInt(amountStr, 10);
+        const amount = Number.parseInt(amountStr, 10);
 
         const all = amountStr === "all";
 
@@ -33,7 +33,7 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
         amount = userBalance;
     }
 
-    if (isNaN(amount) || amount <= 0 || amount > userBalance) {
+    if (Number.isNaN(amount) || amount <= 0 || amount > userBalance) {
         return angryCoinEmbed()
             .setTitle("Gamble")
             .setDescription(

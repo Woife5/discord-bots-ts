@@ -5,6 +5,5 @@ export const angryIconCDN = `${cdnURL}/angry/angry.png`;
 export const angryReactionsAmount = 5;
 export const adminRoleId = "824234599936557097";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export { version } from "../../package.json";

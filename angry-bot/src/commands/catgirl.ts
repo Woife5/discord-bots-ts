@@ -1,7 +1,7 @@
 import { incrementStatAndUser } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 const randomUrl = "https://nekos.moe/api/v1/random/image";
 const imageUrl = "https://nekos.moe/image/";

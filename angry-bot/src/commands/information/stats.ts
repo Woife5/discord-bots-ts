@@ -1,14 +1,19 @@
-import { getStat, UserStatKeys } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, User as DiscordUser, SlashCommandBuilder } from "discord.js";
+import { type UserStatKeys, getStat } from "@helpers";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import {
+    type ChatInputCommandInteraction,
+    type User as DiscordUser,
+    type EmbedBuilder,
+    SlashCommandBuilder,
+} from "discord.js";
 import { getUser } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { infoEmbed } from "../embeds";
 
 export const stats: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("stats")
         .setDescription("Get stats for the server or about a specific user!")
-        .addUserOption(option => option.setName("user").setDescription("The user to get stats for.")),
+        .addUserOption((option) => option.setName("user").setDescription("The user to get stats for.")),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.options.getUser("user");
 

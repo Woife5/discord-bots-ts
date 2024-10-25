@@ -1,7 +1,7 @@
-import { Message } from "discord.js";
-import { customReactions, angryEmojis, angryReactionsAmount } from "@data";
-import { Stats, Log } from "@helpers";
+import { angryEmojis, angryReactionsAmount, customReactions } from "@data";
+import { Log, Stats } from "@helpers";
 import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import type { Message } from "discord.js";
 
 const log = new Log("Reaction");
 

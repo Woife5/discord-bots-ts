@@ -1,12 +1,12 @@
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, User } from "discord.js";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, type User } from "discord.js";
 import { updateUser } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 
 export const tarotreminder: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("tarotreminder")
         .setDescription("Enable/disable the tarot reminder.")
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option
                 .setName("action")
                 .setDescription("Enable or disable the reminder.")

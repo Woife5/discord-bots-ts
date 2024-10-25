@@ -1,3 +1,5 @@
+import { PagedFinder, type WillhabenResult, isCategory } from "@willhaben";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types";
 import {
     ActionRowBuilder,
     ButtonBuilder,
@@ -6,20 +8,18 @@ import {
     EmbedBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types";
-import { type WillhabenResult, isCategory, PagedFinder } from "@willhaben";
 
 export const search: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("search")
         .setDescription("Search for a specific item on willhaben.")
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option.setName("searchterm").setDescription("The search term to search for.").setRequired(true),
         )
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option.setName("category").setDescription("The category to search in.").setRequired(false),
         ),
-    executeInteraction: async interaction => {
+    executeInteraction: async (interaction) => {
         const searchTerm = interaction.options.getString("searchterm", true);
         const category = interaction.options.getString("category", false);
 
@@ -52,9 +52,9 @@ export const search: CommandHandler = {
             return;
         }
 
-        if (!interaction.channel) {
+        if (!interaction.channel || !interaction.channel.isSendable()) {
             const embed = defaultEmbed().addFields(
-                pagedResults.nextPage().map(res => ({
+                pagedResults.nextPage().map((res) => ({
                     name: res.heading.substring(0, 100),
                     value: res.body_dyn.substring(0, 2000),
                 })),
@@ -80,7 +80,7 @@ export const search: CommandHandler = {
             time: 60_000,
         });
 
-        collector.on("collect", async i => {
+        collector.on("collect", async (i) => {
             let data: WillhabenResult[];
             if (i.customId === "next") {
                 data = pagedResults.nextPage();
@@ -115,9 +115,9 @@ export const search: CommandHandler = {
 function buildEmbed(results: WillhabenResult[], page: number, pages: number) {
     return defaultEmbed()
         .addFields(
-            results.map(res => ({
+            results.map((res) => ({
                 name: res.heading.substring(0, 100),
-                value: res.body_dyn.substring(0, 1500) + `\n[Link](https://willhaben.at/iad/${res.seo_url})\n`,
+                value: `${res.body_dyn.substring(0, 1500)}\n[Link](https://willhaben.at/iad/${res.seo_url})\n`,
             })),
         )
         .setFooter({ text: `Page ${page}/${pages}` });

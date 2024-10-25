@@ -6,9 +6,9 @@
     "license": "GPL-3.0",
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
-        "lint": "eslint ./lib/**/*.ts",
-        "format": "prettier --check ./lib/**/*.ts",
-        "format:fix": "prettier --write ./lib/**/*.ts",
+        "lint": "biome lint",
+        "format": "biome format",
+        "check": "biome check",
         "typecheck": "tsc --noEmit"
     },
     "peerDependencies": {
@@ -16,11 +16,9 @@
         "dotenv": "^16.3.1"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^7.16.0",
-        "@typescript-eslint/parser": "^7.16.0",
-        "bun-types": "^1.1.18",
-        "eslint": "^9.6.0",
-        "prettier": "^3.3.2",
-        "typescript": "^5.5.3"
+        "@biomejs/biome": "1.9.4",
+        "bun-types": "^1.1.33",
+        "prettier": "^3.3.3",
+        "typescript": "^5.6.3"
     }
 }

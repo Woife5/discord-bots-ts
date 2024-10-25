@@ -1,9 +1,9 @@
-import { Guild, GuildMember, User as DiscordUser } from "discord.js";
-import type { HydratedDocument } from "mongoose";
 import { Role } from "@woife5/shared/lib/commands/types.d";
 import { isToday } from "@woife5/shared/lib/utils/date.util";
-import { createUserSimple, GuildSettingsCache, IUser, Powers, User, UserStatKeys } from "./db-helpers";
 import { adminId, clientId } from "@woife5/shared/lib/utils/env.util";
+import type { User as DiscordUser, Guild, GuildMember } from "discord.js";
+import type { HydratedDocument } from "mongoose";
+import { GuildSettingsCache, type IUser, type Powers, User, type UserStatKeys, createUserSimple } from "./db-helpers";
 
 type UserActionCacheItem = {
     date: Date;
@@ -43,11 +43,10 @@ export async function updateUser(userId: string, newValues: Partial<IUser>) {
         existingUser = await createUserSimple(userId, newValues.userName ?? "unknown");
     }
 
-    Object.keys(newValues).forEach(key => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    for (const key of Object.keys(newValues)) {
         // @ts-ignore
         existingUser[key] = newValues[key];
-    });
+    }
 
     const newUser = await existingUser.save();
     userCache.set(userId, newUser);
@@ -101,8 +100,12 @@ export async function updateUserBalance(args: UserBalanceUpdateArgs): Promise<bo
     }
 
     user.angryCoins += amount;
-    username != null && (user.userName = username);
-    taxPayed && (user.lastTransaction = new Date());
+    if (username != null) {
+        user.userName = username;
+    }
+    if (taxPayed) {
+        user.lastTransaction = new Date();
+    }
     await user.save();
 
     userCache.set(userId, user);
@@ -191,19 +194,19 @@ export function isUserStatKey(key: string): key is UserStatKeys {
 
 export async function getTopByStat(stat: UserStatKeys) {
     const users = await User.find({ stats: { $exists: true } }).exec();
-    return toSortedArray(users, user => user.stats[stat] ?? 0);
+    return toSortedArray(users, (user) => user.stats[stat] ?? 0);
 }
 
 export async function getTopSpammers() {
     const users = await User.find({ emojis: { $exists: true } }).exec();
-    return toSortedArray(users, user => {
+    return toSortedArray(users, (user) => {
         return Object.values(user.emojis).reduce((acc, cur) => acc + cur, 0);
     });
 }
 
 export async function getTopStickerSpammer() {
     const users = await User.find({ stickers: { $exists: true } }).exec();
-    return toSortedArray(users, user => {
+    return toSortedArray(users, (user) => {
         return Object.values(user.stickers).reduce((acc, cur) => acc + cur, 0);
     });
 }
@@ -211,8 +214,8 @@ export async function getTopStickerSpammer() {
 export async function getTopMoneyHoarders() {
     const users = await User.find({ angryCoins: { $gt: 0 } }).exec();
     return toSortedArray(
-        users.filter(user => user.userId !== clientId),
-        user => user.angryCoins,
+        users.filter((user) => user.userId !== clientId),
+        (user) => user.angryCoins,
     );
 }
 
@@ -227,13 +230,13 @@ function toSortedArray(
     mappingFn: (user: HydratedDocument<IUser>) => number,
 ): TopSpamResult[] {
     return users
-        .map(user => {
+        .map((user) => {
             return {
                 userId: user.userId,
                 userName: user.userName,
                 spamCount: mappingFn(user),
             };
         })
-        .filter(user => user.spamCount > 0)
+        .filter((user) => user.spamCount > 0)
         .sort((a, b) => b.spamCount - a.spamCount);
 }

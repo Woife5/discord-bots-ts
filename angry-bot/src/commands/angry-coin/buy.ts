@@ -1,20 +1,20 @@
 import { uncensorable } from "@data";
-import { CensorshipUtil, Powers } from "@helpers";
+import { CensorshipUtil, type Powers } from "@helpers";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { clientId } from "@woife5/shared/lib/utils/env.util";
+import { hasEmoji, toCleanLowerCase } from "@woife5/shared/lib/utils/string.util";
 import { angryCoinEmbed } from "commands/embeds";
 import {
     ActionRowBuilder,
     ButtonBuilder,
-    ButtonInteraction,
+    type ButtonInteraction,
     ButtonStyle,
-    ChatInputCommandInteraction,
+    type ChatInputCommandInteraction,
     ComponentType,
     SlashCommandBuilder,
-    SlashCommandSubcommandBuilder,
+    type SlashCommandSubcommandBuilder,
 } from "discord.js";
-import { clientId } from "@woife5/shared/lib/utils/env.util";
 import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { hasEmoji, toCleanLowerCase } from "@woife5/shared/lib/utils/string.util";
 
 type CensorshipItem = "censorship" | "un-censorship";
 
@@ -26,13 +26,13 @@ type ShopItem = {
 };
 
 const amountOption = (subcommand: SlashCommandSubcommandBuilder) => {
-    return subcommand.addIntegerOption(option =>
+    return subcommand.addIntegerOption((option) =>
         option.setName("amount").setDescription("The amount of this item you would like to buy.").setRequired(false),
     );
 };
 
 const messageOption = (subcommand: SlashCommandSubcommandBuilder, description: string) => {
-    return subcommand.addStringOption(option =>
+    return subcommand.addStringOption((option) =>
         option.setName("message").setDescription(description).setRequired(true).setMaxLength(100),
     );
 };
@@ -63,18 +63,18 @@ const shopItems: ShopItem[] = [
 ];
 
 const data = new SlashCommandBuilder().setName("buy").setDescription("Shop for things!");
-shopItems.forEach(shopItem => {
-    data.addSubcommand(subcommand => {
+for (const shopItem of shopItems) {
+    data.addSubcommand((subcommand) => {
         subcommand.setName(shopItem.name).setDescription(`(${shopItem.price} Coins) ${shopItem.description}`);
         return shopItem.addOptions(subcommand);
     });
-});
+}
 
 export const buy: CommandHandler = {
     data,
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const item = interaction.options.getSubcommand();
-        const shopItem = shopItems.find(i => i.name === item);
+        const shopItem = shopItems.find((i) => i.name === item);
         if (!shopItem) {
             await interaction.reply({ embeds: [shopEmbed] });
             return;
@@ -164,7 +164,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
             });
         }
 
-        if (uncensorable.some(regex => regex.test(censoredString))) {
+        if (uncensorable.some((regex) => regex.test(censoredString))) {
             return interaction.reply({
                 embeds: [angryCoinEmbed().setDescription("Sorry this string is forbidden from censoring 😨")],
                 ephemeral: true,
@@ -221,7 +221,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         new ButtonBuilder().setCustomId("cancel_uncensorship_purchase").setEmoji("🤮").setStyle(ButtonStyle.Danger),
     );
 
-    if (!interaction.channel) {
+    if (!interaction.channel || !interaction.channel.isSendable()) {
         return interaction.reply({
             embeds: [angryCoinEmbed().setDescription("Please only use this command in a guild")],
             ephemeral: true,
@@ -307,7 +307,7 @@ async function payBot(userId: string, price: number) {
 const shopEmbed = angryCoinEmbed()
     .setTitle("Shop Items")
     .addFields(
-        shopItems.map(item => ({
+        shopItems.map((item) => ({
             name: item.name,
             value: `\`${item.name}\`: ${item.description} (${item.price} angry coins)`,
         })),

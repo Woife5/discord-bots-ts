@@ -1,7 +1,7 @@
-import { ChannelType, Client } from "discord.js";
-import { User, Log, GuildSettingsCache } from "@helpers";
 import { tarotReminders } from "@data";
+import { GuildSettingsCache, Log, User } from "@helpers";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { ChannelType, type Client } from "discord.js";
 
 const log = new Log("TarotReminder");
 
@@ -26,7 +26,7 @@ export async function remind(client: Client) {
 
     await broadcast(
         client,
-        users.map(u => u.userId),
+        users.map((u) => u.userId),
     );
 }
 
@@ -42,7 +42,7 @@ async function broadcast(client: Client, userIds: string[]) {
             if (channel?.type === ChannelType.GuildText) {
                 await channel.send(
                     `What a shame, these people have not yet had their tarot reading today:\n${userIds
-                        .map(id => `<@${id}>`)
+                        .map((id) => `<@${id}>`)
                         .join(", ")}\n\nDisappointing.`,
                 );
             } else {

@@ -1,13 +1,13 @@
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import {
+    type TopSpamResult,
     getTopByStat,
     getTopMoneyHoarders,
     getTopSpammers,
     getTopStickerSpammer,
     isUserStatKey,
-    TopSpamResult,
 } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { infoEmbedColor } from "../embeds";
 
 const topChoices = [
@@ -55,7 +55,7 @@ export const top: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("top")
         .setDescription("Get the top 5 users in the provided stat")
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option
                 .setName("sort-by")
                 .setDescription("The attribute to sort the users by")
@@ -69,7 +69,7 @@ export const top: CommandHandler = {
 };
 
 async function runCommand(sortBy: SortByKeys) {
-    const name = topChoices.find(choice => choice.value === sortBy)?.name ?? sortBy;
+    const name = topChoices.find((choice) => choice.value === sortBy)?.name ?? sortBy;
     if (isUserStatKey(sortBy)) {
         return generateAngrySpammerEmbed(await getTopByStat(sortBy)).setTitle(name);
     }

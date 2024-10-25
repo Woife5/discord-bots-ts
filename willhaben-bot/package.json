@@ -1,6 +1,6 @@
 {
     "name": "@woife5/willhaben-bot",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "description": "Willhaben Bot",
     "type": "module",
     "main": "./index.js",
@@ -9,24 +9,22 @@
     "scripts": {
         "start": "bun --watch src/willhaben-bot.ts",
         "build": "bun build ./src/angry-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
-        "lint": "eslint ./src/**/*.ts",
-        "format": "prettier --check ./src/**/*.ts",
-        "format:fix": "prettier --write ./src/**/*.ts",
+        "lint": "biome lint",
+        "format": "biome format",
+        "check": "biome check",
         "typecheck": "tsc --noEmit",
         "predockerize": "bun run lint && bun run typecheck && bun run build",
         "dockerize": "docker buildx build -t woife5/willhaben-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^7.16.0",
-        "@typescript-eslint/parser": "^7.16.0",
-        "bun-types": "^1.1.18",
-        "eslint": "^9.6.0",
-        "prettier": "^3.3.2",
-        "typescript": "^5.5.3"
+        "@biomejs/biome": "1.9.4",
+        "bun-types": "^1.1.33",
+        "prettier": "^3.3.3",
+        "typescript": "^5.6.3"
     },
     "dependencies": {
         "@woife5/shared": "workspace:*",
-        "discord.js": "^14.15.3",
+        "discord.js": "^14.16.3",
         "willhaben": "^0.2.1"
     }
 }

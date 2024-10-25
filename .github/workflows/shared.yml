@@ -20,16 +20,16 @@ jobs:
     Lint:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - name: Setup Bun
               uses: oven-sh/setup-bun@v1
             - run: bun install
-            - name: Run linting
-              run: bun run lint
+            - name: Run biome check
+              run: bun run check
     Typecheck:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - name: Setup Bun
               uses: oven-sh/setup-bun@v1
             - run: bun install

@@ -1,8 +1,8 @@
 import { bookNames } from "@data";
-import { incrementStatAndUser, Log } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { Log, incrementStatAndUser } from "@helpers";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 type BibleVerse = {
     chapter: number;
@@ -33,16 +33,16 @@ export const bibleverse: CommandHandler = {
     data: new SlashCommandBuilder()
         .setName("bibleverse")
         .setDescription("Get a random bible verse. Optionally via the arguments a specific verse can be requested.")
-        .addStringOption(option =>
+        .addStringOption((option) =>
             option
                 .setName("book")
                 .setDescription("The name or number of the book within the bible (1-66).")
                 .setRequired(false),
         )
-        .addIntegerOption(option =>
+        .addIntegerOption((option) =>
             option.setName("chapter").setDescription("The number of the chapter.").setRequired(false),
         )
-        .addIntegerOption(option =>
+        .addIntegerOption((option) =>
             option.setName("verse").setDescription("The number of the verse.").setRequired(false),
         ),
     executeInteraction: async (interaction: ChatInputCommandInteraction) => {
@@ -63,7 +63,7 @@ async function runCommand(
     // Check provided book
     let bookNumber: number;
     if (str_book) {
-        if (isNaN(Number(str_book))) {
+        if (Number.isNaN(Number(str_book))) {
             // Check if int_book is a valid book name
             bookNumber = bookNames[str_book.toLowerCase()];
             if (!bookNumber) {
@@ -73,9 +73,8 @@ async function runCommand(
             // Check if the provided book number is valid
             if (Number(str_book) < 1 || Number(str_book) > numberOfBooks) {
                 return new EmbedBuilder().setTitle("Invalid book number!");
-            } else {
-                bookNumber = Number(str_book);
             }
+            bookNumber = Number(str_book);
         }
     } else {
         // No book defined, get a random book number

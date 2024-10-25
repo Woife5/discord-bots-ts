@@ -1,7 +1,7 @@
 import { CensorshipUtil } from "@helpers";
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { getUser } from "helpers/user.util";
-import { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { infoEmbedColor } from "../embeds";
 
 export const censored: CommandHandler = {

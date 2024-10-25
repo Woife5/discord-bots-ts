@@ -1,9 +1,9 @@
+import { getRandomAdvertisement } from "@data";
 import { CensorshipUtil, Log, incrementStatAndUser } from "@helpers";
-import type { Message, PartialMessage } from "discord.js";
-import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
 import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
-import { getRandomAdvertisement } from "@data";
+import type { Message, PartialMessage } from "discord.js";
+import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
 
 const log = new Log("Censorship");
 let censoredCounter = 0;
@@ -68,7 +68,7 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
     }
 
     try {
-        if (message.deletable) {
+        if (message.deletable && message.channel.isSendable()) {
             await message.channel.send(censoredContent);
             await message.delete();
             if (message.author) {
