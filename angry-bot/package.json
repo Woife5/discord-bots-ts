@@ -10,8 +10,8 @@
         "start": "bun --watch ./src/angry-bot.ts",
         "build": "bun build ./src/angry-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
         "lint": "biome lint",
-        "format": "biome check",
-        "format:fix": "biome check --fix",
+        "format": "biome format",
+        "check": "biome check",
         "typecheck": "tsc --noEmit",
         "predockerize": "bun run lint && bun run typecheck && bun run build",
         "dockerize": "docker buildx build -t woife5/angry-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."

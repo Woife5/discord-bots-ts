@@ -7,8 +7,8 @@
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
         "lint": "biome lint",
-        "format": "biome check",
-        "format:fix": "biome check --fix",
+        "format": "biome format",
+        "check": "biome check",
         "typecheck": "tsc --noEmit"
     },
     "peerDependencies": {
