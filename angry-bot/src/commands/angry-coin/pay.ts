@@ -1,4 +1,6 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import { clientId } from "@woife5/shared/lib/utils/env.util";
+import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import { angryCoinEmbed, errorEmbed } from "commands/embeds";
 import { type ChatInputCommandInteraction, type User as DiscordUser, SlashCommandBuilder } from "discord.js";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
@@ -44,10 +46,6 @@ async function runCommand(from: DiscordUser, to: DiscordUser, amountStr: string)
 
     const embed = angryCoinEmbed().setTitle("Pay");
 
-    if (amount === 0) {
-        return embed.setDescription(`You paid **${amount}** angry coins to ${to.username}.`);
-    }
-
     if (amount < 0) {
         return embed.setDescription("You can't give someone debt sadly :(");
     }
@@ -56,8 +54,25 @@ async function runCommand(from: DiscordUser, to: DiscordUser, amountStr: string)
         return embed.setDescription("You don't have enough angry coins to pay that amount.");
     }
 
+    if (amount === 0) {
+        // can get someone into debt :) but if alaredy in debt, the command won't run again.
+        const expenses = getRandomInt(1, 10);
+        await updateUserBalance({ userId: from.id, amount: -expenses, username: from.username });
+        await updateUserBalance({ userId: clientId, amount: expenses });
+        return embed.setDescription(
+            `You paid **${amount}** angry coins to ${to.username} and paid **${expenses}** coins transactions fees.`,
+        );
+    }
+
+    const fees = Math.floor(amount * 0.05);
+    amount = amount - fees;
     await updateUserBalance({ userId: from.id, amount: -amount, username: from.username });
     await updateUserBalance({ userId: to.id, amount, username: to.username });
+    if (fees > 0) {
+        await updateUserBalance({ userId: clientId, amount: fees });
+    }
 
-    return embed.setDescription(`You paid **${amount}** angry coins to ${to.username}.`);
+    return embed.setDescription(
+        `You paid **${amount}** angry coins to ${to.username} and paid **${fees}** coins transactions fees.`,
+    );
 }

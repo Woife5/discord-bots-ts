@@ -11,6 +11,7 @@ type UserActionCacheItem = {
     feetCash: boolean;
     gambles: number;
     catboys: number;
+    advertisement: boolean;
 };
 
 export type UserBalanceUpdateArgs = {
@@ -142,6 +143,9 @@ export async function getPowerUpdate(userId: string, power: Powers, amount: numb
     } satisfies Partial<IUser>;
 }
 
+/**
+ * does not update values but overwrites them
+ */
 export function updateUserActionCache(userId: string, update: Partial<UserActionCacheItem>) {
     const item = userActionsCache.get(userId);
 
@@ -152,6 +156,7 @@ export function updateUserActionCache(userId: string, update: Partial<UserAction
             feetCash: update.feetCash ?? false,
             gambles: update.gambles ?? 0,
             catboys: update.catboys ?? 0,
+            advertisement: update.advertisement ?? false,
         };
         userActionsCache.set(userId, newItem);
         return;

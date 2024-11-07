@@ -8,7 +8,16 @@ import { GatewayIntentBits } from "discord-api-types/v10";
 import { Client, Collection, type Message } from "discord.js";
 import { schedule } from "node-cron";
 import * as Commands from "./commands/command-handlers";
-import { Censorship, Emojicounter, FeetHandler, MediaHandler, Reactor, Tarotreminder, Taxation } from "./plugins";
+import {
+    AdRewarder,
+    Censorship,
+    Emojicounter,
+    FeetHandler,
+    MediaHandler,
+    Reactor,
+    Tarotreminder,
+    Taxation,
+} from "./plugins";
 
 let log: Log | undefined;
 
@@ -113,6 +122,7 @@ client.on("messageCreate", async (message) => {
     await msg.applyPlugin(Emojicounter.count);
     await msg.applyPlugin(MediaHandler.react);
     await msg.applyPlugin(Reactor.react);
+    await msg.applyPlugin(AdRewarder.apply);
 });
 
 client.on("messageUpdate", async (oldMsg, newMsg) => {
