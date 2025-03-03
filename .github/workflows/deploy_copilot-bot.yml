@@ -1,0 +1,30 @@
+name: Deploy Copilot Bot
+
+on: 
+    workflow_dispatch:
+        inputs:
+            version:
+                description: Version of the Bot to deploy.
+                required: true
+                default: 'latest'
+
+
+defaults:
+    run:
+        working-directory: copilot-bot
+      
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Update deployment
+              uses: appleboy/ssh-action@v0.1.6
+              with:
+                host: ${{ secrets.SSH_HOST }}
+                port: ${{ secrets.SSH_PORT }}
+                username: ${{ secrets.SSH_USER }}
+                key: ${{ secrets.SSH_KEY }}
+                script: cd ${{ secrets.COPILOT_COMPOSE_LOCATION }} &&
+                    docker-compose down &&
+                    docker-compose pull &&
+                    docker-compose up -d
