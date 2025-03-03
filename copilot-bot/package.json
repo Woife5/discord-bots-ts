@@ -1,20 +1,20 @@
 {
-    "name": "@woife5/willhaben-bot",
-    "version": "0.3.0",
-    "description": "Willhaben Bot",
+    "name": "@woife5/copilot-bot",
+    "version": "0.1.0",
+    "description": "Copilot Bot",
     "type": "module",
     "main": "./index.js",
     "license": "GPL-3.0",
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
-        "start": "bun --watch src/willhaben-bot.ts",
-        "build": "bun build ./src/willhaben-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
+        "start": "bun --watch src/copilot-bot.ts",
+        "build": "bun build ./src/copilot-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
         "lint": "biome lint",
         "format": "biome format",
         "check": "biome check",
         "typecheck": "tsc --noEmit",
         "predockerize": "bun run lint && bun run typecheck && bun run build",
-        "dockerize": "docker buildx build -t woife5/willhaben-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
+        "dockerize": "docker buildx build -t woife5/copilot-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
     },
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
