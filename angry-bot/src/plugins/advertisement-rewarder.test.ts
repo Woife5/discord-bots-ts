@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest, mock } from "bun:test";
-import { apply } from "./advertisement-rewarder";
 import type { Message } from "discord.js";
+import { apply } from "./advertisement-rewarder";
 
 const updateMock = jest.fn();
 const getActionCacheMock = jest.fn();
