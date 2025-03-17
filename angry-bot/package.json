@@ -9,6 +9,7 @@
     "scripts": {
         "start": "bun --watch ./src/angry-bot.ts",
         "build": "bun build ./src/angry-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
+        "test": "bun test --preload ./src/test-setup.ts",
         "lint": "biome lint",
         "format": "biome format",
         "check": "biome check",
