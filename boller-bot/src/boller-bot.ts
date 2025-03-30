@@ -4,7 +4,7 @@ import { clientId, token } from "@woife5/shared/lib/utils/env.util";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as Commands from "./commands/command-handlers";
 import { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus } from "@discordjs/voice";
-import { memberJoin, memberLeave } from "player";
+import { memberJoin, memberLeave, memberMove } from "player";
 
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {
@@ -23,7 +23,7 @@ for (const command of Object.values(Commands)) {
 }
 
 client.on("ready", async () => {
-    console.log("BollerBot is logged in and ready!");
+    console.log("BollerBot is logged in and ready to boller!");
 
     // Re-register all slash commands when the bot starts
     // disabled for now
@@ -66,8 +66,12 @@ client.on("voiceStateUpdate", (oldState, newState) => {
         return;
     }
 
-    // Handle voice state update
-    memberJoin(newState);
+    // Handle user joining a voice channel
+    if (!oldState.channelId) {
+        memberJoin(newState);
+    }
+
+    memberMove(oldState, newState);
 });
 
 client.login(token).catch((e) => console.error(e));
