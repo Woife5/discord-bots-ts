@@ -8,7 +8,7 @@
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
         "start": "bun --watch src/boller-bot.ts",
-        "build": "bun build ./src/boller-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun --drop=console.debug --external ffmpeg-static",
+        "build": "bun build ./src/boller-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun --drop=console.debug",
         "lint": "biome lint",
         "format": "biome format",
         "check": "biome check",
@@ -26,6 +26,7 @@
         "@discordjs/voice": "^0.18.0",
         "@woife5/shared": "workspace:*",
         "discord.js": "^14.16.3",
+        "ffmpeg-static": "^5.2.0",
         "libsodium-wrappers": "^0.7.15",
         "sodium": "^3.0.2"
     }
