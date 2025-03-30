@@ -3,7 +3,7 @@ import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register
 import { clientId, token } from "@woife5/shared/lib/utils/env.util";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as Commands from "./commands/command-handlers";
-import { memberJoin, memberLeave } from "player";
+import { handleVoiceStateUpdate } from "player";
 
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {
@@ -54,18 +54,12 @@ client.on("voiceStateUpdate", (oldState, newState) => {
         return;
     }
 
-    // Ignore if the user is not in a voice channel
-    if (!newState.channelId) {
-        memberLeave(oldState, newState);
-        return;
-    }
-
-    // Ignore if the user is already in the same channel
     if (oldState.channelId === newState.channelId) {
+        // Ignore if the channel did not change
         return;
     }
 
-    memberJoin(newState);
+    handleVoiceStateUpdate(oldState, newState);
 });
 
 client.login(token).catch((e) => console.error(e));

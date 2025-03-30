@@ -2,32 +2,87 @@ import {
     AudioPlayer,
     createAudioPlayer,
     createAudioResource,
+    DiscordGatewayAdapterCreator,
     getVoiceConnection,
     getVoiceConnections,
     joinVoiceChannel,
 } from '@discordjs/voice';
 import { bollerTarget } from 'database/boller-target';
-import type { VoiceState } from 'discord.js';
+import type { Guild, Snowflake, VoiceState } from 'discord.js';
 
 let audioPlayer: AudioPlayer | null = null;
 
-export function memberJoin(state: VoiceState) {
-    if (!state.channelId) return;
+export function handleVoiceStateUpdate(oldState: VoiceState, newState: VoiceState) {
+    // If there is a target and the current user is the target, the bot should always join the channel
+    // If there is a target and the current user is not the targer:
+    // - The bot should join the channel if its not currently in a voice channel already
+    // If there is no target, the bot should join the channel only if the old channel is empty.
 
-    if (bollerTarget.id && state.member?.id !== bollerTarget.id) {
-        return;
+    // new user joined a channel
+    if (!oldState.channelId && newState.channelId) {
+        const newGuildHasConnection = !!getVoiceConnection(newState.guild.id);
+
+        // there is a target user
+        if (bollerTarget.id) {
+            // target user joined a channel
+            if (newState.member?.id === bollerTarget.id) {
+                connectToChannel(newState.guild.id, newState.channelId, newState.guild.voiceAdapterCreator);
+                return;
+            }
+
+            // its not the target user, but someone joined
+            if (!newGuildHasConnection) {
+                connectToChannel(newState.guild.id, newState.channelId, newState.guild.voiceAdapterCreator);
+                return;
+            }
+        }
+
+        // there is no target user
+        if (!newGuildHasConnection) {
+            connectToChannel(newState.guild.id, newState.channelId, newState.guild.voiceAdapterCreator);
+            return;
+        }
     }
 
-    if (!bollerTarget.id && !!getVoiceConnection(state.guild.id)) {
-        return;
+    // user switched channels
+    if (oldState.channelId && newState.channelId) {
+        // there is a target user
+        if (bollerTarget.id) {
+            // target user switched channels
+            if (newState.member?.id === bollerTarget.id) {
+                connectToChannel(newState.guild.id, newState.channelId, newState.guild.voiceAdapterCreator);
+                return;
+            }
+
+            // its not the target user, but someone switched channels
+            if (!getVoiceConnection(newState.guild.id)) {
+                // if the bot is not in a voice channel, join the channel
+                connectToChannel(newState.guild.id, newState.channelId, newState.guild.voiceAdapterCreator);
+                return;
+            }
+        }
+
+        // there is no target user
+
+        // follow the user if the old channel is empty
+        if (oldState.channel?.members.size === 1) {
+            connectToChannel(newState.guild.id, newState.channelId, newState.guild.voiceAdapterCreator);
+            return;
+        }
     }
 
-    console.debug(`User ${state.member?.user.username} joined channel ${state.channel?.name}`);
-    const connection = joinVoiceChannel({
-        channelId: state.channelId,
-        guildId: state.guild.id,
-        adapterCreator: state.guild.voiceAdapterCreator,
-    });
+    // user left a channel
+    if (oldState.channelId && !newState.channelId) {
+        if (oldState.channel?.members.size === 1) {
+            // only the bot is left in the vc
+            disconnectFromGuild(oldState.guild);
+            return;
+        }
+    }
+}
+
+function connectToChannel(guildId: Snowflake, channelId: Snowflake, adapterCreator: DiscordGatewayAdapterCreator) {
+    const connection = joinVoiceChannel({ channelId, guildId, adapterCreator });
 
     if (!audioPlayer) {
         audioPlayer = createAudioPlayer();
@@ -38,23 +93,14 @@ export function memberJoin(state: VoiceState) {
     connection.subscribe(audioPlayer);
 }
 
-export function memberLeave(oldState: VoiceState, newState: VoiceState) {
-    if (!oldState.channelId) return;
-
-    console.debug(`User ${oldState.member?.user.username} left channel ${oldState.channel?.name}`);
-
-    const connection = getVoiceConnection(oldState.guild.id);
+function disconnectFromGuild(guild: Guild) {
+    const connection = getVoiceConnection(guild.id);
     if (!connection) {
-        console.debug(`No active connection for guild ${oldState.guild.name}`);
+        console.debug(`No active connection for guild ${guild.name}`);
         return;
     }
 
-    if (newState.channel?.members.size ?? 0 > 1) {
-        console.debug(`Channel ${oldState.channel?.name} still has members, not leaving`);
-        return;
-    }
-
-    console.debug(`Channel ${oldState.channel?.name} is empty, leaving`);
+    console.debug(`Leaving voice channel in guild ${guild.name}`);
     connection.destroy();
 
     if (getVoiceConnections().size === 0) {
