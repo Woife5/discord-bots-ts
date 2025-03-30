@@ -7,16 +7,16 @@ type Song = {
     title: string;
     artist: string;
     cover: string;
-}
+};
 
 type QueueResponse = {
     currentTime: number;
     // contains 6 songs, some in the future and some in the past, can be determined by comparing the start time with the current time
     songs: Array<Song>;
-}
+};
 
 const baseUrl = "https://www.ffn.de/fileadmin/";
-const currentQueueUrl = baseUrl + "content/playlist-xml/radiobollerwagen.json";
+const currentQueueUrl = `${baseUrl}content/playlist-xml/radiobollerwagen.json`;
 
 export const playing: CommandHandler = {
     data: new SlashCommandBuilder().setName("queue").setDescription("Get a list of the currently played songs."),
@@ -26,7 +26,7 @@ export const playing: CommandHandler = {
             await interaction.reply({ content: "Error fetching queue data", ephemeral: true });
             return;
         }
-        const data = await response.json() as QueueResponse;
+        const data = (await response.json()) as QueueResponse;
 
         await interaction.reply({ embeds: [runCommand(data)] });
     },
@@ -45,22 +45,25 @@ function runCommand(data: QueueResponse) {
             .setTimestamp(data.currentTime * 1000);
     }
 
-    return defaultEmbed()
-        .setThumbnail(baseUrl + currentSong?.cover)
-        .addFields([{
-            name: currentSong?.title,
-            value: `by ${currentSong?.artist} is currently playing.`,
-        }, {
-            name: "Next up",
-            value: `${data.songs[0].title} by ${data.songs[0].artist} at ${new Date(data.songs[0].start * 1000).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })}`,
-        }])
-        // .addFields(
-        //     data.songs.map((song) => ({
-        //         name: song.title === currentSong?.title ? `Now playing: ${song.title}` : song.title,
-        //         value: `${song.artist} (${new Date(song.start * 1000).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })})`,
-        //     })),
-        // )
-        .setTimestamp(data.currentTime * 1000);
-
+    return (
+        defaultEmbed()
+            .setThumbnail(baseUrl + currentSong?.cover)
+            .addFields([
+                {
+                    name: currentSong?.title,
+                    value: `by ${currentSong?.artist} is currently playing.`,
+                },
+                {
+                    name: "Next up",
+                    value: `${data.songs[0].title} by ${data.songs[0].artist} at ${new Date(data.songs[0].start * 1000).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })}`,
+                },
+            ])
+            // .addFields(
+            //     data.songs.map((song) => ({
+            //         name: song.title === currentSong?.title ? `Now playing: ${song.title}` : song.title,
+            //         value: `${song.artist} (${new Date(song.start * 1000).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })})`,
+            //     })),
+            // )
+            .setTimestamp(data.currentTime * 1000)
+    );
 }
-

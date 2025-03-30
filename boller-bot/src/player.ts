@@ -1,14 +1,14 @@
 import {
-    AudioPlayer,
+    type AudioPlayer,
+    type DiscordGatewayAdapterCreator,
     createAudioPlayer,
     createAudioResource,
-    DiscordGatewayAdapterCreator,
     getVoiceConnection,
     getVoiceConnections,
     joinVoiceChannel,
-} from '@discordjs/voice';
-import { bollerTarget } from 'database/boller-target';
-import type { Guild, Snowflake, VoiceState } from 'discord.js';
+} from "@discordjs/voice";
+import { bollerTarget } from "database/boller-target";
+import type { Guild, Snowflake, VoiceState } from "discord.js";
 
 let audioPlayer: AudioPlayer | null = null;
 
@@ -86,7 +86,7 @@ function connectToChannel(guildId: Snowflake, channelId: Snowflake, adapterCreat
 
     if (!audioPlayer) {
         audioPlayer = createAudioPlayer();
-        const audioResource = createAudioResource('https://ffn-stream21.radiohost.de/radiobollerwagen_mp3-192');
+        const audioResource = createAudioResource("https://ffn-stream21.radiohost.de/radiobollerwagen_mp3-192");
         audioPlayer.play(audioResource);
     }
 
@@ -104,7 +104,7 @@ function disconnectFromGuild(guild: Guild) {
     connection.destroy();
 
     if (getVoiceConnections().size === 0) {
-        console.debug(`No active connections, stopping audio player`);
+        console.debug("No active connections, stopping audio player");
         audioPlayer?.stop(true);
         audioPlayer = null;
     }
