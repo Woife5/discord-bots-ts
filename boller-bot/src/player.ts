@@ -14,7 +14,11 @@ let audioPlayer: AudioPlayer | null = null;
 export function memberJoin(state: VoiceState) {
     if (!state.channelId) return;
 
-    if (state.member?.id !== bollerTarget.id) {
+    if (bollerTarget.id && state.member?.id !== bollerTarget.id) {
+        return;
+    }
+
+    if (!bollerTarget.id && !!getVoiceConnection(state.guild.id)) {
         return;
     }
 

@@ -10,7 +10,7 @@ export const help: CommandHandler = {
 
 function runCommand() {
     return new EmbedBuilder()
-        .setColor("White")
-        .setAuthor({ name: "BollerBot" })
-        .setDescription(":D");
+        .setColor("DarkVividPink")
+        .setAuthor({ name: "BollerBot", iconURL: "https://radiobollerwagen.de/wp-content/uploads/2023/05/ffn_Logo_Radio_Bollerwagen_rgb-kleiner.png", url: "https://radiobollerwagen.de/" })
+        .setDescription("Happy Birthday Felx :D");
 }
