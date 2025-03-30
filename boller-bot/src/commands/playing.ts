@@ -18,7 +18,7 @@ type QueueResponse = {
 const baseUrl = "https://www.ffn.de/fileadmin/";
 const currentQueueUrl = baseUrl + "content/playlist-xml/radiobollerwagen.json";
 
-export const queue: CommandHandler = {
+export const playing: CommandHandler = {
     data: new SlashCommandBuilder().setName("queue").setDescription("Get a list of the currently played songs."),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const response = await fetch(currentQueueUrl);
