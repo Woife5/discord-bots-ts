@@ -8,7 +8,7 @@
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
         "start": "bun --watch src/boller-bot.ts",
-        "build": "bun build ./src/boller-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
+        "build": "bun build ./src/boller-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun --drop=console.debug --external ffmpeg-static",
         "lint": "biome lint",
         "format": "biome format",
         "check": "biome check",
