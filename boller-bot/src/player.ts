@@ -2,16 +2,21 @@ import {
     AudioPlayer,
     createAudioPlayer,
     createAudioResource,
+    getVoiceConnection,
+    getVoiceConnections,
     joinVoiceChannel,
-    VoiceConnection,
 } from '@discordjs/voice';
+import { bollerTarget } from 'database/boller-target';
 import type { VoiceState } from 'discord.js';
 
-const activeConnections = new Map<string, VoiceConnection>();
 let audioPlayer: AudioPlayer | null = null;
 
 export function memberJoin(state: VoiceState) {
     if (!state.channelId) return;
+
+    if (state.member?.id !== bollerTarget.id) {
+        return;
+    }
 
     console.debug(`User ${state.member?.user.username} joined channel ${state.channel?.name}`);
     const connection = joinVoiceChannel({
@@ -19,8 +24,6 @@ export function memberJoin(state: VoiceState) {
         guildId: state.guild.id,
         adapterCreator: state.guild.voiceAdapterCreator,
     });
-
-    activeConnections.set(state.guild.id, connection);
 
     if (!audioPlayer) {
         audioPlayer = createAudioPlayer();
@@ -36,8 +39,9 @@ export function memberLeave(oldState: VoiceState, newState: VoiceState) {
 
     console.debug(`User ${oldState.member?.user.username} left channel ${oldState.channel?.name}`);
 
-    if (!activeConnections.has(oldState.guild.id)) {
-        console.debug(`No active connection for channel ${oldState.guild.name}`);
+    const connection = getVoiceConnection(oldState.guild.id);
+    if (!connection) {
+        console.debug(`No active connection for guild ${oldState.guild.name}`);
         return;
     }
 
@@ -47,29 +51,11 @@ export function memberLeave(oldState: VoiceState, newState: VoiceState) {
     }
 
     console.debug(`Channel ${oldState.channel?.name} is empty, leaving`);
-    const connection = activeConnections.get(oldState.guild.id)!;
     connection.destroy();
-    activeConnections.delete(oldState.channelId);
 
-    if (activeConnections.size === 0) {
+    if (getVoiceConnections().size === 0) {
         console.debug(`No active connections, stopping audio player`);
         audioPlayer?.stop(true);
         audioPlayer = null;
     }
-}
-
-export function memberMove(oldState: VoiceState, newState: VoiceState) {
-    if (!oldState.channelId || !newState.channelId) return;
-
-    console.debug(
-        `User ${oldState.member?.user.username} moved from channel ${oldState.channel?.name} to ${newState.channel?.name}`
-    );
-
-    const newConnection = joinVoiceChannel({
-        channelId: newState.channelId,
-        guildId: newState.guild.id,
-        adapterCreator: oldState.guild.voiceAdapterCreator,
-    });
-
-    activeConnections.set(newState.guild.id, newConnection);
 }

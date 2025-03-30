@@ -3,8 +3,7 @@ import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register
 import { clientId, token } from "@woife5/shared/lib/utils/env.util";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as Commands from "./commands/command-handlers";
-import { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus } from "@discordjs/voice";
-import { memberJoin, memberLeave, memberMove } from "player";
+import { memberJoin, memberLeave } from "player";
 
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {
@@ -66,12 +65,7 @@ client.on("voiceStateUpdate", (oldState, newState) => {
         return;
     }
 
-    // Handle user joining a voice channel
-    if (!oldState.channelId) {
-        memberJoin(newState);
-    }
-
-    memberMove(oldState, newState);
+    memberJoin(newState);
 });
 
 client.login(token).catch((e) => console.error(e));
