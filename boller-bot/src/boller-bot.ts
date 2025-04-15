@@ -25,8 +25,7 @@ client.on("ready", async () => {
     console.log("BollerBot is logged in and ready to boller!");
 
     // Re-register all slash commands when the bot starts
-    // disabled for now
-    // registerApplicationCommands(token, clientId, commands);
+    registerApplicationCommands(token, clientId, commands);
 });
 
 client.on("interactionCreate", async (interaction) => {

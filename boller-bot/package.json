@@ -13,7 +13,7 @@
         "format": "biome format",
         "check": "biome check",
         "typecheck": "tsc --noEmit",
-        "predockerize": "bun run lint && bun run typecheck && bun run build",
+        "predockerize": "bun run check && bun run typecheck && bun run build",
         "dockerize": "docker buildx build -t woife5/boller-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
     },
     "devDependencies": {
@@ -28,6 +28,7 @@
         "discord.js": "^14.16.3",
         "ffmpeg-static": "^5.2.0",
         "libsodium-wrappers": "^0.7.15",
+        "mongodb": "^6.15.0",
         "sodium": "^3.0.2"
     }
 }

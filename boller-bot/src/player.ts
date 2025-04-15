@@ -7,25 +7,29 @@ import {
     getVoiceConnections,
     joinVoiceChannel,
 } from "@discordjs/voice";
-import { bollerTarget } from "database/boller-target";
+import { getTarget } from "database/boller-target";
 import type { Guild, Snowflake, VoiceState } from "discord.js";
 
 let audioPlayer: AudioPlayer | null = null;
 
-export function handleVoiceStateUpdate(oldState: VoiceState, newState: VoiceState) {
+export async function handleVoiceStateUpdate(oldState: VoiceState, newState: VoiceState) {
     // If there is a target and the current user is the target, the bot should always join the channel
-    // If there is a target and the current user is not the targer:
+    // If there is a target and the current user is not the target:
     // - The bot should join the channel if its not currently in a voice channel already
+    // - The bot should join the channel if the user switched channels and the old channel is now empty
+    // - The bot should leave if the user left and was the last user in the channel
     // If there is no target, the bot should join the channel only if the old channel is empty.
+
+    const target = await getTarget();
 
     // new user joined a channel
     if (!oldState.channelId && newState.channelId) {
         const newGuildHasConnection = !!getVoiceConnection(newState.guild.id);
 
         // there is a target user
-        if (bollerTarget.id) {
+        if (target) {
             // target user joined a channel
-            if (newState.member?.id === bollerTarget.id) {
+            if (newState.member?.id === target.userId) {
                 connectToChannel(newState.guild.id, newState.channelId, newState.guild.voiceAdapterCreator);
                 return;
             }
@@ -47,9 +51,9 @@ export function handleVoiceStateUpdate(oldState: VoiceState, newState: VoiceStat
     // user switched channels
     if (oldState.channelId && newState.channelId) {
         // there is a target user
-        if (bollerTarget.id) {
+        if (target) {
             // target user switched channels
-            if (newState.member?.id === bollerTarget.id) {
+            if (newState.member?.id === target.userId) {
                 connectToChannel(newState.guild.id, newState.channelId, newState.guild.voiceAdapterCreator);
                 return;
             }
