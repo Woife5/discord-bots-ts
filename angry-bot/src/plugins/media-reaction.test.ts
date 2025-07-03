@@ -3,12 +3,12 @@ import type { Message } from "discord.js";
 import { react } from "./media-reaction";
 
 const reactMock = jest.fn().mockResolvedValue({});
-const replyMock = jest.fn() .mockResolvedValue({ react: reactMock });
+const replyMock = jest.fn().mockResolvedValue({ react: reactMock });
 
 describe("media-reaction", () => {
     const testMessage = {
         reply: replyMock,
-        cleanContent: "This is a test message."
+        cleanContent: "This is a test message.",
     } as unknown as Message;
 
     const mediaMessage = { ...testMessage, cleanContent: "This message contains the word medien" } as Message;
@@ -17,12 +17,12 @@ describe("media-reaction", () => {
     beforeEach(() => {
         reactMock.mockClear();
         replyMock.mockClear();
-    })
+    });
 
     it("should return 'CONTINUE' if no keywords are found", async () => {
         const result = await react(testMessage);
         expect(result).toBe("CONTINUE");
-    })
+    });
 
     it("should return 'ABORT' when the message contains 'medien'", async () => {
         const result = await react(mediaMessage);
@@ -40,13 +40,13 @@ describe("media-reaction", () => {
     });
 
     it("should react with '❤️' if the message contains a keyword", async () => {
-        await react(mediaMessage)
-        expect(reactMock).toHaveBeenCalledWith("❤️")
+        await react(mediaMessage);
+        expect(reactMock).toHaveBeenCalledWith("❤️");
     });
 
     it("should react with '♥' if the message contains a keyword", async () => {
-        await react(mediaMessage)
-        expect(reactMock).toHaveBeenCalledWith('♥')
+        await react(mediaMessage);
+        expect(reactMock).toHaveBeenCalledWith("♥");
     });
 
     it("should reply once when a keyword is found", async () => {
