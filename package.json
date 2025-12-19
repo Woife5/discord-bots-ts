@@ -1,13 +1,13 @@
 {
-  "type": "module",
-  "private": true,
-  "license": "GPL-3.0",
-  "packageManager": "bun@1.2.4",
-  "workspaces": [
-    "angry-bot",
-    "willhaben-bot",
-    "copilot-bot",
-    "boller-bot",
-    "shared"
-  ]
+    "type": "module",
+    "private": true,
+    "license": "GPL-3.0",
+    "packageManager": "bun@1.2.4",
+    "workspaces": [
+        "angry-bot",
+        "willhaben-bot",
+        "copilot-bot",
+        "boller-bot",
+        "shared"
+    ]
 }

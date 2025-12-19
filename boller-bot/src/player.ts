@@ -1,8 +1,8 @@
 import {
     type AudioPlayer,
-    type DiscordGatewayAdapterCreator,
     createAudioPlayer,
     createAudioResource,
+    type DiscordGatewayAdapterCreator,
     getVoiceConnection,
     getVoiceConnections,
     joinVoiceChannel,

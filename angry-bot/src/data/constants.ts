@@ -5,5 +5,5 @@ export const angryIconCDN = `${cdnURL}/angry/angry.png`;
 export const angryReactionsAmount = 5;
 export const adminRoleId = "824234599936557097";
 
-// @ts-ignore
+// @ts-expect-error
 export { version } from "../../package.json";

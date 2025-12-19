@@ -1,5 +1,5 @@
 import { bookNames } from "@data";
-import { Log, incrementStatAndUser } from "@helpers";
+import { incrementStatAndUser, Log } from "@helpers";
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";

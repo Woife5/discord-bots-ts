@@ -3,7 +3,7 @@ import { isToday } from "@woife5/shared/lib/utils/date.util";
 import { adminId, clientId } from "@woife5/shared/lib/utils/env.util";
 import type { User as DiscordUser, Guild, GuildMember } from "discord.js";
 import type { HydratedDocument } from "mongoose";
-import { GuildSettingsCache, type IUser, type Powers, User, type UserStatKeys, createUserSimple } from "./db-helpers";
+import { createUserSimple, GuildSettingsCache, type IUser, type Powers, User, type UserStatKeys } from "./db-helpers";
 
 type UserActionCacheItem = {
     date: Date;
@@ -45,7 +45,7 @@ export async function updateUser(userId: string, newValues: Partial<IUser>) {
     }
 
     for (const key of Object.keys(newValues)) {
-        // @ts-ignore
+        // @ts-expect-error
         existingUser[key] = newValues[key];
     }
 

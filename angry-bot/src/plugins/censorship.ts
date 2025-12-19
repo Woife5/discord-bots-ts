@@ -1,5 +1,5 @@
 import { getRandomAdvertisement } from "@data";
-import { CensorshipUtil, Log, incrementStatAndUser } from "@helpers";
+import { CensorshipUtil, incrementStatAndUser, Log } from "@helpers";
 import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
 import type { Message, PartialMessage } from "discord.js";

@@ -35,7 +35,7 @@ describe("media-reaction", () => {
     });
 
     it("should reply with 'Medientheorie!' if the message contains a keyword", async () => {
-        const result = await react(mediaMessage);
+        const _result = await react(mediaMessage);
         expect(replyMock).toHaveBeenCalledWith("Medientheorie!");
     });
 

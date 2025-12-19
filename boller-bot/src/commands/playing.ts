@@ -1,5 +1,5 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { type ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { bollerwagenLogoUrl, defaultEmbed } from "./embeds";
 
 type Song = {

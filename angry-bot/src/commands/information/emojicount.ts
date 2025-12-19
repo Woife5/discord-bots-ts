@@ -28,7 +28,7 @@ async function runCommand(user: DiscordUser | null | undefined) {
         const topEmojis = Object.entries(userResult.emojis)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
-            .map(([id, amount]) => `${angryEmojis[Number.parseInt(id) - 1]} - ${amount.toLocaleString("de-AT")}x`)
+            .map(([id, amount]) => `${angryEmojis[Number.parseInt(id, 10) - 1]} - ${amount.toLocaleString("de-AT")}x`)
             .join("\n");
 
         return infoEmbed().setDescription(topEmojis).setTitle(`Top 5 emojis sent for ${user.username}`);

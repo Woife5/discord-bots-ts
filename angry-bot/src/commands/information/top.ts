@@ -1,12 +1,12 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import {
-    type TopSpamResult,
     getTopByStat,
     getTopMoneyHoarders,
     getTopSpammers,
     getTopStickerSpammer,
     isUserStatKey,
+    type TopSpamResult,
 } from "helpers/user.util";
 import { infoEmbedColor } from "../embeds";
 

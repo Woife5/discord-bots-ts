@@ -1,7 +1,7 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { adminId } from "@woife5/shared/lib/utils/env.util";
 import { resetTarget, setTarget } from "database/boller-target";
-import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, Snowflake, type User } from "discord.js";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, type User } from "discord.js";
 import { defaultEmbed } from "./embeds";
 
 export const target: CommandHandler = {

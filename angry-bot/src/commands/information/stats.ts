@@ -1,4 +1,4 @@
-import { type UserStatKeys, getStat } from "@helpers";
+import { getStat, type UserStatKeys } from "@helpers";
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import {
     type ChatInputCommandInteraction,
