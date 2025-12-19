@@ -18,17 +18,17 @@
     },
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
-        "bun-types": "^1.1.33",
-        "typescript": "^5.6.3"
+        "bun-types": "^1.3.5",
+        "typescript": "^5.9.3"
     },
     "dependencies": {
         "@discordjs/opus": "^0.10.0",
-        "@discordjs/voice": "^0.18.0",
+        "@discordjs/voice": "^0.19.0",
         "@woife5/shared": "workspace:*",
-        "discord.js": "^14.16.3",
-        "ffmpeg-static": "^5.2.0",
+        "discord.js": "^14.25.1",
+        "ffmpeg-static": "^5.3.0",
         "libsodium-wrappers": "^0.7.15",
-        "mongodb": "^6.15.0",
+        "mongodb": "^7.0.0",
         "sodium": "^3.0.2"
     }
 }

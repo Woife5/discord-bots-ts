@@ -20,13 +20,13 @@
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
         "@types/node-cron": "^3.0.11",
-        "bun-types": "^1.1.34",
-        "typescript": "^5.6.3"
+        "bun-types": "^1.3.5",
+        "typescript": "^5.9.3"
     },
     "dependencies": {
         "@woife5/shared": "workspace:*",
-        "discord.js": "^14.16.3",
-        "mongoose": "^8.8.0",
-        "node-cron": "^3.0.3"
+        "discord.js": "^14.25.1",
+        "mongoose": "^9.0.2",
+        "node-cron": "^4.2.1"
     }
 }
