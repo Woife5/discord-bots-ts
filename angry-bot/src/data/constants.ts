@@ -4,6 +4,4 @@ export const repoURL = "https://github.com/Woife5/discord-bots-ts";
 export const angryIconCDN = `${cdnURL}/angry/angry.png`;
 export const angryReactionsAmount = 5;
 export const adminRoleId = "824234599936557097";
-
-// @ts-expect-error
 export { version } from "../../package.json";
