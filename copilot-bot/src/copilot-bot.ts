@@ -60,14 +60,20 @@ client.on("messageCreate", async (message) => {
         .trim()
         .replaceAll("@Copilot ", "");
 
-    console.log("Received a message mention:", cleanMessage);
     try {
         const reply = await getChatCompletion(getHistory(cleanMessage));
 
         if (reply) {
             appendToHistory("assistant", reply);
-            message.channel.send(reply);
-            console.log("Sent reply:", reply);
+            if (reply.length > 2000) {
+                // Discord message limit is 2000 characters
+                const chunks = reply.match(/[\s\S]{1,2000}/g) || [];
+                for (const chunk of chunks) {
+                    await message.channel.send(chunk);
+                }
+            } else {
+                await message.channel.send(reply);
+            }
             return;
         }
     } catch (_ignored) {}

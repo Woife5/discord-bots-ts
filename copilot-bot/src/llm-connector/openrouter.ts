@@ -6,7 +6,7 @@ type ModelsResponse = {
 };
 
 const modelBlacklist = new Set<string>([
-    // Add blacklisted model IDs here
+    "google/gemma-3-4b-it:free", // Does not support system message
 ]);
 
 const modelCache = {
