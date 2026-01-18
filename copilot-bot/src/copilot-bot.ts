@@ -1,9 +1,10 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
-import { clientId, token } from "@woife5/shared/lib/utils/env.util";
-import { MESSAGE } from "consants";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { appendToHistory, getHistory } from "llm-connector/chat-history";
+import { getChatCompletion } from "llm-connector/openrouter";
 import * as Commands from "./commands/command-handlers";
+import { clientId, MESSAGE, token } from "./consants";
 
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {
@@ -21,7 +22,7 @@ for (const command of Object.values(Commands)) {
     commands.set(command.data.name, command);
 }
 
-client.on("ready", async () => {
+client.on("clientReady", async () => {
     console.log("Bot is logged in and ready!");
 
     // Re-register all slash commands when the bot starts
@@ -51,6 +52,25 @@ client.on("messageCreate", async (message) => {
     if (!client.user) return;
 
     if (!message.mentions.has(client.user)) return;
+
+    message.channel.sendTyping();
+
+    const cleanMessage = message.cleanContent
+        .replace(/<@!?(\d+)>/g, "")
+        .trim()
+        .replaceAll("@Copilot ", "");
+
+    console.log("Received a message mention:", cleanMessage);
+    try {
+        const reply = await getChatCompletion(getHistory(cleanMessage));
+
+        if (reply) {
+            appendToHistory("assistant", reply);
+            message.channel.send(reply);
+            console.log("Sent reply:", reply);
+            return;
+        }
+    } catch (_ignored) {}
 
     // @copilot was mentioned
     message.channel.send(MESSAGE);
