@@ -1,7 +1,7 @@
 import { GuildSettingsCache } from "@helpers";
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { adminId } from "@woife5/shared/lib/utils/env.util";
-import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import { type ChatInputCommandInteraction, MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { adminEmbed } from "../embeds";
 
 export const adminrole: CommandHandler = {
@@ -19,7 +19,7 @@ export const adminrole: CommandHandler = {
         const role = interaction.options.getRole("role", true);
 
         if (interaction.user.id !== adminId) {
-            interaction.reply({ content: "You don't have permission to do this!", ephemeral: true });
+            interaction.reply({ content: "You don't have permission to do this!", flags: MessageFlags.Ephemeral });
             return;
         }
 

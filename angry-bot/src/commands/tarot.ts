@@ -6,6 +6,7 @@ import {
     type ChatInputCommandInteraction,
     type User as DiscordUser,
     EmbedBuilder,
+    MessageFlags,
     SlashCommandBuilder,
 } from "discord.js";
 import { getUser, updateUser } from "helpers/user.util";
@@ -19,7 +20,7 @@ export const tarot: CommandHandler = {
         if (notAllowed) {
             await interaction.reply({
                 content: notAllowed,
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
             return;
         }

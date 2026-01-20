@@ -4,6 +4,7 @@ import { angryCoinEmbed } from "commands/embeds";
 import {
     type ChatInputCommandInteraction,
     type User as DiscordUser,
+    MessageFlags,
     PermissionFlagsBits,
     SlashCommandBuilder,
 } from "discord.js";
@@ -25,7 +26,7 @@ export const payout: CommandHandler = {
         const user = interaction.options.getUser("user");
 
         if (interaction.user.id !== adminId) {
-            interaction.reply({ content: "You don't have permission to do this!", ephemeral: true });
+            interaction.reply({ content: "You don't have permission to do this!", flags: MessageFlags.Ephemeral });
             return;
         }
 

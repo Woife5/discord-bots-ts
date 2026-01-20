@@ -1,6 +1,6 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { angryCoinEmbed } from "commands/embeds";
-import { type ChatInputCommandInteraction, SlashCommandBuilder, type User } from "discord.js";
+import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder, type User } from "discord.js";
 import { getUserBalance } from "helpers/user.util";
 
 export const balance: CommandHandler = {
@@ -10,7 +10,7 @@ export const balance: CommandHandler = {
         .addUserOption((option) => option.setName("user").setDescription("The user to check the balance of.")),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const user = interaction.options.getUser("user") ?? interaction.user;
-        interaction.reply({ embeds: [await runCommand(user)], ephemeral: true });
+        interaction.reply({ embeds: [await runCommand(user)], flags: MessageFlags.Ephemeral });
     },
 };
 

@@ -11,6 +11,7 @@ import {
     ButtonStyle,
     type ChatInputCommandInteraction,
     ComponentType,
+    MessageFlags,
     SlashCommandBuilder,
     type SlashCommandSubcommandBuilder,
 } from "discord.js";
@@ -84,7 +85,7 @@ export const buy: CommandHandler = {
         if (userBalance < shopItem.price) {
             interaction.reply({
                 embeds: [angryCoinEmbed().setDescription("You don't have enough angry coins to buy this item.")],
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
             return;
         }
@@ -113,7 +114,7 @@ async function buyUserPower(interaction: ChatInputCommandInteraction, shopItem: 
     if (userBalance < price) {
         interaction.reply({
             embeds: [angryCoinEmbed().setDescription("You don't have enough angry coins to buy this  :(")],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         return;
     }
@@ -160,21 +161,21 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                         "This string is too short for censorship! 😟 \n Enter at least 4 charcters or an emoji.",
                     ),
                 ],
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
 
         if (uncensorable.some((regex) => regex.test(censoredString))) {
             return interaction.reply({
                 embeds: [angryCoinEmbed().setDescription("Sorry this string is forbidden from censoring 😨")],
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
 
         if (await CensorshipUtil.isCensored(censoredString)) {
             return interaction.reply({
                 embeds: [angryCoinEmbed().setDescription("This string is already censored!")],
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
 
@@ -193,14 +194,14 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
     if (owner == null) {
         return interaction.reply({
             embeds: [angryCoinEmbed().setDescription("This string is not censored.")],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
     if (owner === clientId) {
         return interaction.reply({
             embeds: [angryCoinEmbed().setDescription("I'm sorry, this one is mine.")],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
@@ -224,7 +225,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
     if (!interaction.channel || !interaction.channel.isSendable()) {
         return interaction.reply({
             embeds: [angryCoinEmbed().setDescription("Please only use this command in a guild")],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
@@ -237,7 +238,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         if (buttonInteraction.customId === "confirm_uncensorship_purchase") {
             // if someone else clicks the buttons let them know and not just timeout
             if (buttonInteraction.user.id !== interaction.user.id) {
-                buttonInteraction.reply({ content: "These buttons aren't for you! 😡", ephemeral: true });
+                buttonInteraction.reply({ content: "These buttons aren't for you! 😡", flags: MessageFlags.Ephemeral });
                 return;
             }
             collector.stop();
@@ -252,7 +253,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
                         ),
                     ],
                     components: [],
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
                 return;
             }
@@ -277,7 +278,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
             await buttonInteraction.reply({
                 embeds: [angryCoinEmbed().setDescription("Purchase canceled!")],
                 components: [],
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     });
@@ -295,7 +296,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
             ),
         ],
         components: [surchargeButtons],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
     });
 }
 

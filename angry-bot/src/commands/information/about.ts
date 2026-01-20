@@ -5,6 +5,7 @@ import {
     type ChatInputCommandInteraction,
     type User as DiscordUser,
     type Guild,
+    MessageFlags,
     SlashCommandBuilder,
 } from "discord.js";
 import { getUser, getUserActionCache } from "helpers/user.util";
@@ -23,7 +24,7 @@ export const about: CommandHandler = {
                 interaction.reply({ embeds: [aboutBot()] });
             }
         } else {
-            interaction.reply({ embeds: [await aboutUser(user)], ephemeral: true });
+            interaction.reply({ embeds: [await aboutUser(user)], flags: MessageFlags.Ephemeral });
         }
     },
 };
