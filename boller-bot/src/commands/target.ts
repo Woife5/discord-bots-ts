@@ -1,7 +1,13 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { adminId } from "@woife5/shared/lib/utils/env.util";
 import { resetTarget, setTarget } from "database/boller-target";
-import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, type User } from "discord.js";
+import {
+    type ChatInputCommandInteraction,
+    EmbedBuilder,
+    MessageFlags,
+    SlashCommandBuilder,
+    type User,
+} from "discord.js";
 import { defaultEmbed } from "./embeds";
 
 export const target: CommandHandler = {
@@ -17,7 +23,7 @@ export const target: CommandHandler = {
                 embeds: [
                     new EmbedBuilder().setColor("Red").setDescription("Only the bot admin can set a target user."),
                 ],
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
             return;
         }

@@ -1,6 +1,6 @@
 {
     "name": "@woife5/boller-bot",
-    "version": "0.1.1",
+    "version": "1.0.0",
     "description": "BollerBot",
     "type": "module",
     "main": "./index.js",
@@ -8,13 +8,13 @@
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
         "start": "bun --watch src/boller-bot.ts",
-        "build": "bun build ./src/boller-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun --drop=console.debug",
+        "build": "bun build ./src/boller-bot.ts --compile --drop=console.debug --outfile=bollerbot",
         "lint": "biome lint",
         "format": "biome format",
         "check": "biome check",
         "typecheck": "tsc --noEmit",
         "predockerize": "bun run check && bun run typecheck && bun run build",
-        "dockerize": "docker buildx build -t woife5/boller-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
+        "dockerize": "docker buildx build -t woife5/boller-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry .."
     },
     "devDependencies": {
         "@biomejs/biome": "2.3.11",
@@ -24,10 +24,11 @@
     "dependencies": {
         "@discordjs/opus": "^0.10.0",
         "@discordjs/voice": "^0.19.0",
+        "@snazzah/davey": "^0.1.9",
         "@woife5/shared": "workspace:*",
         "discord.js": "^14.25.1",
         "ffmpeg-static": "^5.3.0",
-        "libsodium-wrappers": "^0.7.15",
+        "libsodium-wrappers": "^0.8.1",
         "mongodb": "^7.0.0",
         "sodium": "^3.0.2"
     }

@@ -1,7 +1,7 @@
 import { EmbedBuilder } from "discord.js";
 
 export const bollerwagenLogoUrl =
-    "https://radiobollerwagen.de/wp-content/uploads/2023/05/ffn_Logo_Radio_Bollerwagen_rgb-kleiner.png";
+    "https://myonlineradio.at/public/uploads/radio_img/radio-bollerwagen/play_250_250.webp";
 
 export const defaultEmbed = () =>
     new EmbedBuilder()

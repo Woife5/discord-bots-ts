@@ -1,0 +1,7 @@
+**/node_modules
+**/.bun
+**/dist
+**/build
+.git
+boller-bot/bollerbot
+

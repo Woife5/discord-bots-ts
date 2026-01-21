@@ -1,5 +1,5 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { type ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { bollerwagenLogoUrl, defaultEmbed } from "./embeds";
 
 type Song = {
@@ -23,7 +23,7 @@ export const playing: CommandHandler = {
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const response = await fetch(currentQueueUrl);
         if (!response.ok) {
-            await interaction.reply({ content: "Error fetching queue data", ephemeral: true });
+            await interaction.reply({ content: "Error fetching queue data", flags: MessageFlags.Ephemeral });
             return;
         }
         const data = (await response.json()) as QueueResponse;

@@ -9,6 +9,7 @@ Thumbs.db
 build
 node_modules
 tsconfig.tsbuildinfo
+boller-bot/bollerbot
 
 # IDE files
 .vscode

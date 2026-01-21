@@ -1,7 +1,7 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
 import { clientId, token } from "@woife5/shared/lib/utils/env.util";
-import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { Client, Collection, GatewayIntentBits, MessageFlags } from "discord.js";
 import { handleVoiceStateUpdate } from "player";
 import * as Commands from "./commands/command-handlers";
 
@@ -21,7 +21,7 @@ for (const command of Object.values(Commands)) {
     commands.set(command.data.name, command);
 }
 
-client.on("ready", async () => {
+client.on("clientReady", async () => {
     console.log("BollerBot is logged in and ready to boller!");
 
     // Re-register all slash commands when the bot starts
@@ -42,7 +42,10 @@ client.on("interactionCreate", async (interaction) => {
         await commands.get(interaction.commandName)?.executeInteraction(interaction);
     } catch (error) {
         console.error(error);
-        interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+        interaction.reply({
+            content: "There was an error while executing this command!",
+            flags: MessageFlags.Ephemeral,
+        });
         return;
     }
 });
