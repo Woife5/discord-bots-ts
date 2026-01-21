@@ -15,7 +15,7 @@ The scripts to build an run the bot can be found in `angry-bot/package.json`. Ru
 Make sure MongoDB is running and the secrets are set up correctly.
 Required Secrets:
 
--   ANGRY1_TOKEN
+-   BOT_TOKEN
 -   CLIENT_ID
 -   MONGO_URI
 -   WOLFGANG_ID
