@@ -7,11 +7,6 @@ on:
                 description: Version of the Bot to deploy.
                 required: true
                 default: 'latest'
-
-
-defaults:
-    run:
-        working-directory: angry-bot
       
 jobs:
     deploy:

@@ -1,4 +1,4 @@
-name: Deploy Copilot Bot
+name: Deploy Boller Bot
 
 on: 
     workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
                 port: ${{ secrets.SSH_PORT }}
                 username: ${{ secrets.SSH_USER }}
                 key: ${{ secrets.SSH_KEY }}
-                script: cd ${{ secrets.COPILOT_COMPOSE_LOCATION }} &&
+                script: cd ${{ secrets.BOLLER_COMPOSE_LOCATION }} &&
                     docker compose down &&
                     docker compose pull &&
                     docker compose up -d
