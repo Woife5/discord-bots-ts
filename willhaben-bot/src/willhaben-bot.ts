@@ -1,8 +1,14 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
-import { clientId, token } from "@woife5/shared/lib/utils/env.util";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as Commands from "./commands/command-handlers";
+
+const { CLIENT_ID, BOT_TOKEN } = process.env;
+
+if (!CLIENT_ID || !BOT_TOKEN) {
+    console.error("Please provide all of the following environment variables: CLIENT_ID, BOT_TOKEN");
+    process.exit(1);
+}
 
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {
@@ -20,11 +26,11 @@ for (const command of Object.values(Commands)) {
     commands.set(command.data.name, command);
 }
 
-client.on("ready", async () => {
+client.on("clientReady", async () => {
     console.log("Bot is logged in and ready!");
 
     // Re-register all slash commands when the bot starts
-    registerApplicationCommands(token, clientId, commands);
+    registerApplicationCommands(BOT_TOKEN, CLIENT_ID, commands);
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -46,4 +52,4 @@ client.on("interactionCreate", async (interaction) => {
     }
 });
 
-client.login(token).catch((e) => console.error(e));
+client.login(BOT_TOKEN).catch((e) => console.error(e));
