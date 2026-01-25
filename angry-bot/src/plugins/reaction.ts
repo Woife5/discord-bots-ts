@@ -1,9 +1,7 @@
 import { angryEmojis, angryReactionsAmount, customReactions } from "@data";
-import { Log, Stats } from "@helpers";
+import { Stats } from "@helpers";
 import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
 import type { Message } from "discord.js";
-
-const log = new Log("Reaction");
 
 export async function react(message: Message): Promise<PluginReturnCode> {
     let angrys = angryReactionsAmount;
@@ -15,7 +13,7 @@ export async function react(message: Message): Promise<PluginReturnCode> {
             try {
                 await message.react(reactions[i]);
             } catch (e) {
-                log.error(e);
+                console.error(e);
             }
         }
     } else {
@@ -23,7 +21,7 @@ export async function react(message: Message): Promise<PluginReturnCode> {
             try {
                 await message.react(angryEmojis[i]);
             } catch (e) {
-                log.error(e);
+                console.error(e);
             }
         }
     }

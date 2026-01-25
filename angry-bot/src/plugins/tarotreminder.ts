@@ -1,9 +1,7 @@
 import { tarotReminders } from "@data";
-import { GuildSettingsCache, Log, User } from "@helpers";
+import { GuildSettingsCache, User } from "@helpers";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import { ChannelType, type Client } from "discord.js";
-
-const log = new Log("TarotReminder");
 
 export async function remind(client: Client) {
     const users = await User.find({
@@ -46,10 +44,10 @@ async function broadcast(client: Client, userIds: string[]) {
                         .join(", ")}\n\nDisappointing.`,
                 );
             } else {
-                log.error(`Could not find broadcast channel for guild ${guild.id}`, "broadcast");
+                console.error(`Could not find broadcast channel for guild ${guild.id}`, "broadcast");
             }
         } catch (err) {
-            log.error(err, "broadcast");
+            console.error(err, "broadcast");
         }
     }
 }

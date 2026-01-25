@@ -1,11 +1,10 @@
 import { getRandomAdvertisement } from "@data";
-import { CensorshipUtil, incrementStatAndUser, Log } from "@helpers";
+import { CensorshipUtil, incrementStatAndUser } from "@helpers";
 import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
 import type { Message, PartialMessage } from "discord.js";
 import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
 
-const log = new Log("Censorship");
 let censoredCounter = 0;
 
 function escapeRegExp(string: string) {
@@ -75,11 +74,11 @@ export async function censor(message: Message | PartialMessage): Promise<PluginR
                 await incrementStatAndUser("times-censored", message.author);
             }
         } else {
-            log.error(`Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`);
+            console.error(`Message is not deletable in guild ${message.guild?.name} with id ${message.guild?.id}`);
             return "CONTINUE";
         }
     } catch (error) {
-        log.error(error);
+        console.error("censorship.ts", error);
     }
 
     return "DELETED";

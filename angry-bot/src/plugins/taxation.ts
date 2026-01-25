@@ -1,11 +1,10 @@
 import { angryEmojis } from "@data";
-import { GuildSettingsCache, Log, User } from "@helpers";
+import { GuildSettingsCache, User } from "@helpers";
 import { clientId } from "@woife5/shared/lib/utils/env.util";
 import { ChannelType, type Client } from "discord.js";
 import { invalidateUserCache, updateUserBalance } from "helpers/user.util";
 
 const TAXATION_RATE = 0.07;
-const log = new Log("Taxation");
 
 export async function tax() {
     const users = await User.find({ angryCoins: { $gt: 0 } }).exec();
@@ -34,7 +33,7 @@ export async function tax() {
             await user.save();
             invalidateUserCache(user.userId);
         } catch (err) {
-            log.error(err, "tax");
+            console.error("taxation:", err);
         }
     }
 
@@ -78,10 +77,10 @@ export async function broadcast(
                         .join(", ")}\n\n${endingMessage}`,
                 );
             } else {
-                log.error(`Could not find broadcast channel for guild ${guild.id}`, "broadcast");
+                console.error(`Could not find broadcast channel for guild ${guild.id}`, "broadcast");
             }
         } catch (err) {
-            log.error(err, "broadcast");
+            console.error("taxation broadcast:", err);
         }
     }
 }

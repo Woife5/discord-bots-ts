@@ -1,5 +1,5 @@
 import { bookNames } from "@data";
-import { incrementStatAndUser, Log } from "@helpers";
+import { incrementStatAndUser } from "@helpers";
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
 import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
@@ -23,8 +23,6 @@ type BibleBook = {
     name: string;
     chapters: BibleChapter[];
 };
-
-const log = new Log("Bibleverse");
 
 const bibleAPI = "https://api.getbible.net/v2/akjv/";
 const numberOfBooks = 66;
@@ -87,7 +85,7 @@ async function runCommand(
         const response = await fetch(`${bibleAPI}${bookNumber}.json`);
         book = (await response.json()) as BibleBook;
     } catch (error) {
-        log.error(error);
+        console.error("Bibleverse:", error);
         return new EmbedBuilder().setTitle("Error while downloading the bible!");
     }
 

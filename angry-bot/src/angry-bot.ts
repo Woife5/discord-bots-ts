@@ -1,5 +1,5 @@
 import { version } from "@data";
-import { init, Log } from "@helpers";
+import { init } from "@helpers";
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { MessageWrapper, type PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
 import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
@@ -19,24 +19,9 @@ import {
     Taxation,
 } from "./plugins";
 
-let log: Log | undefined;
-
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {
     process.exit(0);
-});
-
-// Handle all uncaught exceptions
-process.on("uncaughtException", (err) => {
-    log?.error(err, "uncaughtException");
-    console.error(err);
-    process.exit(1);
-});
-
-process.on("unhandledRejection", (err) => {
-    log?.error(err, "unhandledRejection");
-    console.error(err);
-    process.exit(1);
 });
 
 const client = new Client({
@@ -60,9 +45,8 @@ for (const command of Object.values(Commands)) {
 client.on("clientReady", async () => {
     console.log("Bot is logged in and ready!");
     await init();
-    log = new Log("AngryBot");
 
-    log.info(`Started bot version ${version}`, "angry-bot.ts");
+    console.log(`Started AngryBot version ${version}`);
 
     // Set Tarotreminder to run every day at 19:00
     schedule(
@@ -100,7 +84,7 @@ client.on("interactionCreate", async (interaction) => {
     try {
         await commands.get(interaction.commandName)?.executeInteraction(interaction);
     } catch (error) {
-        log?.error(error, "interactionCreate");
+        console.error("In interactionCreate:", error);
         interaction.reply({
             content: "There was an error while executing this command!",
             flags: MessageFlags.Ephemeral,
