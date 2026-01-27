@@ -3,9 +3,9 @@ import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { appendToHistory, getHistory } from "llm-connector/chat-history";
 import { getChatCompletion } from "llm-connector/openrouter";
-import { splitAndSendAsComponents } from "llm-connector/split-send";
 import * as Commands from "./commands/command-handlers";
 import { clientId, MESSAGE, token } from "./consants";
+import { splitAndSendAsComponents } from "./split-send";
 
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {
