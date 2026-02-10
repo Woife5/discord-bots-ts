@@ -3,6 +3,7 @@ import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { appendToHistory, getHistory } from "llm-connector/chat-history";
 import { getChatCompletion } from "llm-connector/openrouter";
+import { version } from "../package.json";
 import * as Commands from "./commands/command-handlers";
 import { clientId, MESSAGE, token } from "./consants";
 import { splitAndSendAsComponents } from "./split-send";
@@ -24,7 +25,7 @@ for (const command of Object.values(Commands)) {
 }
 
 client.on("clientReady", async () => {
-    console.log("Bot is logged in and ready!");
+    console.log(`Bot version ${version} is logged in and ready!`);
 
     // Re-register all slash commands when the bot starts
     registerApplicationCommands(token, clientId, commands);

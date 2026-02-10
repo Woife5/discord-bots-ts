@@ -1,6 +1,6 @@
 {
     "name": "@woife5/copilot-bot",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "description": "Copilot Bot",
     "type": "module",
     "main": "./index.js",
