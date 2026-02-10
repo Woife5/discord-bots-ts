@@ -12,9 +12,9 @@ export function appendToHistory(role: "user" | "assistant" | "system", content: 
 }
 
 export function getHistory(newUserMessage?: string) {
-    if (history.length > 220) {
-        // Remove first 20 messages to keep history size manageable
-        history.splice(1, 20);
+    if (history.length > 80) {
+        // Remove first 10 messages to keep history size manageable
+        history.splice(1, 10);
     }
     if (newUserMessage) {
         history.push({ role: "user", content: newUserMessage });
