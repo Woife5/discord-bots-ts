@@ -1,7 +1,14 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types";
-import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import {
+    type ChatInputCommandInteraction,
+    MessageFlags,
+    PermissionFlagsBits,
+    SeparatorBuilder,
+    SeparatorSpacingSize,
+    SlashCommandBuilder,
+    TextDisplayBuilder,
+} from "discord.js";
 import { getSystemMessage, setSystemMessage } from "llm-connector/chat-history";
-import { adminEmbed } from "./embed";
 
 export const systemMessage: CommandHandler = {
     data: new SlashCommandBuilder()
@@ -12,15 +19,21 @@ export const systemMessage: CommandHandler = {
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
         const newMessage = interaction.options.getString("message");
 
+        const separator = new SeparatorBuilder().setDivider(true).setSpacing(SeparatorSpacingSize.Large);
+
         if (!newMessage) {
+            const header = new TextDisplayBuilder().setContent("Current system message:");
+            const text = new TextDisplayBuilder().setContent(getSystemMessage());
             interaction.reply({
-                embeds: [adminEmbed().setDescription(`Current system message:\n\`${getSystemMessage()}\``)],
+                components: [header, separator, text],
+                flags: MessageFlags.IsComponentsV2,
             });
             return;
         }
 
         setSystemMessage(newMessage);
-        const embed = adminEmbed().setDescription(`System message updated to:\n\`${newMessage}\``);
-        interaction.reply({ embeds: [embed] });
+        const header = new TextDisplayBuilder().setContent("System message updated to:");
+        const newText = new TextDisplayBuilder().setContent(newMessage);
+        interaction.reply({ components: [header, separator, newText], flags: MessageFlags.IsComponentsV2 });
     },
 };
