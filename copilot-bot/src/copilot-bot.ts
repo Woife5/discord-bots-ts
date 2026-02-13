@@ -60,6 +60,14 @@ client.on("messageCreate", async (message) => {
         message.channel.sendTyping();
     }, 9_500);
 
+    // Fallback, clear typing interval after 5 minutes
+    setTimeout(
+        () => {
+            clearInterval(typingInterval);
+        },
+        1_000 * 60 * 5,
+    );
+
     const cleanMessage = message.cleanContent
         .replace(/<@!?(\d+)>/g, "")
         .trim()
