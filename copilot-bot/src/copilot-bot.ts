@@ -1,6 +1,6 @@
 import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
 import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
-import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { ChannelType, Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import { appendToHistory, getHistory } from "llm-connector/chat-history";
 import { getChatCompletion } from "llm-connector/openrouter";
 import { version } from "../package.json";
@@ -14,7 +14,13 @@ process.on("SIGTERM", () => {
 });
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.MessageContent,
+    ],
+    partials: [Partials.Channel],
 });
 
 const commands = new Collection<string, CommandHandler>();
@@ -53,7 +59,14 @@ client.on("interactionCreate", async (interaction) => {
 client.on("messageCreate", async (message) => {
     if (!client.user) return;
 
-    if (!message.mentions.has(client.user)) return;
+    if (message.author.bot) {
+        return;
+    }
+
+    // Only answer when the bot is @tagged or the message was sent in a private channel
+    if (!message.mentions.has(client.user) && message.channel.type !== ChannelType.DM) {
+        return;
+    }
 
     message.channel.sendTyping();
     const typingInterval = setInterval(() => {
