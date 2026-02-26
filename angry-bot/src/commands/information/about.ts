@@ -1,5 +1,5 @@
 import { GuildSettingsCache } from "@helpers";
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared";
 import { infoEmbed } from "commands/embeds";
 import {
     type ChatInputCommandInteraction,

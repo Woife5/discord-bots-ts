@@ -1,6 +1,5 @@
 import { angryBirthday } from "@data";
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { daysUntil } from "@woife5/shared/lib/utils/date.util";
+import { type CommandHandler, daysUntil } from "@woife5/shared";
 import { infoEmbed } from "commands/embeds";
 import { type ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 

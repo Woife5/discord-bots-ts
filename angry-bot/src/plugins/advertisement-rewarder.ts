@@ -1,5 +1,4 @@
-import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
-import { cleanContains } from "@woife5/shared/lib/utils/message.util";
+import { cleanContains, type PluginReturnCode } from "@woife5/shared";
 import type { Message } from "discord.js";
 import { getUserActionCache, updateUserActionCache, updateUserBalance } from "helpers/user.util";
 

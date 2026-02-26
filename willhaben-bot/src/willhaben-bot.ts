@@ -1,5 +1,4 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
+import { type CommandHandler, registerApplicationCommands } from "@woife5/shared";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as Commands from "./commands/command-handlers";
 

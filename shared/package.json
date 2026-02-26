@@ -5,6 +5,9 @@
     "type": "module",
     "license": "GPL-3.0",
     "author": "Wolfgang Schwendtbauer",
+    "exports": {
+        ".": "./lib/index.ts"
+    },
     "scripts": {
         "lint": "biome lint",
         "format": "biome format",

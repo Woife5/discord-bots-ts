@@ -1,4 +1,4 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared";
 import { getTarget } from "database/boller-target";
 import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { defaultEmbed } from "./embeds";

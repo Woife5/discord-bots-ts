@@ -1,4 +1,4 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types";
+import type { CommandHandler } from "@woife5/shared";
 import {
     type ChatInputCommandInteraction,
     MessageFlags,

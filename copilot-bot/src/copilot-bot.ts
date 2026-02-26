@@ -1,5 +1,4 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
+import { type CommandHandler, registerApplicationCommands } from "@woife5/shared";
 import { ChannelType, Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import { appendToHistory, getHistory } from "llm-connector/chat-history";
 import { getChatCompletion } from "llm-connector/openrouter";

@@ -1,8 +1,7 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { clientId } from "@woife5/shared/lib/utils/env.util";
-import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { type CommandHandler, getRandomInt } from "@woife5/shared";
 import { angryCoinEmbed, errorEmbed } from "commands/embeds";
 import { type ChatInputCommandInteraction, type User as DiscordUser, SlashCommandBuilder } from "discord.js";
+import { clientId } from "helpers/env.util";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
 
 export const pay: CommandHandler = {

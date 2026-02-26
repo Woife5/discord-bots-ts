@@ -1,4 +1,4 @@
-import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { getRandomInt } from "@woife5/shared";
 
 export function getRandomAdvertisement() {
     return advertisements[getRandomInt(0, advertisements.length - 1)];

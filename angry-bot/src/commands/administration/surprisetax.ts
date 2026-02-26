@@ -1,4 +1,4 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared";
 import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { broadcast, tax } from "plugins/taxation";
 import { adminEmbed } from "../embeds";
