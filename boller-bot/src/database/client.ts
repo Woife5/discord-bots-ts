@@ -1,4 +1,4 @@
-import { mongoUri } from "@woife5/shared/lib/utils/env.util";
+import { mongoUri } from "helpers/env.util";
 import { MongoClient } from "mongodb";
 
 const client = new MongoClient(mongoUri);

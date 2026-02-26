@@ -1,5 +1,5 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { adminId, clientId } from "@woife5/shared/lib/utils/env.util";
+import type { CommandHandler } from "@woife5/shared";
+import { adminId, clientId } from "helpers/env.util";
 import { angryCoinEmbed } from "commands/embeds";
 import {
     type ChatInputCommandInteraction,

@@ -1,5 +1,5 @@
 import { Stats } from "@helpers";
-import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import type { PluginReturnCode } from "@woife5/shared";
 import type { Message } from "discord.js";
 import { getUser, getUserActionCache, updateUser, updateUserActionCache } from "helpers/user.util";
 

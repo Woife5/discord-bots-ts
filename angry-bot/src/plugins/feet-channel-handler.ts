@@ -1,7 +1,5 @@
 import { feetInsults, feetRelated, ratingEmojis } from "@data";
-import { Role } from "@woife5/shared/lib/commands/types.d";
-import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
-import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { getRandomInt, type PluginReturnCode, Role } from "@woife5/shared";
 import {
     AttachmentBuilder,
     ChannelType,

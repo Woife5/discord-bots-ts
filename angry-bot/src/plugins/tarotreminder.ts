@@ -1,6 +1,6 @@
 import { tarotReminders } from "@data";
 import { GuildSettingsCache, User } from "@helpers";
-import { getRandomInt } from "@woife5/shared/lib/utils/number.util";
+import { getRandomInt } from "@woife5/shared";
 import { ChannelType, type Client } from "discord.js";
 
 export async function remind(client: Client) {

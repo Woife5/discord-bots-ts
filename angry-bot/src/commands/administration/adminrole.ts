@@ -1,6 +1,6 @@
 import { GuildSettingsCache } from "@helpers";
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { adminId } from "@woife5/shared/lib/utils/env.util";
+import type { CommandHandler } from "@woife5/shared";
+import { adminId } from "helpers/env.util";
 import { type ChatInputCommandInteraction, MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { adminEmbed } from "../embeds";
 

@@ -1,9 +1,7 @@
 import { version } from "@data";
 import { init } from "@helpers";
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { MessageWrapper, type PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
-import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
-import { clientId, token } from "@woife5/shared/lib/utils/env.util";
+import { type CommandHandler, MessageWrapper, type PluginReturnCode, registerApplicationCommands } from "@woife5/shared";
+import { clientId, token } from "helpers/env.util";
 import { Client, Collection, type Message, MessageFlags } from "discord.js";
 import { GatewayIntentBits } from "discord-api-types/v10";
 import { schedule } from "node-cron";

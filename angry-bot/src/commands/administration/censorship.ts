@@ -1,6 +1,6 @@
 import { CensorshipUtil } from "@helpers";
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { clientId } from "@woife5/shared/lib/utils/env.util";
+import type { CommandHandler } from "@woife5/shared";
+import { clientId } from "helpers/env.util";
 import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { getCensoredEmbed } from "../information/censored";
 

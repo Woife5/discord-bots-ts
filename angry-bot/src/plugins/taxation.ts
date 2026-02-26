@@ -1,6 +1,6 @@
 import { angryEmojis } from "@data";
 import { GuildSettingsCache, User } from "@helpers";
-import { clientId } from "@woife5/shared/lib/utils/env.util";
+import { clientId } from "helpers/env.util";
 import { ChannelType, type Client } from "discord.js";
 import { invalidateUserCache, updateUserBalance } from "helpers/user.util";
 

@@ -1,6 +1,6 @@
 import { angryEmojis, angryReactionsAmount, customReactions } from "@data";
 import { Stats } from "@helpers";
-import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
+import type { PluginReturnCode } from "@woife5/shared";
 import type { Message } from "discord.js";
 
 export async function react(message: Message): Promise<PluginReturnCode> {

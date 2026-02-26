@@ -1,5 +1,5 @@
 import { isCategory, PagedFinder, type WillhabenResult } from "@willhaben";
-import type { CommandHandler } from "@woife5/shared/lib/commands/types";
+import type { CommandHandler } from "@woife5/shared";
 import {
     ActionRowBuilder,
     ButtonBuilder,

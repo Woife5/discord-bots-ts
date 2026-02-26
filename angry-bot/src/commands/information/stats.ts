@@ -1,5 +1,5 @@
 import { getStat, type UserStatKeys } from "@helpers";
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared";
 import {
     type ChatInputCommandInteraction,
     type User as DiscordUser,

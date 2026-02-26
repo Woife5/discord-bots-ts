@@ -1,4 +1,4 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
+import type { CommandHandler } from "@woife5/shared";
 import { angryCoinEmbed } from "commands/embeds";
 import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder, type User } from "discord.js";
 import { getUserBalance } from "helpers/user.util";

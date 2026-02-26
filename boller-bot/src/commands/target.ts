@@ -1,5 +1,5 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { adminId } from "@woife5/shared/lib/utils/env.util";
+import type { CommandHandler } from "@woife5/shared";
+import { adminId } from "helpers/env.util";
 import { resetTarget, setTarget } from "database/boller-target";
 import {
     type ChatInputCommandInteraction,

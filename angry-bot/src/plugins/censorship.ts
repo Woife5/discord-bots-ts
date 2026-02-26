@@ -1,7 +1,7 @@
 import { getRandomAdvertisement } from "@data";
 import { CensorshipUtil, incrementStatAndUser } from "@helpers";
-import type { PluginReturnCode } from "@woife5/shared/lib/messages/message-wrapper";
-import { clientId } from "@woife5/shared/lib/utils/env.util";
+import type { PluginReturnCode } from "@woife5/shared";
+import { clientId } from "helpers/env.util";
 import type { Message, PartialMessage } from "discord.js";
 import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
 

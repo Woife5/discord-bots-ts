@@ -1,6 +1,5 @@
-import type { CommandHandler } from "@woife5/shared/lib/commands/types.d";
-import { registerApplicationCommands } from "@woife5/shared/lib/plugins/register-commands";
-import { clientId, token } from "@woife5/shared/lib/utils/env.util";
+import { type CommandHandler, registerApplicationCommands } from "@woife5/shared";
+import { clientId, token } from "helpers/env.util";
 import { Client, Collection, GatewayIntentBits, MessageFlags } from "discord.js";
 import { handleVoiceStateUpdate } from "player";
 import * as Commands from "./commands/command-handlers";
