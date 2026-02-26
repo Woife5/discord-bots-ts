@@ -11,9 +11,8 @@
         "allowImportingTsExtensions": true,
         "moduleDetection": "force",
 
-        "allowJs": true, // allow importing `.js` from `.ts`
+        "allowJs": true,
 
-        // best practices
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
