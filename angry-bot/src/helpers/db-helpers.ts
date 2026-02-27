@@ -1,5 +1,5 @@
-import { mongoUri } from "helpers/env.util";
 import type { User as DiscordUser } from "discord.js";
+import { mongoUri } from "helpers/env.util";
 import mongoose, { type HydratedDocument } from "mongoose";
 
 const { Schema, connect, model } = mongoose;

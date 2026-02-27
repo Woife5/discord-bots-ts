@@ -1,5 +1,4 @@
 import type { CommandHandler } from "@woife5/shared";
-import { adminId, clientId } from "helpers/env.util";
 import { angryCoinEmbed } from "commands/embeds";
 import {
     type ChatInputCommandInteraction,
@@ -8,6 +7,7 @@ import {
     PermissionFlagsBits,
     SlashCommandBuilder,
 } from "discord.js";
+import { adminId, clientId } from "helpers/env.util";
 import { getUserBalance, updateUserBalance } from "helpers/user.util";
 
 export const payout: CommandHandler = {

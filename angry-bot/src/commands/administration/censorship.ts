@@ -1,7 +1,7 @@
 import { CensorshipUtil } from "@helpers";
 import type { CommandHandler } from "@woife5/shared";
-import { clientId } from "helpers/env.util";
 import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import { clientId } from "helpers/env.util";
 import { getCensoredEmbed } from "../information/censored";
 
 export const censorship: CommandHandler = {

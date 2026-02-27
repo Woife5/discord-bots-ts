@@ -34,4 +34,3 @@ export function daysUntil(date: Date | string): number {
 
     return Math.floor((date.getTime() - todayMidnight.getTime()) / (1000 * 60 * 60 * 24));
 }
-

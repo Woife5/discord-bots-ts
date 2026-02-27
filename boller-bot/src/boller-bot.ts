@@ -1,6 +1,6 @@
-import { type CommandHandler, registerApplicationCommands } from "@woife5/shared";
+import { type CommandHandler, getCommandHandler, registerApplicationCommands } from "@woife5/shared";
+import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { clientId, token } from "helpers/env.util";
-import { Client, Collection, GatewayIntentBits, MessageFlags } from "discord.js";
 import { handleVoiceStateUpdate } from "player";
 import * as Commands from "./commands/command-handlers";
 
@@ -27,27 +27,7 @@ client.on("clientReady", async () => {
     registerApplicationCommands(token, clientId, commands);
 });
 
-client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isChatInputCommand()) {
-        return;
-    }
-
-    if (!commands.has(interaction.commandName)) {
-        console.error(`Command ${interaction.commandName} not found.`);
-        return;
-    }
-
-    try {
-        await commands.get(interaction.commandName)?.executeInteraction(interaction);
-    } catch (error) {
-        console.error(error);
-        interaction.reply({
-            content: "There was an error while executing this command!",
-            flags: MessageFlags.Ephemeral,
-        });
-        return;
-    }
-});
+client.on("interactionCreate", getCommandHandler(commands));
 
 client.on("voiceStateUpdate", (oldState, newState) => {
     if (newState.member?.user.bot) {
