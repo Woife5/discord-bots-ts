@@ -1,4 +1,4 @@
-import { type CommandHandler, registerApplicationCommands } from "@woife5/shared";
+import { type CommandHandler, getCommandHandler, registerApplicationCommands } from "@woife5/shared";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as Commands from "./commands/command-handlers";
 
@@ -32,23 +32,6 @@ client.on("clientReady", async () => {
     registerApplicationCommands(BOT_TOKEN, CLIENT_ID, commands);
 });
 
-client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isChatInputCommand()) {
-        return;
-    }
-
-    if (!commands.has(interaction.commandName)) {
-        console.error(`Command ${interaction.commandName} not found.`);
-        return;
-    }
-
-    try {
-        await commands.get(interaction.commandName)?.executeInteraction(interaction);
-    } catch (error) {
-        console.error(error);
-        interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
-        return;
-    }
-});
+client.on("interactionCreate", getCommandHandler(commands));
 
 client.login(BOT_TOKEN).catch((e) => console.error(e));

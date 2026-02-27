@@ -1,4 +1,4 @@
-import { type CommandHandler, registerApplicationCommands } from "@woife5/shared";
+import { type CommandHandler, getCommandHandler, registerApplicationCommands } from "@woife5/shared";
 import { ChannelType, Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import { appendToHistory, getHistory } from "llm-connector/chat-history";
 import { getChatCompletion } from "llm-connector/openrouter";
@@ -36,24 +36,7 @@ client.on("clientReady", async () => {
     registerApplicationCommands(token, clientId, commands);
 });
 
-client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isChatInputCommand()) {
-        return;
-    }
-
-    if (!commands.has(interaction.commandName)) {
-        console.error(`Command ${interaction.commandName} not found.`);
-        return;
-    }
-
-    try {
-        await commands.get(interaction.commandName)?.executeInteraction(interaction);
-    } catch (error) {
-        console.error(error);
-        interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
-        return;
-    }
-});
+client.on("interactionCreate", getCommandHandler(commands));
 
 client.on("messageCreate", async (message) => {
     if (!client.user) return;

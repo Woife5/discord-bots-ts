@@ -1,9 +1,15 @@
 import { version } from "@data";
 import { init } from "@helpers";
-import { type CommandHandler, MessageWrapper, type PluginReturnCode, registerApplicationCommands } from "@woife5/shared";
-import { clientId, token } from "helpers/env.util";
-import { Client, Collection, type Message, MessageFlags } from "discord.js";
+import {
+    type CommandHandler,
+    getCommandHandler,
+    MessageWrapper,
+    type PluginReturnCode,
+    registerApplicationCommands,
+} from "@woife5/shared";
+import { Client, Collection, type Message } from "discord.js";
 import { GatewayIntentBits } from "discord-api-types/v10";
+import { clientId, token } from "helpers/env.util";
 import { schedule } from "node-cron";
 import * as Commands from "./commands/command-handlers";
 import {
@@ -69,27 +75,7 @@ client.on("clientReady", async () => {
     registerApplicationCommands(token, clientId, commands);
 });
 
-client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isChatInputCommand()) {
-        return;
-    }
-
-    if (!commands.has(interaction.commandName)) {
-        console.error(`Command ${interaction.commandName} not found.`);
-        return;
-    }
-
-    try {
-        await commands.get(interaction.commandName)?.executeInteraction(interaction);
-    } catch (error) {
-        console.error("In interactionCreate:", error);
-        interaction.reply({
-            content: "There was an error while executing this command!",
-            flags: MessageFlags.Ephemeral,
-        });
-        return;
-    }
-});
+client.on("interactionCreate", getCommandHandler(commands));
 
 const isApplicable = async (message: Message): Promise<PluginReturnCode> => {
     if (message.author.id === client.user?.id || message.author.bot) {
