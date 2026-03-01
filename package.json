@@ -9,5 +9,11 @@
         "copilot-bot",
         "boller-bot",
         "shared"
-    ]
+    ],
+    "catalog": {
+        "discord.js": "^14.25.1",
+        "bun-types": "^1.3.10",
+        "@biomejs/biome": "2.4.4",
+        "typescript": "^5.9.3"
+    }
 }
