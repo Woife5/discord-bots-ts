@@ -11,10 +11,12 @@ export { buy } from "./angry-coin/buy";
 export { gamble } from "./angry-coin/gamble";
 export { pay } from "./angry-coin/pay";
 export { payout } from "./angry-coin/payout";
+
 // no category
 export { bibleverse } from "./bibleverse";
 export { catboy } from "./catboy";
 export { catgirl } from "./catgirl";
+
 // information
 export { about } from "./information/about";
 export { birthday } from "./information/birthday";

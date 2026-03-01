@@ -17,8 +17,8 @@ function runCommand() {
     const embed = new EmbedBuilder().setColor("DarkVividPink");
 
     switch (getRandomInt(0, 2)) {
-        // Calculate the time since the medien-t test.
         case 0: {
+            // Calculate the time since the medien-t test.
             let msSinceKlausur = Date.now() - medienKlausur.getTime();
             const dSinceKlausur = Math.floor(msSinceKlausur / 1000 / 60 / 60 / 24);
             msSinceKlausur -= dSinceKlausur * 1000 * 60 * 60 * 24;
@@ -45,8 +45,8 @@ function runCommand() {
                 .setTimestamp(medienKlausur);
         }
 
-        // Case to get some proper medienDispositive!
         case 1: {
+            // Case to get some proper medienDispositive!
             const name = names[getRandomInt(0, names.length - 1)];
             embed.addFields({
                 name: `Hallo, ich bin ${name} und das ist meine momentane, unverständliche Weisheit:`,
@@ -55,8 +55,8 @@ function runCommand() {
             return embed.setAuthor({ name: name });
         }
 
-        // Good to know when this exam ended
         default: {
+            // Good to know when this exam ended
             let text = funStuff[getRandomInt(0, funStuff.length - 1)];
             text = text.replaceAll("<name>", names[getRandomInt(0, names.length - 1)]);
             text = text.replaceAll("<geschmack>", geschmacksliste[getRandomInt(0, geschmacksliste.length - 1)]);

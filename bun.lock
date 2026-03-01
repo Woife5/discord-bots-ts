@@ -5,7 +5,7 @@
     "": {},
     "angry-bot": {
       "name": "@woife5/angry-bot",
-      "version": "3.11.0",
+      "version": "3.11.1",
       "dependencies": {
         "@woife5/shared": "workspace:*",
         "discord.js": "catalog:",
@@ -27,7 +27,7 @@
         "@discordjs/voice": "^0.19.0",
         "@snazzah/davey": "^0.1.9",
         "@woife5/shared": "workspace:*",
-        "discord.js": "^14.25.1",
+        "discord.js": "catalog:",
         "ffmpeg-static": "^5.3.0",
         "libsodium-wrappers": "^0.8.1",
         "mongodb": "^7.0.0",
