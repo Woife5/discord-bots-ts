@@ -3,12 +3,12 @@ name: Boller Bot
 on:
     pull_request:
         branches:
-            - master
+            - main
         paths:
             - "boller-bot/src/**"
     push:
         branches:
-            - master
+            - main
         paths:
             - "boller-bot/src/**"
 
@@ -35,7 +35,7 @@ jobs:
     Dockerize:
         runs-on: ubuntu-latest
         needs: [Lint, Typecheck]
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         steps:
             - uses: actions/checkout@v4
             - name: get-npm-version
