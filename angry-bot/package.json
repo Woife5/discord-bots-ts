@@ -1,6 +1,6 @@
 {
     "name": "@woife5/angry-bot",
-    "version": "3.11.0",
+    "version": "3.12.0",
     "description": "Angry Bot.",
     "type": "module",
     "main": "./angry-bot.js",
