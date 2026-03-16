@@ -126,6 +126,11 @@ async function setFields(embed: EmbedBuilder, tarotId: number, streak: number) {
         });
     }
 
+    if (streak <= 0) {
+        embed.setFooter({ text: `🥶 ${streak}` });
+        return;
+    }
+
     if (streak % 100 === 0) {
         const numberOfEmojis = streak / 100;
         embed.setFooter({ text: `🔥 ${"💯".repeat(numberOfEmojis)}` });
