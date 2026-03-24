@@ -1,6 +1,6 @@
 import { mock } from "bun:test";
 
-mock.module("helpers/env.util", () => ({
+mock.module("@env", () => ({
     clientId: "client-id",
     token: "token",
     adminId: "admin-id",

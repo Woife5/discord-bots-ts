@@ -6,7 +6,7 @@ const updateMock = jest.fn();
 const getActionCacheMock = jest.fn();
 const updateActionCacheMock = jest.fn();
 
-mock.module("helpers/user.util", () => ({
+mock.module("@helpers", () => ({
     getUserActionCache: getActionCacheMock,
     updateUserBalance: updateMock,
     updateUserActionCache: updateActionCacheMock,
