@@ -1,7 +1,6 @@
-import { Stats } from "@helpers";
+import { getUser, getUserActionCache, Stats, updateUser, updateUserActionCache } from "@helpers";
 import type { PluginReturnCode } from "@woife5/shared";
 import type { Message } from "discord.js";
-import { getUser, getUserActionCache, updateUser, updateUserActionCache } from "helpers/user.util";
 
 const emojiRegex = /<:angry([0-9]{1,3}):[0-9]+>/g;
 

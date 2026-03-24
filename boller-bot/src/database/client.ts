@@ -1,5 +1,5 @@
-import { mongoUri } from "helpers/env.util";
 import { MongoClient } from "mongodb";
+import { mongoUri } from "../helpers/env.util";
 
 const client = new MongoClient(mongoUri);
 

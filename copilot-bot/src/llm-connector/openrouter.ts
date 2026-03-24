@@ -1,9 +1,12 @@
-import { openRouterKey } from "consants";
-import { wait } from "wait";
+import { openRouterKey } from "../consants";
 
 type ChatCompletionResponse = { id: string; choices: Array<{ message: { role: "assistant"; content: string } }> };
 type ChatCompletionErrorResponse = { error: { message: string; code: number } };
 type Messages = Array<{ role: "user" | "assistant" | "system"; content: string }>;
+
+function wait(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function isErrorResponse(
     response: ChatCompletionErrorResponse | ChatCompletionResponse | undefined,

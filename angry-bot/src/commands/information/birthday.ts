@@ -1,7 +1,7 @@
 import { angryBirthday } from "@data";
 import { type CommandHandler, daysUntil } from "@woife5/shared";
-import { infoEmbed } from "commands/embeds";
 import { type ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { infoEmbed } from "../embeds";
 
 export const birthday: CommandHandler = {
     data: new SlashCommandBuilder().setName("birthday").setDescription("Get the date of my birthday."),

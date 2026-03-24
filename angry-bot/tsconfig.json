@@ -2,11 +2,10 @@
     "extends": "../tsconfig.json",
     "include": ["src/**/*"],
     "compilerOptions": {
-        "rootDir": "./src",
-        "baseUrl": "./src",
         "paths": {
-            "@helpers": ["helpers"],
-            "@data": ["data"]
+            "@helpers": ["./src/helpers/index.ts"],
+            "@env": ["./src/helpers/env.util.ts"],
+            "@data": ["./src/data/index.ts"]
         }
     }
 }

@@ -9,9 +9,9 @@ import {
 } from "@woife5/shared";
 import { Client, Collection, type Message } from "discord.js";
 import { GatewayIntentBits } from "discord-api-types/v10";
-import { clientId, token } from "helpers/env.util";
 import { schedule } from "node-cron";
 import * as Commands from "./commands/command-handlers";
+import { clientId, token } from "./helpers/env.util";
 import {
     AdRewarder,
     Censorship,

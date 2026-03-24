@@ -1,5 +1,6 @@
+import { adminId, clientId } from "@env";
+import { getUserBalance, updateUserBalance } from "@helpers";
 import type { CommandHandler } from "@woife5/shared";
-import { angryCoinEmbed } from "commands/embeds";
 import {
     type ChatInputCommandInteraction,
     type User as DiscordUser,
@@ -7,8 +8,7 @@ import {
     PermissionFlagsBits,
     SlashCommandBuilder,
 } from "discord.js";
-import { adminId, clientId } from "helpers/env.util";
-import { getUserBalance, updateUserBalance } from "helpers/user.util";
+import { angryCoinEmbed } from "../embeds";
 
 export const payout: CommandHandler = {
     data: new SlashCommandBuilder()

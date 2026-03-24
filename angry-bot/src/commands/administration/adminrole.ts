@@ -1,7 +1,7 @@
+import { adminId } from "@env";
 import { GuildSettingsCache } from "@helpers";
 import type { CommandHandler } from "@woife5/shared";
 import { type ChatInputCommandInteraction, MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import { adminId } from "helpers/env.util";
 import { adminEmbed } from "../embeds";
 
 export const adminrole: CommandHandler = {

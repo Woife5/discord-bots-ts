@@ -1,9 +1,8 @@
 import { getRandomAdvertisement } from "@data";
-import { CensorshipUtil, incrementStatAndUser } from "@helpers";
+import { clientId } from "@env";
+import { CensorshipUtil, getPowerUpdate, hasPower, incrementStatAndUser, updateUser } from "@helpers";
 import type { PluginReturnCode } from "@woife5/shared";
 import type { Message, PartialMessage } from "discord.js";
-import { clientId } from "helpers/env.util";
-import { getPowerUpdate, hasPower, updateUser } from "helpers/user.util";
 
 let censoredCounter = 0;
 

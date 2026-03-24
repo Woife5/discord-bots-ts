@@ -1,6 +1,6 @@
+import { updateUser } from "@helpers";
 import type { CommandHandler } from "@woife5/shared";
 import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, type User } from "discord.js";
-import { updateUser } from "helpers/user.util";
 
 export const tarotreminder: CommandHandler = {
     data: new SlashCommandBuilder()

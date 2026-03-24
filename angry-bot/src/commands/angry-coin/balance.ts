@@ -1,7 +1,7 @@
 import type { CommandHandler } from "@woife5/shared";
-import { angryCoinEmbed } from "commands/embeds";
 import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder, type User } from "discord.js";
-import { getUserBalance } from "helpers/user.util";
+import { getUserBalance } from "../../helpers/user.util";
+import { angryCoinEmbed } from "../embeds";
 
 export const balance: CommandHandler = {
     data: new SlashCommandBuilder()

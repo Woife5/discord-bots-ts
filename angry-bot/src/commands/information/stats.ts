@@ -1,4 +1,4 @@
-import { getStat, type UserStatKeys } from "@helpers";
+import { getStat, getUser, type UserStatKeys } from "@helpers";
 import type { CommandHandler } from "@woife5/shared";
 import {
     type ChatInputCommandInteraction,
@@ -6,7 +6,6 @@ import {
     type EmbedBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import { getUser } from "helpers/user.util";
 import { infoEmbed } from "../embeds";
 
 export const stats: CommandHandler = {

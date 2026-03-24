@@ -1,6 +1,6 @@
+import { adminId, clientId } from "@env";
 import { isToday, Role } from "@woife5/shared";
 import type { User as DiscordUser, Guild, GuildMember } from "discord.js";
-import { adminId, clientId } from "helpers/env.util";
 import type { HydratedDocument } from "mongoose";
 import { createUserSimple, GuildSettingsCache, type IUser, type Powers, User, type UserStatKeys } from "./db-helpers";
 

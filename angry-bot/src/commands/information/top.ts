@@ -1,5 +1,3 @@
-import type { CommandHandler } from "@woife5/shared";
-import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import {
     getTopByStat,
     getTopMoneyHoarders,
@@ -7,7 +5,9 @@ import {
     getTopStickerSpammer,
     isUserStatKey,
     type TopSpamResult,
-} from "helpers/user.util";
+} from "@helpers";
+import type { CommandHandler } from "@woife5/shared";
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { infoEmbedColor } from "../embeds";
 
 const topChoices = [

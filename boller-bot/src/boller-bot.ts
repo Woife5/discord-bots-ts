@@ -1,8 +1,8 @@
 import { type CommandHandler, getCommandHandler, registerApplicationCommands } from "@woife5/shared";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import { clientId, token } from "helpers/env.util";
-import { handleVoiceStateUpdate } from "player";
 import * as Commands from "./commands/command-handlers";
+import { clientId, token } from "./helpers/env.util";
+import { handleVoiceStateUpdate } from "./player";
 
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {

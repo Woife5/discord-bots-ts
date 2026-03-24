@@ -1,6 +1,5 @@
-import { GuildSettingsCache } from "@helpers";
+import { GuildSettingsCache, getUser, getUserActionCache } from "@helpers";
 import type { CommandHandler } from "@woife5/shared";
-import { infoEmbed } from "commands/embeds";
 import {
     type ChatInputCommandInteraction,
     type User as DiscordUser,
@@ -8,7 +7,7 @@ import {
     MessageFlags,
     SlashCommandBuilder,
 } from "discord.js";
-import { getUser, getUserActionCache } from "helpers/user.util";
+import { infoEmbed } from "../embeds";
 
 export const about: CommandHandler = {
     data: new SlashCommandBuilder()

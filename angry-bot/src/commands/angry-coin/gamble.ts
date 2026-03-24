@@ -1,9 +1,9 @@
+import { clientId } from "@env";
 import { incrementStatAndUser } from "@helpers";
 import { type CommandHandler, getRandomInt } from "@woife5/shared";
-import { angryCoinEmbed } from "commands/embeds";
 import { type ChatInputCommandInteraction, type User as DiscordUser, SlashCommandBuilder } from "discord.js";
-import { clientId } from "helpers/env.util";
-import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "helpers/user.util";
+import { getUserActionCache, getUserBalance, updateUserActionCache, updateUserBalance } from "../../helpers/user.util";
+import { angryCoinEmbed } from "../embeds";
 
 export const gamble: CommandHandler = {
     data: new SlashCommandBuilder()

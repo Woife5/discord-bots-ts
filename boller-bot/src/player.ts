@@ -7,8 +7,8 @@ import {
     getVoiceConnections,
     joinVoiceChannel,
 } from "@discordjs/voice";
-import { getTarget } from "database/boller-target";
 import type { Guild, Snowflake, VoiceState } from "discord.js";
+import { getTarget } from "./database/boller-target";
 
 let audioPlayer: AudioPlayer | null = null;
 

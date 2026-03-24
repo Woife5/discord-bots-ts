@@ -8,7 +8,7 @@ import {
     SlashCommandBuilder,
     TextDisplayBuilder,
 } from "discord.js";
-import { getSystemMessage, setSystemMessage } from "llm-connector/chat-history";
+import { getSystemMessage, setSystemMessage } from "../llm-connector/chat-history";
 
 export const systemMessage: CommandHandler = {
     data: new SlashCommandBuilder()

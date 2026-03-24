@@ -2,10 +2,8 @@
     "extends": "../tsconfig.json",
     "include": ["src/**/*"],
     "compilerOptions": {
-        "rootDir": "./src",
-        "baseUrl": "./src",
         "paths": {
-            "@willhaben": ["willhaben-api/index.ts"]
+            "@willhaben": ["./src/willhaben-api/index.ts"]
         }
     }
 }

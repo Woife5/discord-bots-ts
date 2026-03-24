@@ -1,5 +1,5 @@
-import { COPILOT_ICON } from "consants";
 import { EmbedBuilder } from "discord.js";
+import { COPILOT_ICON } from "../consants";
 
 export const adminEmbed = () =>
     new EmbedBuilder()

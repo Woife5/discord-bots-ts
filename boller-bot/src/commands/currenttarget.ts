@@ -1,6 +1,6 @@
 import type { CommandHandler } from "@woife5/shared";
-import { getTarget } from "database/boller-target";
 import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { getTarget } from "../database/boller-target";
 import { defaultEmbed } from "./embeds";
 
 export const currenttarget: CommandHandler = {

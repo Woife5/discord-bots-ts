@@ -1,6 +1,6 @@
 import type { CommandHandler } from "@woife5/shared";
 import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import { clearHistory, getHistory } from "llm-connector/chat-history";
+import { clearHistory, getHistory } from "../llm-connector/chat-history";
 import { adminEmbed } from "./embed";
 
 export const history: CommandHandler = {

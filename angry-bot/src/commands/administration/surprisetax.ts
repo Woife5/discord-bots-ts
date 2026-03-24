@@ -1,6 +1,6 @@
 import type { CommandHandler } from "@woife5/shared";
 import { type ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import { broadcast, tax } from "plugins/taxation";
+import { broadcast, tax } from "../../plugins/taxation";
 import { adminEmbed } from "../embeds";
 
 export const surprisetax: CommandHandler = {

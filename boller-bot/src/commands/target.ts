@@ -1,5 +1,4 @@
 import type { CommandHandler } from "@woife5/shared";
-import { resetTarget, setTarget } from "database/boller-target";
 import {
     type ChatInputCommandInteraction,
     EmbedBuilder,
@@ -7,7 +6,8 @@ import {
     SlashCommandBuilder,
     type User,
 } from "discord.js";
-import { adminId } from "helpers/env.util";
+import { resetTarget, setTarget } from "../database/boller-target";
+import { adminId } from "../helpers/env.util";
 import { defaultEmbed } from "./embeds";
 
 export const target: CommandHandler = {

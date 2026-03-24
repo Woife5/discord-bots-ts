@@ -1,7 +1,7 @@
 import { uncensorable } from "@data";
+import { clientId } from "@env";
 import { CensorshipUtil, type Powers } from "@helpers";
 import { type CommandHandler, hasEmoji, toCleanLowerCase } from "@woife5/shared";
-import { angryCoinEmbed } from "commands/embeds";
 import {
     ActionRowBuilder,
     ButtonBuilder,
@@ -13,8 +13,8 @@ import {
     SlashCommandBuilder,
     type SlashCommandSubcommandBuilder,
 } from "discord.js";
-import { clientId } from "helpers/env.util";
-import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "helpers/user.util";
+import { getPowerUpdate, getUserBalance, isUserPower, updateUser, updateUserBalance } from "../../helpers/user.util";
+import { angryCoinEmbed } from "../embeds";
 
 type CensorshipItem = "censorship" | "un-censorship";
 

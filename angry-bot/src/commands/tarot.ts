@@ -1,5 +1,5 @@
 import { angryEmojis, getRandomAdvertisement, tarots } from "@data";
-import { incrementStatAndUser } from "@helpers";
+import { getUser, incrementStatAndUser, updateUser } from "@helpers";
 import { type CommandHandler, isBeforeYesterdayMidnight, isToday } from "@woife5/shared";
 import {
     type ChatInputCommandInteraction,
@@ -8,7 +8,6 @@ import {
     MessageFlags,
     SlashCommandBuilder,
 } from "discord.js";
-import { getUser, updateUser } from "helpers/user.util";
 
 const currentlyHandling = new Set<string>();
 
