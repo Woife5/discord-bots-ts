@@ -1,5 +1,4 @@
-import willhaben from "willhaben";
-import type { WillhabenResult } from "./types";
+import { categories, type WillhabenResult, WillhabenSearch } from "./willhaben";
 
 type Optional<T> = T | null | undefined;
 
@@ -15,12 +14,9 @@ export class PagedFinder {
     ) {}
 
     public async find(keyword: string, category: Optional<string>) {
-        const w = willhaben
-            .new()
-            .keyword(keyword)
-            .count(this.PAGE_SIZE * this.PAGE_AMOUNT);
+        const w = new WillhabenSearch().keyword(keyword).count(this.PAGE_SIZE * this.PAGE_AMOUNT);
         if (category) {
-            w.category(willhaben.getCategories[category]);
+            w.category(categories[category]);
         }
 
         this.results = await w.search();

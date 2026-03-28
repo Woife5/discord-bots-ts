@@ -70,7 +70,6 @@
       "dependencies": {
         "@woife5/shared": "workspace:*",
         "discord.js": "catalog:",
-        "willhaben": "^0.2.1",
       },
       "devDependencies": {
         "@biomejs/biome": "catalog:",
@@ -371,8 +370,6 @@
     "whatwg-url": ["whatwg-url@14.2.0", "", { "dependencies": { "tr46": "^5.1.0", "webidl-conversions": "^7.0.0" } }, "sha512-De72GdQZzNTUBBChsXueQUnPKDkg/5A5zp7pFDuQAj5UFoENpiACU0wlCvzpAGnTkj++ihpKwKyYewn/XNUbKw=="],
 
     "wide-align": ["wide-align@1.1.5", "", { "dependencies": { "string-width": "^1.0.2 || 2 || 3 || 4" } }, "sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg=="],
-
-    "willhaben": ["willhaben@0.2.1", "", { "dependencies": { "node-fetch": "^2.6.1" } }, "sha512-jfcrTplAT8tkvFaWlv2//a32WleoxfF+DC9xOI/wCZTRHbslFn2rBuOSjQXMXHa1USpUxDKNu6NQ37orSbXOFA=="],
 
     "wrappy": ["wrappy@1.0.2", "", {}, "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ=="],
 
