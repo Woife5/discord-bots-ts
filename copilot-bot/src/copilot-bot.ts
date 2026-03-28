@@ -30,7 +30,8 @@ for (const command of Object.values(Commands)) {
 }
 
 client.on("clientReady", async () => {
-    console.log(`Bot version ${version} is logged in and ready!`);
+    console.log("Bot is logged in and ready!");
+    console.log(`Started CopilotBot version ${version}`);
 
     // Re-register all slash commands when the bot starts
     registerApplicationCommands(token, clientId, commands);

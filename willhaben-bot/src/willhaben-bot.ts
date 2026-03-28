@@ -1,5 +1,6 @@
 import { type CommandHandler, getCommandHandler, registerApplicationCommands } from "@woife5/shared";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { version } from "../package.json";
 import * as Commands from "./commands/command-handlers";
 
 const { CLIENT_ID, BOT_TOKEN } = process.env;
@@ -27,6 +28,7 @@ for (const command of Object.values(Commands)) {
 
 client.on("clientReady", async () => {
     console.log("Bot is logged in and ready!");
+    console.log(`Started WillhabenBot version ${version}`);
 
     // Re-register all slash commands when the bot starts
     registerApplicationCommands(BOT_TOKEN, CLIENT_ID, commands);
