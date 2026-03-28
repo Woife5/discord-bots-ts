@@ -221,7 +221,7 @@ async function censorshipPurchase(interaction: ChatInputCommandInteraction, shop
         new ButtonBuilder().setCustomId("cancel_uncensorship_purchase").setEmoji("🤮").setStyle(ButtonStyle.Danger),
     );
 
-    if (!interaction.channel || !interaction.channel.isSendable()) {
+    if (!interaction.channel?.isSendable()) {
         return interaction.reply({
             embeds: [angryCoinEmbed().setDescription("Please only use this command in a guild")],
             flags: MessageFlags.Ephemeral,

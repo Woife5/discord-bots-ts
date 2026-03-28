@@ -64,7 +64,7 @@ export async function broadcast(
     for (const [, guild] of client.guilds.cache) {
         try {
             const guildSettings = await GuildSettingsCache.get(guild.id);
-            if (!guildSettings || !guildSettings.broadcastChannelId) {
+            if (!guildSettings?.broadcastChannelId) {
                 continue;
             }
 

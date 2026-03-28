@@ -182,7 +182,7 @@ export class CensorshipUtil {
      */
     static async findOwner(value: string): Promise<string | null> {
         const censored = await CensoredDB.findOne({ value }).exec();
-        if (!censored || !censored.owner) {
+        if (!censored?.owner) {
             return null;
         }
 

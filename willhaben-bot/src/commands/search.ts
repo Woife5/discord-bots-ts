@@ -52,7 +52,7 @@ export const search: CommandHandler = {
             return;
         }
 
-        if (!interaction.channel || !interaction.channel.isSendable()) {
+        if (!interaction.channel?.isSendable()) {
             const embed = defaultEmbed().addFields(
                 pagedResults.nextPage().map((res) => ({
                     name: res.heading.substring(0, 100),

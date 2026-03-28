@@ -121,7 +121,7 @@ export async function getUserBalance(userId: string): Promise<number> {
 export async function hasPower(userId: string, power: Powers): Promise<boolean> {
     const user = await getUser(userId);
 
-    if (!user || !user.powers[power] || user.powers[power] <= 0) {
+    if (!user?.powers[power] || user.powers[power] <= 0) {
         return false;
     }
 

@@ -31,7 +31,7 @@ export async function remind(client: Client) {
 async function broadcast(client: Client, userIds: string[]) {
     for (const [, guild] of client.guilds.cache) {
         const guildSettings = await GuildSettingsCache.get(guild.id);
-        if (!guildSettings || !guildSettings.broadcastChannelId) {
+        if (!guildSettings?.broadcastChannelId) {
             continue;
         }
 
