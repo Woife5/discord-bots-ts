@@ -26,7 +26,7 @@
     "dependencies": {
         "@woife5/shared": "workspace:*",
         "discord.js": "catalog:",
-        "mongoose": "^9.0.2",
+        "mongoose": "^9.3.3",
         "node-cron": "^4.2.1"
     }
 }
