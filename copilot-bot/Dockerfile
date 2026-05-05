@@ -1,7 +1,16 @@
-FROM oven/bun:alpine
+FROM golang:1.24-alpine AS builder
 
-WORKDIR /usr/src
+WORKDIR /app
 
-COPY ./copilot-bot.js ./copilot-bot.js
+COPY go.mod go.sum ./
+RUN go mod download
 
-ENTRYPOINT [ "bun", "./copilot-bot.js" ]
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o copilot-bot .
+
+FROM alpine:latest
+
+RUN apk add --no-cache ca-certificates
+COPY --from=builder /app/copilot-bot /copilot-bot
+
+ENTRYPOINT ["/copilot-bot"]
