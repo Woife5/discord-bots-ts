@@ -137,6 +137,8 @@ func handleMessage(s *discordgo.Session, m *discordgo.MessageCreate, bot *comman
 		return
 	}
 
+	// Only persist user message + assistant reply on success
+	history.AppendToHistory("user", cleanMessage)
 	history.AppendToHistory("assistant", reply)
 	splitAndSendAsComponents(s, m.ChannelID, reply)
 }
