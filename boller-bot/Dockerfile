@@ -1,57 +1,29 @@
-# ------------------
-# Builder
-# ------------------
-FROM debian:bookworm AS builder
+FROM node:26-alpine AS builder
+
+RUN npm install -g pnpm@11.1.3
+
+RUN apk update
+RUN apk upgrade
+RUN apk add --no-cache ffmpeg
 
 WORKDIR /usr/src
 
-# Install Bun
-RUN apt-get update && apt-get install -y \
-    curl \
-    unzip \
-    ca-certificates \
- && curl -fsSL https://bun.sh/install | bash \
- && ln -s /root/.bun/bin/bun /usr/local/bin/bun
+# Copy workspace manifests and lockfile
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 
-# Install Node 20 (needed for discord/opus)
-RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
- && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
- && apt-get install -y \
-    nodejs \
-    python3 \
-    make \
-    g++ \
- && rm -rf /var/lib/apt/lists/*
+# Copy all package manifests so pnpm can resolve the workspace
+COPY shared/package.json ./shared/
+COPY boller-bot/package.json ./boller-bot/
+
+# Install all dependencies (including dev, needed for build)
+RUN pnpm install --frozen-lockfile
 
 # Copy source
-COPY . .
+COPY shared/ ./shared/
+COPY boller-bot/ ./boller-bot/
+COPY tsconfig.json ./
 
-# Install dependencies
-# Will invoke node20 to install some discord opus native stuff
-RUN bun install
+# Build
+RUN pnpm --filter @woife5/boller-bot run build
 
-# Build your bot
-RUN cd boller-bot && bun run build
-
-# ------------------
-# Runtime
-# ------------------
-FROM debian:bookworm-slim AS runtime
-
-WORKDIR /app
-
-# Runtime-only deps
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
- && rm -rf /var/lib/apt/lists/*
-
-# Copy built binary/artifacts
-COPY --from=builder /usr/src/boller-bot/bollerbot ./bollerbot
-
-# Ensure executable bit (safe even if already set)
-RUN chmod +x ./bollerbot
-
-ENTRYPOINT ["./bollerbot"]
-
+ENTRYPOINT ["node", "./boller-bot/boller-bot.cjs"]

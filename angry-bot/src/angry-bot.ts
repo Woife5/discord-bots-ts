@@ -7,8 +7,7 @@ import {
     type PluginReturnCode,
     registerApplicationCommands,
 } from "@woife5/shared";
-import { Client, Collection, type Message } from "discord.js";
-import { GatewayIntentBits } from "discord-api-types/v10";
+import { Client, Collection, GatewayIntentBits, type Message } from "discord.js";
 import { schedule } from "node-cron";
 import * as Commands from "./commands/command-handlers";
 import { clientId, token } from "./helpers/env.util";
@@ -50,7 +49,7 @@ client.on("clientReady", async () => {
     console.log("Bot is logged in and ready!");
     await init();
 
-    console.log(`Started AngryBot version ${version}`);
+    console.log(`Started angry-bot version ${version}`);
 
     // Set Tarotreminder to run every day at 19:00
     schedule(

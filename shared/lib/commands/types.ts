@@ -1,5 +1,4 @@
-import type { SlashCommandOptionsOnlyBuilder } from "@discordjs/builders";
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from "discord.js";
 
 export type CommandHandler = {
     data: SlashCommandOptionsOnlyBuilder | Omit<SlashCommandOptionsOnlyBuilder, "addSubcommand" | "addSubcommandGroup">;

@@ -1,27 +1,25 @@
 {
     "name": "@woife5/angry-bot",
-    "version": "3.12.0",
+    "version": "4.0.0",
     "description": "Angry Bot.",
     "type": "module",
-    "main": "./angry-bot.js",
     "license": "GPL-3.0",
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
-        "start": "bun --watch ./src/angry-bot.ts",
-        "build": "bun build ./src/angry-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
-        "test": "bun test --preload ./src/test-setup.ts",
+        "start": "pnpm run build && node --env-file=.env angry-bot.cjs",
+        "build": "esbuild ./src/angry-bot.ts --bundle --outfile=angry-bot.cjs --minify-whitespace --minify-syntax --platform=node",
         "lint": "biome lint",
         "format": "biome format",
         "check": "biome check",
         "typecheck": "tsc --noEmit",
-        "predockerize": "bun run lint && bun run typecheck && bun run build",
+        "predockerize": "pnpm run lint && pnpm run typecheck && pnpm run build",
         "dockerize": "docker buildx build -t woife5/angry-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
     },
     "devDependencies": {
         "@biomejs/biome": "catalog:",
         "@types/node-cron": "^3.0.11",
-        "bun-types": "catalog:",
-        "typescript": "catalog:"
+        "typescript": "catalog:",
+        "esbuild": "catalog:"
     },
     "dependencies": {
         "@woife5/shared": "workspace:*",

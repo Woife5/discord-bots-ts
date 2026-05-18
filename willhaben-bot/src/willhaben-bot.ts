@@ -28,7 +28,7 @@ for (const command of Object.values(Commands)) {
 
 client.on("clientReady", async () => {
     console.log("Bot is logged in and ready!");
-    console.log(`Started WillhabenBot version ${version}`);
+    console.log(`Started willhaben-bot version ${version}`);
 
     // Re-register all slash commands when the bot starts
     registerApplicationCommands(BOT_TOKEN, CLIENT_ID, commands);

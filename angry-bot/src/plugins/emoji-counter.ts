@@ -29,13 +29,13 @@ export async function count(message: Message): Promise<PluginReturnCode> {
     await Stats.findOneAndUpdate(
         { key: "total-angry-emojis-sent" },
         { $inc: { value: matches.length } },
-        { upsert: true, new: true },
+        { upsert: true, returnDocument: "after" },
     ).exec();
 
     await Stats.findOneAndUpdate(
         { key: "total-angry-stickers-sent" },
         { $inc: { value: stickerList.length } },
-        { upsert: true, new: true },
+        { upsert: true, returnDocument: "after" },
     ).exec();
 
     const emojis = matches.reduce(
