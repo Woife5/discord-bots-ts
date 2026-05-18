@@ -1,12 +1,12 @@
 name: Shared
 
 on:
-    pull_request:
+    push:
         branches:
             - main
         paths:
             - "shared/lib/**"
-    push:
+    pull_request:
         branches:
             - main
         paths:
@@ -20,18 +20,24 @@ jobs:
     Lint:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - name: Setup Bun
-              uses: oven-sh/setup-bun@v1
-            - run: bun install
+            - uses: actions/checkout@v6
+            - uses: pnpm/action-setup@v6
+            - uses: actions/setup-node@v6
+              with:
+                node-version: 24
+                cache: 'pnpm'
+            - run: pnpm install
             - name: Run biome check
-              run: bun run check
+              run: pnpm run check
     Typecheck:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - name: Setup Bun
-              uses: oven-sh/setup-bun@v1
-            - run: bun install
+            - uses: actions/checkout@v6
+            - uses: pnpm/action-setup@v6
+            - uses: actions/setup-node@v6
+              with:
+                node-version: 24
+                cache: 'pnpm'
+            - run: pnpm install
             - name: Run typechecking
-              run: bun run typecheck
+              run: pnpm run typecheck

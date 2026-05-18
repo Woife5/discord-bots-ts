@@ -11,6 +11,10 @@ import {
 
 const currentlyHandling = new Set<string>();
 
+function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const tarot: CommandHandler = {
     data: new SlashCommandBuilder().setName("tarot").setDescription("Get your daily angry tarot reading."),
     executeInteraction: async (interaction: ChatInputCommandInteraction): Promise<void> => {
@@ -35,7 +39,7 @@ export const tarot: CommandHandler = {
                 value: `Let me sense your angry${".".repeat(i + 1)}`,
             });
             await interaction.editReply({ embeds: [embed] });
-            await Bun.sleep(500);
+            await sleep(500);
         }
 
         const streak = await updateUserAndGetStreak(interaction.user, result);

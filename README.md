@@ -2,13 +2,13 @@
 
 ## Setup
 
-Make sure you have `bun` installed: [bun.sh](https://bun.sh)
+Make sure you have `node` and `pnpm` installed: [NodeJS](https://nodejs.org/en)
 
 ## Angry Bot
 
 The scripts to build an run the bot can be found in `angry-bot/package.json`. Run them with:
 
-    bun run <scriptname>
+    pnpm run <scriptname>
 
 ### Run the bot
 
@@ -31,6 +31,6 @@ For local development all the required secrets can be added to a `.env` file whi
 
 To finally start the development version of the bot run:
 
-    bun run start
+    pnpm run start
 
-This will transpile and run the bot. As soon as any source file changes, bun will automatically restart the bot.
+This will transpile and run the bot. As soon as any source file changes, node will automatically restart the bot.

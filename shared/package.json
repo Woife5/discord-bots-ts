@@ -19,7 +19,6 @@
     },
     "devDependencies": {
         "@biomejs/biome": "catalog:",
-        "bun-types": "catalog:",
         "typescript": "catalog:"
     }
 }

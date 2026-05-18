@@ -1,25 +1,24 @@
 {
     "name": "@woife5/willhaben-bot",
-    "version": "1.1.2",
+    "version": "2.0.0",
     "description": "Willhaben Bot",
     "type": "module",
-    "main": "./index.js",
     "license": "GPL-3.0",
     "author": "Wolfgang Schwendtbauer",
     "scripts": {
-        "start": "bun --watch src/willhaben-bot.ts",
-        "build": "bun build ./src/willhaben-bot.ts --outdir . --minify-whitespace --minify-syntax --target bun",
+        "start": "pnpm run build && node --env-file=.env willhaben-bot.cjs",
+        "build": "esbuild ./src/willhaben-bot.ts --bundle --outfile=willhaben-bot.cjs --minify-whitespace --minify-syntax --platform=node",
         "lint": "biome lint",
         "format": "biome format",
         "check": "biome check",
         "typecheck": "tsc --noEmit",
-        "predockerize": "bun run lint && bun run typecheck && bun run build",
+        "predockerize": "pnpm run lint && pnpm run typecheck && pnpm run build",
         "dockerize": "docker buildx build -t woife5/willhaben-bot:latest -f ./Dockerfile --platform=linux/arm64,linux/amd64 -o type=registry ."
     },
     "devDependencies": {
         "@biomejs/biome": "catalog:",
-        "bun-types": "catalog:",
-        "typescript": "catalog:"
+        "typescript": "catalog:",
+        "esbuild": "catalog:"
     },
     "dependencies": {
         "@woife5/shared": "workspace:*",

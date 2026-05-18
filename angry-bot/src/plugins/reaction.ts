@@ -12,16 +12,16 @@ export async function react(message: Message): Promise<PluginReturnCode> {
         for (let i = 0; i < reactions.length; i++) {
             try {
                 await message.react(reactions[i]);
-            } catch (e) {
-                console.error(e);
+            } catch {
+                // ignore errors
             }
         }
     } else {
         for (let i = 0; i < angryReactionsAmount; i++) {
             try {
                 await message.react(angryEmojis[i]);
-            } catch (e) {
-                console.error(e);
+            } catch {
+                // ignore errors
             }
         }
     }
@@ -29,7 +29,7 @@ export async function react(message: Message): Promise<PluginReturnCode> {
     await Stats.findOneAndUpdate(
         { key: "angry-reactions" },
         { $inc: { value: angrys } },
-        { upsert: true, new: true },
+        { upsert: true, returnDocument: "after" },
     ).exec();
 
     return "CONTINUE";

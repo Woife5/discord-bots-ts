@@ -1,0 +1,16 @@
+packages:
+  - 'angry-bot'
+  - 'willhaben-bot'
+  - 'copilot-bot'
+  - 'boller-bot'
+  - 'shared'
+
+allowBuilds:
+  esbuild: true
+  ffmpeg-static: true
+
+catalog:
+  'discord.js': ^14.26.2
+  '@biomejs/biome': 2.4.11
+  'typescript': ^6.0.2
+  'esbuild': ^0.28.0
