@@ -44,7 +44,8 @@ export function getListings(url: string): Promise<Array<WillhabenResult>> {
                 result.props.pageProps.searchResult.advertSummaryList.advertSummary.forEach((returnObj: any) => {
                     // biome-ignore lint/suspicious/noExplicitAny: copied over from original package
                     returnObj.attributes.attribute.forEach((element: any) => {
-                        returnObj[element.name.toLowerCase()] = Number.isNaN(element.values[0])
+                        // biome-ignore lint/suspicious/noGlobalIsNan: copied over from original package
+                        returnObj[element.name.toLowerCase()] = isNaN(element.values[0])
                             ? element.values[0]
                             : +element.values[0];
                     });
