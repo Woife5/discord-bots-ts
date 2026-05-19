@@ -1,57 +1,55 @@
-# ------------------
-# Builder
-# ------------------
-FROM debian:bookworm AS builder
+# syntax=docker/dockerfile:1
 
-WORKDIR /usr/src
+# ── xx cross-compilation helper ───────────────────────────────────────────────
+FROM --platform=$BUILDPLATFORM tonistiigi/xx AS xx
 
-# Install Bun
-RUN apt-get update && apt-get install -y \
-    curl \
-    unzip \
-    ca-certificates \
- && curl -fsSL https://bun.sh/install | bash \
- && ln -s /root/.bun/bin/bun /usr/local/bin/bun
+# ── builder (always runs on native amd64 in CI) ───────────────────────────────
+FROM --platform=$BUILDPLATFORM golang:1.24-bookworm AS builder
 
-# Install Node 20 (needed for discord/opus)
-RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
- && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
- && apt-get install -y \
-    nodejs \
-    python3 \
-    make \
-    g++ \
- && rm -rf /var/lib/apt/lists/*
+COPY --from=xx / /
 
-# Copy source
+# Host-side tools needed for CGo cross-compilation
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    clang \
+    lld \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+
+# Download dependencies first (better layer caching)
+COPY go.mod go.sum ./
+RUN go mod download
+
 COPY . .
 
-# Install dependencies
-# Will invoke node20 to install some discord opus native stuff
-RUN bun install
+# Target platform arg is injected by buildx
+ARG TARGETPLATFORM
 
-# Build your bot
-RUN cd boller-bot && bun run build
+# Install libopus-dev for the TARGET architecture (arm64).
+# xx-apt-get handles the multi-arch apt setup automatically.
+RUN xx-apt-get install -y --no-install-recommends \
+    libopus-dev \
+    gcc \
+    libc6-dev
 
-# ------------------
-# Runtime
-# ------------------
+# xx-go sets GOOS, GOARCH, CGO_ENABLED=1, CC, and PKG_CONFIG* automatically.
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    --mount=type=cache,target=/go/pkg/mod \
+    CGO_ENABLED=1 xx-go build -ldflags="-s -w" -o /out/bollerbot .
+
+# Verify the binary targets the correct architecture
+RUN xx-verify /out/bollerbot
+
+# ── runtime (runs on the target arm64 machine) ────────────────────────────────
 FROM debian:bookworm-slim AS runtime
 
-WORKDIR /app
-
-# Runtime-only deps
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libopus0 \
     ffmpeg \
- && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy built binary/artifacts
-COPY --from=builder /usr/src/boller-bot/bollerbot ./bollerbot
+COPY --from=builder /out/bollerbot /bollerbot
 
-# Ensure executable bit (safe even if already set)
-RUN chmod +x ./bollerbot
-
-ENTRYPOINT ["./bollerbot"]
-
+ENTRYPOINT ["/bollerbot"]
