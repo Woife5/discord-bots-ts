@@ -1,7 +1,6 @@
 packages:
   - 'angry-bot'
   - 'willhaben-bot'
-  - 'copilot-bot'
   - 'boller-bot'
   - 'shared'
 
