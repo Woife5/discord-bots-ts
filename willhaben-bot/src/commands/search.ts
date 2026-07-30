@@ -95,9 +95,6 @@ export const search: CommandHandler = {
                 embeds: [buildEmbed(data, pagedResults.page, pagedResults.pages)],
                 components: [buttonRow],
             });
-
-            // maybe?
-            // collector.resetTimer();
         });
 
         collector.on("end", async () => {
