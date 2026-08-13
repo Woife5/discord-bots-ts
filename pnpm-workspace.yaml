@@ -3,6 +3,7 @@ packages:
   - 'willhaben-bot'
   - 'copilot-bot'
   - 'boller-bot'
+  - 'frens-bot'
   - 'shared'
 
 allowBuilds:

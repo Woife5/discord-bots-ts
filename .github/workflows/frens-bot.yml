@@ -1,22 +1,22 @@
-name: Angry Bot
+name: Frens Bot
 
 on:
     push:
         branches:
             - main
         paths:
-            - "angry-bot/src/**"
-            - "angry-bot/package.json"
+            - "frens-bot/src/**"
+            - "frens-bot/package.json"
     pull_request:
         branches:
             - main
         paths:
-            - "angry-bot/src/**"
-            - "angry-bot/package.json"
+            - "frens-bot/src/**"
+            - "frens-bot/package.json"
 
 jobs:
     pipeline:
         uses: ./.github/workflows/bot-pipeline.yml
         with:
-            bot-name: angry-bot
+            bot-name: frens-bot
         secrets: inherit
