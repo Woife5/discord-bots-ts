@@ -36,7 +36,7 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
         return angryCoinEmbed()
             .setTitle("Gamble")
             .setDescription(
-                "Invalid amount! You have to gamble a positive amount of coins that you own (debt maybe coming soon).",
+                "Invalid amount! You have to gamble a positive amount of coins that you own.",
             );
     }
 
