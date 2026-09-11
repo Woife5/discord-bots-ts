@@ -39,10 +39,22 @@ export const search: CommandHandler = {
         }
 
         const pagedResults = new PagedFinder();
-        await pagedResults.find(searchTerm, category);
+        try {
+            await pagedResults.find(searchTerm, category);
+        } catch (error) {
+            console.error("Willhaben search failed:", error);
+            await interaction.editReply({
+                embeds: [
+                    defaultEmbed()
+                        .setTitle("Search unavailable")
+                        .setDescription("Willhaben did not return results. Please try again later."),
+                ],
+            });
+            return;
+        }
 
         if (pagedResults.pages === 0) {
-            interaction.editReply({
+            await interaction.editReply({
                 embeds: [
                     defaultEmbed()
                         .setTitle("No results found :(")
@@ -54,7 +66,7 @@ export const search: CommandHandler = {
 
         if (!interaction.channel?.isSendable()) {
             const embed = defaultEmbed().addFields(
-                pagedResults.nextPage().map((res) => ({
+                pagedResults.getCurrentPage().map((res) => ({
                     name: res.heading.substring(0, 100),
                     value: res.body_dyn.substring(0, 2000),
                 })),
@@ -63,26 +75,38 @@ export const search: CommandHandler = {
             return;
         }
 
+        const nextButtonId = `willhaben:${interaction.id}:next`;
+        const prevButtonId = `willhaben:${interaction.id}:prev`;
         const nextButton = new ButtonBuilder()
-            .setCustomId("next")
+            .setCustomId(nextButtonId)
             .setLabel("➡️")
             .setStyle(ButtonStyle.Primary)
             .setDisabled(!pagedResults.hasNextPage());
         const prevButton = new ButtonBuilder()
-            .setCustomId("prev")
+            .setCustomId(prevButtonId)
             .setLabel("⬅️")
             .setStyle(ButtonStyle.Primary)
             .setDisabled(!pagedResults.hasPrevPage());
 
         const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents([prevButton, nextButton]);
-        const collector = interaction.channel.createMessageComponentCollector({
+        const response = await interaction.editReply({
+            embeds: [buildEmbed(pagedResults.getCurrentPage(), pagedResults.page, pagedResults.pages)],
+            components: [buttonRow],
+        });
+        const collector = response.createMessageComponentCollector({
             componentType: ComponentType.Button,
             time: 60_000,
+            filter: (i) => i.customId === nextButtonId || i.customId === prevButtonId,
         });
 
         collector.on("collect", async (i) => {
+            if (i.user.id !== interaction.user.id) {
+                await i.reply({ content: "These buttons are not for you.", ephemeral: true });
+                return;
+            }
+
             let data: WillhabenResult[];
-            if (i.customId === "next") {
+            if (i.customId === nextButtonId) {
                 data = pagedResults.nextPage();
             } else {
                 data = pagedResults.prevPage();
@@ -100,11 +124,6 @@ export const search: CommandHandler = {
         collector.on("end", async () => {
             const expired = defaultEmbed().setDescription("This search has expired.");
             await interaction.editReply({ embeds: [expired], components: [] });
-        });
-
-        await interaction.editReply({
-            embeds: [buildEmbed(pagedResults.nextPage(), pagedResults.page, pagedResults.pages)],
-            components: [buttonRow],
         });
     },
 };

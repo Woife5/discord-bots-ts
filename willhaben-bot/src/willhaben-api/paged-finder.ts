@@ -3,7 +3,7 @@ import { categories, type WillhabenResult, WillhabenSearch } from "./willhaben";
 type Optional<T> = T | null | undefined;
 
 export class PagedFinder {
-    public page = 0;
+    public page = 1;
     public pages = 0;
 
     private results: WillhabenResult[] = [];
@@ -20,8 +20,8 @@ export class PagedFinder {
         }
 
         this.results = await w.search();
-        const maxIndex = this.results.length - 1;
-        this.pages = Math.ceil(maxIndex / this.PAGE_SIZE);
+        this.page = 1;
+        this.pages = Math.ceil(this.results.length / this.PAGE_SIZE);
     }
 
     public hasNextPage(): boolean {
@@ -54,16 +54,6 @@ export class PagedFinder {
 
     public getPage(page: number): WillhabenResult[] {
         const startIndex = (page - 1) * this.PAGE_SIZE;
-        let endIndex = startIndex + this.PAGE_SIZE - 1;
-
-        if (startIndex > this.results.length - 1) {
-            return [];
-        }
-
-        if (endIndex > this.results.length - 1) {
-            endIndex = this.results.length - 1;
-        }
-
-        return this.results.slice(startIndex, endIndex);
+        return this.results.slice(startIndex, startIndex + this.PAGE_SIZE);
     }
 }

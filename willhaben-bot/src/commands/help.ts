@@ -23,7 +23,7 @@ async function runCommand(user: User, guild: Guild | null) {
 
     const isAdmin = guild?.members.cache.get(user.id)?.permissions.has("Administrator") ?? false;
 
-    const showCommand = (command: CommandHandler) => isAdmin || command.data.default_member_permissions === "8";
+    const showCommand = (command: CommandHandler) => isAdmin || command.data.default_member_permissions !== "8";
     return new EmbedBuilder()
         .setColor("White")
         .setAuthor({ name: "Willhaben" })

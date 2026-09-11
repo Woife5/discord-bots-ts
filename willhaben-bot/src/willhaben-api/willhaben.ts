@@ -28,40 +28,66 @@ export type WillhabenResult = {
  * @param {string} url the URL
  * @returns {object} an array with all the listings
  */
-export function getListings(url: string): Promise<Array<WillhabenResult>> {
-    return new Promise((resolve, reject) => {
-        fetch(url)
-            .then((res) => res.text())
-            .then((string) => {
-                const temp = string.substr(
-                    string.indexOf('<script id="__NEXT_DATA__" type="application/json">') +
-                        '<script id="__NEXT_DATA__" type="application/json">'.length,
-                );
-                const result = JSON.parse(temp.substr(0, temp.indexOf("</script>")));
-                const returnArray: Array<WillhabenResult> = [];
+export async function getListings(url: string): Promise<WillhabenResult[]> {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Willhaben search failed with status ${response.status}`);
+    }
 
-                // biome-ignore lint/suspicious/noExplicitAny: copied over from original package
-                result.props.pageProps.searchResult.advertSummaryList.advertSummary.forEach((returnObj: any) => {
-                    // biome-ignore lint/suspicious/noExplicitAny: copied over from original package
-                    returnObj.attributes.attribute.forEach((element: any) => {
-                        // biome-ignore lint/suspicious/noGlobalIsNan: copied over from original package
-                        returnObj[element.name.toLowerCase()] = isNaN(element.values[0])
-                            ? element.values[0]
-                            : +element.values[0];
-                    });
+    const html = await response.text();
+    const marker = '<script id="__NEXT_DATA__" type="application/json">';
+    const jsonStart = html.indexOf(marker);
+    const jsonEnd = html.indexOf("</script>", jsonStart);
+    if (jsonStart === -1 || jsonEnd === -1) {
+        throw new Error("Willhaben search response did not contain listing data");
+    }
 
-                    // delete useless keys
-                    delete returnObj.attributes;
-                    delete returnObj.contextLinkList;
-                    delete returnObj.advertiserInfo;
-                    delete returnObj.advertImageList;
+    const result = JSON.parse(html.slice(jsonStart + marker.length, jsonEnd)) as {
+        props?: { pageProps?: { searchResult?: { advertSummaryList?: { advertSummary?: unknown } } } };
+    };
+    const listings = result.props?.pageProps?.searchResult?.advertSummaryList?.advertSummary;
+    if (!Array.isArray(listings)) {
+        throw new Error("Willhaben search response contained invalid listing data");
+    }
 
-                    returnArray.push(returnObj);
-                });
+    return listings.map((listing) => {
+        if (typeof listing !== "object" || listing === null) {
+            throw new Error("Willhaben search response contained an invalid listing");
+        }
 
-                resolve(returnArray);
-            })
-            .catch(reject);
+        const { attributes, contextLinkList, advertiserInfo, advertImageList, ...advert } = listing as Record<
+            string,
+            unknown
+        >;
+        const attributeList =
+            typeof attributes === "object" &&
+            attributes !== null &&
+            Array.isArray((attributes as Record<string, unknown>).attribute)
+                ? ((attributes as Record<string, unknown>).attribute as unknown[])
+                : [];
+
+        for (const attribute of attributeList) {
+            if (typeof attribute !== "object" || attribute === null) continue;
+
+            const { name, values } = attribute as { name?: unknown; values?: unknown };
+            if (typeof name !== "string" || !Array.isArray(values) || values.length === 0) continue;
+
+            const value = values[0];
+            advert[name.toLowerCase()] =
+                typeof value === "string" && value.trim() !== "" && !Number.isNaN(Number(value))
+                    ? Number(value)
+                    : value;
+        }
+
+        if (
+            typeof advert.heading !== "string" ||
+            typeof advert.body_dyn !== "string" ||
+            typeof advert.seo_url !== "string"
+        ) {
+            throw new Error("Willhaben search response contained an incomplete listing");
+        }
+
+        return advert as WillhabenResult;
     });
 }
 
@@ -70,7 +96,7 @@ export const categories = JSON.parse(
 ) as Record<string, number>;
 
 export function isCategory(category: string): boolean {
-    return category in categories;
+    return Object.hasOwn(categories, category);
 }
 
 export const conditions: Record<string, number> = Object.freeze({
@@ -141,7 +167,17 @@ export class WillhabenSearch {
     }
 
     getURL() {
-        return `https://willhaben.at/iad/kaufen-und-verkaufen/marktplatz/-${this.searchCategory}?rows=${this.searchCount}${this.searchContition.length === 0 ? "" : `&treeAttributes=${this.searchContition.join("&treeAttributes=")}`}${this.searchTransferType.length === 0 ? "" : `&treeAttributes=${this.searchTransferType.join("&treeAttributes=")}`}${this.searchPayLivery ? "&paylivery=true" : ""}${this.searchKeyword ? `&keyword=${this.searchKeyword.split(" ").join("+")}` : ""}`;
+        const url = new URL(`https://willhaben.at/iad/kaufen-und-verkaufen/marktplatz/-${this.searchCategory}`);
+        url.searchParams.set("rows", this.searchCount.toString());
+        for (const condition of this.searchContition) {
+            url.searchParams.append("treeAttributes", condition.toString());
+        }
+        for (const transferType of this.searchTransferType) {
+            url.searchParams.append("treeAttributes", transferType.toString());
+        }
+        if (this.searchPayLivery) url.searchParams.set("paylivery", "true");
+        if (this.searchKeyword) url.searchParams.set("keyword", this.searchKeyword);
+        return url.toString();
     }
 
     search() {
