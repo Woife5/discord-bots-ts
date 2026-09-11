@@ -35,9 +35,7 @@ async function runCommand(user: DiscordUser, amount: number, all: boolean) {
     if (Number.isNaN(amount) || amount <= 0 || amount > userBalance) {
         return angryCoinEmbed()
             .setTitle("Gamble")
-            .setDescription(
-                "Invalid amount! You have to gamble a positive amount of coins that you own.",
-            );
+            .setDescription("Invalid amount! You have to gamble a positive amount of coins that you own.");
     }
 
     const embed = angryCoinEmbed().addFields({ name: "Gambling", value: `You gambled ${amount} angry coins` });
