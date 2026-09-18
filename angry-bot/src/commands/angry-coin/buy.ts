@@ -27,7 +27,11 @@ type ShopItem = {
 
 const amountOption = (subcommand: SlashCommandSubcommandBuilder) => {
     return subcommand.addIntegerOption((option) =>
-        option.setName("amount").setDescription("The amount of this item you would like to buy.").setRequired(false),
+        option
+            .setName("amount")
+            .setDescription("The amount of this item you would like to buy.")
+            .setRequired(false)
+            .setMinValue(1),
     );
 };
 
