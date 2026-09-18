@@ -65,12 +65,8 @@ export const search: CommandHandler = {
         }
 
         if (!interaction.channel?.isSendable()) {
-            const embed = defaultEmbed().addFields(
-                pagedResults.getCurrentPage().map((res) => ({
-                    name: res.heading.substring(0, 100),
-                    value: res.body_dyn.substring(0, 2000),
-                })),
-            );
+            // No pagination possible here, so show the first page as a static embed.
+            const embed = buildEmbed(pagedResults.getCurrentPage(), pagedResults.page, pagedResults.pages);
             await interaction.editReply({ embeds: [embed] });
             return;
         }
@@ -128,20 +124,46 @@ export const search: CommandHandler = {
     },
 };
 
-function buildEmbed(results: WillhabenResult[], page: number, pages: number) {
-    return defaultEmbed()
-        .addFields(
-            results.map((res) => ({
-                name: res.heading.substring(0, 100),
-                value: `${res.body_dyn.substring(0, 1500)}\n[Link](https://willhaben.at/iad/${res.seo_url})\n`,
-            })),
-        )
-        .setFooter({ text: `Page ${page}/${pages}` });
+/** Discord rejects embed field names longer than this. */
+const FIELD_NAME_LIMIT = 100;
+/** Discord rejects embed field values longer than this. */
+const FIELD_VALUE_LIMIT = 1024;
+/**
+ * Discord rejects embeds whose combined text exceeds 6000 characters. Budget a conservative
+ * share of that per field so a full page of long listings cannot push the embed over.
+ */
+const EMBED_TOTAL_LIMIT = 6000;
+
+function buildField(res: WillhabenResult, valueBudget: number) {
+    const link = `\n[Link](https://willhaben.at/iad/${res.seo_url})\n`;
+    // The link must always survive, so the description gets whatever budget is left over.
+    const bodyBudget = Math.max(0, Math.min(FIELD_VALUE_LIMIT, valueBudget) - link.length);
+
+    return {
+        name: res.heading.substring(0, FIELD_NAME_LIMIT),
+        // The final cap also covers an absurdly long seo_url, where the link alone would
+        // overflow the field. Truncating it breaks the markdown, but the alternative is
+        // `addFields` throwing and taking the whole command down.
+        value: `${res.body_dyn.substring(0, bodyBudget)}${link}`.substring(0, FIELD_VALUE_LIMIT),
+    };
 }
+
+function buildEmbed(results: WillhabenResult[], page: number, pages: number) {
+    const footer = `Page ${page}/${pages}`;
+    const namesLength = results.reduce((sum, res) => sum + Math.min(res.heading.length, FIELD_NAME_LIMIT), 0);
+    const overhead = namesLength + footer.length + AUTHOR_NAME.length;
+    const valueBudget = Math.floor((EMBED_TOTAL_LIMIT - overhead) / Math.max(1, results.length));
+
+    return defaultEmbed()
+        .addFields(results.map((res) => buildField(res, valueBudget)))
+        .setFooter({ text: footer });
+}
+
+const AUTHOR_NAME = "Willhaben";
 
 function defaultEmbed() {
     return new EmbedBuilder().setAuthor({
-        name: "Willhaben",
+        name: AUTHOR_NAME,
         iconURL: "https://static.ots.at/pressemappe/13925/10492.jpg?t=1519747980",
     });
 }
