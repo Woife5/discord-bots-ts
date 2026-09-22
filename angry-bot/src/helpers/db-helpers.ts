@@ -373,24 +373,23 @@ export class GuildSettingsCache {
     }
 
     static async set(guildId: string, config: Partial<IGuildSettings>) {
-        const entry = await GuildSettingsDB.findOne({ guildId: guildId }).exec();
+        const entry = (await GuildSettingsDB.findOne({ guildId: guildId }).exec()) ?? new GuildSettingsDB({ guildId });
 
-        if (!entry) {
-            return await GuildSettingsDB.create({
-                guildId: guildId,
-                ...config,
-            });
-        }
-
-        if (config.broadcastChannelId) {
+        if (config.broadcastChannelId !== undefined) {
             entry.broadcastChannelId = config.broadcastChannelId;
         }
 
+        if (config.adminRoleId !== undefined) {
+            entry.adminRoleId = config.adminRoleId;
+        }
+
+        const savedEntry = await entry.save();
+
         GuildSettingsCache._cache.set(guildId, {
-            config: entry,
+            config: savedEntry,
             expires: Date.now() + 999 * 60 * 10,
         });
 
-        return await entry.save();
+        return savedEntry;
     }
 }
