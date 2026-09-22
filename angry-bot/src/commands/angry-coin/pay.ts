@@ -64,14 +64,14 @@ async function runCommand(from: DiscordUser, to: DiscordUser, amountStr: string)
     }
 
     const fees = Math.floor(amount * 0.05);
-    amount = amount - fees;
     await updateUserBalance({ userId: from.id, amount: -amount, username: from.username });
-    await updateUserBalance({ userId: to.id, amount, username: to.username });
+    const payment = amount - fees;
+    await updateUserBalance({ userId: to.id, amount: payment, username: to.username });
     if (fees > 0) {
         await updateUserBalance({ userId: clientId, amount: fees });
     }
 
     return embed.setDescription(
-        `You paid **${amount}** angry coins to ${to.username} and paid **${fees}** coins transactions fees.`,
+        `You paid **${payment}** angry coins to ${to.username} and paid **${fees}** coins transactions fees.`,
     );
 }
