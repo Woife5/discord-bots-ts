@@ -56,9 +56,9 @@ export async function handleReaction(
     }
 
     HANDLING_MESSAGES.add(reaction.message.id);
-    const member = await guild.members.fetch(user.id);
+    const voter = await guild.members.fetch(user.id);
 
-    const role = await getMemberRole(member);
+    const role = await getMemberRole(voter);
     if (role < Role.ADMIN) {
         // accept the vote if more than 3 people vote for yes
         const count = reaction.count ?? 0;
@@ -72,7 +72,12 @@ export async function handleReaction(
         }
 
         if (count > 3 && reaction.emoji.name === "❌") {
-            handleAwfulFeetImage(reaction.message, member);
+            const authorId = reaction.message.author?.id;
+            if (!authorId) {
+                return "CONTINUE";
+            }
+            const author = await guild.members.fetch(authorId);
+            return await handleAwfulFeetImage(reaction.message, author);
         }
 
         return "CONTINUE";
@@ -87,7 +92,12 @@ export async function handleReaction(
     }
 
     if (reaction.emoji.name === "❌") {
-        handleAwfulFeetImage(reaction.message, member);
+        const authorId = reaction.message.author?.id;
+        if (!authorId) {
+            return "CONTINUE";
+        }
+        const author = await guild.members.fetch(authorId);
+        return await handleAwfulFeetImage(reaction.message, author);
     }
 
     return "DELETED";
