@@ -4,5 +4,6 @@ export * as Emojicounter from "./emoji-counter";
 export * as FeetHandler from "./feet-channel-handler";
 export * as MediaHandler from "./media-reaction";
 export * as Reactor from "./reaction";
+export * as StreakFreeze from "./streak-freeze";
 export * as Tarotreminder from "./tarotreminder";
 export * as Taxation from "./taxation";

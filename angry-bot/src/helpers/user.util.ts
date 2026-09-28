@@ -177,7 +177,7 @@ export function getUserActionCache(userId: string): UserActionCacheItem | undefi
 }
 
 export function isUserPower(power: string): power is Powers {
-    return power === "censorship-immunity";
+    return power === "censorship-immunity" || power === "tarot-streak-freeze";
 }
 
 const userStatKeys = new Set<UserStatKeys>([

@@ -49,6 +49,12 @@ const shopItems: ShopItem[] = [
         addOptions: amountOption,
     },
     {
+        name: "tarot-streak-freeze",
+        description: "Protect your tarot streak for 1 missed day! 🧊",
+        price: 2000,
+        addOptions: amountOption,
+    },
+    {
         name: "censorship",
         description: "Censor something you dont like! 😤",
         price: 500,
