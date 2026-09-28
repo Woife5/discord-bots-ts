@@ -18,6 +18,7 @@ import {
     FeetHandler,
     MediaHandler,
     Reactor,
+    StreakFreeze,
     Tarotreminder,
     Taxation,
 } from "./plugins";
@@ -56,6 +57,16 @@ client.on("clientReady", async () => {
         "0 19 * * *",
         () => {
             Tarotreminder.remind(client);
+        },
+        { timezone: "Europe/Vienna" },
+    );
+
+    // Consume tarot streak freezes for users who missed their tarot yesterday.
+    // Runs every day at 00:05 (Europe/Vienna), right after the tarot day rolled over.
+    schedule(
+        "5 0 * * *",
+        async () => {
+            await StreakFreeze.applyStreakFreezes(client);
         },
         { timezone: "Europe/Vienna" },
     );

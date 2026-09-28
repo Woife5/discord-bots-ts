@@ -28,7 +28,7 @@ export async function createUserSimple(id: string, name: string): Promise<Hydrat
 // USER SCHEMA
 // --------------------------------------------------------
 
-export type Powers = "censorship-immunity";
+export type Powers = "censorship-immunity" | "tarot-streak-freeze";
 export type UserStatKeys = Exclude<
     StatKeys,
     "individual-tarots-read:any" | "angry-reactions" | "total-angry-emojis-sent"
@@ -53,7 +53,7 @@ export interface IUser {
     angryCoins: number;
     lastTransaction: Date;
     powers: {
-        [key in Powers]: number;
+        [key in Powers]?: number;
     };
 }
 
