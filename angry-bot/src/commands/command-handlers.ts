@@ -3,6 +3,7 @@ export { adminrole } from "./administration/adminrole";
 export { announce } from "./administration/announce";
 export { bcchannel } from "./administration/bcchannel";
 export { censorship } from "./administration/censorship";
+export { spam } from "./administration/spam";
 export { surprisetax } from "./administration/surprisetax";
 
 // angry-coin

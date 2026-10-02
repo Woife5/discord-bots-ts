@@ -9,6 +9,7 @@ import {
 } from "@woife5/shared";
 import { Client, Collection, GatewayIntentBits, type Message } from "discord.js";
 import { schedule } from "node-cron";
+import { autocomplete as spamAutocomplete } from "./commands/administration/spam";
 import * as Commands from "./commands/command-handlers";
 import { clientId, token } from "./helpers/env.util";
 import {
@@ -18,6 +19,7 @@ import {
     FeetHandler,
     MediaHandler,
     Reactor,
+    Spam,
     StreakFreeze,
     Tarotreminder,
     Taxation,
@@ -81,11 +83,25 @@ client.on("clientReady", async () => {
         { timezone: "Europe/Vienna" },
     );
 
+    // Send scheduled spams, checked every full hour
+    await Spam.init(client);
+
     // Re-register all slash commands when the bot starts
     registerApplicationCommands(token, clientId, commands);
 });
 
 client.on("interactionCreate", getCommandHandler(commands));
+
+// Suggest existing spam IDs while typing /spam remove (the shared command handler only handles slash commands)
+client.on("interactionCreate", async (interaction) => {
+    if (interaction.isAutocomplete() && interaction.commandName === Commands.spam.data.name) {
+        try {
+            await spamAutocomplete(interaction);
+        } catch (error) {
+            console.error("In autocomplete:", error);
+        }
+    }
+});
 
 const isApplicable = async (message: Message): Promise<PluginReturnCode> => {
     if (message.author.id === client.user?.id || message.author.bot) {

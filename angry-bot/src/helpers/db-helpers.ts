@@ -393,3 +393,39 @@ export class GuildSettingsCache {
         return savedEntry;
     }
 }
+
+// --------------------------------------------------------
+// SPAM SCHEMA
+// --------------------------------------------------------
+
+export interface ISpam {
+    guildId: string;
+    channelId: string;
+    message: string;
+    createdBy: string;
+    createdAt: Date;
+    type: "date" | "interval";
+    day?: number;
+    month?: number;
+    hour?: number;
+    every?: number;
+    unit?: "hours" | "days";
+    startAt?: Date;
+}
+
+const spamSchema = new Schema<ISpam>({
+    guildId: { type: String, required: true, index: true },
+    channelId: { type: String, required: true },
+    message: { type: String, required: true, maxlength: 2000 },
+    createdBy: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+    type: { type: String, enum: ["date", "interval"], required: true },
+    day: { type: Number, min: 1, max: 31 },
+    month: { type: Number, min: 1, max: 12 },
+    hour: { type: Number, min: 0, max: 23 },
+    every: { type: Number, min: 1 },
+    unit: { type: String, enum: ["hours", "days"] },
+    startAt: { type: Date },
+});
+
+export const SpamDB = model<ISpam>("Spam", spamSchema);
