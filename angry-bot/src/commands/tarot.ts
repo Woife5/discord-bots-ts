@@ -43,7 +43,7 @@ export const tarot: CommandHandler = {
         }
 
         const streak = await updateUserAndGetStreak(interaction.user, result);
-        await setFields(embed, result, streak);
+        setFields(embed, result, streak);
 
         await interaction.editReply({ embeds: [embed] });
         await incrementStatAndUser("tarots-read", interaction.user);
@@ -95,7 +95,7 @@ async function updateUserAndGetStreak(user: DiscordUser, tarotId: number): Promi
         angryCoins = u.angryCoins + Math.ceil(tarotId / 2);
     }
 
-    updateUser(user.id, {
+    await updateUser(user.id, {
         lastTarot: new Date(),
         userName: user.username,
         tarot: tarotId,
@@ -106,7 +106,7 @@ async function updateUserAndGetStreak(user: DiscordUser, tarotId: number): Promi
     return tarotStreak;
 }
 
-async function setFields(embed: EmbedBuilder, tarotId: number, streak: number) {
+function setFields(embed: EmbedBuilder, tarotId: number, streak: number) {
     embed.spliceFields(0, 1, {
         name: "Angry Tarot",
         value: `Your angry today is ${angryEmojis[tarotId]}`,
