@@ -1,6 +1,6 @@
 {
     "name": "@woife5/frens-bot",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "Frens Bot",
     "type": "module",
     "license": "GPL-3.0",
@@ -24,7 +24,7 @@
     "dependencies": {
         "@woife5/shared": "workspace:*",
         "discord.js": "catalog:",
-        "mongodb": "^7.0.0",
-        "node-cron": "^4.2.1"
+        "mongodb": "^7.7.0",
+        "node-cron": "^4.6.0"
     }
 }
