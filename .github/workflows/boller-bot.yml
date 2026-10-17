@@ -22,11 +22,11 @@ jobs:
     Lint:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
             - uses: pnpm/action-setup@v6
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
-                  node-version: 24
+                  node-version: 26
                   cache: "pnpm"
             - run: pnpm install
             - name: Run biome check
@@ -35,11 +35,11 @@ jobs:
     Typecheck:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
             - uses: pnpm/action-setup@v6
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
-                  node-version: 24
+                  node-version: 26
                   cache: "pnpm"
             - run: pnpm install
             - name: Run typechecking
@@ -50,19 +50,19 @@ jobs:
         needs: [Lint, Typecheck]
         if: github.ref == 'refs/heads/main'
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
             - name: Get package version
               id: package-version
               uses: martinbeentjes/npm-get-version-action@main
               with:
                   path: boller-bot
             - name: Login to Docker Hub
-              uses: docker/login-action@v3
+              uses: docker/login-action@v4
               with:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_TOKEN }}
             - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
+              uses: docker/setup-buildx-action@v4
             - name: Fail if version already published
               env:
                   IMAGE: ${{ secrets.DOCKER_USERNAME }}/boller-bot
