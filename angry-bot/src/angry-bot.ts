@@ -8,7 +8,6 @@ import {
     registerApplicationCommands,
 } from "@woife5/shared";
 import { Client, Collection, GatewayIntentBits, type Message } from "discord.js";
-import { schedule } from "node-cron";
 import * as Commands from "./commands/command-handlers";
 import { clientId, token } from "./helpers/env.util";
 import {
@@ -22,6 +21,9 @@ import {
     Tarotreminder,
     Taxation,
 } from "./plugins";
+
+// Select node-cron's CommonJS entry when bundling into a .cjs file.
+const { schedule }: typeof import("node-cron") = require("node-cron");
 
 // immediately exit if a kill command is received
 process.on("SIGTERM", () => {

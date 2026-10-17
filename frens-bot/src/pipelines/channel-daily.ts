@@ -1,5 +1,5 @@
 import { type Client, channelMention } from "discord.js";
-import { type ScheduledTask, schedule } from "node-cron";
+import type { ScheduledTask } from "node-cron";
 import { getBufferSince } from "../database/message-buffer";
 import { getDailySubscriptions, type SubscriptionDocument } from "../database/subscriptions";
 import { getSummaryState, markRunCompleted, markSummarized } from "../database/summary-state";
@@ -7,6 +7,9 @@ import { newestMessageTime, summarizeMessages } from "../summarize/core";
 import { chunkForDiscord } from "../util/chunk";
 import { track } from "./pending";
 import { resolveChannel } from "./resolve-channel";
+
+// Select node-cron's CommonJS entry when bundling into a .cjs file.
+const { schedule }: typeof import("node-cron") = require("node-cron");
 
 const TIMEZONE = "Europe/Vienna";
 const SCHEDULED_HOUR = 20;
