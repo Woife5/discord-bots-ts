@@ -1,6 +1,6 @@
 {
     "name": "@woife5/boller-bot",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "description": "BollerBot",
     "type": "module",
     "main": "./index.js",

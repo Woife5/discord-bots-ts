@@ -1,6 +1,6 @@
 FROM node:26-alpine AS builder
 
-RUN npm install -g pnpm@11.1.3
+RUN npm install -g pnpm@12.15.0
 
 RUN apk update
 RUN apk upgrade
