@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
+    "$schema": "./node_modules/.pnpm/node_modules/@biomejs/biome/configuration_schema.json",
     "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
     "files": { "ignoreUnknown": false, "includes": ["**", "!**/*.js"] },
     "formatter": {
@@ -16,7 +16,7 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true,
+            "preset": "recommended",
             "complexity": { "noStaticOnlyClass": "off" },
             "style": { "noParameterAssign": "off" }
         }

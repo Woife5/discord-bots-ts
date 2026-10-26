@@ -1,6 +1,6 @@
 {
     "name": "@woife5/angry-bot",
-    "version": "4.1.4",
+    "version": "4.1.5",
     "description": "Angry Bot.",
     "type": "module",
     "license": "GPL-3.0",
@@ -24,7 +24,7 @@
     "dependencies": {
         "@woife5/shared": "workspace:*",
         "discord.js": "catalog:",
-        "mongoose": "^9.11.2",
+        "mongoose": "^9.11.4",
         "node-cron": "^4.6.0"
     }
 }
